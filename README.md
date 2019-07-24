@@ -4,3 +4,4 @@
 ```bash 
 ./setup.sh
 ``` 
+Airbender android development tools including CUDA toolkit
