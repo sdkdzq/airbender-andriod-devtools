@@ -1,0 +1,22 @@
+09-11 19:17:09.8 E: Can't read local.cfg
+09-11 19:17:09.8 E: fopen failed, errno = 2
+09-11 19:17:20.6 E: Operation was aborted by an application callback
+09-11 19:18:39.5 N: Install cuda65 6.5.19422740; Install cuda70 7.0.58; Install cudaandroid65 6.5.19422740; Install cudaandroid70 7.0.58; Install physx 3.3.0; Install opencv 2.4.8.2; Install cudasamples65 6.5; Install cudasamples70 7.0; Install docs 1R2; 
+09-11 19:21:53.4 E: Operation was aborted by an application callback
+09-11 19:26:45.4 E: Operation was aborted by an application callback
+09-11 19:29:08.0 E: Operation was aborted by an application callback
+09-11 19:29:42.0 E: Operation was aborted by an application callback
+09-11 19:29:48.1 E: Operation was aborted by an application callback
+09-11 19:29:48.4 E: Operation was aborted by an application callback
+09-11 19:29:54.0 E: Operation was aborted by an application callback
+09-11 19:30:30.5 E: Operation was aborted by an application callback
+09-11 19:30:52.4 E: Operation was aborted by an application callback
+09-11 19:31:41.4 N: Installing CUDA ToolKits 6.5 6.5.19422740 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/cuda-6.5)
+09-11 19:32:59.8 N: Installing CUDA ToolKits 7.0 7.0.58 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/cuda-7.0)
+09-11 19:34:36.5 N: Installing CUDA for Android 6.5 6.5.19422740 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/cuda-android-6.5/cuda-android-6.5)
+09-11 19:38:24.5 N: Installing CUDA for Android 7.0 7.0.58 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/cuda-android-7.0/cuda-android-7.0)
+09-11 19:38:33.6 N: Installing PhysX 3.3.0 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/PhysX)
+09-11 19:38:40.1 N: Installing OpenCV 2.4.8.2 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/OpenCV-2.4.8.2-Tegra-sdk)
+09-11 19:38:40.2 N: Installing CUDA Samples 6.5 6.5 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/CUDA_Samples/6.5/CUDA_Samples)
+09-11 19:38:40.6 N: Installing CUDA Samples 7.0 7.0 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/CUDA_Samples/7.0/CUDA_Samples)
+09-11 19:38:41.8 N: Installing Documentation 1R2 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/docs/docs)
