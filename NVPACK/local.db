@@ -1,0 +1,194 @@
+{
+    "package": {
+        "version": "1R2",
+        "category": [
+            {
+                "name": "Android Toolchain",
+                "alias": "android_toolchain"
+            },
+            {
+                "name": "CUDA Samples",
+                "alias": "cudasamples"
+            },
+            {
+                "name": "Developer Tools",
+                "alias": "devtools"
+            },
+            {
+                "name": "Android 2.3.3 (API 10)",
+                "category": "sdk",
+                "alias": "gapi10"
+            },
+            {
+                "name": "Android 4.0.3 (API 15)",
+                "category": "sdk",
+                "alias": "gapi15"
+            },
+            {
+                "name": "Android 4.1.2 (API 16)",
+                "category": "sdk",
+                "alias": "gapi16"
+            },
+            {
+                "name": "Android 4.2.2 (API 17)",
+                "category": "sdk",
+                "alias": "gapi17"
+            },
+            {
+                "name": "Android 4.3.1 (API 18)",
+                "category": "sdk",
+                "alias": "gapi18"
+            },
+            {
+                "name": "Android 4.4.2 (API 19)",
+                "category": "sdk",
+                "alias": "gapi19"
+            },
+            {
+                "name": "Android 4.4w (API 20)",
+                "category": "sdk",
+                "alias": "gapi20"
+            },
+            {
+                "name": "Android 5.0.1 (API 21)",
+                "category": "sdk",
+                "alias": "gapi21"
+            },
+            {
+                "name": "Android 5.1.1 (API 22)",
+                "category": "sdk",
+                "alias": "gapi22"
+            },
+            {
+                "name": "Android 2.2(API 8)",
+                "category": "sdk",
+                "alias": "gapi8"
+            },
+            {
+                "name": "Middleware/API",
+                "alias": "middleware"
+            },
+            {
+                "name": "Post Setup",
+                "alias": "postsetup"
+            },
+            {
+                "name": "Samples",
+                "alias": "samples"
+            },
+            {
+                "name": "Android SDK",
+                "alias": "sdk"
+            }
+        ],
+        "component": [
+            {
+                "name": "CUDA ToolKits 6.5",
+                "version": "6.5.19422740",
+                "alias": "cuda65",
+                "category": "middleware",
+                "description": "CUDA Toolkit for Android development on Linux host development platform.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/cuda.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/cuda-6.5"
+            },
+            {
+                "name": "CUDA ToolKits 7.0",
+                "version": "7.0.58",
+                "alias": "cuda70",
+                "category": "middleware",
+                "description": "CUDA Toolkit for Android development on Linux host development platform.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/cuda.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/cuda-7.0"
+            },
+            {
+                "name": "CUDA for Android 6.5",
+                "version": "6.5.19422740",
+                "alias": "cudaandroid65",
+                "category": "middleware",
+                "description": "CUDA support for connected Android devices. Please contact NVIDIA for list of supported devices.",
+                "autoDetect": "0",
+                "location": "cuda-android-6.5",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/cuda.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/cuda-android-6.5"
+            },
+            {
+                "name": "CUDA for Android 7.0",
+                "version": "7.0.58",
+                "alias": "cudaandroid70",
+                "category": "middleware",
+                "description": "CUDA support for connected Android devices. Please contact NVIDIA for list of supported devices.",
+                "autoDetect": "0",
+                "location": "cuda-android-7.0",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/cuda.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/cuda-android-7.0"
+            },
+            {
+                "name": "CUDA Samples 6.5",
+                "version": "6.5",
+                "alias": "cudasamples65",
+                "category": "cudasamples",
+                "description": "CUDA Samples provide example code for CUDA programming.",
+                "autoDetect": "0",
+                "location": "CUDA_Samples/6.5",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/CUDA_Samples/6.5"
+            },
+            {
+                "name": "CUDA Samples 7.0",
+                "version": "7.0",
+                "alias": "cudasamples70",
+                "category": "cudasamples",
+                "description": "CUDA Samples provide example code for CUDA programming.",
+                "autoDetect": "0",
+                "location": "CUDA_Samples/7.0",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/CUDA_Samples/7.0"
+            },
+            {
+                "name": "Documentation",
+                "version": "1R2",
+                "alias": "docs",
+                "description": "Tegra Android Development Pack documentation including user guides, best practices, and manuals for various tools and middleware.",
+                "autoDetect": "0",
+                "location": "docs",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/docs"
+            },
+            {
+                "name": "OpenCV",
+                "version": "2.4.8.2",
+                "alias": "opencv",
+                "category": "middleware",
+                "description": "Open-source BSD licensed library that includes several hundred computer vision algorithms.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/opencv.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/OpenCV-2.4.8.2-Tegra-sdk"
+            },
+            {
+                "name": "PhysX",
+                "version": "3.3.0",
+                "alias": "physx",
+                "category": "middleware",
+                "description": "PhysX Software Development Kit for Android Development",
+                "autoDetect": "0",
+                "location": "PhysX",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia-physx.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/PhysX"
+            }
+        ]
+    }
+}
