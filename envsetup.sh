@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+export NDK_ROOT=/deeplearning0/zhaoqing/GPU2019/airbender-android-devtools/NVPACK.1R7/android-ndk-r15c
+export NVPACK_ROOT=/deeplearning0/zhaoqing/GPU2019/airbender-android-devtools/NVPACK
+export ANDROID_ABI=armeabi
+export TOOLCHAIN=/deeplearning0/zhaoqing/GPU2019/airbender-android-devtools/toolchains
+export SYSROOT=$TOOLCHAIN/sysroot
+export CC=$TOOLCHAIN/bin/arm-linux-androideabi-gcc
+export CXX=$TOOLCHAIN/bin/arm-linux-androideabi-g++
+export AR=$TOOLCHAIN/bin/arm-linux-androideabi-ar
+export LD=$TOOLCHAIN/bin/arm-linux-androideabi-ld
