@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Release Notes</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/perfhud_es/2.1/perfhud_appendix_release_notes.htm">Open topic with navigation</a>
+        </p>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Release Notes</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h3>PerfHUD&#160;ES 2.1 </h3>
+        <h4>What's New </h4>
+        <ul>
+            <li value="1">Support debugging multiple contexts.</li>
+            <li value="2">Improve “Set Frame Delimiter” dialog box for multiple contexts and multiple frames.</li>
+            <li value="3">Improve stability in editing and applying user shaders.</li>
+            <li value="4">Better appearance in displaying program tree and performance information in Shader Viewer.</li>
+            <li value="5">Two directed tests are added: disable depth test and disable stencil test.</li>
+            <li value="6">Display PCB powers in Dashboard for shield.</li>
+            <li value="7">Better compatibility for loading profiling data.</li>
+        </ul>
+        <h4>Fixed Issues </h4>
+        <h6>On the host:</h6>
+        <ul>
+            <li value="1">Show correct bucket id and contribution in the Bucket List.</li>
+            <li value="2">Fix crashes for user shader in recapturing frame after editing, applying it or deleting it in Shader Viewer.</li>
+            <li value="3">Fix wrong range or crash for pack vbo buffer when stride exists in Geometry Viewer.</li>
+            <li value="4">Fix mismatch of uniform values between detail view and tooltip in program tree in Shader Viewer.</li>
+            <li value="5">Disable "Capture next frame" button when load debugger frame or profiler frame.</li>
+        </ul>
+        <h6>On the target:</h6>
+        <ul>
+            <li value="1">Fix the fps decrease problem when "Disable Filtering" directed test is enabled.</li>
+            <li value="2">Exclude glClear()  from Draw Calls per Frame in Performance Dashboard.</li>
+            <li value="3">Fix force clear on stencil buffer and incomplete FBO.</li>
+            <li value="4">Fix crashing when VBO is mapped.</li>
+            <li value="5">Fix "Null Viewport" directed test.</li>
+            <li value="6">Disable counter 'GPU Idle' on T30.</li>
+        </ul>
+        <h4>Known Issues </h4>
+        <ul>
+            <li value="1">Be aware that using the <b>Null Fragment Shader</b> test causes your program object to be substituted for a new one.  Setting the value of a fragment-side uniform will have no effect.  The<code> glUniform*</code> functions are automatically re-directed to the new program.  Attribute bindings are automatically re-mapped as well.
+            </li>
+            <li value="2">Note that <code>eglSwapBuffers </code>does not perform an implicit <code>glFinish</code>, so the visible frame may correspond to a program iteration that was executed in the past.  As a result of this, there might be a small delay between the time that the user interacts with Performance Dashboard (eg, toggling a directed test), and the time that it appears to take effect.  This is due to the fact that PerfHUD cannot modify a command buffer that has already been set up by the driver.  The delay is noticeable only with highly GPU-bound applications that have low frame rates.
+            </li>
+            <li value="3">Sometimes the frame buffer result of Emulation mode is different than the target side. This is because OpenGL ES has some extensions which cannot be mapped to corresponding OpenGL support on the host machine. If your target application is trying to use these extensions, the emulation can’t get the same result with target due to the lack of extension supporting. For example, <code>GL_OES_matrix_palette</code> is a valid target OpenGL ES extension, but we can’t find corresponding support for it in your GeForce 8600 host GPU. In this scenario, it's recommended to use the <b>Capture mode</b>, which is more accurate and more valuable, rather than Emulation mode.
+            </li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Devices|NVIDIA&#160;SHIELD|Maximizing User Experience on SHIELD Portable">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Detecting SHIELD Portable at Runtime</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../index.html#devices/shield_program_detecting_runtime.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="devices.htm">Mobile Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="shield_device_main.htm">NVIDIA&#160;SHIELD</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="shield_program_main.htm">Maximizing User Experience on SHIELD Portable</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Detecting SHIELD&#160;Portable at Runtime</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Detecting SHIELD Portable at Runtime</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h3>Landscape-Only Device Detection</h3>
+        <p>SHIELD portable is by nature a landscape-centric device.  This can be detected using standard Android APIs, independent of any SHIELD-specific queries.  It can be a very useful way to detect TV-centric devices and other landscape-only systems.  It also cleanly splits the detection of orientation support from detecting SHIELD portable specifically.  However, keep in mind that detecting landscape-only support is not in and of itself proof that the device is SHIELD.</p>
+        <p>Detecting landscape-only support is extremely simple within a Java Activity.  However, note that it requires one additional check than might be expected.  Specifically, devices that support both orientations need not expose either orientation feature flag.  So in order to detect landscape-only, we must detect "landscape AND NOT portrait," as follows:</p>
+        <blockquote><pre class="prettyprint">boolean portrait = getPackageManager().hasSystemFeature(<br />&#160;&#160;&#160;&#160;&#160;PackageManager.FEATURE_SCREEN_PORTRAIT);<br />boolean landscape = getPackageManager().hasSystemFeature(<br />&#160;&#160;&#160;&#160;&#160;PackageManager.FEATURE_SCREEN_LANDSCAPE);<br /><br />if (landscape &amp;&amp; !portrait) {<br />&#160;&#160;&#160;&#160;&#160;// Device is a landscape-only device (e.g. SHIELD)<br />} else if (!landscape &amp;&amp; portrait) {<br />&#160;&#160;&#160;&#160;&#160;// Device is a portrait-only device<br />} else {<br />&#160;&#160;&#160;&#160;&#160;// Device supports both orientations<br />}</pre>
+        </blockquote>
+        <p>There are only three cases in this conditional, since both "landscape AND portrait" and no indication of either feature imply that both orientations are supported.  This is to preserve compatibility with older Android platforms.</p>
+        <h3>SHIELD&#160;Controller Detection </h3>
+        <p>Existence of the SHIELD controller at runtime can be detected by its standardized naming.  In Android Java code, you would use something like:</p>
+        <blockquote><pre class="prettyprint">boolean hasNVController = false;<br />final int[] devids = InputDevice.getDeviceIds();<br />for (int id : devids)<br />{<br />&#160;&#160;&#160;&#160;&#160;InputDevice dev = InputDevice.getDevice(id);<br />&#160;&#160;&#160;&#160;&#160;hasNVController = dev.getName().contains("NVIDIA Controller");<br />&#160;&#160;&#160;&#160;&#160;if (hasNVController) break;<br />}</pre>
+        </blockquote>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                       Note that certain earlier SHIELD development kit firmware has the controller (<code>getName</code>) name string of <code>nvidia_joypad</code>.  When testing on a SHIELD devkit, this alternative name should trigger SHIELD control configuration as well.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Detecting the availability of a SHIELD controller on the current platform is most useful for pre-mapping controls to reasonable defaults; however,if you map to the NVIDIA amalgamated controls, you will pick up all existing gamepads that have proper layout.</p>
+        <p>Note that the entire SHIELD controller name string in Java is something of the form:</p>
+        <blockquote><pre class="prettyprint">NVIDIA Corporation NVIDIA Controller v01.01</pre>
+        </blockquote>
+        <p>You should not try to match on the entire string, to avoid your application failing proper detection on a future device or even just a future revision of the firmware.  Rather, we recommend looking for just the <code>NVIDIA Controller</code> substring.   The version number is there simply to allow future NVIDIA expansion/enhancement.</p>
+        <h3>General SHIELD&#160;Portable Detection </h3>
+        <p>Performance profiles can be preset on SHIELD based on simple detection via the Android build strings, using Java code like:</p>
+        <blockquote><pre class="prettyprint">boolean modelIsShield = android.os.Build.MODEL.startsWith("SHIELD");</pre>
+        </blockquote>
+        <p>We strongly recommend you use <code>startsWith</code> for comparison, in order to ensure broadest compatibility with any future hardware revisions.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

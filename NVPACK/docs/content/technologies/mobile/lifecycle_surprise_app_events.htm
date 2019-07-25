@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop Apps Using Android Application Lifecycle">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Surprising Application Lifecycle Events and How to Handle Them</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/lifecycle_surprise_app_events.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Surprising Application Lifecycle Events and How to Handle Them</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor96"></a>
+        <h1><span class="SystemTitle">Surprising Application Lifecycle Events and How to Handle Them</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>There are several confusing application lifecycle cases we have seen on numerous commercial devices and OS versions that we recommend developers test with their applications.  This document will list confusing cases that we have frequently seen cause problems for real, commercial applications during the QA process.  It will also discuss what an application can do to better handle the situation.  For each of these cases, we recommend that developers use the simple Lifecycle application in the NVIDIA Tegra Android Samples Pack, editing the app as needed to replicate the exact case.  This is not meant to be exhaustive – it merely lists some items that very commonly slip through most developers in-house testing.<br /></p>
+        <h3>Basic Concepts Behind the Problematic Cases</h3>
+        <h4>Configuration Changes</h4>
+        <p>Configuration changes in Android refer to a set of system-level events that can strong affect application and UI behavior.  These include such changes as:</p>
+        <ul>
+            <li value="1">Orientation change (e.g., portrait to landscape);</li>
+            <li value="2">Screen size/depth change (e.g., HDMI hot-plug, orientation on newer API&#160;levels);</li>
+            <li value="3">Locale changes (e.g., country code, language);</li>
+            <li value="4">Input device changes (e.g., hot-plugging a keyboard or laptop dock).</li>
+        </ul>
+        <p>Many of the issues discussed in the document revolve around device orientation changes, (either intentional, unintentional, or implicit based on device behavior in other lifecycle events).  By default, if an application specifies no <code>AndroidManifest.xml</code> keys for configuration change handling, any configuration change will actually result in the application being completely shut down (<code>onDestroy</code>) and then re-launched in the new configuration.  Needless to say, for a large 3D game, this can be extremely expensive.  However, there are other options, whether the application wishes to support both orientations (landscape and portrait) or only one.<br /></p>
+        <h4>"Forcing" Landscape or Portrait Orientation</h4>
+        <p>It is possible to request that your application always run in landscape or portrait mode with the <code>AndroidManifest.xml</code> keys:</p>
+        <blockquote><pre class="prettyprint">android:screenOrientation="landscape" </pre>
+            <p>or</p><pre class="prettyprint">android:screenOrientation="portrait" </pre>
+        </blockquote>
+        <p>On some OS versions and devices, this will keep the application from ever seeing any portrait configurations or seeing any issues.  However, on other devices (we have seen this on Motorola Atrix and other devices), this tag behaves somewhat differently.  Specifically, while it ensures that your application will "settle" to the requested orientation, on these devices and OS versions, we find that there may be considerable "thrash" between multiple orientations owing to spurious configuration changes.</p>
+        <p>On these devices, in several specific lifecycle cases discussed later in this document, the application may receive multiple configuration changes between the desired orientation and the opposite orientation.  These spurious configuration changes can cause issues for applications in several manners:</p>
+        <ol>
+            <li value="1">With the default behavior, each configuration change (sometimes as many as three in a row) will shut down and restart the app.</li>
+            <li value="2">Some of these "false starts" in one configuration or another may or may not complete all the way to a valid surface before shutting down, confusing some apps that expect each new launch to come all the way up to a fully working rendering surface and focus.</li>
+            <li value="3">Some of these "false starts" may launch all the way up to a full rendering surface with dimensions opposite the desired orientation before quickly shutting down again.  Needless to say, these incorrectly-sized "false starts" can be very confusing to an application.</li>
+        </ol>
+        <h4>Handling Configuration Changes in a Lightweight Manner</h4>
+        <h5>Orientation</h5>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;"><b>Note:</b> Applications targeting API level 13 or newer must also use the <code>screenSize</code> configuration change tag.  See the <a href="#API_Levels_and_Config_Changes">API Levels and Configuration Changes</a> section for details.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The <code>AndroidManifest.xml</code> key:</p>
+        <blockquote><pre class="prettyprint">android:configChanges="keyboardHidden|orientation" </pre>
+        </blockquote>
+        <p>specifies that the application wishes to manually support orientation change events and software keyboard hiding change events.  If this key is set for an application’s Activity, then rather than "bounce" (shut down and restart) the application's Activity on each orientation change, the application will receive two forms of notification in quick succession:</p>
+        <ol>
+            <li value="1">The Activity's <code>onConfigurationChanged</code> callback (if overridden) will be called with the new configuration.</li>
+            <li value="2">The Activity's Views (specifically their <code>SurfaceView</code> Holders) will receive <code>surfaceChanged</code> callbacks.</li>
+        </ol>
+        <p>In practice, we find that many applications do not even need to supply overrides for <code>onConfigurationChanged</code> (although having one installed can be useful for debugging), as they can simply change their <code>glViewport</code> and any aspect-ratio-handling in the <code>surfaceChanged</code> callback.</p>
+        <p>This simple flag and <code>surfaceChanged</code> handling code can often allow applications that have the ability to render their UI, etc in portrait and landscape modes to easily support fast orientation change.  This flag avoids having the app shut down and thus can avoid having the app lose or destroy its EGL Context.  Since the EGL Context stays resident, there is no need to do expensive reloading of 3D resources.</p>
+        <p>With this flag, note that the application may still receive <code>surfaceChanged</code> callbacks for the previously mentioned "false starts" with incorrect surface sizes.  However, since the application receives only these change messages and not full shutdown/restart, these unexpected (temporary) surfaces of the wrong size can often be quickly ignored.</p>
+        <p>However, applications setting this flag do need to be prepared for <code>surfaceChanged</code> callbacks that happen more frequently than just once per <code>surfaceCreated</code>/<code>surfaceDestroyed</code> pairing.<br /></p>
+        <h6>Hotplug of Keyboard or Tablet Dock</h6>
+        <p>As tablet-docking keyboards become very common, users will expect to be able to attach/detach these accessories without their games exiting and re-loading.  By default, plugging or unplugging a keyboard or dock in Android is a configuration change, and if not handled via a manifest key will cause the application to be quit and restarted.  The method of handling this in a lightweight manner is to add the “keyboard” key:</p>
+        <blockquote><pre class="prettyprint">android:configChanges="keyboardHidden|keyboard|orientation"</pre>
+        </blockquote>
+        <p>This addition should cause the docking event to be sent to the application as a configuration change, not a restart.<br /></p>
+        <h4><a name="API_Levels_and_Config_Changes"></a>API Levels and Configuration Changes</h4>
+        <p>Changing your app’s API-level target (not the minimum, just the target) can change the behavior of the app.  The most important of these is the screen size configuration change.</p>
+        <p>Changes to screen size can happen for various reasons; the most obvious is the connection of an external screen, such as an HDMI display.  However, as of API level 13, a change that was previously passed along as another change is also passed along as a screen size change: orientation.  This can cause applications that decide to upgrade their target to suddenly misbehave on device rotation.</p>
+        <p>The issue is that applications targeting API level 12 and below generally have the following in their manifest:&#160;</p>
+        <blockquote><pre class="prettyprint">android:configChanges="orientation"</pre>
+        </blockquote>
+        <p>On those API levels, this will cause device orientation to come in as a config change and not restart the app from scratch.  All is well.</p>
+        <p>However, when the same app changes their manifest to target API level 13, they suddenly find that orientation change causes the app to restart, tearing down all of their content in the process.  Fortunately, the fix is quite simple.  API level 13 added the <code>screenSize</code> configuration change, which is used to signal any change in screen dimensions.  Since orientation on a non-square display changes the height and width, orientation change also triggers this screen size configuration change.  If the app hasn’t added the explicit manifest handler for it, then it will be shut down and restarted.</p>
+        <p>Thus, most (likely all) 3D games that target API level 13 or newer should add the screen size configuration change tag to their manifest:</p>
+        <blockquote><pre class="prettyprint">android:configChanges="keyboardHidden|keyboard|orientation|screenSize"</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

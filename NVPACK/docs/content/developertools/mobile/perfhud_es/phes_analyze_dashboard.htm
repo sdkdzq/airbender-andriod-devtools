@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|How To: Analyze Application Performance Using PerfHUD ES">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>The Dashboard</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/phes_analyze_dashboard.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">The Dashboard</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor13"></a>
+        <h1><span class="SystemTitle">The Dashboard</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>The dashboard is the initial view of application performance. It presents a set of graphs showing per-core CPU load along with various aspects of graphics performance, and a set of "directed tests." These directed tests should be the first port of call when examining any application's performance. They facilitate quick, high-level, identification of performance issues while the application is running.<br /></p>
+        <h4>Directed Tests:&#160;What Do They Mean and How Can They Help Me?&#160;</h4>
+        <p>
+            <img src="images/perfhud_directed_tests.002.png" style="float: right;clear: none;" />
+        </p>
+        <h6>2x2 Textures</h6>
+        <p>All 2D and Cubemap textures are instantly replaced with small 2x2 textures.  If the frame rate goes up, then the texture unit is a likely bottleneck for the scene.</p>
+        <p>Significant response to this test usually indicates missing mipmaps, heavyweight texture formats, and/or expensive filter modes.</p>
+        <h6>Ignore Drawcalls</h6>
+        <p>This should show significant performance improvement; if not, the application is CPU-bound. See <a href="phes_analyze_main.htm#Caveats">Caveats</a> for more details.</p>
+        <h6>Disable VSync </h6>
+        <p>The application may use <code>eglSwapInterval</code> to eliminate flicker, which could cause the frame rate to snap to a certain frequency.This directed test allows the developer to see the “true” graphics performance of the application.</p>
+        <p>Before experimenting with other directed tests, you should enable this option and ensure that enabling and disabling it does not impact timing. </p>
+        <h6>Null Fragment Shader</h6>
+        <p>This test shows best-possible performance, if all shaders are optimized to one cycle.</p>
+        <p>A large delta indicates that the application is fragment-bound; most Tegra applications will fall in this category.</p>
+        <p>Keep in mind that this test also neutralizes texture-fetch bandwidth. The 2x2 texture test can be used to help identify which factor is key, if there is any doubt which is the primary bottleneck.</p>
+        <h6>Null Viewport</h6>
+        <p>This test shows best-possible performance when no fragments are rendered. For example, when all geometry is processed (vertices are shaded, triangles are clipped).</p>
+        <p>If there is no performance improvement from this test, the application is likely vertex bound.  See <a href="phes_analyze_main.htm#Caveats">Caveats</a> for more details.</p>
+        <h6>Disable Blending</h6>
+        <p>This test shows if pixel overdraw is adversely affecting the application's performance. Using this, all drawing will be performed, but alpha blending modes will be disabled.  </p>
+        <h6>Disable Clear</h6>
+        <p>This test shows if clearing the frame buffer is causing a performance bottleneck. Using this, all drawing will be performed, but clear calls will be disabled.  </p>
+        <h6>Disable Filtering</h6>
+        <p>This test forcibly disables texture filtering. With applications that use extensive texture filtering, using this test will significantly improve performance. </p>
+        <h6>Disable Texture Upload</h6>
+        <p>This test shows whether or not your application is texture-data bound. Using this, all API calls that update texture data will be blocked; if the frame rate increases, then your application is texture-data bound.  </p>
+        <p><b>NOTE:</b> Once this test is enabled, the original texture updates may not be recoverable, so you may need to restart the application.</p>
+        <h6>Disable Buffer Data </h6>
+        <p>Similar to the Disable Texture Upload test, this test shows any problems with data loads. Using this, all calls to <code>glBufferData</code> or <code>glBufferSubData</code> are ignored.   <br /></p>
+        <p><b>NOTE:</b> Once this test is enabled, the original buffer data may not be recoverable, so you may need to restart the application.</p>
+        <h6>Disable Uniform Upload </h6>
+        <p>Similar to the Disable Buffer Data test, this test shows whether or not data uploads are causing your bottleneck. Using this test, all calls to update uniform settings will be blocked.   </p>
+        <h4>Status Indicators</h4>
+        <p>The dashboard contains another very useful feature. The two small indicators in the lower right of the status bar, labeled <b>Texture</b> and <b>Vertex Buffer Object</b>. These indicate when the dispatched scene contains dynamic texture and vertex buffer updates. Both of these can significantly affect performance, if not managed correctly.</p>
+        <p>
+            <img src="images/phes_analyze_status_indicators.001.png" />
+        </p>
+        <p>Keep an eye on these indicators, as they serve as an early warning mechanism for certain key, potentially pathological, performance problems.</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

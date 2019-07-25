@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|How To: Analyze Application Performance Using PerfHUD ES">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Fragment Shader Complexity</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/phes_analyze_fragshcomplex.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Fragment Shader Complexity</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor17"></a>
+        <h1><span class="SystemTitle">Fragment Shader Complexity</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>The vast majority of applications are fragment bound on current Tegra devices. Optimizing fragment shaders is best done in a directed way, based on total contribution to the scene. PerfHUD ES can help you to identify the key shaders (those contributing significantly to render-time), to focus this process. All fragment shaders with a significant contribution to the scene should be reviewed carefully and optimized where possible.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Profiler</b>. </li>
+            <li value="2">Check all 3 bucket definition check boxes. </li>
+            <li value="3">Go to <b>Frame Debugger</b> -&gt; <b>Shader Viewer</b>. </li>
+            <li value="4">Click <b>Export to Disk File</b>. </li>
+            <li value="5">Select the <b>By performance contribution</b> and <b>all program</b> radio buttons. </li>
+            <li value="6">Select a destination folder and click <b>Save</b>.</li>
+        </ul>
+        <p>You should now have a folder containing a set of fragment shader source files, along with <code>shader_readme.txt</code> which shows how much of the render time is due to each shader.</p>
+        <p>Check each significant fragment shader (usually only the top 5 or so buckets contribute &gt;90% of perf), and apply standard Tegra optimizations:</p>
+        <table style="border-collapse: separate;caption-side: top;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;margin-left: 16pt;margin-right: auto;">
+            <col />
+            <col style="width: 530px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>You can perform much of the analysis (and even experimentation using PerfHUD's dynamic shader re-compilation system) from within PHES. However, it is difficult to identify true unique shaders. Multiple instances of a single vertex shader could be used with a single fragment shader, which would result in that fragment shader spanning many buckets.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li value="1">Use low precision wherever possible. In particular color and normalized vector data can be made low with zero visual impact.</li>
+            <li value="2">Remove as much work as possible from fragment shaders. Burn as much computation as possible into uniform/vertex shader/texture lookups.</li>
+            <li value="3">Performance can usually be improved by replacing computations that depend only on a few inputs, including build-in functions calls such as pow(x, y), with a pre-computed texture look up.</li>
+            <li value="4">Only normalize vectors when absolutely necessary.</li>
+            <li value="5">Prefer  <code>clamp(val, 0.0, 1.0)</code> to  <code>max(val, 0.0)</code> and/or  <code>min(val, 1.0)</code>.</li>
+            <li value="6">Supply optimally-formatted data to shaders via textures whenever possible.</li>
+            <li value="7">LOD-biasing, in texture lookups, may incur a performance penalty on Tegra hardware.</li>
+            <li value="8">Conditional logic should be used only when absolutely necessary.</li>
+        </ul>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

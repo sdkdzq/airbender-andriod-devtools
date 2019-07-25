@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>FAQ:&#160;NativeActivity Input Crashes and ANRs</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/faq_native_activity_crash.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">FAQ:&#160;NativeActivity Input Crashes and ANRs</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor121"></a>
+        <h1><span class="SystemTitle">FAQ:&#160;NativeActivity Input Crashes and ANRs</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>Recently,  a seemingly minor issue in Google’s <code>native_app_glue</code> source code (and thus in NVIDIA’s TADP samples based on this code) that was found to actually be a serious issue on next-gen Android platforms. Specifically, the bug described in this FAQ&#160;makes it very common for pure-native games to hit an <b>"ANR" (Application Not Responding)</b> and crash in normal use. Fortunately, the fix is simple.</p>
+        <p>The basic problem is that the original input handling for <code>native_app_glue.c</code> does not process input events at a high enough rate, especially when both touch and external game controllers are present. This causes the input pipeline to back up, which in turn leads Android to declare the application as "not responding," and gives the user the option to kill it. This particular bug was uncommon on older devices, but on systems with an external USB or Bluetooth controller, or a dedicated gaming controllers (such as SHIELD's in-built controller), the bug is easily reproducible.</p>
+        <p>The bug is easy to diagnose. First, find your application’s copy of <code>native_app_glue.c</code>. If you are using the NDK’s version directly, that is normally:</p>
+        <blockquote><pre class="prettyprint">$NDKROOT/sources/android/native_app_glue/native_app_glue.c</pre>
+        </blockquote>
+        <p>If you are using the NVIDIA TADP samples, it is:</p>
+        <blockquote><pre class="prettyprint">libs/jni/nv_and_util/nv_native_app_glue.c</pre>
+        </blockquote>
+        <p>In the <code>C</code> file, find the function <code>process_input</code>, and look for the line that calls <code>AInputQueue_getEvent</code>. If that call has the following form, then you are using the original (buggy) version:</p>
+        <blockquote><pre class="prettyprint">if (AInputQueue_getEvent(app-&gt;inputQueue, &amp;event) &gt;= 0) {</pre>
+        </blockquote>
+        <p>The correct implementation of <code>process_input</code> is:</p>
+        <blockquote><pre class="prettyprint"><span style="color: #800000;">// Fix per Google for bug https://code.google.com/p/android/issues/detail?id=41755</span><br /><span style="color: #191970;">static void</span> process_input(<span style="color: #191970;">struct</span> android_app* app, <span style="color: #191970;">struct</span> android_poll_source* source) { <br /> <span style="color: #4b0082;">&#160;AInputEvent*</span> <span style="color: #191970;">event</span> = NULL;<br /> <span style="color: #191970;">int</span> processed = 0;<br /> <span style="color: #191970;">while</span> (<span style="color: #4b0082;">AInputQueue_getEvent</span>(app-&gt;inputQueue, &amp;<span style="color: #191970;">event</span>) &gt;= 0) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;LOGV(<span style="color: #006400;">"New input event: type=%d\n"</span>, AInputEvent_getType(<span style="color: #191970;">event</span>));<br /> <span style="color: #191970;">if</span> (<span style="color: #4b0082;">AInputQueue_preDispatchEvent</span>(app-&gt;inputQueue, <span style="color: #191970;">event</span>)) { <br /> <span style="color: #191970;">continue</span>;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int32_t handled = 0;<br /> <span style="color: #191970;">if</span> (app-&gt;onInputEvent != NULL) handled = app-&gt;onInputEvent(app, <span style="color: #191970;">event</span>);<br /> <span style="color: #4b0082;">AInputQueue_finishEvent</span>(app-&gt;inputQueue, <span style="color: #191970;">event</span>, handled);<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;processed = 1;<br />&#160;&#160;&#160;&#160;&#160;&#160;}<br /> <span style="color: #191970;">if</span> (processed == 0) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;LOGE(<span style="color: #006400;">"Failure reading next input event: %s\n"</span>, strerror(errno));<br />&#160;&#160;&#160;&#160;&#160;&#160;}<br />}</pre>
+        </blockquote>
+        <p>Note that the <code>while</code> loop is used to process more than one event in a call, and also note the use of <code>continue</code> instead of <code>return</code>. Swapping in the above version of <code>process_input</code> should avoid the ANR issues.</p>
+        <p>A&#160;future release of TADP will include an updated version of <code>native_app_glue</code>. </p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

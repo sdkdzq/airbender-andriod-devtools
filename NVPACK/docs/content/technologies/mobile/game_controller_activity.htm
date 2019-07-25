@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>The Activity</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_activity.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">The Activity</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor109"></a>
+        <h1><span class="SystemTitle">The Activity</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Overview</h4>
+        <p>The state of a controller is saved in the <code>InputDeviceState</code> class which is described above.  While learning about that class, <code>InputDevice</code>, <code>InputDevice.MotionRange</code>, <code>KeyEvent</code>, and <code>MotionEvent</code> were explored.</p>
+        <p>Now we need to see where that class and all that exploration can fit in our Fictitious Game.  Only the parts of the game that relate to controller use will be examined.  The intention is to simply and straightforwardly show controller use and not get caught up in game logics.</p>
+        <p>This is the main Activity class named <code>FictitiousGame</code> extended from <code>Activity</code>.  Only the member variables necessary for controllers are shown.</p>
+        <blockquote><pre class="prettyprint">public class FictitiousGame extends Activity {
+&#160;&#160;&#160;&#160;&#160;private InputDeviceState	inputPlayerA;
+&#160;&#160;&#160;&#160;&#160;private InputDeviceState	inputPlayerB;
+<br />&#160;&#160;&#160;&#160;&#160;private PlayerShip	playerShipA;
+&#160;&#160;&#160;&#160;&#160;private PlayerShip	playerShipB;
+}</pre>
+        </blockquote>
+        <p>Fictitious Game can be up to a two player game.  The letters A and B are used to denote player 1 and player 2, respectively.  As you can see, there is one <code>InputDeviceState</code> class and one <code>PlayerShip</code> class per player.</p>
+        <p>The <code>InputDeviceState</code> is the class from the <a href="game_controller_controller_state_system.htm">Controller State System</a>.  In short, this class will keep the state of the controller for each player.  The controllers will be assigned in order.  The first controller to produce a <code>KeyEvent</code> or <code>MotionEvent</code> will be player A's controller (<code>inputPlayerA</code>).  The second controller to produce an event will be assigned to player B.</p>
+        <p>Another way to assign controllers is during game initialization.  A list of all attached input devices can easily be gotten by calling <code>InputDevice.getDeviceIds()</code>.  The returned <code>int</code> array contains device ids for each device.  A call to <code>InputDevice.getDevice()</code> passing it one of the device ids from the array will return the corresponding <code>InputDevice</code> object.  You should have all you need to check the device source to see if it’s a joystick, keyboard, etc.</p>
+        <p>The PlayerShip class isn't necessary to explore much.  All we need to know is that there are member functions to set the "ship" on a particular heading and fire weaponry – <code>setHeadingX()</code>, <code>setHeadingY()</code>, <code>fireGuns()</code>, <code>fireMissiles()</code>, <code>switchShields()</code>, and <code>switchHyperSpace()</code>.</p>
+        <p>As well as a function that will move the ship along the heading given the time – <code>moveShip()</code>.  Recall that motion events are sometimes batched and key events aren't always in real time.</p>
+        <h4>Supporting Methods</h4>
+        <p>Before getting to the handling the key events, we need some helper functions.  These are application specific.  The first helper we need answers the question, given an <code>InputEvent</code>, what <code>InputDeviceState</code> should be updated.  <code>KeyEvents</code> and <code>MotionEvents</code> are extended from <code>InputEvent</code>.</p>
+        <blockquote><pre class="prettyprint">private InputDeviceState getInputDeviceState(InputEvent event) {
+&#160;&#160;&#160;&#160;&#160;InputDevice device = event.getDevice();
+&#160;&#160;&#160;&#160;&#160;if (device == null) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return null;
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;if (inputPlayerA == null) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;inputPlayerA = new InputDeviceState(device);
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;if (inputPlayerA.getDevice() == device) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return inputPlayerA;
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;if (inputPlayerB == null) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;inputPlayerB = new InputDeviceStats(device);
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;if (inputPlayerB.getDevice() == device) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return inputPlayerB;
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;return null;
+}</pre>
+        </blockquote>
+        <p>It's important to note this method is dynamically allocating and assigning a device to a player.  The first time this method is called the device that generated the <code>InputEvent</code> is ultimately assigned to <code>inputPlayerA</code>, the second to <code>inputPlayerB</code>.  Further events just return null.   Additionally note that the method does no filtering on the event's source, it is assumed reasonable filtering has already been done.</p>
+        <p>The other helper method <code>getPlayerShip()</code>, which we will forgo showing any code for, simply takes an <code>InputDeviceState</code> and returns the matching <code>PlayerShip</code> class.  So, given a player's controller event, their proper <code>InputDeviceState</code> and <code>PlayerShip</code> can be gained.</p>
+        <p>The helper functions will simplify and bring focus on controller needs in the key event and motion event handling function discussed below.  Note that error handling and input sanity checking is light to keep the methods focused.</p>
+        <h4>Key Event</h4>
+        <p><code>KeyEvents</code> can be obtained quite easily in Android.  The Activity class, which the <code>FictitiousGame</code> class has extended, has two methods that allow an application to intercept <code>KeyEvents</code> and <code>MotionEvents</code>.  These methods, <code>dispatchKeyEvent()</code> and <code>dispatchGenericMotionEvent()</code>, need to be overridden to intercept those events.  We will focus on the key events now and motion events in the next section.</p>
+        <blockquote><pre class="prettyprint">@Override
+public boolean dispatchKeyEvent(KeyEvent event) {
+&#160;&#160;&#160;&#160;&#160;InputDeviceState state = getInputDeviceState(event);
+&#160;&#160;&#160;&#160;&#160;if (state == null) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return super.dispatchKeyEvent(event);
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;PlayerShip ship = getPlayerShip(state);
+
+&#160;&#160;&#160;&#160;&#160;switch (event.getAction()) {
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.ACTION_DOWN:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if (state.onKeyDown(event)) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SetShipHeading(ship, event.getKeyCode(),KeyEvent.ACTION_DOWN);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.moveShip(event.getEventTime());
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return true;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.ACTION_UP:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if (state.onKeyUp(event)) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SetShipHeading(ship, event.getKeyCode(),KeyEvent.ACTION_UP);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.moveShip(event.getEventTime());
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return true;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;return super.dispatchKeyEvent(event);
+}</pre>
+        </blockquote>
+        <p>The beginning of this method takes the input <code>KeyEvent</code> and tries to get the proper <code>InputDeviceState</code> by calling the previously defined <code>getInputDeviceState()</code> method.  This should give either player A or player B’s controller state or null.  If this event is not any player's, null was returned, then the normal <code>dispatchKeyEvent()</code> method is called and method is exited.</p>
+        <p>Next we get the <code>PlayerShip</code> that matches the <code>InputDeviceState</code> by passing that state to <code>getPlayerShip()</code>.  At this point, the state variable contains the controller state class and the ship variable contains the player ship for this <code>KeyEvent</code>.</p>
+        <p>Given a <code>KeyEvent</code>, one can determine if the key is down or up.  This is called an “action.”  The switch statement calls <code>getAction()</code> on the <code>KeyEvent</code>.  The switch contains two cases for the returned value, <code>ACTION_DOWN</code> or <code>ACTION_UP</code>.  They effectively mean that the key has been pressed or the key has been released.</p>
+        <p>Each case calls the <code>InputDeviceState onKeyDown()</code> or <code>onKeyUp()</code> method passing in the key event.  These methods update the state of the controller and return a <code>boolean</code> indicating whether the key event was processed.  If the event was not processed we exit the method calling the normal <code>dispatchKeyEvent()</code>.</p>
+        <p>Assuming the <code>KeyEvent</code> was processed, then the <code>SetShipHeading()</code> method is called, passing the <code>PlayerShip</code>, event key code, and <code>ACTION_DOWN</code> or <code>ACTION_UP</code>.  This method, examined later, will fire off certain actions on the given player's ship.</p>
+        <p>Now that the ship has done some action, which may have moved the ship, we should take the time to call the move method.  As was discussed before, the <code>PlayerShip</code> contains a method called <code>moveShip()</code> which requires the time be passed in.  The event's time is passed to this method by calling <code>getEventTime()</code> on the event. <code>moveShip()</code> then can calculate the delta time from the previous time it was called and the current time that is passed to it.  Now it can compute the distance down the ship’s current heading it should move.</p>
+        <p>Lastly, because we processed this <code>KeyEvent</code>, we return with <code>true</code>.</p>
+        <p>One of the helper methods used in <code>dispatchKeyEvent()</code>, once a game valid key code was found and the proper player’s ship, would set the ship’s heading.  This method is below.</p>
+        <blockquote><pre class="prettyprint">private void SetShipAction(PlayerShip ship, int keyCode, int keyState) {
+&#160;&#160;&#160;&#160;&#160;if (keyState == KeyEvent.ACTION_DOWN) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;switch (keyCode) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_Y:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.switchShields(1);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_B:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.switchHyperSpace();
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_A:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.fireMissiles(1);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_X:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.fireGuns(1);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;default:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.setHeadingX(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.setHeadingY(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;} else {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;switch (keyCode) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_Y:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.switchShields(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_B:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_A:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.fireMissiles(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case KeyEvent.KEYCODE_BUTTON_X:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.fireGuns(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;default:
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.setHeadingX(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.setHeadingY(0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;}</pre>
+        </blockquote>
+        <p><code>SetShipAction</code> is split into two major parts, one for <code>ACTION_DOWN</code> and the other for <code>ACTION_UP</code>.  This split happens right when the method is entered.</p>
+        <p>An <code>ACTION_DOWN</code>, depending on the input key code, decides what action will be taken – start firing guns or missiles, switch shields on, or jump into Hyper Space.  Conversely, an <code>ACTION_UP</code> is how actions are turned off or stopped. Notice that Hyper Space is not turned off, it's an action that is only run once on <code>ACTION_DOWN</code>. .</p>
+        <p>On either action, if a key is not handled in the switch statement specifically, the default condition will execute. This sets the heading to (0, 0) to simulate an all-stop on the ship.</p>
+        <h4>Motion Event</h4>
+        <p><code>MotionEvents</code> are obtained just as easily as <code>KeyEvents</code>.  Here we override the <code>dispatchGenericMotionEvent()</code> which allows capturing of all motion events.  These can range from a variety of devices such as, mice, pens, touch, trackball, and analog joysticks.  This game only cares about the analog joystick.</p>
+        <blockquote><pre class="prettyprint">@Override
+<b>public boolean</b> dispatchGenericMotionEvent(MotionEvent event) {
+ &#160;&#160;&#160;&#160;&#160;<b>if</b> (((event.getSource() &amp; InputDevice.SOURCE_CLASS_JOYSTICK) == 0)
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;|| (event.getAction() != MotionEvent.ACTION_MOVE)) {
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<b>return super</b>.dispatchGenericMotionEvent(event);
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;InputDeviceState state = getInputDeviceState(event);
+&#160;&#160;&#160;&#160;&#160;if (state == null) {
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<b>return super</b>.dispatchGenericMotionEvent(event);
+&#160;&#160;&#160;&#160;&#160;}
+
+ &#160;&#160;&#160;&#160;&#160;<b>if</b> (state.onJoystickMotion(event)) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;PlayerShip ship = getPlayerShip(state);
+
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<b>int</b> historySize = event.getHistorySize();
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<b>for</b> (<b>int</b> i = 0; i &lt; historySize; i++) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;processJoystickInput(ship, state.getDevice(), event, i);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;processJoystickInput(ship, state.getDevice(), event, -1);
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<b>return true;</b>
+&#160;&#160;&#160;}
+
+
+ &#160;&#160;&#160;&#160;&#160;<b>return super</b>.dispatchGenericMotionEvent(event);
+}</pre>
+        </blockquote>
+        <p>At the top of <code>dispatchGenericMotionEvent()</code> the input event is checked if it needs processing by the game.  Fictitious Game only cares about motion events that are from a moving joystick.  As has been done in previous methods, the event’s source is checked using <code>getSource()</code> and comparing the returned value with <code>SOURCE_CLASS_JOYSTICK</code>.</p>
+        <p>Since we know we have a joystick event, we also want to be sure it is a joystick move event.  A call to <code>getAction()</code> from the event will return the kind of action for this event.  There are many types of actions an event can be, such as <code>ACTION_CANCEL</code> (current gesture has been canceled) or <code>ACTION_DOWN</code> (a pressed gesture has started).  The one we care about is <code>ACTION_MOVE</code>, essentially if the joystick has moved.  If the event is not a moving joystick event, the method is exited calling the normal <code>dispatchGenericMotionEvent()</code>.</p>
+        <p>Similar to <code>dispatchKeyEvent()</code>, the proper <code>InputDeviceState</code> is needed.  This is returned from <code>getInputDeviceState()</code> passing in the input event.  This should give either player A or player B’s controller state or null.  If this event is not any player’s, null was returned, the method is exited calling the normal <code>dispatchGenericMotionEvent()</code>.</p>
+        <p>Having an event that is a moving joystick and its matching <code>InputDeviceState</code>, the device state needs to be updated.  A call to the <code>InputDeviceState</code>’s <code>onJoystickMotion()</code> method passing it the event will do the update.  This method updates the state of the joystick and returns a boolean indicating whether the motion event was processed.  If the event was not processed we exit the method calling the normal <code>dispatchGenericMotionEvent()</code>.</p>
+        <p>An event as this point is a valid joystick movement for the game.  A call to <code>getPlayerShip()</code> will get the proper ship for this motion event.</p>
+        <p>As was briefly mentioned above, <code>MotionEvents</code> can have "historic" values.  This means a motion event may batch together multiple movement samples within one event.  These older samples are distinct from any other samples reported in previous events.  To process all these samples in order, the historic samples must be first.</p>
+        <p>We will go through all the samples first by calling the event’s <code>getHistorySize()</code> and looping that many times.  Each time calling the <code>processJoystickInput()</code> method passing it the ship, device, the event, and the historic position to process.  The <code>processJoystickInput()</code> method ultimately calculates the ship’s heading and moves the ship.  Method will be discussed below.</p>
+        <p>Once all the historical motion event samples have been processed, one final call is made to <code>processJoystickInput()</code>, but this time passing <code>-1</code> as the historic position.  Indicating to that method, process the most current sample – the "non-historic" sample.</p>
+        <p>Since we have processed this <code>MotionEvent</code>, we return <code>true</code>.</p>
+        <p>The <code>processJoystickInput()</code> method is called for all game valid joystick inputs.  Every joystick input is a <code>MotionEvent</code>.  Each <code>MotionEvent</code> can have batched movement samples called "historic" values.  This method will handles those as well.</p>
+        <blockquote><pre class="prettyprint"><b>private void</b> processJoystickInput(PlayerShip ship, InputDevice device,
+&#160;&#160;&#160;&#160;&#160;MotionEvent event, <b>int</b> historyPos) {
+
+&#160;&#160;&#160;&#160;&#160;final int axisX = MotionEvent.AXIS_X;
+&#160;&#160;&#160;&#160;&#160;final int axisY = MotionEvent.AXIS_Y;
+
+&#160;&#160;&#160;&#160;&#160;float x = 0.0f;
+&#160;&#160;&#160;&#160;&#160;InputDevice.MotionRange range = device.getMotionRange(axisX,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;event.getSource());
+&#160;&#160;&#160;&#160;&#160;if (range != null) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float axisValue;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if (historyPos &gt;= 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;axisValue = event.getHistoricalAxisValue(axisX, historyPos);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;} else {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;axisValue = event.getAxisValue(axisX);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;x = InputDeviceState.ProcessAxis(range, axisValue);
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;float y = 0.0f;
+&#160;&#160;&#160;&#160;&#160;range = device.getMotionRange(axisY, event.getSource());
+&#160;&#160;&#160;&#160;&#160;if (range != null) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float axisValue;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if (historyPos &gt;= 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;axisValue = event.getHistoricalAxisValue(axisY, historyPos);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;} else {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;axisValue = event.getAxisValue(axisY);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;y = InputDeviceState.ProcessAxis(range, axisValue);
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;ship.setHeadingX(x);
+&#160;&#160;&#160;&#160;&#160;ship.setHeadingY(y);
+
+&#160;&#160;&#160;&#160;&#160;if (historyPos &gt;= 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.moveShip(event.getHistoricalEventTime(historyPos));
+&#160;&#160;&#160;&#160;&#160;} else {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ship.moveShip(event.getEventTime());
+&#160;&#160;&#160;&#160;&#160;}
+}</pre>
+        </blockquote>
+        <p>This method has four major parts:&#160;(1) find the x-value, (2)&#160;find the y-value, (3)&#160;set the ship heading, and (4)&#160;move the ship.  At the start of the method are a couple of variables that are not one of the four parts and require a bit more discussion.</p>
+        <p>Finding the x and y values of this event rely on knowing what axis you want.   At the start of the method <code>axisX</code> and <code>axisY</code> are hard-coded to <code>AXIS_X</code> and <code>AXIS_Y</code>, respectively.  These are typical of the first (left)&#160;analog joystick on a controller. For other typical controller axes and buttons, see <a href="game_controller_quickdoc_amalgamated_gamepad.htm">The Amalgamated Gamepad</a>. For Fictitious Game, the <code>AXIS_X</code>&#160;and <code>AXIS_Y</code> will be used for ship movement. </p>
+        <p>The next two sections of code are identical, except one handles the x-axis and the other handles the y-axis of the joystick event.  With both sections being identical, we will only describe one, the x-axis (just as a matter of choice).  It is the first section.</p>
+        <p>Ultimately, in this section, getting the <code>AXIS_X</code> value is the goal.  Initially we set a local variable, x, to zero.  At the end of this section of this code, x, should hold the <code>AXIS_X</code> value.</p>
+        <p>Next the <code>InputDevice.MotionRange</code> is asked from the device.  The motion range provides information about the range of values from a particular axis.  To get the range we call <code>getMotionRange()</code> from the device passing it the axis and source wanted.  In this case the <code>AXIS_X</code> and <code>SOURCE_CLASS_JOYSTICK</code>.  The return range is checked for null as a device can, for a variety of reasons (turned off, etc.), be disconnected.  If the range is null, the entire section of code is skipped.</p>
+        <p>Assuming a good <code>InputDevice.MotionRange</code>, the axis value can be requested.  There are two methods to get the axis value, one for historical values and one for the current value.  The input <code>historyPos</code> indicates if a historical value should be requested.  <code>historyPos</code> will either be a particular historical point indicated by a non-negative value otherwise the current axis value is required.  A call to <code>getHistoricalAxisValue()</code> on the event passing the axis and history position wanted will return the axis value at that historical point.  To get the current axis value, a call to <code>getAxisValue()</code> on the event passing the axis wanted will return the current axis value.</p>
+        <p>Using this axis value from above, a call to the static method <code>InputDeviceState.ProcessAxis()</code> passing in the <code>MotionRange </code>and axis value will return a processed axis.  This routine, described more thoroughly in the <a href="game_controller_controller_state_system.htm">Controller State System</a> section <a href="game_controller_controller_state_system.htm#Axes">Axes</a>, will take the axis value and process for dead zones.  This is an excellent place to put other axis processing as your game requires.</p>
+        <p>The next section of code does identical processing as above but for the y-value.  After these two sections of code, the x and y values for the <code>MotionEvent</code> have been calculated.</p>
+        <p>Taking those x and y values, the ship’s heading is set by calling <code>setShipHeadingX()</code> and <code>setShipHeadingY()</code> from <code>PlayerShip</code>.</p>
+        <p>At the bottom of the method, the ship is moved.  To move the ship, we need to take into account historical points much like when calculating the axis value.  Each historical axis value has a matching historical event time.  The ship requires the event time to calculate movement.  In the same way as getting the axis value, if the input <code>historyPos</code> is non-negative it will indicate a historical point to get the event time, otherwise the current time is required.  The historical time is received by calling <code>getHistoricalEventTime()</code> from the event passing in the <code>historyPos</code>.  The current time is received by calling <code>getEventTime()</code> from the event.  Having the proper event time, we finally call <code>ship.moveShip()</code> passing in the event time and exit the method.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger|Frame Debugging">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Frame Timings</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_frame_timings.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tgd_frame_debugging.htm">Frame Debugging</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Frame Timings</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Frame Timings</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>While the Frame Profiler provides a thorough, deep dive into your draw calls, <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> also provides a <strong>Frame Timings</strong> page that can quickly provide the GPU cost for a given draw call.</p>
+        <p><strong>To view Frame Timings:</strong>
+        </p>
+        <ol>
+            <li value="1">Start the <a href="tgd_frame_debugging.htm">Frame Debugger</a>.<br /></li>
+            <li value="2">From the <b>View</b> menu, select&#160;<b>Frame Timings</b>. <br /><br /><a class="MCPopupThumbnailLink" href="images/tgd_frame_timings.002.png"><img class="MCPopupThumbnail img" data-mc-width="1038" data-mc-height="648" src="images/tgd_frame_timings.002_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="3">The top half of the Frame Timings window shows you an overview of the frame, and allows you to zoom in on a group of draw calls, in the same way as the <a href="tgd_frame_scrubber.htm">Frame Scrubber</a>. 
+			<br />If you select a perf marker, all of the draw calls inside that perf marker are selected in the graphs below, helping to visualize the draw calls for that section of rendering. <br /></li>
+            <li value="4">On the lower-left is the <b>Event List &amp; Options</b> section, which displays a list of the frame timings for each draw call, and also allows you to select the draw calls you want to  graph (see below). </li>
+            <li value="5">On the lower-right is a graph that shows the three different timings measured: <ul><li value="1"><b>Empty Pipeline Cost (EPC)</b> - The cost of the draw call when isolated on the GPU. This value shows how much a given draw call costs by itself, not taking into account contention for resources with other draw calls. </li><li value="2"><b>Full Pipeline Cost (FPC)</b> - The cost of the draw call while other draw calls are in flight. This is important because it shows the impact of the other work that is being processed while the draw call in question is rendering. </li><li value="3"><b>Incremental Draw Cost (IDC)</b> - This is the incremental cost of a given draw call. Because of the bandwidth of the GPU pipeline, many draw calls can be processed in parallel, resulting in little to no frame rate hit when you add a draw call. </li></ul></li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop Apps Using Android Application Lifecycle|Surprising Application Lifecycle Events and How to Handle Them">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Common Lifecycle Cases that Exhibit Configuration Issues</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/lifecycle_common_cases_config_issues.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Common Lifecycle Cases that Exhibit Configuration Issues</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor97"></a>
+        <h2><span class="SystemTitle">Common Lifecycle Cases that Exhibit Configuration Issues</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>The following sections describe common issues we see with lifecycle events causing unexpected configuration changes.  In both cases, the answer is actually pretty simple: using the <code>configChanges</code> tag in the manifest, with or without forcing the orientation with the <code>screenOrientation</code> tag.  However, we present the full sequences with and without the potential fix, so that developers can better understand the expected results.<br /></p>
+        <h5>Launch a Forced-Landscape Application with Device in Portrait Orientation</h5>
+        <p>Many games and media applications force landscape orientation using the <code>AndroidManifest.xml</code> key:</p>
+        <blockquote><pre class="prettyprint">android:screenOrientation="landscape"  </pre>
+        </blockquote>
+        <p>From here, the assumption is that they will always be launched/resumed in the desired orientation with no anomalies or multiple launches.  This is the case on some OS images and devices, which can lead to confusion on platforms that do not behave as simply. </p>
+        <p> For example, on some devices, an application that forces landscape with the above key and does NOT declare that it wants to receive configuration changes explicitly through the <code>onConfigurationChanged</code> callback will see the following lifecycle callbacks when launched from portrait orientation:</p>
+        <blockquote><pre class="prettyprint">I/System.out( 1355): +-onCreate <br />I/System.out( 1355): +-onStart<br />I/System.out( 1355): +-onResume<br />I/System.out( 1355): +-onPause<br />I/System.out( 1355): +-onStop<br />I/System.out( 1355): +-onDestroy<br />I/System.out( 1355): +-onCreate<br />I/System.out( 1355): +-onStart<br />I/System.out( 1355): +-onResume<br />I/System.out( 1355): +-surfaceCreated<br />I/System.out( 1355): +-surfaceChanged: 1366, 695<br />I/System.out( 1355): +-onWindowFocusChanged (TRUE)</pre>
+        </blockquote>
+        <p>Note that the system is brought all the way up to <code>onResume</code> before being shut down again.  One answer is to simply add the aforementioned tag (<code>android:configChanges</code>) to handle the configuration change internally via a callback.  In this case, the result is much simpler:</p>
+        <blockquote><pre class="prettyprint">I/System.out( 1532): +-onCreate<br />I/System.out( 1532): +-onStart<br />I/System.out( 1532): +-onResume<br />I/System.out( 1532): +-onConfigurationChanged<br />I/System.out( 1532): +-surfaceCreated<br />I/System.out( 1532): +-surfaceChanged: 1366, 695<br />I/System.out( 1532): +-onWindowFocusChanged (TRUE)</pre>
+        </blockquote>
+        <p>For many 3D applications, there will not even be a need to override <code>onConfigurationChanged</code>.  Note that the configuration changed callback comes before the creation of the window, and thus there is no problem for a 3D app, which bases its rendering buffer on the <code>surfaceCreated</code> and <code>surfaceChanged</code> callbacks.  Merely the addition of the manifest key may be sufficient.</p>
+        <p>This can be more complex with applications that have advanced Android UI layouts using XML.  But for many 3D applications, this is not the case, and thus there is no complication.<br /></p>
+        <h5>Sleep and Resume with a Fixed-Orientation Application</h5>
+        <p>On some devices, we have seen particularly problematic sequences when putting a device to sleep and then waking it up again.  The "expected" sequence (from the Android docs) is:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">I/System.out(  437): +-onCreate <br />I/System.out(  437): +-onStart<br />I/System.out(  437): +-onResume<br />I/System.out(  437): +-onConfigurationChanged<br />I/System.out(  437): +-surfaceCreated<br />I/System.out(  437): +-surfaceChanged: 1366, 695<br />I/System.out(  437): +-onWindowFocusChanged (TRUE)<br /><b>→	Sleep</b><br />I/System.out(  437): +-onPause<br /><b>→ 	Resume</b><br />I/System.out(  437): +-onResume<br />I/System.out(  437): +-onWindowFocusChanged (FALSE)<br /><b>→ 	Unlock the Screen</b><br />I/System.out(  437): +-onWindowFocusChanged (TRUE)</pre>
+        </blockquote>
+        <p>
+            <br />This is not the sequence seen on some devices, however…  With a forced layout (<code>screenOrientation</code>) and without the configuration changed callback tag <code>configChanges</code>, some devices will provide extremely "noisy" sequences involving multiple configuration changes:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve"><b>→ 	Sleep</b><br />I System.out: +-onPause<br />I System.out: +-onStop<br />I System.out: +-onDestroy<br />I System.out: +-surfaceDestroyed<br />I System.out: +-onCreate 0<br />I System.out: +-onStart<br />I System.out: +-onResume<br />I System.out: +-onPause<br />I System.out: +-surfaceCreated<br />I System.out: +-surfaceChanged: 540, 884<br /><b>→ 	Resume</b><br />I System.out: +-onResume<br /><b>→ 	Unlock the Screen</b><br />I System.out: +-onPause<br />I System.out: +-onStop<br />I System.out: +-onDestroy<br />I System.out: +-surfaceDestroyed<br />I System.out: +-onCreate 0<br />I System.out: +-onStart<br />I System.out: +-onResume<br />I System.out: +-onWindowFocusChanged (TRUE)<br />I System.out: +-surfaceCreated<br />I System.out: +-surfaceChanged: 960, 464<br />I System.out: +-onPause<br />I System.out: +-onStop<br />I System.out: +-onDestroy<br />I System.out: +-surfaceDestroyed<br />I System.out: +-onCreate 0<br />I System.out: +-onStart<br />I System.out: +-onResume<br />I System.out: +-onWindowFocusChanged (TRUE)<br />I System.out: +-surfaceCreated<br />I System.out: +-surfaceChanged: 540, 884<br />I System.out: +-onPause<br />I System.out: +-onStop<br />I System.out: +-onDestroy<br />I System.out: +-surfaceDestroyed<br />I System.out: +-onCreate 0<br />I System.out: +-onStart<br />I System.out: +-onResume<br />I System.out: +-onWindowFocusChanged (TRUE)<br />I System.out: +-surfaceCreated<br />I System.out: +-surfaceChanged: 960, 464</pre>
+        </blockquote>
+        <p>
+            <br />Quite a wild ride for the application, especially if they start loading 3D resources each time.</p>
+        <p>The solution is the same as the previous case: Adding the configuration callback tag <code>android:configChanges</code> causes the sequence on the problematic devices to simplify significantly.  With these changes, the device still sends multiple screen-size changes, but they do not generate the problematic shutdown/startup "bounces":</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve"><b>→ 	Sleep</b><br />I System.out: +-onPause<br /><b>→ 	Resume</b><br />I System.out: +-surfaceChanged: 540, 884 <br />I System.out: +-onWindowFocusChanged (FALSE)<br />I System.out: +-onResume<br /><b>→ 	Unlock the Screen</b><br />I System.out: +-onWindowFocusChanged (TRUE) <br />I System.out: +-surfaceChanged: 960, 464<br />I System.out: +-surfaceChanged: 540, 884<br />I System.out: +-surfaceChanged: 960, 464</pre>
+        </blockquote>
+        <p>These resolution changes are much easier to handle quickly than a full shutdown, all by simply setting the flag to receive configuration changes for orientation.<br /></p>
+        <h5>Honeycomb and the Volume Button</h5>
+        <p>In previous versions of Android, pressing the volume up/down button showed a volume "overlay" and changed the device volume.  There was no lifecycle messaging to the application, as the slider could not be dragged – it was merely a visual representation of the hardware volume button presses.  </p>
+        <p>However, as of Honeycomb, that behavior has changed.  The volume buttons launch a temporary dialog with one or more sliders that you can actually touch and interact with.  As a result, if you do not "eat" the volume button events and change the volume yourself, you will receive a focus lost/gained pair of events.  Focus will be lost on the first press of a volume key when the dialog is launched, and focus will be regained when the volume "slider" dialog times out an fades away.</p>
+        <p>This can be confusing for some apps, as the behavior differs per OS.  Workaround options include:</p>
+        <ul>
+            <li value="1">Handling the volume buttons yourself in your game code and "eating" the events, thus keeping the case from ever happening.</li>
+            <li value="2">Allowing the app to be auto-paused and requiring the user to un-pause when they are done.</li>
+            <li value="3">Making all cases in your app where focus is lost and regained while spending the entire time resumed (i.e., not the HOME or Suspend cases, where the app is also <code>onPause’d</code>) pause the game only for the duration of the loss of focus.  In other words, in the case where <code>onWindowFocusChanged</code> is called with FALSE and then TRUE, without any call to <code>onPause</code> happening before or during the loss of focus.  The issue here is that this will cause your game to immediately restart in gameplay when the user throws away a settings dialog, etc., that caused the focus loss.  This can be jarring to the user as they have to rush to catch up with the active game.</li>
+        </ul>
+        <h5>Suspend/Resume with No Lock Screen</h5>
+        <p>The sequence shown in the previous sections for suspend/resume all assume some form of lock screen that displays when the device is resumed.  This tends to cause a focus lost/gained pair of messages at suspend/resume.  However, apps that have coded explicit expectations that <code>onResume</code> and <code>onWindowFocusChanged(true)</code> will always come together when exiting suspended mode have run into issues in a rather common case: the case where a user has for convenience’s sake disabled the lock screen.  On such a device, resuming the device goes straight to the app that was focused prior to suspend without any intermediary screen.</p>
+        <p>In terms of lifecycle messages, this tends to cause Android not to send either of the focus messages as a part of the suspend/resume.  The app never loses focus because no lock screen ever obscures it.  Thus, in this case, it is up to the app to have kept a flag that tracks the current focus state.  If the focus has never been lost via <code>onWindowFocusChanged(false)</code>, then the app should go back to its focused (and presumably auto-paused) state after it receives the <code>onResume</code> and a new rendering surface (if the previous one was destroyed in the suspend).  The sequence is then something along the lines of the following (app starting from resumed and focused):</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve"><b>→ 	Sleep</b><br />I System.out: +-onPause<br /><b>→ 	Resume</b><br />I System.out: +-onResume <br />I System.out: +-surfaceDestroyed<br />I System.out: +-surfaceCreated<br />I System.out: +-surfaceChanged: 540, 884</pre>
+        </blockquote>
+        <p>Thus, in this case, it is up to the app to have kept a record of the focus state to know that the <code>onResume</code> indicated that the app was not only resumed but focused.  The destruction and recreation of the surface on resume is odd, but does seem common in this case.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

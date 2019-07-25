@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers|Supporting the Android Controller Quickstart">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>The Gamepad Specification</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_quickdoc_amalgamated_gamepad.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">The Gamepad Specification</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">The Gamepad Specification</span>
+        </h1><a name="kanchor106"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>Below, you will see the specification that has been previously described.  The first page is for people using the Android APIs, the second is for Unity developers.</p>
+        <p>As of this writing, this specification takes into account over 25 different controllers from the major consoles to all major third party manufacturers.  Moreover, with Google and NVIDIA recommending this specification to developers, as well as controller manufacturers, that number will only continue to grow.</p>
+        <p>Take special care to read all of the notes here, as they are important to fully implement the specification.</p>
+        <h4>The Specification using Android APIs  </h4>
+        <p>The representative gamepad below shows an amalgam of standards brought together to simplify input handling for the developer.  Please note certain controllers can issue multiple events for a single action which can safely be ignored, except the triggers — see the notes in that section.  The developer only needs to handle the events listed here.</p>
+        <p>
+            <img src="images/an_gc_amalgam_gamepad.001.png" />
+        </p>
+        <h5>Notes</h5>
+        <ul>
+            <li value="1"><b>Handling all cases</b> — Notice the DPAD and Triggers require you to handle more than one value.  For Triggers in particular, you can’t assume that you will only ever give one value for one input like other controls.  So a controller that outputs <code>AXIS_RTRIGGER</code> may also output <code>AXIS_GAS</code> with the exact same values.  See the pseudo-code in the bottom of <b>The Shoulder Buttons</b> section.</li>
+            <li value="2"><b>Handling NO analog/MotionEvents</b> — If, and only if, you are NOT going to handle any <code>MotionEvents</code> – in other words, you will only handle the DPAD buttons — you can ignore handling <code>AXIS_HAT</code> values for the DPAD.  Android will generate the proper DPAD equivalents for <code>AXIS_HAT</code> and <code>AXIS_X/Y</code> for you.</li>
+        </ul>
+        <h4>The Specification in Unity</h4>
+        <p>For the broadest range of plug and play support, we recommend using this controller as your default.  If possible, it is also recommended that you use a controller setup screen.  This is an Options screen, in which users assign controller functions to application functions.  There are several Unity plug-ins available to help you along.</p>
+        <p>
+            <img src="images/an_gc_amalgam_gamepad_unity.001.png" />
+        </p>
+        <h5>Unity Notes</h5>
+        <ul>
+            <li value="1"><b>General recommendations</b> — We recommend using this controller as your default.  This should give the best "it just worked" experience for the user.  However, since Unity does controllers in a specific way, we still recommend adding a controller setup screen to back stop other controllers.  Consider adding a dialog after detecting a controller that tells the user, "If you’d like to customize your controller, please see the setup screen in Options."</li>
+            <li value="2"><b>Shoulder Buttons</b> — Please read the documentation in the “Unity API Specifics” section for handling the spec defined in the “The Shoulder Buttons” box.  Keep in mind the SHIELD controller name, <b>NVIDIA Corporation NVIDIA Controller v01.01</b>, is an NVIDIA standard and something upon which you can rely. “v01” denotes a family of controllers that have above controller style and its outputs as its base.  We recommend that any checks are made against just the major version, <b>NVIDIA Corporation NVIDIA Controller v01</b>.</li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

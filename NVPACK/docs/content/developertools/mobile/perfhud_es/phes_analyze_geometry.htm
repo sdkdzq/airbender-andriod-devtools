@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|How To: Analyze Application Performance Using PerfHUD ES">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Geometry</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/phes_analyze_geometry.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Geometry</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor15"></a>
+        <h1><span class="SystemTitle">Geometry</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>Tegra has a very capable vertex processor, so you shouldn't automatically assume that a large triangle count is the reason for poor performance. However, in order to achieve high throughput a number of resources constraints must be managed.</p>
+        <h4>Vertex Shader Complexity</h4>
+        <p>Typically, 20-30 cycles is reasonable for most assets, but peak throughput is achieved at around 10 cycles per vertex.</p>
+        <ul>
+            <li value="1">Go to the <b>Frame Profiler</b>. </li>
+            <li value="2">Select the <b>Shader State</b> checkbox only (vertex shader buckets are not fragmented based on other state). </li>
+            <li value="3">Order the <b>Bucket List</b> by duration. For each significantly contributing bucket, do the following:<ul style="list-style-type: circle;"><li value="1">Select the bucket.</li><li value="2">Go to <b>Frame Debugger</b> -&gt; <b>Shader Viewer</b>.</li><li value="3">Select the <b>Vertex Shader</b> tab.</li><li value="4">Examine (in the lower-left view) the stats for the selected shader.</li></ul></li>
+        </ul>
+        <h4>Post-transform Vertex Reuse</h4>
+        <p>Improving Post-transform vertex reuse is the single easiest way to increase geometry throughput on Tegra.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Profiler</b> -&gt; <b>Vertex Cache Hits</b>. This shows an <b>post-transform cache efficiency</b> rating for every draw call in the scene. </li>
+            <li value="2">Scan the displayed data, and verify that vertex re-use is reasonable. Well-optimized mesh data should show post-transform cache hits in the 70% or so range.</li>
+        </ul>
+        <p>In order to maximize post-transform reuse, it is recommended that you use indexed triangle lists for all geometry. <b>Indexed triangle lists</b> allow easy construction of optimized primitives without the need for degenerate link triangles.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Geometry Viewer</b>. </li>
+            <li value="2">Scrub through all draw calls, paying attention to:<ul style="list-style-type: circle;"><li value="1"><b>Type</b> of the draw call, either non-indexed (<code>DrawArrays</code>) or indexed (<code>DrawElements</code>). <code>DrawElements</code> is recommended.</li><li value="2">Primitive <b>mode</b>, either <code>TRIANGLE_STRIP/TRIANGLE_FAN/TRIANGLES</code>. <code>TRIANGLES</code> is recommended.</li></ul></li>
+        </ul>
+        <h4>Place All Geometry In VBOs</h4>
+        <p>Efficiently organized vertex/index data is key to reducing load on the memory system. It's recommended that you place all geometry in VBOs, and interleave vertex attribute data whenever possible (i.e., use the "array of structures" vertex layout).</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Geometry Viewer</b>. </li>
+            <li value="2">Scrub through all draw calls. <ul style="list-style-type: circle;"><li value="1">Any index data NOT placed in a buffer object will be flagged in red: <b>Indices are not in a VBO</b>.</li><li value="2">Any vertex data NOT placed in buffer objects will be flagged in red: <b>Not using VBO</b>.</li></ul></li>
+        </ul>
+        <h5>Dynamically modified VBO's</h5>
+        <table style="border-collapse: separate;caption-side: top;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;margin-left: 16pt;margin-right: auto;">
+            <col />
+            <col style="width: 530px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>NOTE:&#160;Those are identifiable by dashboard dynamic vertex buffer object indicator. (Status bar, lower right).</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Dynamically modified vertex data should also be placed in buffer objects. However, modifying (<code>glMapBufferOES/glBufferData/glBufferSubData</code>) a submitted buffer will stall the CPU until that buffer has been completely processed by the GPU.</p>
+        <p>Currently, buffer renaming is not supported. Also, it is recommended that you double buffer dynamic VBO handles, and only update the handle not already referenced by the in-flight scene.</p>
+        <p>Find a completely static scene (so that the call-trace contains identical content each time). Do this, half a dozen or so times:</p>
+        <ul>
+            <li value="1">Go to the <b>DashBoard</b>, and ensure PerfHUD is connected and the timing data is being updated.</li>
+            <li value="2">Grab a <b>Frame Debugger</b> frame.</li>
+            <li value="3">Go to <b>Frame Debugger</b> -&gt; <b>Call Trace</b>.</li>
+            <li value="4">Click <b>Export</b>, and save the call trace out as <code>trace_n.txt</code>.</li>
+            <li value="5">Load all the trace files into a text editor.</li>
+            <li value="6">For each buffer update function called in the frame, search for the relevant dynamic buffer update function (<code>glMapBufferOES/glBufferData/glSubBufferData</code>) in one of the trace files.</li>
+            <li value="7">Identify the buffer objects bound when the update is called.</li>
+            <li value="8">Examine the same update in the other trace files, and in at least one, the buffer id should be different.</li>
+        </ul>
+        <p>As an example, some of this with can be automated with grep:</p>
+        <blockquote><pre class="prettyprint">grep -b1 glMapBufferOES trace_?.txt</pre>
+        </blockquote>
+        <p>The <code>-b1</code> option outputs the previous one line before the match (which should capture the prior buffer binding).</p>
+        <h4>Compressed Vertex Attributes</h4>
+        <p>It's recommended that you reduce vertex fetch memory bandwidth as much as possible, and not rely on fp32 for everything. Tegra supports half precision float, as well as signed/unsigned byte/short formats.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Geometry Viewer</b>. </li>
+            <li value="2">Scrub through all draw calls, paying attention to:<ul style="list-style-type: circle;"><li value="1">The <b>type</b> of each attribute. Compressed formats should be used wherever possible.</li><li value="2">Don't pad vertex attribute data unnecessarily. (For example, don't fetch a 4-wide attribute with constant w = 1.0 for every position. Use the GLES2 default values.)</li></ul></li>
+        </ul>
+        <h4>Interleaved Vertex Attributes</h4>
+        <p>The memory controller in a Tegra device is much more efficient when fetching from spatially coherent addresses. Storing vertex attributes as <b>array of structures</b> ensures good spatial locality for attributes making up any particular vertex. This results in an efficient memory access pattern. Not following this guidance can <i>severely</i> impact performance.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Geometry Viewer</b>. </li>
+            <li value="2">Scrub through all draw calls and verify, by examining the buffer and attribute specs, that:<ul style="list-style-type: circle;"><li value="1">All vertex attributes are fetched from the same VBO.</li><li value="2">The stride of the bound VBO (if applicable) should generally be equal to the sum of the size of the attributes referenced, to reduce redundant memory between consumption.</li><li value="3">The individual attributes are interleaved within the VBO; i.e., each attribute has the same stride and a different (typically sub-stride) offset within the buffer.</li></ul></li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>How To: Optimize OpenGL ES 2.0 Performance for Tegra</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles2_perf_main.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">How To: Optimize OpenGL ES 2.0 Performance for Tegra</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor116"></a>
+        <h1><span class="SystemTitle">How To: Optimize OpenGL ES 2.0 Performance for Tegra</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Introduction </h4>
+        <p>NVIDIA’s Tegra mobile system on a chip (SOC) series include an extremely powerful and flexible 3D GPU with power that is well matched to the OpenGL ES 2.0 APIs.  For optimal content rendering, there are some basic guidelines and several tips that can assist developers in reaching their goals.  This document will detail these recommendations, as well as a few warnings regarding features and choices that can limit performance in 3D-centric applications.</p>
+        <p>The 3D GPU in all Tegra series SOCs contains a programmable vertex shading unit and a programmable fragment shading unit, each of which are accessible via OpenGL ES 2.0’s GLSL-ES shading language.  Tegra also includes a high-performance multi-core ARM CPU and a high-bandwidth memory controller (MC) to round out the components of 3D rendering.</p>
+        <p>Optimal performance is achieved by:</p>
+        <ol>
+            <li value="1">Maximizing the efficient use of the fragment shading unit and vertex shading unit via smart shader programming</li>
+            <li value="2">Minimizing the use of the CPU by avoiding redundant and ill-optimized rendering methods.</li>
+            <li value="3">Optimizing the use of memory bandwidth across the fragment unit, vertex unit and display systems.</li>
+        </ol>
+        <p>This document will cover aspects of all of these elements.  Note that all quoted numbers are relative to clock settings on the Tegra 3 based “Cardhu” development kit.  Numbers on other Tegra variants will differ.</p>
+        <p>Of particular note:</p>
+        <ul>
+            <li value="1">Tegra 3 devices have double the raw fragment shader horsepower of Tegra 2 devices.</li>
+            <li value="2">Tegra 3 devices include four A9 CPU cores, whereas Tegra 2 devices have two.</li>
+            <li value="3">Tegra 3 systems are typically clocked significantly higher than Tegra 2:<ul style="list-style-type: circle;"><li value="1">Cardhu has 520MHz GPU, 750MHZ memory, 1.4GHz CPU.</li><li value="2">Ventana, the Tegra 2 development system has 300MHz GPU, 300MHZ memory, 1.0GHz CPU.</li></ul></li>
+        </ul>
+        <h4>Basic Performance Notes</h4>
+        <p>In real-world applications, the most common performance bottlenecks are:</p>
+        <ol>
+            <li value="1">Fragment fill rate for applications using long shaders and/or lots of overdraw.</li>
+            <li value="2">Memory bandwidth on devices with large screens or when using large/deep textures without mip-selecting filter modes.</li>
+            <li value="3">Lack of CPU/GPU parallelism for applications that use redundant or GPU-unfriendly OpenGL ES code.</li>
+        </ol>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

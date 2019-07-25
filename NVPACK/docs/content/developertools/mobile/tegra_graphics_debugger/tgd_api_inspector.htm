@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger|Frame Debugging">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>API Inspector</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_api_inspector.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tgd_frame_debugging.htm">Frame Debugging</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">API&#160;Inspector</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <div id="pageheader">
+            <h1><span class="SystemTitle">API Inspector</span>
+            </h1><a name="kanchor44"></a>
+            <hr width="100%" size="0" align="center" />
+        </div>
+        <p>When using the <span class="MyVariablesTGD_FrameDebugger">Frame Debugger</span> feature of <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>, you may wish to do a deep dive into a specific draw call, in order to analyze your application further. To do this, go to the <a href="tgd_frame_debugging.htm#View_Options">View menu</a> and select <b>API&#160;Inspector</b>. The API&#160;Inspector view will open. </p>
+        <p>First, note the two buttons at the top left of the API Inspector screen: the clone and lock buttons.</p>
+        <p>
+            <img src="images/tgd_api_inspector_clone_lock.002.png" />
+        </p>
+        <ul>
+            <li value="1">The <b>clone</b> button makes a copy of the current view, so that you can compare different parts of the API Inspector (or other cloned views) for the current action.</li>
+            <li value="2">The <b>lock</b> button freezes the current view so that changing the current event does not update this view. This is helpful when trying to compare the same state on two different actions.</li>
+        </ul>
+        <h2>API&#160;Inspector Navigation</h2>
+        <p>There are three different categories of API Inspector navigation. </p>
+        <h3>1. The Pipeline Section </h3>
+        <p>The first category is laid out like a "virtual GPU pipeline." Note that the control is pinnable, if you wish to have it constantly open, or you can unpin it to conserve space. This pipeline section of the API Inspector consists of the following: </p>
+        <ul>
+            <li value="1"><b>Vtx Spec</b> (Vertex Specification) — State information associated with your vertex attributes, vertex array object state, element array buffer, and draw indirect buffer. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_vtxspec.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_vtxspec.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="2"><b>Transform</b> — Transform state, including viewports, clip distances, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_transform.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_transform.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="3"><b>VS</b> (Vertex Shader) — Vertex shader state, including attributes, samplers, uniforms, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_vs.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_vs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="4"><b>TCS</b> (Tessellation Control Shader) — Tessellation control shader state, including attributes, samplers, uniforms, control state, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_tcs.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_tcs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="5"><b>TES</b> (Tessellation Evaluation Shader) — Tessellation evaluation shader state, including attributes, samplers, uniforms, evaluation state, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_tes.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_tes.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="6"><b>GS</b> (Geometry Shader) — Geometry shader state, including attributes, samplers, uniforms, geometry state, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_gs.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_gs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a></li>
+            <li value="7"><b>XFB</b> (Transform Feedback) — Transform feedback state, including object state and bound buffers. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_xfb.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_xfb.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="8"><b>Raster</b> (Rasterizer) — Rasterizer state, including point, line, and polygon state, culling state, multi-sampling state, etc. <br /><br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_raster.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_raster.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="9"><b>FS</b> (Fragment Shader) — Fragment shader state, including attributes, samplers, uniforms, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_fs.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_fs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="10"><b>Pix Ops</b> (Pixel Operations) — State information for pixel operations, including blend settings, depth and stencil state, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_pixops.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_pixops.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="11"><b>FB</b> (Framebuffer) — State of the currently drawn frame buffer, including the default frame buffer, read buffer, draw buffer, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_fb.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_fb.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a></li>
+        </ul>
+        <h3>2. Object and Pixel State Inspectors </h3>
+        <p>The object and pixel state inspectors section of the API Inspector consists of the following: </p>
+        <ul>
+            <li value="1"><b>Textures</b> — Details about all of the currently bound textures and samplers, including texture and sampler parameters. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_textures.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_textures.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="2"><b>Images</b> — Details about all of the  images currently bound to the image units. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_images.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_images.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="3"><b>Buffers</b> — Details about all of the bound buffer objects, including size, usage, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_buffers.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_buffers.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+            <li value="4"><b>Program</b> — Information about the currently bound program object and/or pipeline program pipeline object, including shaders, active uniforms, etc. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_program.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_program.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+        </ul>
+        <p>For information on how to dynamically edit a shader from the Program page, see <a href="tgd_dynamic_shader_editing.htm">Dynamic Shader Editing</a>. <br /></p>
+        <ul>
+            <li value="1"><b>Pixels</b> — Current settings for pixel pack and unpack state. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_pixels.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_pixels.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+        </ul>
+        <h3>3. Miscellaneous </h3>
+        <blockquote>
+            <p>The miscellaneous screen contains additional information such as shader limits, implementation dependent values, transform feedback limits, and various minimum/maximum values. <br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_misc.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_misc.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></p>
+        </blockquote>
+        <p>
+        </p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

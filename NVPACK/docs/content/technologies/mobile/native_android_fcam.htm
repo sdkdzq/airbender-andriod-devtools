@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Native Development on NVIDIA&#160;Android Devices">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Camera Control Using the FCam API</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/native_android_fcam.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="native_android_development.htm">Native Development on NVIDIA&#160;Android Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Camera Control Using the FCam API</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Camera Control Using the FCam API</span>
+        </h1><a name="kanchor128"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>FCam is a C++ API for easy and precise control of digital cameras. Before using this tutorial, it is highly recommended that you read the <a href="http://graphics.stanford.edu/papers/fcam/">Frankencamera</a> paper. The FCam API is available on the Tegra Android platform, the Nokia N900 and Nokia N9 phones. This tutorial focuses on the Tegra Android  platform.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> The FCam library is tightly coupled with the Tegra Android software. A mismatch between the installed Tegra Android version    and the FCam library will cause the API to fail. If you suspect that is the case, please write to us at <a href="mailto:NVR-Tegra-Prototype-Support@nvidia.com">NVR-Tegra-Prototype-Support@nvidia.com</a> to verify that the version of the FCam library and the Android software you are running are supported.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="FCam_installation_Tegra"></a>FCam installation for Tegra</h3>
+        <ol>
+            <li value="1">Download the <a href="https://developer.nvidia.com/tegra-resources">Tegra Android Jelly Bean (4.1) OS Image for the Tegra 3 Developer Kit</a>. Run the installer, and see <a href="native_android_devtools.htm#Flashing_your_nvidia_android_devkit">How to flash a system image</a> for step-by-step instructions.</li>
+            <li value="2">Download <code>fcam4tegra.zip</code>, and expand it to some folder, e.g. <code>/work/fcam4tegra/</code>. Create an environment variable <b>FCAM4TEGRA_PATH</b> and set its value to that path. If the environment variables are not visible to Eclipse (e.g., on Mac if you launch Eclipse via Spotlight), you need to define it inside Eclipse. Go to <b>Preferences &gt; C/C++ &gt; Build &gt; Environment</b> and <b>Add</b> variable <b>FCAM4TEGRA_PATH</b> and give it the correct value (such as <code>/work/fcam4tegra/</code>).</li>
+            <li value="3"> <a name="disable_early_graph"></a>On recent releases of the NVIDIA Tegra software, the camera software is powered up early to enable fast camera startup. Since only one client can be connected to the camera at a time, we need to disable this feature in order to be able to run FCam. On your host machine, type:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">adb shell setprop nv-camera-disable-early-graph 1</pre>
+        </blockquote>
+        <p>Now open the Android camera application and then close it. This will cause the property to be read and enforced.  Note that you need to repeat this step after every reboot.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>See also:</b> <b>.../NVPACK/android-ndk-r8c/docs/IMPORT_MODULE.html</b>, this document explains how Android NDK modules work.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="The_simple_fcam_template"></a>The SimpleFCam template project</h3>
+        <ol>
+            <li value="1">Locate <code>tutorials/SimpleFCam1</code> inside the tutorials source tree.</li>
+            <li value="2">Import the project into your Eclipse workspace <b>File &gt; Import &gt; Android &gt; Existing Android Code into Workspace</b>. Check the option to <i>Copy projects into workspace</i>*.#. You can find the imported project in the Package Explorer as <b>com.nvidia.simplefcam.SimpleFCamActivity</b>. Right-click on the project and select <b>Refactor &gt; Rename</b> and name it to <b>SimpleFCam1</b>.</li>
+            <li value="3">To create a unique project from the SimpleFCam template, edit <code>AndroidManifest.xml</code> and change the package name: <br /><blockquote><pre class="prettyprint">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"<br /><span style="background-color: #ffffe0;">package="com.nvidia.example.simplefcam1"</span></pre></blockquote><br />The Android Package Manager uses the package name as a unique identifier for each application.</li>
+            <li value="4">Change the string <code>app_name</code> in the file <code>res/values/strings.xml</code> to read <b>SimpleFCam1</b>.</li>
+            <li value="5">Switch to the C/C++ Perspective.<br />Convert the project to C++ project (right-click project, <b>New &gt; Convert to C/C++ Project</b>). For more details see <a href="native_android_opengles.htm#Importing_existing_project">import an existing project</a>. </li>
+            <li value="6">If everything is setup correctly, the project should now build successfully. Make sure you are on the C/C++ perspective and build the project.<br /><br /><img src="images/simplefcam_build.png" /><br /></li>
+            <li value="7">Now let's write a program that takes a picture and saves it to a file. Open <code>jni/simplefcam.cpp</code>. You will find a block of code that is empty:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#include &lt;jni.h&gt;<br />#include &lt;stdio.h&gt;<br />#include "simplefcam.h"
+<br />#include &lt;FCam/Tegra.h&gt;
+<br />// This is the main function to run FCam code.<br />// It will execute on its own thread.<br /><span style="background-color: #ffffe0;">void SimpleFCam::run()</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">{</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    logStream() &lt;&lt; "This is an FCam example\n" &lt;&lt; std::endl &lt;&lt; flush();</span><br />}</pre>
+        </blockquote>
+        <p>We will write our own code into the <code>SimpleFCam::run</code> function. This function will execute on its own thread. In addition, the <code>SimpleFCam</code> class provides a function <code>printToConsole</code> to print to a <code>TextView</code> and a function named <code>saveJPEG</code> that will save a picture to the default user-visible <i>Pictures</i> path and notify the Android Media Scanner about it.</p>
+        <p>Copy the following code into the <code>SimpleFCam::run</code> function. This code captures an image with an exposure time of 25ms, a gain of 1, and white balance set to 6500K.</p>
+        <blockquote><pre class="prettyprint">FCam::Tegra::Sensor sensor;<br />FCam::Tegra::Shot   shot;<br /><br />// Define the shot properties.<br />shot.exposure     = 25000;  // exposure duration in microseconds<br />shot.gain         = 1.0f;   // no additional analog gain<br />shot.whiteBalance = 6500;   // color temperature in Kelvins<br /><br />// Set the image object - with the desired resolution and format.<br />// Available formats for Tegra are YUV420p and RAW.<br />shot.image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );<br /><br />// Send the request to the Sensor, this action launches the worker threads.<br />logStream() &lt;&lt; "Requesting a new capture" &lt;&lt; std::endl &lt;&lt; flush();<br />sensor.capture( shot );<br /><br />// Wait for the frame to come back, this is a blocking call.<br />FCam::Tegra::Frame frame = sensor.getFrame();<br />logStream() &lt;&lt; "Got a frame back, saving file!" &lt;&lt; std::endl &lt;&lt; flush();<br /><br />// Stop the worker threads and shut the sensor down.<br />sensor.stop();<br /><br />// Save the file to disk.<br />saveJPEG( "SimpleFCam1.jpg", frame );</pre>
+        </blockquote>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>In depth:</b>This short program shows a few basic concepts. First, it declares a <code>Sensor</code> instance. This instance refers to the default camera in the system, which in the case of the Tegra 3 prototype is the rear camera. Other cameras can be opened passing an argument to the constructor, as we will show later on. Next, it sets up a <code>Shot</code> instance with the parameters of the request. Then, it creates the <code>FCam::Image</code> object that will hold the output. An <code>Image</code> has reference-counted storage and can be passed between objects without causing a deep copy. The <code>Image</code> object is also used to determine the <code>Sensor</code> resolution. Demosaicked data is provided in <code>YUV</code> planar format with subsampling of the <code>U</code> and <code>V</code> planes. In memory, the <code>Y</code> plane comes first and has full resolution, it is followed by the <code>U</code> plane at a quarter resolution <code>(width/2 x height/2)</code> and the <code>V</code> at the same resolution as the <code>U</code> plane. The other available formats are <code>RAW</code> and <code>RGB24</code>; note that for <code>RGB24</code> the FCam runtime will do a conversion from <code>YUV420p</code> to <code>RGB24</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Once the capture request is sent, the program waits for the capture to complete and retrieves the output <code>Frame</code>, and saves it as a jpg file. Compile the application. Before running it, make sure you've done the steps outlined <a href="#disable_early_graph">here</a>. Now run it. You will see the following output:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/simplefcam_output.png"><img class="MCPopupThumbnail img" data-mc-width="1366" data-mc-height="768" src="images/simplefcam_output_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>To view the image, tap on the screen to close the app, and open the <b>Gallery</b> app. Open the <b>Pictures</b> album, and you will find <b>SimpleFCam1.jpg</b> in it.</p>
+        <p>Before we move to the next example, let's take a look at <code>SimpleFCamActivity.java</code>. In particular, the static block is important.</p>
+        <blockquote><pre class="prettyprint">// All FCam programs must load the fcamtegrahal library.<br />static {<br />    System.loadLibrary("fcamtegrahal");<br />    System.loadLibrary("simplefcam");<br />}</pre>
+        </blockquote>
+        <p>All FCam programs need to load the <code>fcamtegrahal</code> shared library. In addition, we load the <code>simplefcam</code> library with our FCam program. When loading native libraries these should be loaded in reverse order of dependency. <code>simplefcam</code> depends on <code>fcamtegrahal</code>, so we load this latter one first.</p>
+        <h3>Checking for errors</h3>
+        <p>The <code>Sensor</code> class has a single blocking function: <code>Sensor::getFrame()</code>. The <code>capture</code> function is asynchronous and will spawn two worker threads. One of the threads takes shots from the request queue and builds a request that is sent to the underlying camera driver. As a result of this asynchronous design, errors can not be directly passed to the calling functions. Instead, FCam provides a queue of events where errors will be pushed to. The <code>SimpleFCam</code> class has a function <code>bool errorCheck()</code> that checks for error events:</p>
+        <blockquote><pre class="prettyprint">bool SimpleFCam::errorCheck()<br />{<br />    bool error = false;<br /><br />    FCam::Event e;<br />    while( FCam::getNextEvent( &amp;e, FCam::Event::Error ) )<br />    {<br />	logStream() &lt;&lt; "FCam error: " &lt;&lt; e.description &lt;&lt; std::endl &lt;&lt; flush();<br />	error = true;<br />    }<br /><br />    return error;<br />}</pre>
+        </blockquote>
+        <p>We can add a call to <code>errorCheck()</code> right after <code>getFrame()</code>:</p>
+        <blockquote><pre class="prettyprint">FCam::Tegra::Frame frame = sensor.getFrame();<br /><span style="background-color: #ffffe0;">if ( errorCheck() ) return;</span></pre>
+        </blockquote>
+        <p>It is safe to bail out of the current scope by calling <code>return</code>. The <code>Sensor</code> destructor will take care of cleaning up any allocated resources. We can also explicitly request the <code>Sensor</code> to <code>stop()</code>, which will destroy the worker threads. In general, it is a good practice to call <code>stop()</code> as soon as you have retrieved all the frames, to destroy the working threads and stop the <code>Sensor</code> from capturing in the background.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> It is possible that an error occurs and the <code>getFrame()</code> function stalls due to its blocking nature. One could add an <code>errorcheck()</code> right after calling <code>capture(shot)</code> but there is no guarantee that the error will be reported by the worker thread before <code>errorCheck()</code> is called. The proper solution is to have a timeout parameter added to <code>getFrame()</code> which we will do on a future release.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Vectors of shots</h3>
+        <p>In the previous example we captured a single shot. Let's now program a burst capture that brackets three images.</p>
+        <ol>
+            <li value="1">Start a new <code>SimpleFCam1</code>-based project. Rename it <code>SimpleFCam2</code>.</li>
+            <li value="2">To capture a burst we have to create one <code>Shot</code> for every image we want to capture. In this example, we will create three shots. We will also need three separate <code>Image</code> objects to store the output and three separate image <code>Frame</code> objects, as shown below.  Add the code to the <code>run()</code> method.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">FCam::Tegra::Sensor sensor;<br />std::vector&lt;FCam::Tegra::Shot&gt;  shots( 3 );<br />std::vector&lt;FCam::Tegra::Frame&gt; frames( 3 );<br /><br />// Define the shot properties for the first shot.<br />shots[0].exposure     = 25000;  // exposure duration in microseconds<br />shots[0].gain         = 1.0f;   // no additional analog gain<br />shots[0].whiteBalance = 6500;   // color temperature in Kelvins<br /><br />// Copy the shot parameters.<br />shots[1] = shots[2] = shots[0];<br /><br />// Set the exposure of the two remaining shots.<br />shots[1].exposure = shots[0].exposure * 2;<br />shots[2].exposure = shots[0].exposure / 2;<br /><br />// Create the result images.<br />shots[0].image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );<br />shots[1].image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );<br />shots[2].image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );</pre>
+        </blockquote>
+        <ol start="3">
+            <li value="3">The <code>Sensor::capture()</code> is overloaded, it accepts both <code>Shot</code> and <code>std::vector&lt;Shot&gt;</code>. We will call capture once and wait for the three frames to be retrieved. Here is the remaining code:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">logStream() &lt;&lt; "Requesting a burst of 3 shots" &lt;&lt; std::endl &lt;&lt; flush();<br />sensor.capture( shots );<br /><br />frames[0] = sensor.getFrame();<br />if( errorCheck() ) { return; }<br />logStream() &lt;&lt; "Got first frame back!" &lt;&lt; std::endl &lt;&lt; flush();<br /><br />frames[1] = sensor.getFrame();<br />if( errorCheck() ) { return; }<br />logStream() &lt;&lt; "Got second frame back!" &lt;&lt; std::endl &lt;&lt; flush();<br /><br />frames[2] = sensor.getFrame();<br />if( errorCheck() ) { return; }<br />logStream() &lt;&lt; "Got third frame back!" &lt;&lt; std::endl &lt;&lt; flush();<br /><br />sensor.stop();<br /><br />// Save the file to disk.<br />logStream() &lt;&lt; "Saving images.." &lt;&lt; std::endl &lt;&lt; flush();<br />saveJPEG( "SimpleFCam2-0.jpg", frames[0] );<br />saveJPEG( "SimpleFCam2-1.jpg", frames[1] );<br />saveJPEG( "SimpleFCam2-2.jpg", frames[2] );</pre>
+        </blockquote>
+        <ol start="4">
+            <li value="4">Build the program and run it. Then open <b>Gallery</b> to see the three captured images.</li>
+        </ol>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>In depth:</b>When capturing a burst, it is important to submit the set of shots in a single vector. This minimizes the time between frames, since requests will be sent to the imaging software stack as soon as it is ready to receive them, which is earlier than the time the frame is received through <code>getFrame()</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Streaming requests</h3>
+        <p>We have so far captured single shots and bursts. If we wanted to write a camera or a video recording application, we need the ability to stream shots continuously. For this purpose, the sensor provides the <code>Sensor::stream()</code> function. On this example, we will show how to write a simple application that does streaming combined with auto-exposure and auto-whitebalance.</p>
+        <ol>
+            <li value="1">Start a new <code>SimpleFCam</code> based project. Rename it <code>SimpleFCam3</code>.</li>
+            <li value="2">Open <code>simplefcam.cpp</code> and add a new include to find the <code>std::fabs()</code> function: <br /><blockquote><pre class="prettyprint">#include&lt;cmath&gt;</pre></blockquote></li>
+            <li value="3">Modify <code>SimpleFCam::run()</code>. Let's start setting up our <code>Sensor</code> and <code>Shot</code> instances.</li>
+        </ol>
+        <p>We will define two shots, a <code>meterShot</code> that we will stream at a lower resolution to keep up a good frame rate, and a <code>captureShot</code> that we will send once to capture a full-size frame.</p>
+        <blockquote><pre class="prettyprint">FCam::Tegra::Sensor sensor;<br />FCam::Tegra::Shot   meterShot;<br />FCam::Tegra::Shot   captureShot;<br /><br />// Setup a half-sized capture for the streaming shots to get 30fps.<br />const int width  = sensor.maxImageSize().width / 2;<br />const int height = sensor.maxImageSize().height / 2;<br /><br />// Set the initial shot parameters.<br />meterShot.exposure = 16666;<br />meterShot.gain     = 1.0f;<br />meterShot.image = FCam::Image( width, height, FCam::YUV420p );</pre>
+        </blockquote>
+        <ol start="4">
+            <li value="4">To do metering, we need to enable histograms.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">// Enable the histogram unit.<br />meterShot.histogram.enabled = true;<br />meterShot.histogram.region  = FCam::Rect( 0, 0, width, height );</pre>
+        </blockquote>
+        <ol start="5">
+            <li value="5">Setup some variables to determine when the exposure stabilizes.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">// Stream until the exposure stabilizes.<br />int count = 0;          // # of frames streamed<br />int stableCount = 0;    // # of consecutive frames with stable exposure<br />float exposure;         // total exposure for the current frame (exposure time * gain)<br />float lastExposure = 0; // total exposure for the previous frame</pre>
+        </blockquote>
+        <ol start="6">
+            <li value="6">Now we will write the main metering loop. Every time we receive a frame, we call the <code>autoExpose()</code> and <code>autoWhiteBalance()</code> functions to update the shot parameters. Every call we make to <code>stream()</code> clears the streaming shot we had set previously. We repeat our loop until the total exposure difference between two frames is less than 5% for 5 consecutive frames.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">FCam::Tegra::Frame frame;<br /><br />do<br />{<br />    // Ask the sensor to stream with the given parameters.<br />    sensor.stream( meterShot );<br /><br />    // Retrieve a frame.<br />    frame = sensor.getFrame();<br />    logStream() &lt;&lt; "Frame " &lt;&lt; count &lt;&lt; " exposure: " &lt;&lt; frame.exposure()<br />	&lt;&lt; " gain: " &lt;&lt; frame.gain() &lt;&lt; " - " &lt;&lt; std::endl &lt;&lt; flush();<br /><br />    // Calculate the total exposure (including gain).<br />    exposure = frame.exposure() * frame.gain();<br /><br />    // Increment stableCount if the exposure is within 5% of the previous one<br />    if( std::fabs( exposure - lastExposure ) &lt; 0.05f * lastExposure )<br />    {<br />	stableCount++;<br />    }<br />    else<br />    {<br />	stableCount = 0;<br />    }<br /><br />    // Terminate when stable for 5 frames.<br />    if( stableCount &gt;= 5 ) { break; }<br /><br />    // Update lastExposure.<br />    lastExposure = exposure;<br /><br />    // Call the autoexposure algorithm, it will update stream<br />    // using this frame's histogram.<br />    autoExpose( &amp;meterShot, frame );<br /><br />    // Call the auto white-balance algorithm. It will similarly<br />    // update the white balance using the histogram.<br />    autoWhiteBalance( &amp;meterShot, frame );<br /><br />    logStream() &lt;&lt; "New exposure: " &lt;&lt; meterShot.exposure &lt;&lt; " gain: " &lt;&lt; meterShot.gain &lt;&lt; std::endl;<br />    logStream() &lt;&lt; flush();<br /><br />    ++count;<br />}<br />while( true );</pre>
+        </blockquote>
+        <ol start="7">
+            <li value="7">Once we exit the loop, <code>meterShot</code> has the parameters we would like to use for capture. We copy these parameters to a different shot and assign a full-size image.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">// Now let's capture a full resolution shot <br />// Copy the meter shot but use a full resolution image.<br />captureShot = meterShot;<br />captureShot.image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );</pre>
+        </blockquote>
+        <ol start="8">
+            <li value="8">Tell the <code>Sensor</code> to clear the streaming shot.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">sensor.stopStreaming();<br />sensor.capture( captureShot );</pre>
+        </blockquote>
+        <ol start="9">
+            <li value="9">Each shot instance has a different identifier. This identifier can be used to match the shot request with the frame request. In our example <code>meterShot</code> and <code>captureShot</code> will have different identifiers. We will call <code>getFrame()</code> until we have drained all the pending metering shots left in the pipeline and received the frame for our <code>captureShot</code>.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">// We might still not have retrieved all the metering shots - <br />// call getFrame() until we get the captureShot.<br />while( sensor.shotsPending() &gt; 0 &amp;&amp; frame.shot().id != captureShot.id )<br />{<br />    frame = sensor.getFrame();<br />}</pre>
+        </blockquote>
+        <ol start="10">
+            <li value="10">Once we get the frame back, we save it to disk.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">sensor.stop();<br /><br />logStream() &lt;&lt; "Full-size frame received, saving to file" &lt;&lt; std::endl &lt;&lt; flush();<br /><br />// Write out the full-size picture.<br />saveJPEG( "SimpleFCam3.jpg", frame );</pre>
+        </blockquote>
+        <ol start="11">
+            <li value="11">Compile the app and run it!</li>
+        </ol>
+        <h3>Adding focus</h3>
+        <p>Next we will add a focus stage to our previous example. Focus is controlled through an <code>FCam::Tegra::Lens</code> instance. The <b>Lens</b> is an <code>FCam::Device</code>. Most mobile devices have a camera with a fixed aperture and a fixed focal length (i.e., no optical zoom), but even those cameras can be focused so that objects at particular focusing distance are sharp.</p>
+        <p>The Tegra 3 Prototype has a fixed-focus front camera and a pair of rear-cameras with focus control. We will now add an autofocus routine to our previous example.</p>
+        <ol>
+            <li value="1">Open <code>simplefcam.h</code> and add the focus function: <br /><blockquote><pre class="prettyprint">// Run focus using the given shot parameters. <br />void focus( FCam::Tegra::Sensor &amp;sensor, FCam::Tegra::Lens &amp;lens, FCam::Tegra::Shot shot );</pre></blockquote></li>
+            <li value="2">Open <code>simplefcam.cpp</code> and copy-paste the function definition:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">void SimpleFCam::focus( FCam::Tegra::Sensor &amp;sensor, FCam::Tegra::Lens &amp;lens, FCam::Tegra::Shot shot )<br />{<br />    // The shot was passed by value, so we can<br />    // modify it without affecting the caller's instance.<br /><br />    // Disable the histogram<br />    shot.histogram.enabled = false;<br /><br />    // Enable the whole-image sharpness statistic<br />    shot.sharpness.enabled = true;<br /><br />    // Default AutoFocus routine<br />    FCam::Tegra::AutoFocus autoFocus( &amp;lens );<br /><br />    // Ask the autofocus algorithm to start sweeping the lens<br />    autoFocus.startSweep();<br /><br />   // Stream until autofocus algorithm completes<br />    FCam::Frame frame;<br /><br />    do<br />    {<br />	// Stream the updated shot<br />	sensor.stream( shot );<br /><br />	// Retrieve a frame<br />	frame = sensor.getFrame();<br /><br />	// The lens has tagged each frame with where it was focused<br />	// during that frame. Let's retrieve it so we can print it out.<br />	float diopters = frame["lens.focus"];<br />	logStream() &lt;&lt; "Lens focused at " &lt;&lt; 100 / diopters &lt;&lt; " cm ";<br /><br />	// The sensor has attached a sharpness map to each frame.<br />	// Let's sum up all the values in it so we can print out<br />	// the total sharpness of this frame.<br />	int totalSharpness = 0;<br />	for( int y = 0; y &lt; frame.sharpness().height(); y++ )<br />	{<br />	    for( int x = 0; x &lt; frame.sharpness().width(); x++ )<br />	    {<br />		totalSharpness += frame.sharpness()( x, y );<br />	    }<br />	}<br />	logStream() &lt;&lt; " - total sharpness is " &lt;&lt; totalSharpness &lt;&lt; std::endl &lt;&lt; flush();<br /><br />	// Update the auto-focus algorithm state tracking.<br />	// We pass the frame and the shot.<br />	autoFocus.update( frame, &amp;shot );<br />    }<br />    while( !autoFocus.idle() );<br /><br />    logStream() &lt;&lt; "Autofocus chose to focus at " &lt;&lt; 100 / lens.getFocus() &lt;&lt; std::endl &lt;&lt; flush();<br />}</pre>
+        </blockquote>
+        <ol start="3">
+            <li value="3">Finally, we modify <code>SimpleFCam::run()</code> to call <code>focus</code> after metering is finished. First, we create a Lens instance and attach it to the sensor. Attaching a device to a <code>Sensor</code> instance allows the device to tag the frames when they are returned. </li>
+        </ol>
+        <blockquote><pre class="prettyprint">#include &lt;FCam/Tegra.h&gt;<br /><span style="background-color: #ffffe0;">#include &lt;FCam/Tegra/AutoFocus.h&gt;</span><br />// This is the main function to run FCam code.<br />// It will execute on its own thread.<br />void SimpleFCam::run()<br />{<br /><br />    FCam::Tegra::Sensor sensor;<br /><span style="background-color: #ffffe0;">    FCam::Tegra::Lens lens;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    sensor.attach( &amp;lens );</span></pre>
+        </blockquote>
+        <p>Then, at the end of the auto exposure and white balance loop, we add the call to focus. In a more optimized implementation you would combine the all the three tasks (exposure, white balance, focus) into a single loop.</p>
+        <blockquote><pre class="prettyprint">while( true );
+<br />// Now call autofocus<br /><span style="background-color: #ffffe0;">focus( sensor, lens, meterShot );</span></pre>
+        </blockquote>
+        <p>The <code>AutoFocus</code> helper object adds a <code>FocusSteppingAction</code> to the shot. An <code>Action</code> on a shot is scheduled to be executed at the given time, relative to the beginning of the shot exposure. Below is an example of <code>FocusSteppingAction</code> that spans the entire focus range in 15 steps:</p>
+        <blockquote><pre class="prettyprint">FCam::Lens::FocusSteppingAction stepFocus( lens );<br />stepFocus.owner  = ( void * ) this;<br />stepFocus.time   = 0;<br />stepFocus.speed  = lens-&gt;maxFocusSpeed();<br />stepFocus.step   = ( lens-&gt;nearFocus() - lens-&gt;farFocus() ) / 15;<br />stepFocus.repeat = 15;<br />shot-&gt;addAction( stepFocus );</pre>
+        </blockquote>
+        <p>Every time the focus stepping action is triggered, it updates the next focus position by the given step. Also, note how we make use of the tags to get the lens position:</p>
+        <blockquote><pre class="prettyprint">float diopters = frame["lens.focus"];</pre>
+        </blockquote>
+        <h3>Adding flash</h3>
+        <p>One other device that is available for use is the Flash. We will now show how to write a simple program to capture a pair of images, one with no-flash followed by one with flash.</p>
+        <ol>
+            <li value="1">Start a new <code>SimpleFCam</code>-based project, rename it <code>SimpleFCam4</code>.</li>
+            <li value="2">Open <code>simplefcam.cpp</code> to start modifying the <code>SimpleFCam::run()</code> function.</li>
+            <li value="3">Create a <code>Flash</code> device and attach it to the <code>Sensor</code> instance:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">FCam::Tegra::Sensor sensor;<br />FCam::Tegra::Flash flash;<br />sensor.attach( &amp;flash );</pre>
+        </blockquote>
+        <ol start="4">
+            <li value="4">Create the two shots:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">std::vector&lt;FCam::Tegra::Shot&gt; shots( 2 );<br />std::vector&lt;FCam::Tegra::Frame&gt; frames( 2 );<br />// Setup the first shot<br />shots[0].exposure     = 25000;<br />shots[0].gain         = 1.0f;<br />shots[0].whiteBalance = 6500;<br /><br />// Copy the shot parameters<br />shots[1] = shots[0];<br /><br />// Create the result images<br />shots[0].image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );<br />shots[1].image = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );</pre>
+        </blockquote>
+        <ol start="5">
+            <li value="5">Now we create a <code>Flash::FireAction</code> that we attach to the first shot.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">// Make an action to fire the flash<br />FCam::Flash::FireAction fire( &amp;flash );<br /><br />// Flash on must be triggered at time 0 - duration is ignored.<br />fire.duration   = flash.minDuration();<br />fire.time       = 0;                        // at the start of the exposure<br />fire.brightness = flash.maxBrightness();    // at full power<br /><br />// Add the fire action to the second shot.<br />shots[0].addAction( fire );</pre>
+        </blockquote>
+        <ol start="6">
+            <li value="6">Send the requests and wait for the frames to come back:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">logStream() &lt;&lt; "Requesting a burst pair of no-flash/flash shots" &lt;&lt; std::endl &lt;&lt; flush();<br />sensor.capture( shots );<br /><br />frames[0] = sensor.getFrame();<br />if( errorCheck() )<br />{<br />    return;<br />}<br /><br />logStream() &lt;&lt;  "Got first frame back!" &lt;&lt; std::endl;<br /><br />FCam::Flash::Tags tags0( frames[0] );<br /><br />frames[1] = sensor.getFrame();<br />if( errorCheck() )<br />{<br />    return;<br />}<br /><br />logStream() &lt;&lt; "Got second frame back!" &lt;&lt; std::endl;<br /><br />FCam::Flash::Tags tags1( frames[1] );<br /><br />sensor.stop();<br /><br />logStream() &lt;&lt; "Frame 0 flash brightness: " &lt;&lt; tags0.brightness &lt;&lt; std::endl;<br />logStream() &lt;&lt; "Frame 1 flash brightness: " &lt;&lt; tags1.brightness &lt;&lt; std::endl;<br />logStream() &lt;&lt; flush();<br /><br />// Save the file to disk.<br />logStream() &lt;&lt; "Saving images..." &lt;&lt; std::endl &lt;&lt; flush();<br />saveJPEG( "SimpleFCam4-noflash.jpg", frames[0] );<br />saveJPEG( "SimpleFCam4-flash.jpg", frames[1] );</pre>
+        </blockquote>
+        <ol start="7">
+            <li value="7">That's all! Build the application and run it.</li>
+        </ol>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>In depth:</b> Flash synchronization is an issue we didn't address much in the code above. In the case of the Tegra Prototype, the camera driver does the flash synchronization; so we just set the <code>Action::time</code> to 0. Also, note that for rolling shutter sensors, different rows of two successive frames could be exposing at the same time, which would be a problem when capturing a flash/no-flash pair. Again, the camera driver is helping us and discards a partially-flashed frame. But if such aid had not been provided, one would need to consider either changing the <code>Shot.frametime</code> to prevent two frames from exposing some rows at the same time. Otherwise, if preserving a short frame time is required, one could discard the partially flashed frame.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Writing a custom device</h3>
+        <p>You can create your own custom device for actions we want to synchronize with the <code>Sensor</code> stream. We do this by creating a new <code>class</code> that inherits from <code>FCam::Device</code> and implements <code>void doAction()</code>. In this example, we will create a <code>SoundPlayer</code> device to play a shutter sound.</p>
+        <ol>
+            <li value="1">Start a new <code>SimpleFCam</code> based project, rename it <code>SimpleFCam5</code>.</li>
+            <li value="2">Add a new header file to the project under <code>jni</code> and call it <code>SoundPlayer.h</code>. To play a sound on Android we will use the OpenSL ES API provided by the Android NDK. The sound file will be an asset that we will embed in our application. Copy and paste the following code:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#ifndef FCAM_BEEPER_H<br />#define FCAM_BEEPER_H<br /><br />/** \file */<br /><br />#include &lt;string&gt;<br /><br />#include &lt;FCam/FCam.h&gt;<br />#include &lt;FCam/Action.h&gt;<br />#include &lt;FCam/Device.h&gt;<br /><br />// for native asset manager<br />#include &lt;sys/types.h&gt;<br />#include &lt;android/asset_manager.h&gt;<br />#include &lt;android/asset_manager_jni.h&gt;<br /><br />// for native audio<br />#include &lt;SLES/OpenSLES.h&gt;<br />#include &lt;SLES/OpenSLES_Android.h&gt;<br /><br />/*<br /> * A synchronized beeper example. As a device,<br /> * it inherits from FCam::Device, and declares<br /> * nested classes that inherit from CopyableAction<br /> */<br />class SoundPlayer : public FCam::Device<br />{<br /><br />public:<br /><br />    SoundPlayer( AAssetManager *mgr );<br />    ~SoundPlayer();<br /><br />    /*<br />     * An action representing the playback of a .WAV file.<br />     */<br />    class SoundAction : public FCam::CopyableAction&lt;SoundAction&gt;<br />    {<br />    public:<br /><br />	/* The enum to return as type() */<br />	enum<br /><br />	{<br />	    SoundPlay = CustomAction + 1,<br />	};
+<br />	/* Constructors and destructor */<br />	~SoundAction();<br />	SoundAction( SoundPlayer *b );<br />	SoundAction( SoundPlayer *b, int time );<br />	SoundAction( const SoundAction &amp;b );<br /><br />	/* Implementation of doAction() as required */<br />	void doAction();<br /><br />	/* Load the specified file into buffer and prepares playback */<br />	void setAsset( const char *asset );<br /><br />	/* Return the underlying device */<br />	SoundPlayer *getPlayer() const<br />	{<br />	    return player;<br />	}
+<br />	int type() const<br />	{<br />	    return SoundPlay;<br />	}<br /><br />    protected:<br /><br />	SoundPlayer *player;<br />	std::string assetname;<br />    };<br /><br />    /* Normally, this is where a device would add metadata tags to a<br />     * just-created frame, based on the timestamps in the<br />     * Frame. However, we don't have anything useful to add here, so<br />     * tagFrame does nothing. */<br />    void tagFrame( FCam::Frame ) {}<br /><br />    /* Play an application asset */<br />    bool playAsset( const char *asset );<br /><br />    /* Returns latency in microseconds */<br />    int getLatency();<br /><br />    void handleEvent( const FCam::Event &amp; ) {};<br /><br />protected:<br /><br />    static bool createEngine();<br />    static bool destroyEngine();<br /><br />    // Asset manager<br />    AAssetManager *mgr;<br /><br />    // Acquired an engine ref<br />    bool acquiredEngineRef;<br /><br />    // file descriptor player interfaces<br />    SLObjectItf   fdPlayerObject;<br />    SLPlayItf     fdPlayerPlay;<br />    SLSeekItf     fdPlayerSeek;<br />    SLMuteSoloItf fdPlayerMuteSolo;<br />    SLVolumeItf   fdPlayerVolume;<br />};<br /><br />#endif</pre>
+        </blockquote>
+        <ol start="3">
+            <li value="3">Now we add a new source file <code>jni/SoundPlayer.cpp</code> that implements the new device:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#include &lt;assert.h&gt;<br />#include "SoundPlayer.h"<br /><br />// engine interfaces<br />static unsigned int engineRefs   = 0;<br />static SLObjectItf  engineObject = NULL;<br />static SLEngineItf  engineEngine;<br /><br />// output mix interfaces<br />static SLObjectItf outputMixObject = NULL;<br /><br />/** \file */<br /><br />/***************************************************************/<br />/* SoundPlayer implementation                                  */<br />/***************************************************************/<br /><br />/* SoundPlayer constructor */<br />SoundPlayer::SoundPlayer( AAssetManager * mgr )<br />    : mgr( mgr ), fdPlayerObject( NULL ), fdPlayerPlay( NULL ), fdPlayerSeek( NULL ),<br />    fdPlayerMuteSolo( NULL ), fdPlayerVolume( NULL )<br />{<br />    if( ( engineRefs == 0 ) &amp;&amp; createEngine() )<br />    {<br />	acquiredEngineRef = true;<br />	engineRefs++;<br />    }<br />    else<br />    {<br />	acquiredEngineRef = true;<br />	engineRefs++;<br />    }
+}<br /><br />/* SoundPlayer destructor */<br />SoundPlayer::~SoundPlayer()<br />{<br />    // destroy file descriptor audio player object, and invalidate all associated interfaces<br />    if( fdPlayerObject != NULL )<br />    {<br />	( *fdPlayerObject )-&gt;Destroy( fdPlayerObject );<br />	fdPlayerObject   = NULL;<br />	fdPlayerPlay     = NULL;<br />	fdPlayerSeek     = NULL;<br />	fdPlayerMuteSolo = NULL;<br />	fdPlayerVolume   = NULL;<br />    }<br /><br />    if( acquiredEngineRef )<br />    {<br />	engineRefs--;<br />	if( engineRefs == 0 )<br />	{<br />	    destroyEngine();<br />	}<br />    }<br />}<br /><br />/* Play a buffer */<br />bool SoundPlayer::playAsset( const char * assetname )<br />{<br />    SLresult result;<br /><br />    // destroy file descriptor audio player object, and invalidate all associated interfaces<br />    if( fdPlayerObject != NULL )<br />    {<br />	( *fdPlayerObject )-&gt;Destroy( fdPlayerObject );<br />	fdPlayerObject   = NULL;<br />	fdPlayerPlay     = NULL;<br />	fdPlayerSeek     = NULL;<br />	fdPlayerMuteSolo = NULL;<br />	fdPlayerVolume   = NULL;<br />    }<br /><br />    assert( NULL != mgr );<br />    AAsset *asset = AAssetManager_open( mgr, assetname, AASSET_MODE_UNKNOWN );<br /><br />    // the asset might not be found<br />    if( NULL == asset )<br />    {<br />	return false;<br />    }<br /><br />    // open asset as file descriptor<br />    off_t start, length;<br />    int fd = AAsset_openFileDescriptor( asset, &amp;start, &amp;length );<br />    assert( 0 &lt;= fd );<br />    AAsset_close( asset );<br /><br />    // configure audio source<br />    SLDataLocator_AndroidFD loc_fd = { SL_DATALOCATOR_ANDROIDFD, fd, start, length };<br />    SLDataFormat_MIME format_mime =  { SL_DATAFORMAT_MIME, NULL, SL_CONTAINERTYPE_UNSPECIFIED };<br />    SLDataSource audioSrc =          { &amp;loc_fd, &amp;format_mime };<br /><br />    // configure audio sink<br />    SLDataLocator_OutputMix loc_outmix = { SL_DATALOCATOR_OUTPUTMIX, outputMixObject };<br />    SLDataSink audioSnk =                { &amp;loc_outmix, NULL };<br /><br />    // create audio player<br />    const SLInterfaceID ids[3] =     { SL_IID_SEEK, SL_IID_MUTESOLO, SL_IID_VOLUME };<br />    const SLboolean req[3] =         { SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE, SL_BOOLEAN_TRUE };<br />    result = ( *engineEngine )-&gt;CreateAudioPlayer( engineEngine, &amp;fdPlayerObject, &amp;audioSrc, &amp;audioSnk, 3, ids, req );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // realize the player<br />    result = ( *fdPlayerObject )-&gt;Realize( fdPlayerObject, SL_BOOLEAN_FALSE );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // get the play interface<br />    result = ( *fdPlayerObject )-&gt;GetInterface( fdPlayerObject, SL_IID_PLAY, &amp;fdPlayerPlay );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // get the seek interface<br />    result = ( *fdPlayerObject )-&gt;GetInterface( fdPlayerObject, SL_IID_SEEK, &amp;fdPlayerSeek );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // get the mute/solo interface<br />    result = ( *fdPlayerObject )-&gt;GetInterface( fdPlayerObject, SL_IID_MUTESOLO, &amp;fdPlayerMuteSolo );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // get the volume interface<br />    result = ( *fdPlayerObject )-&gt;GetInterface( fdPlayerObject, SL_IID_VOLUME, &amp;fdPlayerVolume );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // set the player's state<br />    result = ( *fdPlayerPlay )-&gt;SetPlayState( fdPlayerPlay, SL_PLAYSTATE_PLAYING );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    return ( result == SL_RESULT_SUCCESS );<br />}<br /><br />int SoundPlayer::getLatency()<br />{<br />    return 0;<br />}<br /><br />bool SoundPlayer::createEngine()<br />{<br />    SLresult result;<br /><br />    // create engine<br />    result = slCreateEngine( &amp;engineObject, 0, NULL, 0, NULL, NULL );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // realize the engine<br />    result = ( *engineObject )-&gt;Realize( engineObject, SL_BOOLEAN_FALSE );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // get the engine interface, which is needed in order to create other objects<br />    result = ( *engineObject )-&gt;GetInterface( engineObject, SL_IID_ENGINE, &amp;engineEngine );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // create output mix, with environmental reverb specified as a non-required interface<br />    const SLInterfaceID ids[1] = { SL_IID_ENVIRONMENTALREVERB };<br />    const SLboolean req[1] =     { SL_BOOLEAN_FALSE };<br />    result = ( *engineEngine )-&gt;CreateOutputMix( engineEngine, &amp;outputMixObject, 1, ids, req );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    // realize the output mix<br />    result = ( *outputMixObject )-&gt;Realize( outputMixObject, SL_BOOLEAN_FALSE );<br />    assert( SL_RESULT_SUCCESS == result );<br /><br />    return ( result == SL_RESULT_SUCCESS );<br />}<br /><br />bool SoundPlayer::destroyEngine()<br />{<br />    // destroy output mix object, and invalidate all associated interfaces<br />    if( outputMixObject != NULL )<br />    {<br />	( *outputMixObject )-&gt;Destroy( outputMixObject );<br />	outputMixObject = NULL;<br />    }<br /><br />    // destroy engine object, and invalidate all associated interfaces<br />    if( engineObject != NULL )<br />    {<br />	( *engineObject )-&gt;Destroy( engineObject );<br />	engineObject = NULL;<br />	engineEngine = NULL;<br />    }<br /><br />    return true;<br />}<br /><br />/***************************************************************/<br />/* SoundPlayer::SoundAction implementation                     */<br />/***************************************************************/<br /><br />/* SoundAction constructors */<br />SoundPlayer::SoundAction::SoundAction( SoundPlayer *a )<br />{<br />    player  = a;<br />    time    = 0;<br />    latency = a ? a-&gt;getLatency() : 0;<br />}<br /><br />SoundPlayer::SoundAction::SoundAction( SoundPlayer *a, int t )<br />{<br />    player  = a;<br />    time    = t;<br />    latency = a ? a-&gt;getLatency() : 0;<br />}<br /><br />SoundPlayer::SoundAction::SoundAction( const SoundPlayer::SoundAction &amp;b )<br />{<br />    // Copy fields from the target.<br />    time      = b.time;<br />    latency   = b.latency;<br />    player    = b.getPlayer();<br />    assetname = b.assetname;<br />}<br /><br />/* SoundAction destructor */<br />SoundPlayer::SoundAction::~SoundAction()<br />{<br />}<br /><br />void SoundPlayer::SoundAction::setAsset( const char *asset )<br />{<br />    assetname = asset;<br />}<br /><br />/* Perform the required action */<br />void SoundPlayer::SoundAction::doAction()<br />{<br />    player-&gt;playAsset( assetname.c_str() );<br />}</pre>
+        </blockquote>
+        <ol start="4">
+            <li value="4">Next is time to change the modify <code>simplefcam.cpp</code>. Add a new include:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#include "SoundPlayer.h"</pre>
+        </blockquote>
+        <ol start="5">
+            <li value="5">Now we will write code into <code>SimpleFCam::run()</code>. Our program will capture a shot with two actions; an action to fire the flash and an action to play the shutter sound.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">// Check that the native asset manager was succesfully initialized.<br />if( mNativeAssetManager == NULL )<br />{<br />    return;<br />}<br /><br />// Devices<br />FCam::Tegra::Sensor sensor;<br />FCam::Tegra::Flash  flash;<br /><br />// We defined a custom device to play a sound during the<br />// exposure. See SoundPlayer.h/cpp for details.<br />SoundPlayer audio( mNativeAssetManager );<br /><br />sensor.attach( &amp;flash ); // Attach the flash to the sensor<br />sensor.attach( &amp;audio ); // Attach the sound player to the sensor<br /><br />// Set the shot parameters<br />FCam::Tegra::Shot shot1;<br />shot1.exposure = 50000;<br />shot1.gain     = 1.0f;<br />shot1.image    = FCam::Image( sensor.maxImageSize(), FCam::YUV420p );<br /><br />// Action (Flash)<br />FCam::Flash::FireAction fire( &amp;flash );<br />fire.time       = 0;<br />fire.duration   = flash.minDuration();<br />fire.brightness = flash.maxBrightness();<br /><br />// Action (Sound)<br />SoundPlayer::SoundAction click( &amp;audio );<br />click.time = 0; // Start at the beginning of the exposure<br />click.setAsset( "camera_snd.mp3" );<br /><br />// Attach actions<br />shot1.addAction( fire );<br />shot1.addAction( click );<br /><br />// Order the sensor to capture a shot.<br />// The flash and the shutter sound should happen simultaneously.<br />sensor.capture( shot1 );<br /><br />// Retrieve the frame from the sensor<br />FCam::Tegra::Frame frame = sensor.getFrame();<br /><br />// Write out the file<br />saveJPEG( "SimpleFCam5.jpg", frame );</pre>
+        </blockquote>
+        <ol start="6">
+            <li value="6">Download a <a href="http://soundbible.com/563-Camera-Shutter-Click.html">camera shutter sound</a> and save into the <code>assets</code> folder of the <code>SimpleFCam5</code> project as <code>camera_snd.mp3</code>.</li>
+            <li value="7">Modify <code>Android.mk</code> to include <code>SoundPlayer.cpp</code> and link the <code>OpenSLES</code> library.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">LOCAL_MODULE    := simplefcam<br />LOCAL_SRC_FILES := simplefcam.cpp com_nvidia_simplefcam_SimpleFCamActivity.cpp<br /><span style="background-color: #ffffe0;">LOCAL_SRC_FILES += SoundPlayer.cpp</span><br />LOCAL_STATIC_LIBRARIES  += fcamlib libjpeg<br />LOCAL_SHARED_LIBRARIES  += fcamhal<br /><br /># libraries for native asset manager and OpenSLES<br /><span style="background-color: #ffffe0;">LOCAL_LDLIBS    += -landroid -lOpenSLES</span></pre>
+        </blockquote>
+        <ol start="8">
+            <li value="8">Build and run the application; you should see the flash and hear the shutter sound.</li>
+        </ol>
+        <h3>Using FCam with OpenCV and OpenGL</h3>
+        <p>In this section, we will use the FCam API to retrieve frames from the camera and process them using OpenCV and draw the image on the screen with OpenGL ES. If you haven't yet read the <a href="native_android_opencv.htm#Display_results_using_opengl">Display Results Using OpenGL</a>&#160;section, please do so before proceeding.</p>
+        <p>We will replace the OpenCV camera in <code>SimpleImageOpenCV_GL</code> with an FCam camera.</p>
+        <ol>
+            <li value="1">Import the <code>SimpleImageOpenCV_GL_FCam</code> project to your Eclipse workspace. This will be our starting point.</li>
+            <li value="2">The FCam code will need to provide its own camera control loop. For this purpose, we will create a new class called <code>ImageSource</code> that starts a new worker thread with the purpose of executing the camera control loop. Every frame that becomes available is pushed by the worker thread to a queue of frames that the Engine rendering thread can pop. Add a new file <code>jni/ImageSource.h</code>, with the following code. This is an abstract class that provides the basic framework to launch start a worker thread and manage the available frames queue. A derived class has to implement to <code>work()</code> function to run on the worker thread. We have chosen to store our frames as <code>cv::Mat</code> objects that we can use immediately with OpenCV.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#ifndef __IMAGESOURCE_H<br />#define __IMAGESOURCE_H<br /><br />#include &lt;deque&gt;<br />#include &lt;pthread.h&gt;<br />#include &lt;opencv2/core/core.hpp&gt;<br /><br />class ImageSource<br />{<br />public:<br /><br />    ImageSource();<br />    virtual ~ImageSource();<br /><br />    /* Launches the worker thread */<br />    void start();<br /><br />    /* Stops the worker thread - blocks until<br />     * worker thread has completed.<br />     */<br />    void stop();<br /><br />    /* Returns the number of available frames in<br />     * the frame queue. */<br />    size_t availableFrames();<br /><br />    /* Gets the next frame from the top of the<br />     * queue. Returns false if the queue is empty,<br />     * true if a frame has been retrieved.<br />     */<br />    bool getFrame(cv::Mat &amp;frame);<br /><br />protected:<br /><br />    /* returns true if there was a request to stop work */<br />    bool stopRequested();<br /><br />    /* Work function */<br />    virtual void work() = 0;<br /><br />    /* put a new frame in the available queue */<br />    void addAvailableFrame(cv::Mat &amp;frame);<br /><br />    /* Worker thread entry function */<br />    static void *workerFunc( void *arg );<br /><br />private:<br /><br />    volatile bool       mStopRequested;<br />    pthread_t           mWorkerThread;<br />    pthread_mutex_t     mQueueMutex;<br />    std::deque&lt;cv::Mat&gt; mFramesQueue;<br />};<br /><br />#endif /* __IMAGESOURCE_H */</pre>
+        </blockquote>
+        <p>Now we will add the implementation for these methods. Create a new file, <code>jni/ImageSource.cpp</code>. We provide utility functions <code>addAvailableFrame()</code> to add a new frame to the queue and <code>getFrame()</code> to retrieve the next frame available. The queue is protected by a mutex to prevent concurrent access from the worker and the rendering threads.</p>
+        <blockquote><pre class="prettyprint">#include "ImageSource.h"<br /><br />ImageSource::ImageSource() :<br />    mStopRequested( false ),<br />    mWorkerThread( 0 )<br />{<br />}<br /><br />ImageSource::~ImageSource()<br />{<br />    if ( mWorkerThread != 0 )<br />    {<br />	stop();<br />    }<br />}<br /><br />void ImageSource::start()<br />{<br />    // Create the queue mutex<br />    pthread_mutex_init( &amp;mQueueMutex, NULL );<br /><br />    // Create the thread<br />    pthread_create( &amp;mWorkerThread, NULL, &amp;workerFunc, (void*) this );<br />}<br /><br />void ImageSource::stop()<br />{<br />    // Indicate a stop is being requested.<br />    mStopRequested = true;<br /><br />    // Wait until the worker thread finishes<br />    pthread_join( mWorkerThread, NULL );<br /><br />    // Now that thread has finished, destroy the mutex.<br />    pthread_mutex_destroy( &amp;mQueueMutex );<br /><br />    mWorkerThread = 0;<br />}<br /><br />size_t ImageSource::availableFrames()<br />{<br />    pthread_mutex_lock( &amp;mQueueMutex );<br />    size_t numFrames = mFramesQueue.size();<br />    pthread_mutex_unlock( &amp;mQueueMutex );<br /><br />    return numFrames;<br />}<br /><br />bool ImageSource::getFrame( cv::Mat &amp;frame )<br />{<br />    bool result = true;<br /><br />    pthread_mutex_lock( &amp;mQueueMutex );<br /><br />    if ( mFramesQueue.size() )<br />    {<br />	frame = mFramesQueue.front();<br />	mFramesQueue.pop_front();<br />    }<br />    else<br />    {<br />	result = false;<br />    }<br /><br />    pthread_mutex_unlock( &amp;mQueueMutex );<br /><br />    return result;<br />}<br /><br />void ImageSource::addAvailableFrame(cv::Mat &amp;frame)<br />{<br />    pthread_mutex_lock( &amp;mQueueMutex );<br />    mFramesQueue.push_back(frame);<br />    pthread_mutex_unlock( &amp;mQueueMutex );<br />}<br /><br />bool ImageSource::stopRequested()<br />{<br />    return mStopRequested;<br />}<br /><br />void *ImageSource::workerFunc( void *arg )<br />{<br />    ImageSource *instance = (ImageSource *) arg;<br />    instance-&gt;work();<br />    return NULL;<br />}</pre>
+        </blockquote>
+        <ol start="3">
+            <li value="3">Next we will create a derived class called <code>ImageSourceFCam</code> that implements the FCam control loop. Add a new file <code>jni/ImageSourceFCam.h</code>. As the following code shows, only the constructor, destructor, and <code>work()</code> function need to be provided, the base class provides the remaining infrastructure.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#ifndef _IMAGESOURCEFCAM_H<br />#define _IMAGESOURCEFCAM_H<br /><br />#include "ImageSource.h"<br /><br />/* ImageSourceFCam<br /> * A class that uses the FCam API to stream images<br /> */<br /><br />class ImageSourceFCam : public ImageSource<br />{<br />public:<br /><br />    ImageSourceFCam();<br />    virtual ~ImageSourceFCam();<br /><br />protected:<br /><br />    virtual void work();<br /><br />};<br /><br />#endif /* _IMAGESOURCEFCAM_H */</pre>
+        </blockquote>
+        <ol start="4">
+            <li value="4">Add a new file called <code>jni/ImageSourceFCam.cpp</code> with the following code:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#include &lt;opencv2/highgui/highgui.hpp&gt;<br />#include &lt;opencv2/imgproc/imgproc.hpp&gt;<br /><br />#include "ImageSourceFCam.h"<br />#include "FCam/Tegra.h"<br />#include &lt;FCam/AutoExposure.h&gt;<br />#include &lt;FCam/AutoWhiteBalance.h&gt;<br /><br />ImageSourceFCam::ImageSourceFCam() :<br />ImageSource()<br />{<br />}<br /><br />ImageSourceFCam::~ImageSourceFCam()<br />{<br />}<br /><br />void ImageSourceFCam::work()<br />{<br />    FCam::Tegra::Sensor sensor;<br />    FCam::Tegra::Shot   shot;<br />    int width  = 640;<br />    int height = 480;<br /><br />    // Initial shot parameters<br />    shot.exposure = 20000;<br />    shot.gain = 1.0f;<br />    shot.whiteBalance = 6500;<br /><br />    // Enable histograms for metering and whitebalance<br />    shot.histogram.enabled = true;<br />    shot.histogram.region = FCam::Rect( 0, 0, width, height );<br /><br />    shot.image = FCam::Image(width, height, FCam::YUV420p);<br /><br />    while ( !stopRequested() )<br />    { <br />	// Start streaming this shot.<br />	sensor.stream(shot);<br /><br />	// Wait for a frame<br />	FCam::Tegra::Frame frame = sensor.getFrame();<br /><br />	if ( !frame.image().valid() )<br />	{<br />	    break;<br />	}<br /><br />	// Do auto exposure and auto whitebalance<br />	autoExpose( &amp;shot, frame );<br />	autoWhiteBalance( &amp;shot, frame);<br /><br />	// Wrap the FCam frame as an OpenCV CV_8UC1 image<br />	cv::Mat yuvimg(frame.image().height() * 3 / 2, frame.image().width(), CV_8UC1, (void*)frame.image()(0,0) );<br /><br />	// Convert the YUV420p image to BGR.<br />	cv::Mat rgbimg;<br />	cv::cvtColor(yuvimg, rgbimg, CV_YUV420p2BGR, 3);<br /><br />	// Add new image to the queue.<br />	addAvailableFrame(rgbimg);<br />    }<br /><br />    sensor.stopStreaming();<br />    sensor.stop();<br />}</pre>
+        </blockquote>
+        <p>The FCam code doesn't present any new FCam API concept. What is new in this example is the conversion from <code>YUV420p</code> to a <code>cv::Mat</code>. This is done with the <code>cv::cvtColor</code> function. After the color conversion we push the frame to the queue.</p>
+        <ol start="5">
+            <li value="5">Modify the <code>Android.mk</code> file to add the new source files and update the module name. After this change, verify that your project builds successfully.</li>
+        </ol>
+        <blockquote><pre class="prettyprint" xml:space="preserve">LOCAL_PATH := $(call my-dir)<br />include $(CLEAR_VARS)<br /><br />OPENCV_CAMERA_MODULES  := on<br />OPENCV_INSTALL_MODULES := on<br />OPENCV_LIB_TYPE        := STATIC<br /><br />include $(NVPACK_PATH)/OpenCV-2.4.2-Tegra-sdk/sdk/native/jni/OpenCV-tegra3.mk
+<br /><span style="background-color: #ffffe0;">LOCAL_MODULE := SimpleImageDisplayCVGLFCam</span><br />LOCAL_SRC_FILES := SimpleNativeGL_NV.cpp Engine.cpp DrawRect.cpp RectShader.cpp OpenCV_native.cpp<br /><span style="background-color: #ffffe0;">LOCAL_SRC_FILES += ImageSource.cpp ImageSourceFCam.cpp</span><br />LOCAL_LDLIBS    += -lstdc++ -lc -lm -llog -landroid -ldl -lGLESv2 -lEGL<br />LOCAL_STATIC_LIBRARIES += nv_and_util nv_egl_util nv_bitfont nv_math nv_glesutil nv_hhdds nv_log nv_shader nv_file nv_thread<br /><br /># Add libraries required by FCam.<br />LOCAL_STATIC_LIBRARIES += fcamlib<br />LOCAL_SHARED_LIBRARIES += fcamhal<br /><br />LOCAL_CFLAGS += -std=gnu++0x<br />include $(BUILD_SHARED_LIBRARY)<br /># Add the folder with the NVIDIA helper <br />$(call import-add-path, $(NVPACK_PATH)/TDK_Samples/tegra_android_native_samples_v10p10/libs/jni)<br /><br /># Import the fcam module<br /><span style="background-color: #ffffe0;">$(call import-add-path, $(FCAM4TEGRA_PATH)/modules)</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">$(call import-module,fcam/lib)</span><br /><br /># Import the modules from the NVIDIA helper<br />$(call import-module, nv_and_util)<br />$(call import-module, nv_egl_util)<br />$(call import-module, nv_bitfont)<br />$(call import-module, nv_math)<br />$(call import-module, nv_glesutil)<br />$(call import-module, nv_hhdds)<br />$(call import-module, nv_log)<br />$(call import-module, nv_shader)<br />$(call import-module, nv_file)<br />$(call import-module, nv_thread)<br /></pre>
+        </blockquote>
+        <ol start="6">
+            <li value="6">We are now ready to add our new <code>ImageSource</code> instance to the <code>Engine</code> class. Open <code>jni/Engine.h</code>. Add the following:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#ifndef __ENGINE_H<br />#define __ENGINE_H<br /><br /><span style="background-color: #ffffe0;">// Include the ImageSource abstraction class</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">#include "ImageSource.h"</span></pre>
+        </blockquote>
+        <p>We will add a <code>std::unique_ptr</code> instance to the ImageSource:</p>
+        <blockquote><pre class="prettyprint">    // OpenGL for OpenCV<br />    GLint mCVlineShader;<br /><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    // Image source used to grab frames.</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    std::unique_ptr&lt;ImageSource&gt; mImageSource;</span><br />};
+<br />#endif // __ENGINE_H</pre>
+        </blockquote>
+        <ol start="7">
+            <li value="7">Open <code>jni/Engine.cpp</code>. Begin by adding a new include:</li>
+        </ol>
+        <blockquote><pre class="prettyprint">#include &lt;nv_bitfont/nv_bitfont.h&gt; <br />#include &lt;nv_shader/nv_shader.h&gt;<br /><br /><span style="background-color: #ffffe0;">#include "ImageSourceFCam.h"</span></pre>
+        </blockquote>
+        <p>Modify the code that handles the button events to create and destroy the <code>ImageSourceFCam</code>. When the <b>CAM</b> button is pressed we want to start a new <code>ImageSourceFCam</code> instance, when <b>IMAGE</b> is pressed we want to switch to the image display and destroy the <code>ImageSourceFCam</code> instance.</p>
+        <blockquote><pre class="prettyprint">// Check if the touch was inside of the first button...<br />if( mUiButtonZone[0].inside( mx, my ) )<br />{<br /><span style="background-color: #ffffe0;">    // ``CAM`` button calls a camera capture function here</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    if( mImageSource.get() == nullptr )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	mImageSource.reset( new ImageSourceFCam() );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	mImageSource-&gt;start();</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }
+    mHitButton = 0;</span><br />}<br />// ... or the second<br />else if( mUiButtonZone[1].inside( mx, my ) )<br />{<br /><span style="background-color: #ffffe0;">    // If we are currently running the camera, stop it.</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    if( mImageSource.get() != nullptr )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	// Stop the image source.</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	mImageSource.reset( nullptr );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }
+    // Clear any features that we might have computed</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mCV.mFeature.clear();
+</span><span style="background-color: #ffffe0;">    // ``IMAGE`` button calls a load image function, and</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    // a function to update a texture here.</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    updateCVTexture( mImgTexture, mCV.runLoadCVImg() );
+    mHitButton = 1;</span><br />}</pre>
+        </blockquote>
+        <p>We also want to destroy the mImageSource if the user presses the back key and pauses the active. Inside the <code>Engine::updateFrame</code> function, add the following code:</p>
+        <blockquote><pre class="prettyprint">// Time stands still when we're auto-paused, and we don't<br />// automatically render<br />if( mActiveMode )<br />{<br />    // The time needs to advance in active mode.<br />    advanceTime( deltaTime );<br /><br />    // This will try to set up EGL if it isn't set up<br />    // When we first set up EGL completely, we also load our GLES resources<br />    // If these are already set up or we succeed at setting them all up now, then<br />    // we go ahead and render.<br />    renderFrame( true );<br />}<br />else if( isForcedRenderPending() )  // forced rendering when needed for UI, etc.<br />{<br />    // This forces to render.<br />    renderFrame( true );<br />}<br />else<br />{<br /><span style="background-color: #ffffe0;">    if( mImageSource.get() != nullptr )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	mImageSource.reset( nullptr );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }</span><br />}</pre>
+        </blockquote>
+        <p>Finally, we want to grab a frame from <code>mImageSource</code> inside <code>Engine::renderFrame</code>. The function <b>mImageSource &gt;getFrame</b> returns true if a new frame was available. If none was available, we don't update the rendering texture.</p>
+        <blockquote><pre class="prettyprint">// TODO: Add code to retrieve a frame using FCam<br /><span style="background-color: #ffffe0;">if( mImageSource.get() != nullptr )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">{</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    // If there is a frame available, update the display</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    cv::Mat frame;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    if( mImageSource-&gt;getFrame( frame ) )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	updateCVTexture( mImgTexture, mCV.runOpenCVFeatureDetector( frame ) );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }</span><br />}</pre>
+        </blockquote>
+        <ol start="8">
+            <li value="8">We are almost done. We have updated all our native files. Recall that we need to load the <code>libfcamtegrahal.so</code> shared library in all our FCam applications. To do this, we need to subclass <code>NativeActivity</code>. Add a new Java class called <code>FCamNativeActivity</code> under the package <code>com.nvidia.fcamwithopencv</code>. This class extends <code>android.app.NativeActivity</code> and adds a static method to load the required shared library into the Java VM.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">package com.nvidia.fcamwithopencv;<br /><br />import android.app.NativeActivity;<br /><br />public class FCamNativeActivity extends NativeActivity {<br /><br />    static {<br />	System.loadLibrary( "fcamtegrahal" );<br />    }<br /><br />}</pre>
+        </blockquote>
+        <ol start="9">
+            <li value="9">Finally, we need to modify the <code>AndroidManifest.xml</code>. We will change the package name, remove the <b>android::hasCode="false"</b> tag, substitute <code>NativeActivity</code> with <code>FCamNativeActivity</code> and change the library name to load to <code>SimpleImageDisplayCVGLFCam</code>.</li>
+        </ol>
+        <blockquote><pre class="prettyprint">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android" <br /><span style="background-color: #ffffe0;">package="com.nvidia.fcamwithopencv"</span><br />android:versionCode="1"<br />android:versionName="1.0"&gt;<br /><br />&lt;uses-sdk android:minSdkVersion="14" android:targetSdkVersion="15" /&gt;<br /><br />&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" &gt; &lt;/uses-permission&gt;<br />&lt;uses-permission android:name="android.permission.CAMERA" &gt;&lt;/uses-permission&gt;<br />&lt;uses-feature android:name="android.hardware.camera" &gt;&lt;/uses-feature&gt;<br />&lt;uses-feature android:name="android.hardware.camera.autofocus" &gt;&lt;/uses-feature&gt;<br />&lt;uses-feature android:name="android.hardware.camera.front" android:required="false"/&gt;<br />&lt;uses-feature android:name="android.hardware.camera.front.autofocus" android:required="false"/&gt;<br /><br />&lt;!-- We do not have Java code. Therefore android:hasCode is set to false. --&gt;<br /><span style="background-color: #ffffe0;"> &lt;application android:label="@string/app_name"&gt;</span><br />    &lt;!-- Our activity is the built-in NativeActivity framework class.<br />	This will take care of integrating with our NDK code. --&gt;<br /><span style="background-color: #ffffe0;">   &lt;activity android:name="com.nvidia.fcamwithopencv.FCamNativeActivity"</span><br />	android:label="@string/app_name"<br />	android:configChanges="orientation|keyboard|keyboardHidden"<br />	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"&gt;<br />    &lt;!-- Tell NativeActivity the name of or .so --&gt;<br />    &lt;meta-data android:name="android.app.lib_name"<br /><span style="background-color: #ffffe0;">	android:value="SimpleImageDisplayCVGLFCam" /&gt;</span><br />    &lt;intent-filter&gt;<br />	&lt;action android:name="android.intent.action.MAIN" /&gt;<br />	&lt;category android:name="android.intent.category.LAUNCHER" /&gt;<br />    &lt;/intent-filter&gt;<br />   &lt;/activity&gt;<br /> &lt;/application&gt;<br /><br />&lt;/manifest&gt;</pre>
+        </blockquote>
+        <ol start="10">
+            <li value="10">Now you can build and launch the application. For convenience, we have provided the complete project as <code>SimpleImageOpenCV_GL_FCam_Complete</code>.</li>
+        </ol>
+        <h3>Debugging your FCam application</h3>
+        <p>To debug your FCam application, follow the steps in <a href="native_android_opencv.htm#Debugging_native_opencv">Debugging Native OpenCV</a>&#160;to work around some issues with Google's ADT plugin.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

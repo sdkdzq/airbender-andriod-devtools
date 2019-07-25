@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Devices|Developer Kits|Tegra &quot;Ardbeg&quot; Development Kit">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Flashing the Devkit</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../index.html#devices/ardbeg_flashing.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="devices.htm">Mobile Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="devkit_devices.htm">Developer Kits</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="ardbeg_setup_main.htm">Tegra "Ardbeg" Development Kit</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Flashing the Devkit</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Flashing the Devkit</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>This section details the steps involved in preparing the Ardbeg to be flashed by the provided scripts.</p>
+        <h3>Powering Up the Devkit in Flashing (Forced Recovery)&#160;Mode </h3>
+        <p>The controls to be used in this section are available on the debug board or on the main board (when exposed) and are noted below.  Either method can be used; the steps are the same in either case, with the only difference being the location of the buttons used.</p>
+        <h5>Main Board Buttons</h5>
+        <p>If the expansion board has not been connected, the buttons are still available on the edge of the main board.  The locations of the three buttons of interest are indicated below:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/ardbeg_devkit_mainboard_buttons.png"><img class="MCPopupThumbnail img" data-mc-width="830" data-mc-height="461" src="images/ardbeg_devkit_mainboard_buttons_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <h5>Debug Board Buttons</h5>
+        <p>If you have chosen to connect the debug board, the switches required for flashing the device are all available on this board.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/ardbeg_devkit_debugboard_buttons.png"><img class="MCPopupThumbnail img" data-mc-width="678" data-mc-height="610" src="images/ardbeg_devkit_debugboard_buttons_thumb_500_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 500px;" tabindex="" /></a>
+        </p>
+        <h3>Steps for Placing the Devkit in Recovery Mode</h3>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>NOTE:</b> Unlike previous-generation Tegra devkits, the screen on the Ardbeg devkit remains black when the devkit is booted to recovery mode.  The existence of the recovery device in the Device Manager is the only indication of the device being in recovery mode.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol>
+            <li value="1">Apply power to the device by plugging it in (if not already done).</li>
+            <li value="2">Turn on the device with the power button.  The power lights should illuminate green.</li>
+            <li value="3">Hold the forced recovery button down.</li>
+            <li value="4">Press the reset button, hold for a second, then release it.</li>
+            <li value="5">Wait two more seconds and release the forced recovery button.</li>
+        </ol>
+        <h3>Running the Flashing Script </h3>
+        <p>It is recommended that you flash your device automatically during the installation of NVIDIA&#160;AndroidWorks. However, if you are using a Linux host machine and want to flash your device manually, use the following instructions. </p>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>NOTE:</b> Unlike previous-generation Tegra devkits, the screen on the Ardbeg devkit might remain black when the devkit is being flashed, depending on the version of the OS image being flashed.  In this case, the PC prompt is the only indication of flashing progress.                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Having placed the Ardbeg into recovery mode, open a Linux shell to the directory for the OS image:</p>
+        <ol>
+            <li value="1">Run <code>flash.sh</code>.</li>
+            <li value="2">This will request SU with <code>sudo</code>, and will likely cause a request to enter the password for the user’s Linux account.</li>
+            <li value="3">The device will be flashed, a process that takes several minutes; it will log the progress of each step and produce an error message on failure. </li>
+            <li value="4">On successful flash, the device will reboot to Android automatically.</li>
+            <li value="5">After booting, we recommend going to <b>Settings</b> &gt; <b>Developer Options</b>, and enabling <b>Stay awake</b> in order to avoid the devkit turning itself off after some period of inactivity. <br />Similarly, we recommend going to <b>Settings</b> &gt; <b>Display</b>, and changing the <b>Sleep</b> time to <b>30 minutes</b>.</li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

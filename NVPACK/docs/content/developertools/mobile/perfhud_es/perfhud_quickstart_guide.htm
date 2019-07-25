@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Quickstart Guide</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_quickstart_guide.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Quickstart Guide</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor4"></a>
+        <h1><span class="SystemTitle">Quickstart Guide</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Introduction</h4>
+        <p>This quickstart guide is designed to assist a new user in configuring PerfHUD ES to profile applications on a Tegra device. </p>
+        <p>PerfHUD ES enables experimentation and in-depth analysis of OpenGL ES applications. Through data provided by the OpenGL ES driver and the Tegra SoC, developers are provided live system status, including GPU performance and bottleneck information. This can help target optimizations where they are most needed.</p>
+        <p>The debugging capabilities of PerfHUD ES give full access to the state of the OpenGL ES pipeline, related textures and shaders, and all rendering states. By doing so, the developer is able to find the causes for improper setup, rendering anomalies, and performance issues.</p>
+        <p>Note that all downloads are available on the Tegra Developer's site:</p>
+        <blockquote>
+            <p><a href="http://developer.nvidia.com/tegra-resources" target="_blank">http://developer.nvidia.com/tegra-resources</a>
+            </p>
+        </blockquote>
+        <h4>System Requirements</h4>
+        <h6>Host PC</h6>
+        <ul>
+            <li value="1">Minimum 2GHz CPU with 2GB RAM or more.</li>
+            <li value="2">An OpenGL 1.5 or better GPU (if you have an NVIDIA GeForce 6 series GPU or higher, that should suffice).  <br />The <a href="perfhud_es_user_guide.htm">PerfHUD ES User Guide</a> installed during this setup process covers specific GPU feature requirements in depth, as certain OpenGL extensions are necessary for the host PC to visualize the graphics rendered on the Tegra device.</li>
+            <li value="3">An available USB port for flashing your Tegra device and for connecting through Android ADB.
+            </li>
+            <li value="4">OS Support:<ul style="list-style-type: circle;"><li value="1"><b>Windows</b>: Windows XP, Windows Vista, Windows 7, and Windows 8 (both 32-bit and 64-bit versions). </li><li value="2"><b>Mac</b>: Recent OS X 10.6 has been tested.  Prior OS X versions may work, but have not been verified. Note that flashing is not available on OSX. </li><li value="3"><b>Linux</b>: Ubuntu 10.04 has been tested, but other Debian operating systems may also work.</li></ul></li>
+            <li value="5">Ethernet connection to the Tegra device from the host PC, specifically with an IP address on the Tegra device that is reachable from the host.  Options include:<ul style="list-style-type: circle;"><li value="1">A crossover network cable for direct host-to-device connections (for host with extra Ethernet port, and device with wired Ethernet port).</li><li value="2">Wired Ethernet hub/router with both on the same LAN (for host and/or target with wired Ethernet port).</li><li value="3">Wireless Ethernet AP/router (for target and/or host as available).</li></ul><p>Further detailed network setup instructions are outside the scope of this document.</p></li>
+        </ul>
+        <h6>Tegra Device OS</h6>
+        <ul>
+            <li value="1">Android: A recent Tegra Android OS image which has PerfHUD support.</li>
+            <li value="2">Linux: A recent Tegra LDK or Linux OS with PerfHUD ES support.  We have tested both the 10.8.2 and 10.9.3 L4T releases (which include support in-pack), and an add-on support pack is available for LDK 10.9.3 (which may work with other releases).</li>
+        </ul>
+        <h4>PerfHUD ES&#160;Host Installation </h4>
+        <p>Before you begin, make sure the following steps have been completed:&#160;</p>
+        <ul>
+            <li value="1">The Tegra Android Development Pack has been downloaded and installed for the host operating system that you are using.  The installers are available from the <a href="http://developer.nvidia.com/tegra-resources">Tegra Developer's site</a>. </li>
+            <li value="2">The device has been flashed, booted, and is currently functioning. <br /></li>
+            <li value="3">You have a program to be analyzed that is ready to run on the device. </li>
+        </ul>
+        <h6>Windows Host </h6>
+        <p>The PerfHUD ES launcher shortcut should be added by the installer to the desktop.  The PerfHUD ES Host may also be accessed through the start menu at the following location:</p>
+        <blockquote><pre class="prettyprint">Programs\NVIDIA Corporation\NVIDIA PerfHUD ES Tegra</pre>
+        </blockquote>
+        <p>The default installed location will be <code>C:\NVPACK\perfhud_es</code>.</p>
+        <h6>Linux Host </h6>
+        <p>On Linux, the latest NVIDIA drivers for your graphics card should be installed. If this was not done automatically, you can use the following command to install the driver:&#160;</p>
+        <blockquote><pre class="prettyprint">sudo apt-get install nvidia-current </pre>
+        </blockquote>
+        <p>The PerfHUD ES launcher shortcuts should be added by the installer to the system menu, in one of the following locations:&#160;</p>
+        <blockquote>
+            <ul>
+                <li value="1"><code>Applications</code> &gt; <code>Programming</code> &gt; <code>NVIDIA PerfHUD ES</code></li>
+                <li value="2"><code>Applications</code> &gt; <code>Graphics</code> &gt; <code>NVIDIA PerfHUD ES</code></li>
+            </ul>
+        </blockquote>
+        <p>The default installation location is <code>~/NVPACK/perfhud_es</code>.<br /></p>
+        <h4><a name="PerfHUD"></a>PerfHUD&#160;ES Target Device Support Setup</h4>
+        <h6>Enabling PerfHUD Target Support </h6>
+        <ol>
+            <li value="1">Kill the target application that you want to connect to PerfHUD&#160;ES. </li>
+            <li value="2">Open a command prompt and run the following command:&#160;<code>adb shell setprop debug.perfhudes 1</code> <![CDATA[ ]]></li>
+            <li value="3">Note that you must re-enable PerfHUD ES every time you reboot your device. </li>
+        </ol>
+        <h6>Disabling PerfHUD Target Support</h6>
+        <ol>
+            <li value="1">Kill the target application that you want to connect to PerfHUD&#160;ES. </li>
+            <li value="2">Open a command prompt and run the following command:&#160;<code>adb shell setprop debug.perfhudes 0</code><br /><br /></li>
+        </ol>
+        <h4>LDK Device Setup</h4>
+        <h6>Install PerfHUD ES&#160;Support Pack</h6>
+        <p>At this time, LDK customers will need the <code>tegra_linux_perfhud_10.8_10.9.tgz</code> support pack for this next step – if you don’t already have it, please contact your support representative.</p>
+        <p>Copy the archive to the Tegra device (either copy to boot media from a host Linux PC, or use a remote file transfer like SCP). Then, simply unpack it on-device using a remote shell, using the following syntax:</p>
+        <blockquote><pre class="prettyprint">tar -xzvf tegra_linux_perfhud_10.8_10.9.tgz</pre>
+        </blockquote>
+        <p>If you execute <code>ls</code>, you should see find now have <code>perfhud.sh</code>, as well as two PerfHUD libraries (<code>.so</code> files).  The first time you run the <code>perfhud.sh</code> script, it will detect if the libraries are missing from the system, and attempt to install them properly (moving them to <code>/usr/lib</code>).<br /></p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">Note: If you are using the L4T 10.8.2 pack or later, you can skip this step and go directly to the “Enable or Disable PerfHUD Target Support” section below.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h6>Enable or Disable PerfHUD Target Support </h6>
+        <p>To enable PerfHUD support, open a command shell to the device. From the default user home directory, execute:</p>
+        <blockquote><pre class="prettyprint">./perfhud.sh on</pre>
+        </blockquote>
+        <p>If you later want to turn off PerfHUD support for performance or compatibility reasons, simply execute:</p>
+        <blockquote><pre class="prettyprint">./perfhud.sh off</pre>
+        </blockquote>
+        <p>Note that you must re-enable PerfHUD ES after the device has been rebooted. </p>
+        <h4>Connect to the Target Device </h4>
+        <p>Enable PerfHUD&#160;support on the target device (<a href="#PerfHUD">detailed above</a>), then follow the steps outlined in this section. </p>
+        <h6>Start the Target Application</h6>
+        <p>Launch the application to be profiled on the Tegra device.  The following should be displayed in the log output (remote shell on a Linux device, or adb logcat on an Android device):</p>
+        <blockquote><pre class="prettyprint">NVPerfHUD ES is active.<br />Communication layer init succeed, listen on port 7876.</pre>
+        </blockquote>
+        <p>This indicates the PerfHUD support code is running and waiting for the host app to connect.</p>
+        <h6>Start PerfHUD&#160;ES&#160;Host</h6>
+        <p>Run the PerfHUD ES Host program on your host PC.  You will then be prompted with a dialog requesting the Target device’s IP address.</p>
+        <h6>Connect to Target over TCP/IP</h6>
+        <p>If you are running just a single application, in a non-GLES-accelerated window manager:</p>
+        <ol>
+            <li value="1">Enter the IP address for your target into the PerfHUD ES Host dialog.</li>
+            <li value="2">Click <b>Connect</b>.</li>
+        </ol>
+        <p>
+            <br />If you are running multiple GLES applications simultaneously on the target, or a window manager that also leverages OpenGL ES in addition to applications, you’ll need to use the following steps:</p>
+        <ol>
+            <li value="1">Enter the IP address for your target into the PerfHUD ES Host dialog.</li>
+            <li value="2">Click <b>Refresh</b>.</li>
+            <li value="3">Select your application from the process list.</li>
+            <li value="4">Click <b>Connect</b>. <br /></li>
+        </ol>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        Note that when there’s only a single GLES application running, if you quit the application and then start it (or another GLES app) without exiting the PerfHUD ES Host, the Host will automatically re-establish a connection to the new app instance on the same target and port without user intervention.  This is useful for repeated test runs as you find and fix issues.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Connect to Android Target Using ADB</h4>
+        <p>If ADB exists on your host system, then the PerfHUD ES Host will automatically attempt to connect to running applications on the target device using ADB.  Note that if you have problems with ADB port forwarding, you may need to check that a local firewall is not blocking the port.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

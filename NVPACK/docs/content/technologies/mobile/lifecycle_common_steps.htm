@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop Apps Using Android Application Lifecycle|Basic Android Lifecycle Recommendations">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Common Steps and When They Can Be Done</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/lifecycle_common_steps.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Common Steps and When They Can Be Done</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor94"></a>
+        <h2><span class="SystemTitle">Common Steps and When They Can Be Done</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <h4>Loading and Deleting Game Data</h4>
+        <p>Technically, game data other than OpenGL ES resources can be loaded at any time from <code>onCreate</code> beyond.  Actually, application copies of OpenGL ES resources could be loaded in <code>onCreate</code> as well, but they cannot be loaded to OpenGL ES until it is initialized.  So it may or may not make sense to load the rendering resources so early.<br /></p>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;"><b>Note:</b> Depending on your manifest settings, the application may be brought up and shut down several times during initial launch (see the later section <a href="lifecycle_surprise_app_events.htm">Surprising Application Lifecycle Events and How to Handle Them</a>).  If you choose not to use the settings to avoid this, you may wish to delay the loading of any data until you know that the game is fully launched.  Doing so can avoid doubling or tripling the load time if the system launches and re-launches the app several times.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Initializing and Deleting EGL, Contexts, Surfaces and Rendering Resources</h4>
+        <p>Technically, the following steps can be done at any time between <code>onCreate</code> and <code>onDestroy</code>, as they do not require any specific resources from the app:</p>
+        <ol>
+            <li value="1"><code>eglInitialize</code>.</li>
+            <li value="2">Querying, sorting and selection of the <code>EGLConfig</code>.</li>
+            <li value="3">Creation of the <code>EGLContext</code> for OpenGL ES.</li>
+        </ol>
+        <p>However, the context cannot be bound until there is an <code>EGLSurface</code> that can be bound at the same time.  The <code>EGLSurface</code> in turn cannot be created until there is an Android surface available to attach the <code>EGLSurface</code>.  Such a surface is provided by the <code>surfaceCreated</code> callback.  As a result, in order to fully set up OpenGL ES, we must be between <code>surfaceCreated</code> and <code>surfaceDestroyed</code>.</p>
+        <p>Indeed, since an <code>EGLContext</code> must be bound in order to load OpenGL ES resources (which in turn requires an <code>EGLSurface</code>), this means that we cannot load our 3D resources for the application until we receive <code>surfaceCreated</code>.  We should note further that it is best to wait for <code>surfaceChanged</code> to indicate that the surface has positive width and height as well; some cases can generate temporary 0x0 surfaces.</p>
+        <p>When we receive a <code>surfaceDestroyed</code> callback, we must immediately unbind the <code>EGLSurface</code> and <code>EGLContext</code> (<code>eglMakeCurrent</code> with <code>display, NULL, NULL</code>) and must stop rendering.  However, we do not need to destroy the <code>EGLContext</code> at this time.  It can be kept resident even when it is not bound.  When a new surface is available we can rebind the existing context and we will not have lost any of our rendering resources.  This can avoid an expensive asset reloading process in some lifecycle cases like suspend/resume.</p>
+        <p>We should still consider deleting the <code>EGLContext</code> (and thus freeing resources) in <code>onStop</code>, even if the context is not bound.  If the context is bound, it may be best to release the GLES resources manually using GLES calls.  However, if there is no surface and thus no way to bind the context at the point at which we want to delete the GLES resources, the best option is to destroy the <code>EGLContext</code> manually using <code>eglDestroyContext</code>.</p>
+        <p>One common way to handle initialization by making a function that returns "true" if we are completely ready to load resources, allocating/initializing/failing as needed/possible.  This can handle partial initializations; for example, it can handle the case where we had a surface, lost it due to <code>surfaceDestroyed</code> and now have a new Android surface (and can thus create and bind a new <code>EGLSurface</code>).  The pseudo-code might be as follows:</p><pre class="prettyprint">bool EGLReadytoRender () <br />{<br />   // If we have a bound context and surface, then EGL is ready<br />   if ((Is EGL Context Bound?) == false)<br />   {<br />      // If we have not bound the context and surface,<br />      // do we even _have_ a surface?<br />      if ((Is EGL Surface Created?) == false)<br />      {<br />         // No EGL surface; is EGL is set up at all?<br />         if ((Are EGL Context/Config Initialized?) == false)<br />         {<br />            // Init EGL, the Config and Context here…<br />            if (failed)<br />               return false;<br />           // Mark that we have a new context – this will<br />           // be important later, as a new context bound<br />           // means we can/must load content into it<br />         }
+<br />        if ((Is there a valid Android surface?) == false)<br />           return false;
+<br />        // Create the EGLSurface surface here…<br />        if (failed)<br />           return false;<br />     } 
+
+     // We have a surface and context, so bind them
+
+     // eglMakeCurrent with the surface and context here…
+     if (failed)
+         return false;
+     }
+
+     // One way or another (free or requiring some amount of setup)
+     // We have a fully initialized set of EGL objects… Off we go
+
+   return true;
+}
+
+</pre>
+        <h4>Rendering</h4>
+        <p>In general, an app should only render when it is fully visible and interact-able.  In Android lifecycle terms, this tends to mean:</p>
+        <ul>
+            <li value="1">The app is resumed (between <code>onResume</code> and <code>onPause</code>).</li>
+            <li value="2">The window is focused (<code>onWindowFocusChanged(TRUE)</code>).</li>
+            <li value="3">The EGL objects are in place (see the previous section, but this basically implies that we’re between <code>surfaceCreated</code> and <code>surfaceDestroyed</code> and have a bound surface and context).<br /><br /></li>
+        </ul>
+        <p>There are cases where we might render outside of being the focused window and in rare cases when <code>onPause’d</code>, but those tend to be:</p>
+        <ul>
+            <li value="1">Singletons (single frame rendered) to ensure that an auto-pause screen is rendered prior to stepping out of the way.</li>
+            <li value="2">Low-rate animations for when the window is visible but not focused.<br /></li>
+        </ul>
+        <h4>Catching Resize</h4>
+        <p>In practice, while there are several callbacks that can indicate that a screen resize has occurred (e.g. <code>surfaceChanged</code> and <code>onConfigurationChanged</code>), we have found in practice that these should be used only to trigger a forced-redraw of the application.  Resizing of the window and surface can be delayed in some cases, especially with <code>native_app_glue</code>.  As a safety net, we recommend that at the start of each rendered frame, the application check the size of the window or surface and update their aspect ratio, size, and viewport information.  In this way, any problems from a rogue size change that is not signaled with a callback or is out of sequence can be minimized.<br /></p>
+        <h4>The Case of Suspend/Resume</h4>
+        <p>A very important case to consider is the previously-discussed suspend/resume.  </p>
+        <p>Note the sequence: when the device is suspended, the app receives <code>onPause</code> and focus loss, the signal to stop rendering and playing music.  When the device is resumed, <code>onResume</code> is given.  But the app is NOT visible.  It must not render and must not play sounds yet.  The lock screen covers it.  Users often power up to the lock screen in quiet areas to look at their clock and messages.  If the app began blasting music, it could be a major usability issue.  It is not until the user unlocks the device and the lock screen goes away that the focus regained callback is given.  Only when both focus and <code>onResume</code> have both been given should rendering and sound begin again.  However, the application should not resume to active gameplay on unlock – see the next section for more discussion of this.</p>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;"><b>Note:</b> The application should not resume to active gameplay on unlock. See the next section for more discussion of this.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Auto-pause</h4>
+        <p>In general, gameplay should be paused to some auto-pause screen whenever the user would have lost the ability to control the game for any period of time.  Commonly, this is the case when you are regaining window focus from any form of loss.  This screen should be kept active even once focus is regained.  Do not restart active gameplay just because focus is regained.</p>
+        <p>If you handle window focus regain by simply enabling the gameplay again, the user may be caught off guard and left to catch up.  When receiving an o<code>nWindowFocusChanged(TRUE)</code> after a <code>onWindowFocusChanged(FALSE)</code>, it is best to show an autopause screen to allow the user to resume gameplay on their own time.<br /></p>
+        <h4>Handling Input</h4>
+        <p>In general, most applications will want to handle the BACK button explicitly and “eat” the event in order to avoid having Android kill their activity with no further user interaction.  Generally, for games, this involves handling BACK as a “back step” through their UI menus, and then when the start screen is reached, having the BACK button trigger a “do you really want to quit” dialog.  In these cases, the application must signal to Android that it has completely handled the BACK button, and Android should do no further processing.  </p>
+        <p>Depending on the application’s architecture, this will be one of the following:</p>
+        <ul>
+            <li value="1">In Java, handle <code>onKeyDown</code> and <code>onKeyUp</code> by not calling the superclass implementation and by returning “true."</li>
+            <li value="2">In <code>NativeActivity</code>, pass <code>AInputQueue_finishEvent</code> a handled parameter of “1.”</li>
+            <li value="3">In <code>native_app_glue</code>, return “1” from the <code>onInputEvent</code> callback.</li>
+        </ul>
+        <p>The application can always request quit on its own schedule via Java finish or <code>NativeActivity ANativeActivity_finish</code>.<br /></p>
+        <h4>Exiting and Native Apps</h4>
+        <p>Native executables on most platforms signal exit by returning from their main function.  However, since native code in Android is merely one piece of the application, this will not work for native Android applications.</p>
+        <p>Technically, a native Android application should not return from its main function until the framework (<code>NativeActivity</code> or <code>native_app_glue</code>) has requested it.  If an application wishes to proactively exit, they must invoke the Java finish method.  This can be done:</p>
+        <ul>
+            <li value="1">Via JNI calls up to the Java of the application’s activity to invoke <code>Activity::finish</code>.</li>
+            <li value="2">When using <code>NativeActivity</code>, via a native call to <code>ANativeActivity_finish</code>.</li>
+        </ul>
+        <p>Exiting the native entry-point (e.g., <code>android_main</code>) does not necessarily cause the top-level Java application to exit.  Applications should keep their main loops running until requested to exit the thread by <code>APP_CMD_DESTROY</code>.<br /></p>
+        <h4>Saving Game Progress</h4>
+        <p>Game progress will be lost if it is not saved prior to the application being killed.  Since an application is killable in all Android variants after returning from <code>onStop</code>, and is killable on pre-Honeycomb after returning from <code>onPause</code>, these are the obvious callbacks to use to save game state to persistent storage.<br /></p>
+        <h4>Resuming versus Restarting</h4>
+        <p>In addition, it may make sense to save a flag in <code>onPause</code> or <code>onStop</code> that indicates that the current save game is an auto-save, and not a user-initiated save.  Then, if the user exits out of gameplay or entirely out of the game with explicit decisions, clear this "autosaved" flag.</p>
+        <p>When your application is launched, you can check if this is a "fresh" launch initiated by a user or simply your app being relaunched because it was killed silently by Android.  In the latter case, you may want to resume directly to auto-pause in the saved game, since that is presumably where the user last sat before the game was interrupted.  This can make the game appear seamless with respect to getting auto-killed.</p>
+        <p> <![CDATA[ ]]></p>
+        <p> <![CDATA[ ]]></p>
+        <p> <![CDATA[ ]]></p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop OpenGL ES 2.0 Applications for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Tegra-Supported OpenGL ES 2.0 Extensions</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles_extensions.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Tegra-Supported OpenGL ES 2.0 Extensions</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor115"></a>
+        <h2><span class="SystemTitle">Tegra-Supported OpenGL ES 2.0 Extensions</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>Extension support in EGL and GLES differs on a device-by-device and OS-by-OS basis on Tegra.  Applications should always query for extension support on the target platform.  Some of the Khronos-general GLES extensions supported on most Tegra platforms include the following.  The specifications for these extensions may be found at: </p>
+        <blockquote>
+            <p><a href="http://www.khronos.org/registry/gles/" target="_blank">http://www.khronos.org/registry/gles/</a>
+            </p>
+        </blockquote>
+        <table cols="2" style="margin-left: auto;margin-right: auto;">
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <th colspan="2"><b>Vertex and Geometry Extensions</b>
+                    </th>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_packed_float</code> <![CDATA[ ]]></td>
+                    <td>RGB floating-point textures in one 32bpp format </td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_mapbuffer</code> <![CDATA[ ]]></td>
+                    <td>Low-overhead buffer updates </td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_vertex_half_float</code> <![CDATA[ ]]></td>
+                    <td>16-bit float vertex support (1 sign bit, 5 exponent bits, 10 mantissa bits) </td>
+                </tr>
+                <tr>
+                    <th colspan="2"><b>FBO&#160;and Renderbuffer Extensions</b>
+                    </th>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_EGL_image</code> <![CDATA[ ]]></td>
+                    <td>Cross-API images</td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_EGL_image_external</code> <![CDATA[ ]]></td>
+                    <td>Cross-API images</td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_EGL_sync</code> <![CDATA[ ]]></td>
+                    <td>Command-stream synchronization</td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_fbo_render_mipmap</code> <![CDATA[ ]]></td>
+                    <td>Mipmap-level FBO&#160;support</td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_rgb8_rgba8</code> <![CDATA[ ]]></td>
+                    <td>24 and 32bpp FBOs</td>
+                </tr>
+                <tr>
+                    <th colspan="2"><b>Texture Format Extensions</b>
+                    </th>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_bgra</code> <![CDATA[ ]]></td>
+                    <td>Reversed RGBA texture support</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_texture_compression_dxt1</code> <![CDATA[ ]]></td>
+                    <td>DXT1 texture support</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_texture_compression_latc</code> <![CDATA[ ]]></td>
+                    <td>LA compressed textures</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_texture_compression_s3tc</code> <![CDATA[ ]]></td>
+                    <td>DXT3/5 texture support</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_texture_format_BGRA8888</code> <![CDATA[ ]]></td>
+                    <td>Reversed RGBA texture support</td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_compressed_ETC1_RGB8_texture</code> <![CDATA[ ]]></td>
+                    <td>ETC1 textures</td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_texture_float</code> <![CDATA[ ]]></td>
+                    <td>Note that 32-bit floating point textures are accepted, but are converted to 16-bit floating point textures internally, and thus use of this extension is not recommended. </td>
+                </tr>
+                <tr>
+                    <td><code>GL_OES_texture_half_float</code> <![CDATA[ ]]></td>
+                    <td>16-bit (1 sign bit, 5 exponent bits, 10 mantissa bits)</td>
+                </tr>
+                <tr>
+                    <th colspan="2"><b>Texture Feature Extensions</b>
+                    </th>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_texture_filter_anisotropic</code> <![CDATA[ ]]></td>
+                    <td>Anisotropic mipmap filtering</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_texture_array</code> <![CDATA[ ]]></td>
+                    <td>1D arrays of 2D textures</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_unpack_subimage</code> <![CDATA[ ]]></td>
+                    <td>Limited stride support for texture updates</td>
+                </tr>
+                <tr>
+                    <td><code>GL_EXT_occlusion_query_boolean</code> <![CDATA[ ]]></td>
+                    <td>&#160;</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <br />The list below highlights some of the NV-specific extensions and the links to their specifications in the Khronos registry.  Several of these extensions do not yet appear in the registry; the specs for these extensions are included at the end of the chapter.</p>
+        <table cols="2" style="margin-left: auto;margin-right: auto;">
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td><code>EGL_NV_system_time</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/egl/extensions/NV/EGL_NV_system_time.txt" target="_blank">http://www.khronos.org/registry/egl/extensions/NV/EGL_NV_system_time.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_coverage_sample</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/EGL_NV_coverage_sample.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/EGL_NV_coverage_sample.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_depth_nonlinear</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/EGL_NV_depth_nonlinear.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/EGL_NV_depth_nonlinear.txt </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_draw_buffers</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_draw_buffers.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_draw_buffers.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_draw_path</code> <![CDATA[ ]]></td>
+                    <td>Documented at the end of the chapter</td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_fbo_color_attachments</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_fbo_color_attachments.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_fbo_color_attachments.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_platform_binary</code> <![CDATA[ ]]></td>
+                    <td>Deprecated; use source-code shaders</td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_read_buffer</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_read_buffer.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_read_buffer.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_read_depth</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_read_depth_stencil.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_read_depth_stencil.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_read_stencil</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_read_depth_stencil.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_read_depth_stencil.txt</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_shader_framebuffer_fetch</code> <![CDATA[ ]]></td>
+                    <td>Documented at the end of the chapter</td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_texture_compression_s3tc_update</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_texture_compression_s3tc_update.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_texture_compression_s3tc_update.txt</a> <![CDATA[ ]]></td>
+                </tr>
+                <tr>
+                    <td><code>GL_NV_texture_npot_2D_mipmap</code> <![CDATA[ ]]></td>
+                    <td><a href="http://www.khronos.org/registry/gles/extensions/NV/GL_NV_texture_npot_2D_mipmap.txt" target="_blank">http://www.khronos.org/registry/gles/extensions/NV/GL_NV_texture_npot_2D_mipmap.txt</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Other Extension Specs</h3>
+        <p>The following extensions specs are not yet in the Khronos registry site.  They are included at the end of this chapter.</p>
+        <ul>
+            <li value="1"><code>GL_NV_draw_path</code> <![CDATA[ ]]></li>
+            <li value="2"><code>GL_NV_shader_framebuffer_fetch</code> <![CDATA[ ]]></li>
+        </ul>
+        <h4>NV_draw_path</h4>
+        <h5>Name</h5>
+        <blockquote>
+            <p><code>NV_draw_path</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <h5>Name Strings</h5>
+        <blockquote>
+            <p><code>GL_NV_draw_path</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <h5>Contact</h5>
+        <blockquote>
+            <p>Jussi Rasanen, NVIDIA Corporation (jrasanen 'at' nvidia.com)</p>
+            <p>Tero Karras, NVIDIA Corporation (tkarras 'at' nvidia.com)</p>
+        </blockquote>
+        <h5>Notice</h5>
+        <blockquote>
+            <p>Copyright NVIDIA Corporation, ©2008</p>
+        </blockquote>
+        <h5>Status</h5>
+        <blockquote>
+            <p>NVIDIA Proprietary</p>
+        </blockquote>
+        <h5>Version</h5>
+        <blockquote>
+            <p>Last Modified: 2008/09/16</p>
+            <p>NVIDIA Revision: 0.11</p>
+        </blockquote>
+        <h5>Number</h5>
+        <blockquote>
+            <p>XXXX Not Yet XXXX</p>
+        </blockquote>
+        <h5>Dependencies</h5>
+        <blockquote>
+            <p>Written based on the wording of the OpenGL 2.0 Specification.</p>
+            <p>Requires OpenGL-ES 2.0.</p>
+        </blockquote>
+        <h5>Overview</h5>
+        <p>This extension adds functionality to render planar Bezier paths. Use cases for this extension include acceleration of vector graphics content and text rendering.</p>
+        <p>A path is defined as a number of segments, representing either straight lines, or quadratic or cubic Bezier curves, and can be either filled or stroked. Filling corresponds to generating the fragments that lie within the interior of the path. Stroking corresponds to generating the fragments that lie within a region defined by sweeping a straight-line pen along the path.</p>
+        <p>Path segments are specified using a command array and a vertex coordinate array. When a path is drawn, the command array is processed sequentially. There are two categories of commands: ones that cause a path segment to be drawn, and ones that affect how path is rendered. Depending on its type, each command consumes a variable number of coordinates from the vertex coordinate array.</p>
+        <p>When filling a path, the order in which the path segments are specified is disregarded. The only requirement is that they form zero or more closed contours. If a path contains unclosed contours, its interior and thus the resulting set of fragments is undefined. The contours of a path may have self-intersecting geometry and overlap with each other. For such paths, the interior is determined using a fill rule. Two fill rules, even-odd and non-zero, are provided. The direction of path segments matters only with the non-zero fill rule, as explained below.</p>
+        <p>When stroking a path, additional cap and join styles may be applied at the start and end of path segments. Joins are automatically generated between pairs of segments whose corresponding commands are adjacent. Caps are generated based on explicit path commands. </p>
+        <p>Rendering quality can be controlled per path by specifying the maximum deviation from the ideal curve in window space.</p>
+        <h5>Path Rendering Pipeline</h5>
+        <p>The path rendering pipeline consists of three stages: transformation and texture coordinate generation, fill and stroke rasterization, and fragment shader. This extension provides a minimal fixed function transformation and texture coordinate generation stage. Programmable vertex shaders are not supported in the context of path rendering.</p>
+        <h5>Path Definition</h5>
+        <p>Paths are defined as a combination of an immutable sequence of commands and an associated mutable sequence of vertex coordinates. Each command consumes zero or more vertex coordinates. Path commands are represented as unsigned bytes, whereas the data type of the vertex coordinates is specified separately for each path. Path vertices are always two-dimensional.</p>
+        <p>The following table lists the available path commands:</p>
+        <table cols="3" style="margin-left: auto;margin-right: auto;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Path Command</th>
+                    <th>Coords</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>MOVE_TO_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">2</td>
+                    <td>Change the current position.</td>
+                </tr>
+                <tr>
+                    <td><code>LINE_TO_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">2</td>
+                    <td>Draw a straight line. </td>
+                </tr>
+                <tr>
+                    <td><code>QUADRATIC_BEZIER_TO_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">4</td>
+                    <td>Draw a quadratic Bezier curve. </td>
+                </tr>
+                <tr>
+                    <td><code>CUBIC_BEZIER_TO_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">6</td>
+                    <td>Draw a cubic Bezier curve. </td>
+                </tr>
+                <tr>
+                    <td><code>START_MARKER_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">0</td>
+                    <td>Record the current position. </td>
+                </tr>
+                <tr>
+                    <td><code>CLOSE_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">0</td>
+                    <td>Draw line to the recorded position. </td>
+                </tr>
+                <tr>
+                    <td><code>STROKE_CAP0_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">0</td>
+                    <td>Use cap style 0 in adjacent segment. </td>
+                </tr>
+                <tr>
+                    <td><code>STROKE_CAP1_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">0</td>
+                    <td>Use cap style 1 in adjacent segment. </td>
+                </tr>
+                <tr>
+                    <td><code>STROKE_CAP2_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">0</td>
+                    <td>Use cap style 2 in adjacent segment. </td>
+                </tr>
+                <tr>
+                    <td><code>STROKE_CAP3_NV</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;">0</td>
+                    <td>Use cap style 3 in adjacent segment. </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Transformation and Texture Coordinate Generation</h5>
+        <p>Path vertices specified by the vertex coordinate sequence are converted to the homogenous form (x, y, 0, 1) by the transformation stage, and then transformed from model space to clip space using the <code>MATRIX_PATH_TO_CLIP_NV</code> matrix.</p>
+        <p>To facilitate texture mapping and color gradients, the path vertices are also transformed using each of the <code>MATRIX_PATH_COORD[0-3]_NV</code> matrices. A built-in fragment shader varying array <code>gl_PathCoord</code> of type vec4 receives the corresponding interpolated values. The number of elements in the <code>gl_PathCoord</code> array is 4. Although gradients and texture coordinates can also be implemented using the <code>gl_FragCoord</code> built-in fragment shader variable, it is generally more efficient to use <code>gl_PathCoord</code>, avoiding unnecessary per-fragment matrix multiplications.</p>
+        <p><code>MATRIX_PATH_COORD[0-3]_NV</code> and <code>MATRIX_PATH_TO_CLIP_NV</code> can define a homogenous perspective transformation. It is up to the fragment shader to normalize the interpolated coordinates if necessary.</p>
+        <h5>Filling a Path</h5>
+        <p>When filling a path, the path segments must form zero or more closed contours. If any of the contours are left open, the resulting set of fragments is undefined. This requirement can be rephrased as follows, depending on the value of <code>FILL_RULE_NV</code>:</p>
+        <p><b>NON_ZERO_NV:</b>
+        </p>
+        <p>Each two-dimensional point has an equal number of path segments starting and ending at it.<br /></p>
+        <p><b>EVEN_ODD_NV</b>
+        </p>
+        <p>Each two-dimensional point has an even number of path segments starting or ending at it.</p>
+        <p>Note that for any two points to be considered identical, the binary representations of their coordinates must match exactly. </p>
+        <p>To determine the segments to draw, the path commands are processed sequentially. The following temporary values are maintained during the process:</p>
+        <ul>
+            <li value="1"><b>i</b>:  Current vertex coordinate index, initially 0.</li>
+            <li value="2"><b>cp</b>: Current position, initially (0, 0).</li>
+            <li value="3"><b>sp</b>: Start position, initially undefined.</li>
+        </ul>
+        <p>Each path command is processed depending on its type as follows. c[i] is used to denote the i'th value in the vertex coordinate array.<br /></p>
+        <p><b>MOVE_TO_NV:</b>
+        </p>
+        <p>Replace the current position.<br />cp = (c[i+0], c[i+1]), i += 2.<br /></p>
+        <p><b>LINE_TO_NV:</b>
+        </p>
+        <p>Draw a straight line from &lt;cp&gt; to (c[i+0], c[i+1]).<br />cp = (c[i+0], c[i+1]), i += 2.<br /><br /></p>
+        <p><b>QUADRATIC_BEZIER_TO_NV:</b>
+        </p>
+        <p>Draw a quadratic Bezier curve from &lt;cp&gt; to (c[i+2], c[i+3]) using<br />(c[i+0], c[i+1]) as the control point.<br />cp = (c[i+2], c[i+3]), i += 4.<br /></p>
+        <p><b>CUBIC_BEZIER_TO_NV:</b>
+        </p>
+        <p>Draw a cubic Bezier curve from &lt;cp&gt; to (c[i+4], c[i+5]) using<br />(c[i+0], c[i+1]) and (c[i+2], c[i+3]) as the control points.<br />cp = (c[i+4], c[i+5]), i += 6.<br /></p>
+        <p><b>START_MARKER_NV:</b>
+        </p>
+        <p>Replace the start position.<br />sp = cp.<br /></p>
+        <p><b>CLOSE_NV:</b>
+        </p>
+        <p>If &lt;sp&gt; is undefined, ignore the command.<br />Otherwise, draw a straight line from &lt;cp&gt; to &lt;sp&gt;.<br />cp = sp.<br /></p>
+        <p><b>STROKE_CAP[0-3]_NV:</b>
+        </p>
+        <p>Ignore the command.</p>
+        <p><code>START_MARKER_NV</code> and <code>CLOSE_NV</code> commands can be used to implement subpath closure found in many vector graphics content formats. For filled paths, an explicit <code>LINE_TO_NV</code> command to the start position will produce the same result as <code>CLOSE_NV</code>. For stroked paths, the difference is that <code>CLOSE_NV</code> will join the closing line segment to the segment following the <code>START_MARKER_NV</code> command.</p>
+        <p>A fill rule is applied to determine if any given point is contained within the interior of the path. The fill rules are defined by projecting a ray from the point in question to infinity and counting the intersections of the ray and path segments. When looking along the direction of the ray, segments intersecting from left to right increment the counter and right to left segment intersections decrement the counter. If the fill rule is <code>NON_ZERO_NV</code>, the point is within the interior if the final count is non-zero. If the fill rule is <code>EVEN_ODD_NV</code>, the point is within the interior if the final count is odd. The counter must support at least 255 intersections. For more complex paths, the results are undefined.</p>
+        <p>Curves may be approximated within a limit specified by the <code>PATH_QUALITY_NV</code> parameter. The limit defines the radius of a disc in the window space. Placing the disc at each sampling point, the following rules are used to determine whether to generate the corresponding fragments:</p>
+        <ul>
+            <li value="1">If the disc is entirely inside the path, generate a fragment.</li>
+            <li value="2">If the disc is entirely outside the path, do not generate a fragment.</li>
+            <li value="3">If the disc is partially inside the path, whether to generate a fragment is up to the implementation.<br /></li>
+        </ul>
+        <h5>Stroking a Path</h5>
+        <p>Stroking is performed by sweeping a straight-line pen along each path segment, generating fragments for the sampling points touched by the pen. Additionally, cap and join styles may be applied at the start and end of the segments.</p>
+        <p>Cap and join styles are selected for each path segment based on the path commands adjacent to the one specifying the segment, and the values of the path parameters. The general rule is that the end of a segment is joined to start of the following segment if they are specified by adjacent path commands. If the start or end of a segment is not joined, a cap is generated instead.</p>
+        <p>Fill rule is not applied when stroking. Instead, a fragment is generated for each sampling point inside the stroke. Even in case the stroke sweeps over a sampling point multiple times, only one fragment is generated. </p>
+        <p>Dashing is not supported directly. Instead, this extension allows implementing dashing in user code by generating the corresponding. </p>
+        <p>Paths are stroked in a coordinate space distinct from the path user space and the clip space. The transformation from the stroke space to the path user space is controlled by the <code>MATRIX_STROKE_TO_PATH_N</code>V matrix. Both the path user space and the stroke space are two-dimensional, and thus only the 2x2 upper-left components of the matrix are used.</p>
+        <p>Conceptually, stroking a path consists of five steps. First, the path segments are transformed from the path user space to the stroke space using the inverse of the stroke-to-path matrix. Second, the set of points affected by the stroke is determined in the stroke space, using a straight-line pen that extends one unit into each direction. Third, the set of points is transformed from the stroke space back to the path user space using the stroke-to-path matrix. Fourth, the points are further transformed from the path user space to the clip space using the path-to-clip matrix. Fifth, a fragment is generated for each sampling point contained by the set of transformed points.</p>
+        <p>The stroke-to-path matrix allows specifying stroke width independent of how the path itself is transformed. Two common scenarios include scaling stroke, where the stroke width varies as the path-to-clip transformation changes, and non-scaling stroke, where the width remains constant in the clip space. For scaling stroke, the stroke-to-path matrix should be specified as an identity matrix multiplied by half of the desired stroke width in the path user space. For non-scaling stroke, it should be specified as the inverse of the path-to-clip matrix multiplied by half of the stroke width in the clip space.</p>
+        <p>The style of all joins is determined by the <code>STROKE_JOIN_STYLE_NV</code> path parameter, which can be set to one of the following values:</p>
+        <p><b>JOIN_MITER_NV:</b>
+        </p>
+        <p>Extend the incoming and outgoing stroke outlines until they intersect. If the distance between the intersection point and the center point exceeds <code>STROKE_MITER_LIMIT_NV</code> in the stroke space, apply a bevel join instead.<br /></p>
+        <p><b>JOIN_ROUND_NV:</b>
+        </p>
+        <p>Connect the incoming and outgoing stroke outlines with a circular arc segment in the stroke space, corresponding to a radius of one unit.<br /></p>
+        <p><b>JOIN_BEVEL_NV:</b>
+        </p>
+        <p>Connect the incoming and outgoing stroke outlines with a straight line.<br /></p>
+        <p><b>JOIN_CLIPPED_MITER_NV:</b>
+        </p>
+        <p>Same as <code>JOIN_MITER_NV</code> if <code>STROKE_MITER_LIMIT_NV</code> is not exceeded. Otherwise, clip the extended outlines and connect them with a straight line. The clipping is done against a line whose distance from the center point is equal to <code>STROKE_MITER_LIMIT_NV</code> in the stroke space, and whose orientation is symmetrical with regards to the outlines.</p>
+        <p>The style of a start cap depends on the previous path command, and the style of an end cap depends on the next command. If the command is not <code>STROKE_CAP[0-3]_NV</code>, the cap style is <code>STROKE_CAP_BUTT_NV</code>. Otherwise, the style is determined by the corresponding <code>STROKE_CAP[0-3]_STYLE_NV</code> path parameter, each opf which can be set to one of the following values:</p>
+        <p><b>CAP_BUTT_NV:</b>
+        </p>
+        <p>Terminate the segment with a straight line connecting the two outline endpoints.<br /></p>
+        <p><b>CAP_ROUND_NV:</b>
+        </p>
+        <p>Terminate the segment with a semicircle with radius equal to one in the stroke space.<br /></p>
+        <p><b>CAP_SQUARE_NV:</b>
+        </p>
+        <p>Terminate the segment with a rectangle extending one unit along the path tangent.<br /></p>
+        <p><b>CAP_TRIANGLE_NV:</b>
+        </p>
+        <p>Terminate the segment with a triangle with two vertices at the stroke outline endpoints, and a third vertex one unit along the path tangent.</p>
+        <p>As with fill, the path commands are processed sequentially, maintaining the following temporary values:</p>
+        <ul>
+            <li value="1"><b>i</b>:  Current vertex coordinate index, initially 0.</li>
+            <li value="2"><b>cp</b>: Current position, initially (0, 0).</li>
+            <li value="3"><b>ct</b>: Current tangent, initially undefined.</li>
+            <li value="4"><b>cs</b>: Pending cap style, initially butt.</li>
+            <li value="5"><b>sp</b>: Start position, initially undefined.</li>
+            <li value="6"><b>st</b>: Start tangent, initially undefined.</li>
+        </ul>
+        <p>Each command is processed as follows, depending on its type:<br /></p>
+        <p><b>MOVE_TO_NV:</b>
+        </p>
+        <ul>
+            <li value="1">If &lt;ct&gt; is defined, draw a butt end cap at &lt;cp&gt;.</li>
+            <li value="2">cp = (c[i+0], c[i+1]), ct = undefined, cs = butt, i += 2.<br /></li>
+        </ul>
+        <p><b>LINE_TO_NV, QUADRATIC_BEZIER_TO_NV, and CUBIC_BEZIER_TO_NV:</b>
+        </p>
+        <ul>
+            <li value="1">Draw the segment corresponding to the command type.</li>
+            <li value="2">If &lt;ct&gt; is undefined, draw a start cap of style &lt;cs&gt; at &lt;cp&gt;.</li>
+            <li value="3">If &lt;ct&gt; is defined, draw a join at &lt;cp&gt; between &lt;ct&gt; and the start tangent of the segment.</li>
+            <li value="4">If the previous command is <code>START_MARKER_NV</code>, replace &lt;st&gt; with the start tangent of the segment.</li>
+            <li value="5">cp = end point, ct = end tangent, i += num.<br /></li>
+        </ul>
+        <p><b>START_MARKER_NV:</b>
+        </p>
+        <ul>
+            <li value="1">If &lt;ct&gt; is defined, draw a butt end cap at &lt;cp&gt;.</li>
+            <li value="2">ct = undefined, cs = butt, sp = cp, st = undefined.<br /></li>
+        </ul>
+        <p><b>CLOSE_NV:</b>
+        </p>
+        <ul>
+            <li value="1">If &lt;sp&gt; is undefined, ignore the command.</li>
+            <li value="2">Draw a straight line from &lt;cp&gt; to &lt;sp&gt;.</li>
+            <li value="3">If &lt;ct&gt; is undefined, draw a start cap of style &lt;cs&gt; at &lt;cp&gt;.</li>
+            <li value="4">If &lt;ct&gt; is defined, draw a join at &lt;cp&gt; between &lt;ct&gt; and the direction of the line.</li>
+            <li value="5">If &lt;st&gt; is undefined, draw a butt end cap at &lt;sp&gt;.</li>
+            <li value="6">If &lt;st&gt; is defined, draw a join at sp between the direction of the line and &lt;st&gt;.</li>
+            <li value="7">cp = sp, ct = undefined, cs = butt.<br /></li>
+        </ul>
+        <p><b>STROKE_CAP[0-3]_NV:</b>
+        </p>
+        <ul>
+            <li value="1">If &lt;ct&gt; is defined, draw an end cap of the specified style.</li>
+            <li value="2">ct = undefined, cs = style specified by the command.<br /></li>
+        </ul>
+        <p><b>Path Programs</b>
+        </p>
+        <p>Paths are drawn using a special type of program object called a path program. Path programs function like normal program objects, except that they do not allow a vertex shader to be specified. Path programs are created with a new function <code>CreatePathProgramNV()</code>.<br /></p>
+        <p><b>Fragment Shader</b>
+        </p>
+        <p>Fragment shader depth values are obtained by transforming the homogenous vertex coordinates (x, y, 0, 1) into the clip space. This enables mixing 3D and path geometry using depth buffering.</p>
+        <p>Since path programs do not support vertex shaders, path fragment shaders cannot make use of user-defined varyings. Instead, this extension adds built-in variables <code>gl_PathCoord[0-3]</code> of type vec4 that receive interpolated vertex positions transformed with their respective <code>MATRIX_PATH_COORD[0-3]_NV</code> matrices.</p>
+        <p>The value of <code>gl_FrontFacing</code> is undefined when rendering paths.<br /></p>
+        <p><b>The Rest of the Pipeline</b>
+        </p>
+        <p>When rendering paths, stencil functionality and backface culling are not applied. Blending, dithering, depth test, scissor test, polygon offset, and multisampling are applied as with other primitives.</p>
+        <p>Even though stencil test and operation are unavailable when rendering paths, the original contents of the stencil buffer are retained.<br /></p>
+        <p><b>Path Buffers</b>
+        </p>
+        <p>Path buffers facilitate efficient rendering of animated text or other instanced path geometry by making it possible to render multiple path objects with a single draw call. A path buffer contains a list of path object handles and associated translation vectors.<br /></p>
+        <p><b>Invariance Rules</b>
+        </p>
+        <p>Changing path parameters, viewport, transformations and clipping parameters may result in a different set of pixels to be rendered.<br /></p>
+        <p><b>New Procedures and Functions</b>
+        </p>
+        <blockquote><pre class="prettyprint">uint CreatePath NV ( &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum datatype, <br /> &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sizei numCommands, <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const ubyte*&#160;commands );<br />void DeletePath NV (&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;uint path );<br />void PathVerticesNV (&#160;&#160;&#160;&#160;&#160;&#160;&#160; uint path,<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const void* vertices );<br />void PathParameterfNV (&#160;&#160;&#160;&#160;&#160;&#160;uint path, <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum paramType,<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float param );
+void PathParameteriNV (&#160;&#160;&#160;&#160;&#160;&#160;uint path, <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum paramType,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int param );
+uint CreatePathProgram NV (&#160;&#160;void );
+void PathMatrixNV( &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum target,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const float*&#160;value );
+void DrawPathNV ( &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;uint path, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum mode ); 
+uint CreatePathbuffer NV (&#160;&#160;&#160;sizei capacity ); 
+void DeletePathbuffer NV (&#160;&#160;&#160;uint buffer );
+void PathbufferPathNV ( &#160;&#160;&#160;&#160;&#160;uint buffer,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int index,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;uint path );
+void PathbufferPositionNV ( &#160;uint buffer, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int index,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float x, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float y );
+void DrawPathbufferNV ( &#160;&#160;&#160;&#160;&#160;uint buffer, 
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum mode );
+</pre>
+        </blockquote>
+        <p><b>New Types</b>
+        </p>
+        <p>None<br /></p>
+        <p><b>New Tokens</b>
+        </p>
+        <p>Accepted as the &lt;paramType&gt; parameter of <code>PathParameterNV</code>:</p>
+        <blockquote><pre class="prettyprint">PATH_QUALITY_NV&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8ED8 <br />FILL_RULE_NV&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8ED9<br />STROKE_CAP0_STYLE_NV&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EE0
+STROKE_CAP1_STYLE_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EE1
+STROKE_CAP2_STYLE_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EE2
+STROKE_CAP3_STYLE_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EE3
+STROKE_JOIN_STYLE_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EE8
+STROKE_MITER_LIMIT_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EE9</pre>
+        </blockquote>
+        <p>Values for the <code>ILL_RULE_NV</code> path parameter:</p>
+        <blockquote><pre class="prettyprint">EVEN_ODD_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EF0<br />NON_ZERO_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EF1</pre>
+        </blockquote>
+        <p>Values for the <code>CAP[0-3]_STYLE_NV</code> path parameter:</p>
+        <blockquote><pre class="prettyprint">CAP_BUTT_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EF4<br />CAP_ROUND_NV&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EF5
+CAP_SQUARE_NV  &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EF6
+CAP_TRIANGLE_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EF7  </pre>
+        </blockquote>
+        <p>Values for the <code>JOIN_STYLE_NV</code> path parameter:</p>
+        <blockquote><pre class="prettyprint">JOIN_MITER_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EFC<br />JOIN_ROUND_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EFD<br />JOIN_BEVEL_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EFE<br />JOIN_CLIPPED_MITER_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8EFF</pre>
+        </blockquote>
+        <p>Accepted as the &lt;target&gt; parameter of <code>PathMatrixNV</code>:</p>
+        <blockquote><pre class="prettyprint">MATRIX_PATH_TO_CLIP_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F04<br />MATRIX_STROKE_TO_PATH_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F05<br />MATRIX_PATH_COORD0_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F08<br />MATRIX_PATH_COORD1_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F09<br />MATRIX_PATH_COORD2_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F0A<br />MATRIX_PATH_COORD3_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0X8F0B</pre>
+        </blockquote>
+        <p>Accepted as the &lt;mode&gt; parameter of <code>DrawPathbufferNV</code>:</p>
+        <blockquote><pre class="prettyprint">FILL_PATH_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F18<br />STROKE_PATH_NV &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;0x8F19</pre>
+        </blockquote>
+        <p>Accepted as path commands by <code>CreatePathNV</code>:</p>
+        <blockquote><pre class="prettyprint">MOVE_TO_NV  &#160;                   0x00<br />LINE_TO_NV                      0x01<br />QUADRATIC_BEZIER_TO_NV          0x02<br />CUBIC_BEZIER_TO_NV              0x03<br />START_MARKER_NV                 0x20<br />CLOSE_NV                        0x21<br />STROKE_CAP0_NV                  0x40<br />STROKE_CAP1_NV                  0x41<br />STROKE_CAP2_NV                  0x42<br />STROKE_CAP3_NV                  0x43 <br /></pre>
+        </blockquote>
+        <p><b>Additions to Chapter 2 of the OpenGL ES Specification</b>
+        </p>
+        <p>Add the following error conditions to Chapter 2.8, under <code>DrawArrays</code>:</p>
+        <p>"An INVALID_OPERATION error is generated if the current program is a path program."</p>
+        <p>Add the following error conditions to Chapter 2.8, under <code>DrawElements</code>:</p>
+        <p>"An INVALID_OPERATION error is generated if the current program is a path program."</p>
+        <p>Add the following error conditions to Chapter 2.15, under <code>AttachShader</code>.</p>
+        <p>"An INVALID_OPERATION error is generated if the program is a path program and the shader is a vertex shader."</p>
+        <p>Add the following error conditions to Chapter 2.15, under <code>LinkProgram</code>.</p>
+        <p>"Linking a program without a vertex shader will not fail if the program is a path program."<br /></p>
+        <p><b>Additions to Chapter 3 of the OpenGL ES Specification</b>
+        </p>
+        <p>Add a new section between sections 3.5 (Polygons) and 3.6 (Pixel Rectangles)</p>
+        <p>"3.6 Paths</p>
+        <p>This extension adds a new type of primitive, paths, to OpenGL ES'</p>
+        <p>primitives - points, lines, polygons, pixel rectangles and bitmaps.</p>
+        <p>3.6.1 Path objects</p>
+        <p>New path objects are created with the call:&#160;</p>
+        <blockquote><pre class="prettyprint">uint CreatePath NV (      enum datatype, 
+                          sizei numCommands, 
+                          const ubyte* commands );</pre>
+        </blockquote>
+        <p>where &lt;datatype&gt; is the vertex data type and it must be one of <code>[UNSIGNED_]BYTE</code>, <code>[UNSIGNED_]SHORT</code>, <code>[UNSIGNED_]INT</code>, <code>FLOAT</code>, <code>FIXED</code>, &lt;numCommands&gt; is the number of commands in the path definition and &lt;commands&gt; is a pointer to an unsigned byte array of commands. Valid commands are listed below. The function returns a non-zero handle to the object or 0 on error.</p>
+        <p>An <code>INVALID_ENUM</code> error is generated if &lt;datatype&gt; is not one of the values specified above. An <code>INVALID_VALUE</code> error is generated if &lt;numCommands&gt; is less than zero or &lt;numCommands&gt; is greater than zero and &lt;commands&gt; is <code>NULL</code> or the &lt;commands&gt; array contains an invalid command.</p>
+        <p>TODO note that path objects can be shared between multiple contexts.</p>
+        <p>Path objects are deleted with the command</p>
+        <blockquote>
+            <p><code>void DeletePathNV( uint path );</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <p>where &lt;path&gt; is the handle to the path object to delete. If the path is assigned to one or more path buffers, path resources are freed only when the last reference to the path is removed. Path handle is invalid after a call to <code>DeletePathNV</code>. An <code>INVALID_VALUE</code> error is generated if the path object does not exist.</p>
+        <p>Path vertices are specified with the command</p>
+        <blockquote><pre class="prettyprint">void PathVerticesNV( uint path,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const void* vertices );</pre>
+        </blockquote>
+        <p>where &lt;path&gt; is the handle to the path object and &lt;vertices&gt; is a pointer to an array of vertices. &lt;vertices&gt; must contain at least as many coordinate tuples as is consumed by the associated path commands, otherwise the results are undefined, and may lead to a program crash. If &lt;vertices&gt; contains more coordinates than consumed by the path commands, the rest are silently ignored.</p>
+        <p>An INVALID_VALUE error is generated if the specified &lt;path&gt; object does not exist or if &lt;vertices&gt; is NULL and the path command requires vertices.</p>
+        <p>Path parameters are set using the commands</p>
+        <blockquote><pre class="prettyprint">void PathParameterfNV( uint path,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum paramType,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float param );
+
+void PathParameteriNV( uint path,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum paramType,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int param );</pre>
+        </blockquote>
+        <p>where &lt;path&gt; is the path object handle, &lt;paramType&gt; is the parameter to set and &lt;param&gt; is the value of the parameter.</p>
+        <p>The following symbols are accepted as &lt;paramType&gt;:</p>
+        <p><b>PATH_QUALITY_NV</b>
+        </p>
+        <p>Maximum allowed deviation from the ideal path measured in pixels. The default value is 0.5 pixels.<br /></p>
+        <p><b>FILL_RULE_NV</b>
+        </p>
+        <p>Fill rule to use for filling paths. &lt;param&gt; must be either <code>EVEN_ODD_NV</code> or <code>NON_ZERO_NV</code>. The default value is <code>EVEN_ODD_NV</code>.<br /></p>
+        <p><b>STROKE_CAPn_STYLE_NV</b>
+        </p>
+        <p>Cap style for the cap index n used when stroking a path. The default values are <code>CAP_BUTT_NV</code>.<br /></p>
+        <p><b>STROKE_JOIN_STYLE_NV</b>
+        </p>
+        <p>Join style used when stroking a path. The default value is <code>JOIN_MITER_NV</code>.<br /></p>
+        <p><b>STROKE_MITER_LIMIT_NV</b>
+        </p>
+        <p>Miter limit used when stroking a path with miter joins. If a join angle exceeds the limit, a miter join is converted into a bevel join. The default value is 4.</p>
+        <p>If <code>paramType</code> is <code>PATH_QUALITY_NV</code> in <code>PathParameteriNV()</code>, <code>param</code> is converted to a float. If <code>paramType</code> is not <code>PATH_QUALITY_NV</code> in <code>PathParameterfNV()</code>, <code>param</code> is converted to an <code>int</code>. </p>
+        <p>An <code>INVALID_VALUE</code> error is generated if the &lt;path&gt; object does not exist.</p>
+        <p>An <code>INVALID_ENUM</code> error is generated if &lt;paramType&gt; is not any of the above.</p>
+        <p>An <code>INVALID_VALUE</code> error is generated if &lt;paramType&gt; is <code>PATH_QUALITY_NV</code> and &lt;param&gt; &lt;= 0 or &lt;paramType&gt; is <code>STROKE_MITER_LIMIT_NV</code> and &lt;param&gt; &lt; 1. An <code>INVALID_ENUM</code> error is generated if &lt;paramType&gt; is <code>FILL_RULE_NV</code> and <code>param</code> is not a valid fill rule, &lt;paramType&gt; is <code>STROKE_CAPn_STYLE_NV</code> and &lt;param&gt; is not a valid cap style, or &lt;paramType&gt; is <code>STROKE_JOIN_STYLE_NV</code> and &lt;param&gt; is not a valid join style.</p>
+        <p>Path transformations are set using the call</p>
+        <blockquote><pre class="prettyprint">void PathMatrixNV( enum target,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const float* value );</pre>
+        </blockquote>
+        <p>where &lt;value&gt; must specify a 4x4 matrix. </p>
+        <p>The following values are accepted as the &lt;target&gt; parameter:</p>
+        <p><b>MATRIX_PATH_TO_CLIP_NV</b>
+        </p>
+        <p>Used for transforming path vertices into clip space when drawing a path.<br /></p>
+        <p><b>MATRIX_STROKE_TO_PATH_NV</b>
+        </p>
+        <p>Used for transforming the pen when stroking a path. The vertices are subsequently transformed into clip space by <code>MATRIX_PATH_TO_CLIP_NV</code> matrix. Only the top-left 2x2 submatrix is used.<br /></p>
+        <p><b>MATRIX_PATH_COORDn_NV</b>
+        </p>
+        <p>Used for generating values for <code>gl_PathCoord[0-3]</code> varyings for fragment shader by transforming vertex positions. </p>
+        <p>The default value for all matrices is the identity matrix.</p>
+        <p>An <code>INVALID_ENUM</code> error is generated if &lt;target&gt; is not any of the above. An <code>INVALID_VALUE</code> error is generated if value is <code>NULL</code>.</p>
+        <p>A path is rendered using the call</p>
+        <blockquote><pre class="prettyprint">void DrawPathNV( uint path,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum mode );</pre>
+        </blockquote>
+        <p>where &lt;path&gt; is the path to be drawn and &lt;mode&gt; must be either <code>FILL_PATH_NV</code> or <code>STROKE_PATH_NV</code>.</p>
+        <p>An <code>INVALID_VALUE</code> error is generated if the &lt;path&gt; does not exist. An <code>INVALID_OPERATION</code> error is generated if there is no current program, the current program is not a path program, stencil test is enabled, polygon mode is not <code>GL_FILL</code>, or shade model is not <code>GL_SMOOTH</code>. An <code>INVALID_ENUM</code> is generated if &lt;mode&gt; is not <code>FILL_PATH_NV</code> or <code>STROKE_PATH_NV</code>.<br /></p>
+        <h5>3.6.2 Path programs</h5>
+        <p>A path program is a special type of program object that otherwise behaves like a normal program object, but allows attaching only a fragment shader.</p>
+        <p>Path programs are created using the command</p>
+        <blockquote><pre class="prettyprint">uint CreatePathProgramNV( void )</pre>
+        </blockquote>
+        <p>The function returns 0 on error (i.e., <code>OUT_OF_MEMORY</code>).</p>
+        <p>TODO describe LinkProgram error conditions here for clarity?</p>
+        <h5>3.6.3 Path buffers</h5>
+        <p>Path buffers can be used for efficiently rendering multiple instances of a set of path objects with a single draw call. Each path in a path buffer has an associated position vector that allows specifying a model space position offset for that path. Path buffers are created using the function</p>
+        <blockquote><pre class="prettyprint">uint CreatePathbufferNV( sizei capacity )</pre>
+        </blockquote>
+        <p>where &lt;capacity&gt; is the number of paths in a path buffer. This function returns a non-zero handle to a path buffer object or 0 on error.</p>
+        <p>An <code>INVALID_VALUE</code> error is generated if capacity &lt; 0.</p>
+        <p>TODO note that path buffer objects can be shared between multiple contexts</p>
+        <p>Path buffers are deleted using the call</p>
+        <blockquote><pre class="prettyprint">void DeletePathbufferNV( uint buffer );</pre>
+        </blockquote>
+        <p>where &lt;buffer&gt; is the handle to the path buffer. Path buffer handle is invalid after a call to <code>DeletePathbufferNV</code>.</p>
+        <p>An <code>INVALID_VALUE</code> error is generated if the path buffer does not exist.</p>
+        <p>A path can be added to or removed from a path buffer with the function</p>
+        <blockquote><pre class="prettyprint">void PathbufferPathNV( uint buffer,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int index,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;uint path );</pre>
+        </blockquote>
+        <p>where &lt;buffer&gt; is the path buffer object handle, &lt;index&gt; is the index of the path buffer slot and &lt;path&gt; is the path object handle. Path buffer paths are mutable and can be re-specified later. Calling <code>PathbufferPathNV</code> with &lt;path&gt; set to zero removes path from the path buffer and leaves the slot corresponding to &lt;index&gt; empty.</p>
+        <p>An <code>INVALID_VALUE</code> error is generated if the path buffer object &lt;buffer&gt; does not exist, or &lt;index&gt; is less than zero, or greater than or equal to the path buffer capacity.</p>
+        <p>Path buffer path position vector is specified using the call</p>
+        <blockquote><pre class="prettyprint">void PathbufferPositionNV( uint buffer,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int index,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float x,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float y );</pre>
+        </blockquote>
+        <p>where &lt;buffer&gt; is the path buffer object handle, &lt;index&gt; is the index of the path buffer slot and &lt;x&gt; and &lt;y&gt; specify the translation. Path buffer path translations are mutable and can be re-specified later.</p>
+        <p>An <code>INVALID_VALUE</code> error is generated if the path buffer does not exist or index &lt; 0 or index &gt;= path buffer capacity.</p>
+        <p>All paths in a path buffer are rendered using the command</p>
+        <blockquote><pre class="prettyprint">void DrawPathbufferNV( uint buffer,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;enum mode );</pre>
+        </blockquote>
+        <p>An <code>INVALID_VALUE</code> error is generated if &lt;buffer&gt; does not exist. An <code>INVALID_OPERATION</code> error is generated if there is no current program, the current program is not a path program, stencil test is enabled, polygon mode is not <code>GL_FILL</code>, or shade model is not <code>GL_SMOOTH</code>. An <code>INVALID_ENUM</code> is generated if &lt;mode&gt; is not <code>FILL_PATH_NV</code> or <code>STROKE_PATH_NV</code>. The effect of a <code>DrawPathbufferNV</code> call is the same as if <code>DrawPathNV</code> was called for each individual path reference in the path buffer, ordered from the first index to the last."<br /><br /></p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

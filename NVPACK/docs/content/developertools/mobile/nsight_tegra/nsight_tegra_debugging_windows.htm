@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Nsight Tegra Windows</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_debugging_windows.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Nsight Tegra Windows</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor36"></a>
+        <h1><span class="SystemTitle">Nsight Tegra Windows</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h3>Source Window</h3>
+        <p>The source window includes additional commands in the context menu for debugging.</p>
+        <ul>
+            <li value="1"><b>Breakpoint</b> — Inserts a new breakpoint or tracepoint.  If a breakpoint already exists on the line, the breakpoints menu is provided.</li>
+            <li value="2"><b>Add Watch</b> — Adds the current selection to the Watch Window (see <a href="#Watch_Window">Watch Window</a>).</li>
+            <li value="3"><b>QuickWatch</b> — Opens the QuickWatch dialog for the current selection.</li>
+            <li value="4"><b>Show Next Statement</b> —  Opens and positions the editor to the current instruction pointer.</li>
+            <li value="5"><b>Run To Cursor</b> —  Runs the program to the currently selected line.</li>
+            <li value="6"><b>Set Next Statement</b> — Sets the statement that is to be executed next. Can also be accomplished by dragging the yellow execution arrow on the text editor margin.</li>
+            <li value="7"><b>Go To Disassembly</b> —  Opens the disassembly window to the currently selected line (see <a href="#Disassembly_Window">Disassembly</a>).</li>
+        </ul>
+        <h4>Output Window</h4>
+        <p>The Output Window shows build results and debug messages.  Selecting the <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Output</b> menu shows the window.  If logging is enabled by selecting the <b>Tegra</b> &gt;&#160;<b>Windows</b> &gt;&#160;<b>Android Log (logcat)</b> menu item, an <b>Android Log</b> pane will be shown and display log messages from the currently selected device (see   <a href="nsight_tegra_projects.htm#Device_Logging">Device Logging</a>).</p>
+        <h4>Breakpoints Window</h4>
+        <p>The <b>Breakpoints Window</b> displays information for breakpoints set in the current program.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Breakpoints</b> menu shows the window.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_breakpoint_window.png" />
+            </p>
+        </blockquote>
+        <p>Breakpoints that have been set when debugging an application will be re-installed when the program is debugged again.  Breakpoints can be set while the program is running.  The program will be temporarily suspended and then resumed after the breakpoint is installed.</p>
+        <h4><a name="Watch_Window"></a>Watch Window</h4>
+        <p>The <b>Watch Window</b> is used to display variable and expression values.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Watch</b> menu shows the window.  Any valid GDB expression can be entered.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_watch_window.png" />
+            </p>
+        </blockquote>
+        <p>Variables can also be added to the Watch Window by selecting <b>Add Watch</b> from the source window context menu.  A variable can be quickly inspected by right-clicking in the source window and selecting <b>QuickWatch…</b></p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_quickwatch.png" />
+            </p>
+        </blockquote>
+        <h4>Autos Window</h4>
+        <p>The <b>Autos Window</b> is used to display and edit the values for local variables around the currently executing statement.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Autos</b> menu shows the window.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_autos_window.png" />
+            </p>
+        </blockquote>
+        <h4>Immediate Window</h4>
+        <p>The <b>Immediate Window</b> is to evaluate expressions.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_immediate_window.png" />
+            </p>
+        </blockquote>
+        <h4>Locals Window</h4>
+        <p>The <b>Locals Window</b> is used to display and edit the values for local variables and function arguments for the current stack frame.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Locals</b> menu shows the window.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_locals_window.png" />
+            </p>
+        </blockquote>
+        <h4>Call Stack Window</h4>
+        <p>The <b>Call Stack Window</b> displays the names of the current functions on the call stack.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Call Stack</b> menu shows the window.  The functions can be located in the source window by double-clicking.</p>
+        <p>
+            <img src="images/nsight_tegra_call_stack_window.png" />
+        </p>
+        <p>Stack frames can also be selected from the main toolbar.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_stack_frame_toolbar.png" />
+            </p>
+        </blockquote>
+        <h4>Threads Window</h4>
+        <p>The <b>Threads Window</b> shows information for the current program threads.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Threads</b> menu shows the window.  Double-clicking on a thread will locate its current location in the source window.</p>
+        <p>
+            <img src="images/nsight_tegra_threads_window.png" />
+        </p>
+        <p>A thread can also be selected from the main toolbar,</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_threads_toolbar.png" />
+            </p>
+        </blockquote>
+        <h4>Modules Window</h4>
+        <p>The <b>Modules Window</b> shows information for the currently loaded modules.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Modules</b> menu shows the window.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_modules_window.png"><img class="MCPopupThumbnail img" data-mc-width="1462" data-mc-height="282" src="images/nsight_tegra_modules_window_thumb_800_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 800px;" tabindex="" /></a>
+        </p>
+        <h4>Processes Window</h4>
+        <p>The <b>Processes Window</b> shows information for the current process.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Processes</b> menu displays the window.</p>
+        <p>
+            <img src="images/nsight_tegra_processes_window.png" />
+        </p>
+        <h4>Memory Window</h4>
+        <p>The <b>Memory Window</b> is used to view and edit program memory.  Up to four memory views can be opened using the <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Memory</b> menus.  Any valid GDB expression can be entered for the address.</p>
+        <p>
+            <img src="images/nsight_tegra_memory_window.png" />
+        </p>
+        <h4><a name="Disassembly_Window"></a>Disassembly Window</h4>
+        <p>The <b>Disassembly Window</b> is used to display disassembled program code.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Disassembly</b> menu opens the window.  The window can also be opened by right-clicking in the source window and selecting <b>Go To Disassembly</b>.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_disassembly_window.png" />
+            </p>
+        </blockquote>
+        <h4>Registers Window</h4>
+        <p>The <b>Registers Window</b> is used to view and edit target core registers.  The <b>Debug</b> &gt; <b>Windows</b> &gt; <b>Registers</b> menu opens the window.  Registers are written each time a value digit is modified.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_registers_window.png" />
+            </p>
+        </blockquote>
+        <p>Registers can also be displayed and edited using the <b>Watch</b> window (see <a href="#Watch_Window">Watch Window</a>).  Enter the lowercase name of the register prefixed with “$” as the watch expression.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_watch_registers.png" />
+            </p>
+        </blockquote>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

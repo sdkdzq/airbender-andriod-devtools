@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Controller State System</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_controller_state_system.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Controller State System</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor108"></a>
+        <h1><span class="SystemTitle">Controller State System</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Overview</h4>
+        <p>This game will use a custom, app-specific class, <code>InputDeviceState</code>, to hold the values received from a particular controller.  Since Android only informs the game about changes in state, this class is designed to adapt those events that represent the changes in state into an overall snapshot of the state of the device.  The state can then easily be polled later by any system.  Since two people, and hence two controllers, can play this game, we will need to instantiate two of these objects.  However, we will only instantiate them when needed.  Another typical method would be to instantiate all needed device states at level load time.  The following block lists the class's member variables (ignoring for the moment any member methods):</p>
+        <blockquote><pre class="prettyprint">public static class InputDeviceState {
+&#160;&#160;&#160;&#160;&#160;private InputDevice	mDevice;
+&#160;&#160;&#160;&#160;&#160;private int[]		mAxes;
+&#160;&#160;&#160;&#160;&#160;private float[]		mAxisValues;
+&#160;&#160;&#160;&#160;&#160;private SparseIntArray	mKeys;
+}</pre>
+        </blockquote>
+        <p><code>mDevice</code> is the <code>InputDevice</code>.  We’ll save it here for convenience.  The <code>InputDevice</code> class describes the capabilities of a particular set of inputs that are grouped as a single device, such as a multi-axis, multi-button gamepad.  Even if a device contains multiple input methods, like a pair of joysticks and a set of buttons on a gamepad, there is only one <code>InputDevice</code>.</p>
+        <p>Your game can query which "source" an input came from.  Take for instance, the gamepad mentioned above; it has a pair of joysticks and a set of buttons.  This gamepad is considered one <code>InputDevice</code>.  If you query the <code>InputDevice</code> on what sources it has, you're likely to get joystick sources and button sources.  Every input will have what <code>InputDevice</code> and what source it came from.</p>
+        <p>Since the <code>InputDeviceState</code> class is meant to serve all controller types, from analog joysticks sticks to a keyboard button, it will need to save key pressed information and joystick axes information.   The <code>mAxes</code> array and its companion <code>mAxisValues</code> array, hold the identifying axis id and the current axis value respectively.  Similarly, <code>mKeys</code> will hold the current key value, either up or down.  It is using the Android <code>SparseIntArray</code> using the pressed key’s code (<code>keyCode</code>) as the key for the array.</p>
+        <h4><a name="Axes"></a>Axes</h4>
+        <p>Axes bring a bit more complication to controller use.  A simple key press can be up or down, whereas an axis value requires additional information regarding the mapping of the current position.  For instance, what are the possible minimum/maximum ranges?  Below is helper routine, built with the intention to show axis usage.  It is a member function of the <code>InputDeviceState</code> class and it will process an axis's input.</p>
+        <blockquote><pre class="prettyprint">public static float ProcessAxis(InputDevice.MotionRange range,
+&#160;&#160;&#160;&#160;&#160;float axisvalue) {
+&#160;&#160;&#160;&#160;&#160;float absaxisvalue = Math.abs(axisvalue);
+&#160;&#160;&#160;&#160;&#160;float deadzone = range.getFlat();
+&#160;&#160;&#160;&#160;&#160;if (absaxisvalue &lt;= deadzone) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return 0.0f;
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;float normalizedvalue;
+&#160;&#160;&#160;&#160;&#160;if (axisvalue &lt; 0.0f) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;normalizedvalue = absaxisvalue / range.getMin();
+&#160;&#160;&#160;&#160;&#160;} else {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;normalizedvalue = absaxisvalue / range.getMax();
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;return normalizedvalue;
+}</pre>
+        </blockquote>
+        <p>Every <code>InputDevice</code> can have multiple axes.  A simple analog joystick should have two axes, one for up to down, and the other for left to right.  Each axis has a range associated with it which describes the range values for that axis.  A range,<code> InputDevice.MotionRange</code>, is an input to this routine, as is an axis value.</p>
+        <p>Android typically returns an already normalized (<i>-1.0</i>f to <i>1.0</i>f) axis value.  This routine is being extra careful of calculations to the axis value that may have preceded it by normalizing before exiting.  In reality, for this simple method, this normalization is under the guise of learning a bit more about the <code>MotionRange</code> values and is superfluous.</p>
+        <p>Another <code>MotionRange</code> value, which is not discussed is from the <code>getFuzz()</code> method.  It returns an error tolerance for input device with respect to the axis.  For example, a value of 2 indicates that the axis value may be up to +/- 2 units away from the actual value.  If your game requires precise controller values, the fuzz value should be returned with this method.</p>
+        <p>Starting from the top of the routine, we take the absolute value of the input axis value.  We do this as it simplifies some of our further calculations by either giving magnitude or keeping the sign of the calculation.</p>
+        <p>The next bit of code handles the "dead zone" that most analog controllers have.  Not all controllers at rest report (0, 0).  The dead zone is the area around (0, 0) that should be considered “at rest”.  The value reported for the dead zone from <code>getFlat()</code> is a +/- float value.  If the input value is within this zone, 0.0f is returned.</p>
+        <p>The final bit of code normalizes the input axis value.  Depending on the axis value being negative or positive, we divide against <code>getMin()</code> or <code>getMax()</code> from the range, respectively.  That calculated value is returned as the normalized value.  Note there is little to no error checking in these routines like divide by zero or checking return codes.</p>
+        <h4>Supporting Methods</h4>
+        <p>The <code>InputDeviceState</code> class contains "get" and "set" methods for querying and setting member variables.  We will not cover those here, but will highlight the constructor and an important query function below.</p>
+        <blockquote><pre class="prettyprint">public InputDeviceState(InputDevice device) {
+&#160;&#160;&#160;&#160;&#160;mDevice = device;
+
+&#160;&#160;&#160;&#160;&#160;int numAxes = 0;
+&#160;&#160;&#160;&#160;&#160;for (MotionRange range : device.getMotionRanges()) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if ((range.getSource() &amp; InputDevice.SOURCE_CLASS_JOYSTICK) != 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;numAxes += 1;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;mAxes		= new int[numAxes];
+&#160;&#160;&#160;&#160;&#160;mAxisValues	= new float[numAxes];
+&#160;&#160;&#160;&#160;&#160;mKeys		= new SparseIntArray();
+
+&#160;&#160;&#160;&#160;&#160;int i = 0;
+&#160;&#160;&#160;&#160;&#160;for (MotionRange range : device.getMotionRanges()) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if ((range.getSource() &amp; InputDevice.SOURCE_CLASS_JOYSTICK) != 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mAxes[i++] = range.getAxis();
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;}
+}</pre>
+        </blockquote>
+        <p>The constructor begins with saving off the <code>device</code> for convenience.</p>
+        <p>The next section of code is ultimately trying to count the number of axes we care about from this device.  An axis is defined using a <code>MotionRange</code> which describes the range of values for that axis.  For each <code>MotionRange</code>, we are going to check if that range (hence axis) is from a source we care about and increment <code>numAxes</code>.</p>
+        <p>Each range has a source that can be checked.  We use <code>getSource()</code> to get the source for which the axis is defined.  Then compare that with the defined sources from <code>InputDevice</code>, in this case, <code>InputDevice.SOURCE_CLASS_JOYSTICK</code>.  Since we are dealing with analog controllers, we have chosen to filter out sources that are not traditionally analog like <code>SOURCE_DPAD</code>, <code>SOURCE_GAMEPAD</code>, etc.</p>
+        <p>Now that we have the number of axes (<code>numAxes</code>) the <code>mAxes</code> and <code>mAxisValues</code> arrays can be allocated.  The <code>mKeys</code> sparse array is also allocated at this time.</p>
+        <p>The final section of this constructor populates the <code>mAxes</code> array which contains axis ids.  We again go through all the axes and only consider the <code>SOURCE_CLASS_JOYSTICK</code> axes.  To finally get the axis id we call <code>getAxis()</code> on the range and populate the array.</p>
+        <p>Another support routine, <code>isGameKey</code>, answers the question – given this key code, is it from a gamepad, and therefore should my gamepad care?  This is a static Android method within the <code>KeyEvent</code> class.</p>
+        <blockquote><pre class="prettyprint">KeyEvent.isGamepadButton(keyCode);</pre>
+        </blockquote>
+        <p>The method returns a boolean if the key code is a "gamepad" button – <code>KEYCODE_BUTTON_xx</code>.</p>
+        <h4>Key Presses</h4>
+        <p>The <code>InputDeviceState</code> class will need to be called for all controller events so it can process them and save the state. In this section, we will handle when a key press event has occurred.  When a key is pressed this class needs the <code>onKeyDown()</code> method to be called.  When a key is released, the <code>onKeyUp()</code> method should be called.  Both methods return a <code>boolean</code> indicating whether the key has been processed.</p>
+        <blockquote><pre class="prettyprint">public boolean onKeyDown(KeyEvent event) {
+&#160;&#160;&#160;&#160;&#160;int keyCode = event.getKeyCode();
+
+&#160;&#160;&#160;&#160;&#160;if (event.getRepeatCount() == 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if (isGameKey(keyCode)) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mKeys.put(keyCode, 1);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return true;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;return false;
+}</pre>
+        </blockquote>
+        <p>The <code>onKeyDown</code> method is called with a <code>KeyEvent</code>.  The <code>KeyEvent</code> in Android is used to report key and button events.  To get the key code from the event, we call the <code>getKeyCode()</code> method.</p>
+        <p>Now that we have the key code, we should check if this is a repeat key event, meaning the player is likely holding his finger down on a key.  We do this by calling the <code>getRepeatCount()</code> method from the key event.  If it returns <code>0</code>, it means this is the first down event of the key down/key up pair.  We want to act only on the first down event.</p>
+        <p>Using the first key down event, we check if it’s a key we care about in our game by calling the static function <code>KeyEvent.isGamepadButton()</code>, passing it the key code.</p>
+        <p>So we now have a good key code and we know this event isn’t a repeat event, we finally populate our key state sparse array using <code>mKeys.put(keyCode, 1)</code>.  Basically, this sets the key code to “on” in the <code>mKeys</code> array.</p>
+        <p>We return <code>true</code> or <code>false</code>, depending on whether we processed this key or not.</p>
+        <p>Much of the <code>onKeyUp()</code> method is similar to the <code>onKeyDown()</code> method.  We will skip the similarities and focus quickly on the single difference.</p>
+        <blockquote><pre class="prettyprint">public boolean onKeyUp(KeyEvent event) {
+&#160;&#160;&#160;&#160;&#160;int keyCode = event.getKeyCode();
+
+&#160;&#160;&#160;&#160;&#160;if (isGameKey(keyCode)) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mKeys.put(keyCode, 0);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return true;
+&#160;&#160;&#160;&#160;&#160;}
+&#160;&#160;&#160;&#160;&#160;return false;
+}</pre>
+        </blockquote>
+        <p>Jumping ahead, after we’ve decided this is a valid game key code, we set the key to "off" in our <code>mKey</code> key state array by <code>mKeys.put(keyCode, 0)</code>.  This is the only difference between the down and up methods.</p>
+        <h4>Joystick Movement</h4>
+        <p>In this section, we will handle when a joystick has been moved.  This game only cares about one analog source, the joystick.  Recall in the constructor, when enumerating all the axes of the device, we only focused on the axes that had a source of <code>SOURCE_CLASS_JOYSTICK</code>.  When the joystick has moved this class requires the <code>onJoystickMotion</code> method to be called.</p>
+        <blockquote><pre class="prettyprint">public boolean onJoystickMotion(MotionEvent event) {
+&#160;&#160;&#160;&#160;&#160;if ((event.getSource() &amp; InputDevice.SOURCE_CLASS_JOYSTICK) == 0) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return false;
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;for (int i = 0; i &lt; mAxes.length; i++) {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int axisId		= mAxes[i];
+&#160;&#160;&#160;&#160;&#160;}
+
+&#160;&#160;&#160;&#160;&#160;return true;
+}</pre>
+        </blockquote>
+        <p>The input to this method is the <code>MotionEvent</code>.  This object is used to report movement events.  Anything from touchscreen, mouse, trackball, to joystick can be the source of this event.  Unlike <code>KeyEvents</code>, which return only the new state of a single changing key per event, a <code>MotionEvent</code>returns a simultaneous snapshot of all of the input device's axes.  This is true even if only one of the axes in the device has changed value since the previous <code>MotionEvent</code>.</p>
+        <p>It is also important to note that a <code>MotionEvent</code>event may batch together multiple movement samples within a single object.  These samples are batched for each of the device’s axes.  In this <code>InputDeviceStats</code> class we will only be saving the state of the most recent samples.  The "historical" (batched)&#160;values  will be discussed and used later.</p>
+        <p>The beginning of this method makes sure the input <code>MotionEvent</code>is from a joystick source.  This method is only called when it knows the event is from a joystick source.  While this shouldn't be needed, we are just doing a sanity check on the input.</p>
+        <p>The motion event includes updated values for all axes of the input device.  We have already recorded the indices of the axes we care about in <code>mAxes</code>, likely a proper subset of the device's full set of axes.  Thus, we loop over the <code>mAxes</code> array, each entry of which is the index of an axis of interest.  The <code>MotionEvent</code>member function <code>getAxisValue()</code> maps each index to the axis's current value.  We cache this value in the corresponding element of <code>mAxisValues</code>.</p>
+        <p>The method returns <code>true</code>, indicating it processed the event.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

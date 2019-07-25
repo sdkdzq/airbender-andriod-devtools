@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Highlights</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#developertools/mobile/android_manifest_validator_highlights.htm">Open topic with navigation</a>
+        </p>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Highlights</span>
+        </h1><a name="kanchor148"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>The Android Manifest Validator‘s primary use is to be invoked as a post-build step to help ensure that user-defined rules regarding the manifest of APK files are maintained. A database of particular devices can also be collected and validated against to ensure that the app will show up on the Play store.</p>
+        <p>Usage: <code>AndManVal &lt;subcmd&gt; [cmd opts]</code></p>
+        <p>Valid subcommands</p>
+        <ul>
+            <li value="1"><code>makeconfigs</code> — make config .txt files from any attached devices</li>
+            <li value="2"><code>addconfigs</code> — pull config files from local directory into database file used by this utility</li>
+            <li value="3"><code>validate [-r &lt;filename&gt;] [–no-device-validation] [–no-rules]</code> : validate listed apks against the database. Files may be specified as input, but if none are, the local directory is searched for *.apk files</li>
+        </ul>
+        <p>Options:</p>
+        <ul>
+            <li value="1"><code>-r &lt;filename&gt;</code> —  validate following listed apks vs the rules in the file named filename</li>
+            <li value="2"><code>–no-device-validation</code> —  skip “device database” validation</li>
+            <li value="3"><code>–no-rules</code> — skip rules validation</li>
+        </ul>
+        <p>OS process exit/return value: 0 if no errors, 1 if errors</p>
+        <p>Dependencies: This tool depends on adb and aapt from the Android SDK.</p>
+        <p>If the command is executed with no parameters, the tool print the command help and then perform all of the sub commands in the order shown above.</p>
+        <p>The validation step checks each APK found or specified explicitly as follows:</p>
+        <ul>
+            <li value="1">against all devices in the database to help ensure that the apk(s) will show up in Google Play searches.</li>
+            <li value="2">valid lines in the rules.txt file will also be checked.</li>
+        </ul>
+        <p>The configuration file must be called rules.txt or referenced using the -r flag. </p>
+        <p>An example of the format is shown here:</p>
+        <blockquote><pre class="prettyprint"># each line of this file can consist of:<br /># - a blank line<br /># - a comment line starting with #<br /># - a rule<br />#<br /># rules consist of an action, a key and an optional value<br />#<br /># values are only used for the keys supports-screens and supports-any-density<br /># allowed values:<br />#    supports-any density can have the value true or false<br />#    supports-screens can have any one value defined by Android { 'small' 'medium' 'large' 'xlarge' }<br />#    NOTE: multiple statements are required to test for inclusion of all values<br />#<br /># valid actions:<br /># - require<br />#   - require will cause an error to be emitted if the corresponding key is not in the manifest<br /># - exclude<br />#   - exclude will cause an error to be emitted if the corresponding key is in the manifest<br /># - want<br />#   - want will emit a warning if the key is not in the manifest<br /># - want!<br />#   - want! will emit a warning if the key is in the manifest<br />#<br /># sample content:<br />#<br />#require   android.hardware.bluetooth            # must have this<br />#exclude   android.hardware.microphone           # must not have this<br />#want      android.hardware.nfc                  # warn if this is in the manifest<br />#want!     android.hardware.faketouch            # warn if no faketouch<br />#<br />#suggested settings for supports-screens and supports-any-density:<br />#require   supports-any-density          true<br />#require   supports-screens              small<br />#require   supports-screens              medium<br />#require   supports-screens              large<br />#require   supports-screens              xlarge<br /></pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

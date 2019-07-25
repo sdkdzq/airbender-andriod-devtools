@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Use Android Accelerometer">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Coordinate Space Glossary</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/accelerometer_coordinate_space_glossary.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Coordinate Space Glossary</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h2><span class="SystemTitle">Coordinate Space Glossary</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>Android reports accelerometer values in absolute terms. The values reported are always the data from the physical sensor adjusted to match the Android "canonical"<a name="kanchor99"></a> format so that all devices report such data in the same fashion. Android does not transform accelerometer data to be relative to the device orientation. Applications requiring this must perform their own transformations.</p>
+        <p>To that end, this document uses the following definitions of coordinate spaces and coordinate space transformations to maintain consistency:</p>
+        <table cols="2" style="margin-left: auto;margin-right: auto;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Space</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Device Raw</td>
+                    <td>The accelerometer device can output acceleration values in a variety of ways and is not subject to any particular standard.</td>
+                </tr>
+                <tr>
+                    <td>Canonical</td>
+                    <td>Android specifies that the coordinate frame outputted by the driver must remap <b>Device Raw</b> so that the positive X axis is oriented increasing to the right side of the device, the positive Y axis should be increasing to the top of the device, and the positive Z axis is increasing out the display of the device towards the user.<br /> <br />See the <a href="accelerometer_canonical_axes.htm">Accelerometer Canonical Axes</a> reference for further visual guide to <b>Canonical</b> accelerometer layout.
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Screen</td>
+                    <td>The Android window manager’s screen coordinate origin is at the upper left corner and the maximum coordinate is at the lower right corner, i.e. increasing x is right, increasing y is down. Android’s display manager will change the screen orientation based on sensor readings. The screen coordinate system is always relative to the current rotation.</td>
+                </tr>
+                <tr>
+                    <td>World</td>
+                    <td>This coordinate space is specific to OpenGL ES applications. App developers may need to alter the sample code to fit their assumptions in this regard. In this document, it is assumed that applications are using a right-handed coordinate system, up can be any arbitrary vector.
+<br /> <br />NOTE: Many applications will require additional transforms to those shown here to orient their models. Apps using left-handed coordinates may require an additional coordinate inversion as well.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <br />The table below shows transforms of interest and defines a vocabulary for this paper. OpenGL applications will typically be using <code>canonToWorld</code>. Android windowing system based applications will use <code>canonToScreen</code>. Hybrid applications, such as OpenGL applications that use the Android window system to render widgets, will require both.</p>
+        <p>NOTE: The accelerometer device driver handles conversion into Canonical space (handling the <code>deviceToCanon</code> transform), this whitepaper focuses on the <code>canonToScreen</code> and <code>canonToWorld</code> transformations.</p>
+        <table style="margin-left: 0;margin-right: auto;caption-side: top;">
+            <col style="width: 55px;" />
+            <col style="width: 100px;" />
+            <col style="width: 166px;" />
+            <col style="width: 129px;" />
+            <col style="width: 141px;" />
+            <thead>
+                <tr>
+                    <th style="padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">&#160;</th>
+                    <th style="padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">&#160;</th>
+                    <th colspan="3" style="color: #ffffff;background-color: #556b2f;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">Destination</th>
+                </tr>
+                <tr>
+                    <th style="padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">&#160;</th>
+                    <th style="padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">&#160;</th>
+                    <th style="background-color: #f0fff0;font-style: italic;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">Canonical</th>
+                    <th style="background-color: #f0fff0;font-style: italic;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">Screen</th>
+                    <th style="background-color: #f0fff0;font-style: italic;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">World</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2" style="color: #ffffff;background-color: #191970;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">Source</td>
+                    <td style="font-style: italic;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;background-color: #e6e6fa;">Device Raw</td>
+                    <td style="text-align: center;font-family: 'Courier New';border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">deviceToCanon</td>
+                    <td style="text-align: center;font-family: 'Courier New';border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;background-color: #dcdcdc;">&#160;</td>
+                    <td style="text-align: center;font-family: 'Courier New';border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;background-color: #dcdcdc;">&#160;</td>
+                </tr>
+                <tr>
+                    <td style="font-style: italic;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;background-color: #e6e6fa;">Canonical</td>
+                    <td style="text-align: center;font-family: 'Courier New';border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;background-color: #dcdcdc;">&#160;</td>
+                    <td style="text-align: center;font-family: 'Courier New';border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">canonToScreen</td>
+                    <td style="text-align: center;font-family: 'Courier New';border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;">canonToWorld</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

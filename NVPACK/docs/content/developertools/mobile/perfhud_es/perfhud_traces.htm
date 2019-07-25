@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>PerfHUD ES Trace Counters</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_traces.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">PerfHUD ES Trace Counters</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">PerfHUD ES Trace Counters</span>
+        </h1>
+        <p>&#160;</p>
+        <table style="margin-left: auto;margin-right: auto;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Trace Counter </th>
+                    <th>Meaning </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>wait CPU<br />wait 3D<br />wait 2D</code>
+                    </td>
+                    <td>The set of counters to measure how much time is spent on the sync point waiting inside the <code>gles2</code> driver. Current time is obtained before the driver calls wait sync point API, and the current time is obtained again after the API&#160;has returned. <code>Diff</code> contributes the counter value. </td>
+                </tr>
+                <tr>
+                    <td><code>Draw APIs</code>
+                    </td>
+                    <td>This is a set of the driver time API, which is timed like the following:<br /><blockquote><pre class="prettyprint">Time start = getCurrentTime(); //Driver API<br />glDrawElements(...);<br />Time diff = getCurrentTime()  - start;</pre></blockquote><br /><code>Diff</code> contributes to the counter. The driver time counter is made up of all the APIs to be timed. You can also check to see which APIs contribute to a counter by examining the XML&#160;configuration file. This is located by default at <code>&lt;user&gt;\Local\NVIDIA&#160;Corporation\NVIDIA PerfHUD ES Tegra\default.xml</code>. <br>D</br></td>
+                </tr>
+                <tr>
+                    <td><code>CPU Load</code>
+                    </td>
+                    <td>The load between current frames. If CPU&#160;frequency scaling information is properly read (note that it may not be present for some devices), the load will be scaled with the CPU's current frequency versus the maximum frequency, to get absolute load. Otherwise, the value is the same for any CPU&#160;monitor, but based on frame interval rather than time. </td>
+                </tr>
+                <tr>
+                    <td><code>Frame Time</code>
+                    </td>
+                    <td>The interval between two adjacent frames, defined by the frame delimiter. </td>
+                </tr>
+                <tr>
+                    <td><code>Upload APIs</code>
+                    </td>
+                    <td>The sum of the following API timings in the current frame:<br /><blockquote><pre class="prettyprint">glTexImage2D <br />glTexImage3DOES<br />glCompressedTexImage3DOES<br />glCompressedTexImage2D<br />glCompressedTexSubImage2D<br />glTexSubImage2D<br />glTexSubImage3DOES<br />glCompressedTexSubImage3DOES<br />glBufferData<br />glBufferSubData<br />glMapBufferOES<br />glUnmapBufferOES</pre></blockquote><p>For a single API timing, it is obtained as the following: </p><blockquote><pre class="prettyprint">Time start = getCurrentTime(); //Driver API<br />glXXX(...);<br />Time diff = getCurrentTime()  - start;</pre></blockquote><p>This displays the driver API CPU time. You can always find the exact APIs contributing to this counter by looking for "Generic Driver Time Counter 1" in the above XML file.</p></td>
+                </tr>
+                <tr>
+                    <td><code>Wait APIs</code>
+                    </td>
+                    <td>The sum of the following API timings in the current frame:<br /><blockquote><pre class="prettyprint">glFinish<br />glFlush<br />eglWaitGL<br />eglWaitNative<br />eglSwapBuffers<br />eglWaitClient</pre></blockquote><p>This displays the driver API CPU time.You can always find the exact APIs contributing to this counter by looking for "Generic Driver Time Counter 2" in the above XML file.</p></td>
+                </tr>
+                <tr>
+                    <td><code>Texture APIs</code>
+                    </td>
+                    <td>The sum of the following API timings in the current frame:<br /><blockquote><pre class="prettyprint">glteximage2d<br />glteximage3does<br />glcompressedteximage3does<br />glcompressedteximage2d<br />glcompressedtexsubimage2d<br />gltexsubimage2d<br />gltexsubimage3does<br />glcompressedtexsubimage3does</pre></blockquote><br />This displays the driver API CPU time.You can always find the exact APIs contributing to this counter by looking for "Generic Driver Time Counter 3" in the above XML file.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

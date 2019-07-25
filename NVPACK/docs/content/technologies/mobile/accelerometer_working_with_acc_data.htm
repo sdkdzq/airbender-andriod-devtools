@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Use Android Accelerometer">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Working with Acclerometer Data</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/accelerometer_working_with_acc_data.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Working with Acclerometer Data</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor101"></a>
+        <h2><span class="SystemTitle">Working with Acclerometer Data</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>Where screen-relative results are desired, the accelerometer values must be rotated according to the display orientation returned by the Android API’s <code>getOrientation()</code> or  <code>getRotation()</code> functions. Both functions return the same values, but the former is a deprecated usage.</p>
+        <p>The value returned from these functions corresponds to the integers/constants defined in <code>Android.view.Surface</code>, those prefixed with <code>ROTATION_</code>. Below is an example of the invocation of one of these functions. Here <code>this</code> is of type <code>Activity</code>.</p>
+        <blockquote><pre class="prettyprint">WindowManager windowMgr =
+&#160;&#160;&#160;&#160;&#160;(WindowManager)this.getSystemService(WINDOW_SERVICE);
+int rotationIndex = windowMgr.getDefaultDisplay().getRotation();</pre>
+        </blockquote>
+        <p>The returned constants are:</p>
+        <table cols="2">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Constant Name</th>
+                    <th>Index/Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>ROTATION_O</code>
+                    </td>
+                    <td><code>0</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>ROTATION_90</code>
+                    </td>
+                    <td><code>1</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>ROTATION_180</code>
+                    </td>
+                    <td><code>2</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>ROTATION_270</code>
+                    </td>
+                    <td><code>3</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+        </p>
+        <p>Applications can use the rotation value to construct a transformation matrix that will convert Android <i>Canonical</i> accelerometer data to other coordinate spaces.  In order to transform from <i>Canonical</i> aligned accelerometer values into either <i>screen</i> or <i>world</i> aligned accelerometer values, a <code>canonAccel</code> vector needs to be rotated by 90 degree increments based on the <code>rotationIndex</code>, (where <code>ROTATION_0</code> means no rotation is necessary).</p>
+        <p>For the <code>canonToScreen</code> transform, the rotations follow these equations:</p>
+        <blockquote>
+            <p><i>screenAccel</i>[0] = <i>canonAccel</i>[0] * cos⁡<img src="../../generatedimages/equations/equation1.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> - <i>canonAccel</i>[1] * sin⁡<img src="../../generatedimages/equations/equation2.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> <br /><i>screenAccel</i>[1] = -<i>canonAccel</i>[0] * sin⁡<img src="../../generatedimages/equations/equation3.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> - <i>canonAccel</i>[1] * cos⁡<img src="../../generatedimages/equations/equation4.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> <br /><i>screenAccel</i>[2] = <i>canonAccel</i>[2]</p>
+        </blockquote>
+        <p>Where:</p>
+        <blockquote>
+            <p>
+                <img src="../../generatedimages/equations/equation5.png" style="width: 154px;height: 21px;" title="canonToScreen formula" alt="canonToScreen formula" class="MCEquation mcReset" /> </p>
+        </blockquote>
+        <p>A function implementing the <code>canonToScreen</code> transform follows. </p>
+        <blockquote><pre class="prettyprint">static void canonicalToScreen(int     displayRotation,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float[] canVec,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float[] screenVec)
+{
+&#160;&#160;&#160;&#160;&#160;struct AxisSwap
+&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char negateX;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char negateY;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char xSrc;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char ySrc;
+&#160;&#160;&#160;&#160;&#160;};
+&#160;&#160;&#160;&#160;&#160;static const AxisSwap axisSwap[] = {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ 1, -1, 0, 1 },   // ROTATION_0
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{-1, -1, 1, 0 },   // ROTATION_90
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{-1,  1, 0, 1 },   // ROTATION_180
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ 1,  1, 1, 0 } }; // ROTATION_270
+
+&#160;&#160;&#160;&#160;&#160;const AxisSwap&amp; as = axisSwap[displayRotation];
+&#160;&#160;&#160;&#160;&#160;screenVec[0] = (float)as.negateX * canVec[ as.xSrc ];
+&#160;&#160;&#160;&#160;&#160;screenVec[1] = (float)as.negateY * canVec[ as.ySrc ];
+&#160;&#160;&#160;&#160;&#160;screenVec[2] = canVec[2]; 
+}</pre>
+        </blockquote>
+        <p>For the <code>canonToWorld</code> transform, the rotations follow these equations instead:</p>
+        <blockquote>
+            <p><i>screenAccel</i>[0] = <i>canonAccel</i>[0] * cos⁡<img src="../../generatedimages/equations/equation6.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> - <i>canonAccel</i>[1] * sin⁡<img src="../../generatedimages/equations/equation7.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> <br /><i>screenAccel</i>[1] = <i>canonAccel</i>[0] * sin⁡<img src="../../generatedimages/equations/equation8.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> +       <i>canonAccel</i>[1] * cos⁡<img src="../../generatedimages/equations/equation9.png" style="width: 17px;height: 14px;" title="null" alt="null" class="MCEquation mcReset" /> <br /><i>screenAccel</i>[2] = <i>canonAccel</i>[2]</p>
+        </blockquote>
+        <p>This axis-aligned transformation can be put into a static array, as shown below in the <code>canonicalToWorld()</code> function that uses a simple integer lookup array to avoid costly trigonometric functions when converting a canonical space accelerometer vector into an OpenGL-style world space vector.<br /></p>
+        <blockquote><pre class="prettyprint">static void canonicalToWorld( int           displayRotation,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const float*  canVec,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float*        worldVec)
+{
+&#160;&#160;&#160;&#160;&#160;struct AxisSwap
+&#160;&#160;&#160;&#160;&#160;{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char negateX;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char negateY;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char xSrc;
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;signed char ySrc;
+&#160;&#160;&#160;&#160;&#160;};
+&#160;&#160;&#160;&#160;&#160;static const AxisSwap axisSwap[] = {
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ 1,  1, 0, 1 },   // ROTATION_0
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{-1,  1, 1, 0 },   // ROTATION_90
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{-1, -1, 0, 1 },   // ROTATION_180
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{ 1, -1, 1, 0 } }; // ROTATION_270
+
+&#160;&#160;&#160;&#160;&#160;const AxisSwap&amp; as = axisSwap[displayRotation];
+&#160;&#160;&#160;&#160;&#160;worldVec[0] = (float)as.negateX * canVec[ as.xSrc ];
+&#160;&#160;&#160;&#160;&#160;worldVec[1] = (float)as.negateY * canVec[ as.ySrc ];
+&#160;&#160;&#160;&#160;&#160;worldVec[2] = canVec[2];
+}</pre>
+        </blockquote>
+        <p>The next function will compute the axis-angle transform necessary to align a model’s <code>localUp</code> vector with that of the accelerometer. The function returns the vector (<code>rotAxis</code>) and angle (<code>ang</code>), which is sufficient to build a transformation matrix or to build a quaternion to orient a model vertically in <i>World</i> space.</p>
+        <blockquote><pre class="prettyprint">void computeAxisAngle(const float* localUp, const float* worldVec,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float* rotAxis, float* ang)
+{
+&#160;&#160;&#160;&#160;&#160;const Vec3&amp; lup  =  *(Vec3*)localUp;
+&#160;&#160;&#160;&#160;&#160;Vec3 nTarget     =  normalize(*(Vec3*)worldVec);
+&#160;&#160;&#160;&#160;&#160;*rotAxis         =  cross(lup, nTarget);
+&#160;&#160;&#160;&#160;&#160;*rotAxis         =  normalize(*rotAxis);
+&#160;&#160;&#160;&#160;&#160;*ang             = -acosf(dot(lup, nTarget));
+}</pre>
+        </blockquote>
+        <p>The NVIDIA Android NDK Samples includes library functions for building matrices and quaternions from the axis angle representation. It may be necessary to apply an additional rotation to orient objects in the plane orthogonal to the final world vector.</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|OpenCV for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Introduction</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/opencv_intro.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="opencv_main.htm">OpenCV for Tegra</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Introduction</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Introduction</span>
+        </h1><a name="kanchor71"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>The Open Source Computer Vision (<a href="http://www.opencv.org/" target="_blank">OpenCV</a>) package is a collection of native (C/C++) libraries containing over 2500 low- and mid-level image processing and computer vision <a href="http://docs.opencv.org/modules/refman.html" target="_blank">functions</a>. This free, open source (BSD licensed) package has been around for a decade and is widely used by application developers to create both open-source and commercial, high-level computer vision <a href="http://opencv.org/about.html" target="_blank">applications</a>. It has a large community of around 50,000 users all over the world and has been downloaded over eight million times.</p>
+        <p>OpenCV supports several desktop and mobile <a href="http://opencv.org/platforms.html" target="_blank">operating systems</a> including Windows, Linux, Mac OS X, Android and iOS. It runs on x86, MIPS, and ARM CPU <a href="http://opencv.org/platforms.html" target="_blank">architectures</a>. Currently, it also supports <a href="http://opencv.org/platforms/cuda.html" target="_blank">CUDA</a> on both desktop and mobile GPUs. The cross platform nature of OpenCV is advantageous to developers. It allows them to quickly cross compile their existing OpenCV applications for different platforms without significant effort.</p>
+        <h4>OpenCV&#160;for Tegra </h4>
+        <p><a href="http://opencv.org/platforms/android.html" target="_blank">OpenCV for Android</a> is a port of OpenCV to run on the Android operating system. It enables the development of mobile computer vision applications for smart phones and tablets using OpenCV.</p>
+        <p><b>OpenCV for Tegra</b> is a version of OpenCV for Android that NVIDIA optimized specifically for Tegra platform family. It is available for Android and Vibrante (Embedded Linux)&#160;operating systems. On Android, it currently supports Android API levels 9 and higher. It contains Tegra-specific optimizations that enable OpenCV for Tegra to often run several times faster  than the open-source OpenCV for Android implementation.   </p>
+        <p><b>NVIDIA AndroidWorks</b> includes a Software Development Kit (SDK) package for OpenCV for Tegra. It is a one-stop shop for everything developers need to start creating their very own blazing fast Android computer vision applications on Tegra using OpenCV.</p>
+        <p>OpenCV for Tegra is identical to OpenCV for Android in most respects including functionality, usage, and interface. The only difference between them is in the actual execution of functions on the Tegra platforms. The functions in OpenCV for Tegra are highly optimized for Tegra in comparison to the functions in OpenCV for Android.</p>
+        <p>This documentation is not intended to be a guide for learning OpenCV. If you are new to OpenCV, we recommend that you start with OpenCV’s comprehensive online <a href="http://opencv.org/documentation.html" target="_blank">documentation</a>. It contains a wealth of information including an <a href="http://docs.opencv.org/trunk/doc/tutorials/introduction/table_of_content_introduction/table_of_content_introduction.html" target="_blank">introduction</a> to OpenCV, a <a href="http://docs.opencv.org/modules/refman.html" target="_blank">reference manual</a>, which describes its complete Application Programming Interface (API), many <a href="http://docs.opencv.org/doc/tutorials/tutorials.html">tutorials</a>, a <a href="http://docs.opencv.org/doc/user_guide/user_guide.html">user guide</a>, as well as links to books and “how to” videos for beginners of OpenCV.</p>
+        <p>Further note, that this document assumes some basic familiarity with Android application development. If you are new to Android, we strongly encourage you to first review <a href="lifecycle_main.htm">Develop Apps Using the Android Application Lifecycle</a>.</p>
+        <p>This chapter provides information about OpenCV for Tegra, its usage models, its interface, some sample Android applications, and instructions on how to include the OpenCV for Tegra libraries in Android applications. Note, that some parts of this information are identical to the corresponding information for <a href="http://opencv.org/platforms/android.html" target="_blank">OpenCV for Android</a>. However, we also list some features and limitations that are unique to OpenCV for Tegra.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers|Supporting the Android Controller Quickstart">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Advanced Topics and Considerations</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_quickdoc_advanced_topics.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Advanced Topics and Considerations</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Advanced Topics and Considerations</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h5>Consider Adding a Controller Setup Screen </h5>
+        <p>It is impossible to account for all of the different controllers available in one simple specification.  This especially holds true for the Unity engine.  NVIDIA feels with the <a href="game_controller_quickdoc_amalgamated_gamepad.htm">Gamepad Specification</a>, we have balanced simplicity with broad support.</p>
+        <p>For the absolute broadest support, you could add a <b>Controller Setup Screen</b>.  This screen, usually in your Options area, would list off all application actions like jump, select, next page, and shoot.  A user could then select a listed application action and assign it to something from the controller.  For instance, the user presses the "shoot" action, the game waits for an input from the controller, and then the user press “A.”  This would assign “A” to shoot.</p>
+        <h5><a name="Specific_Controller_Tuning"></a>Specific Controller Tuning </h5>
+        <p>While we feel this should be used very rarely, if there are some controllers you’d like to tune your application’s experience to, this can be done by using the controller’s device name.  To get the controller’s name, in Unity you can call <code>Input.GetJoystickNames()</code>, and while using the Android APIs, use <code>InputDevice.getName()</code>.  This can be compared against known names, and proper branching for that tuned experience can happen.</p>
+        <table style="margin-left: auto;margin-right: auto;">
+            <col style="width: 201px;" />
+            <col style="width: 129px;" />
+            <thead>
+                <tr>
+                    <th>Controller Name</th>
+                    <th>Android/Unity Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>NVIDIA&#160;SHIELD&#160;Controller (omit the ".01") </td>
+                    <td>NVIDIA&#160;Corporation NVIDIA&#160;Controller v01.01 </td>
+                </tr>
+                <tr>
+                    <td>Wired XBOX 360 Controller</td>
+                    <td>Microsoft X-Box 360 pad </td>
+                </tr>
+                <tr>
+                    <td>Wireless USB XBOX 360 Controller</td>
+                    <td>X-Box 360 Wireless Receiver </td>
+                </tr>
+                <tr>
+                    <td>Wired PS3 Controller</td>
+                    <td>Sony PLAYSTATION(R)3 Controller </td>
+                </tr>
+                <tr>
+                    <td>Logitech F710 Controller</td>
+                    <td>Generic X-Box pad</td>
+                </tr>
+                <tr>
+                    <td>Logitech F310 Controller</td>
+                    <td>Generic X-Box pad</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Android API&#160;Specifics </h3>
+        <h5><a name="API_Levels"></a>API Levels </h5>
+        <p>The above document tries to give advice for the broadest range of API Levels.  If you’d like to use some newer functions, see <code>InputDevice.getDescriptor</code> (good for when the controller is disconnected or reconnected), <code>InputDevice.getVibrator</code> (query vibrate capabilities), or <code>InputManager</code> class (good for knowing device states).</p>
+        <h5>Handling Controller Flats/Deadzones </h5>
+        <p>Android gives the ability for a developer to ask for a controller’s “deadzone,” or flat per axis.  This is the area around an axis in which there should be considered no movement, for instance, around the analog sticks.  To get this area, call <code>InputDevice.MotionRange.getFlat()</code> which will return a float.  Use this value as +/- around the axis.  For instance, an axis with a flat value of <code>0.12f</code> that goes from <code>-1.0f</code> to <code>1.0f</code> should not consider movement from <code>-0.12f</code> to <code>0.12f</code>.  Consider having a minimum value of approximately <code>0.10f</code> to take non-reporting into account.</p>
+        <p>Unless an application requires enlarging the flat range to give a certain “feel” to a controller, it should be avoided and the value from <code>getFlat</code> should be used.  Otherwise, applications typically feel sluggish and inputs latent.</p>
+        <h5>MotionEvents</h5>
+        <p>Every <code>MotionEvent</code> contains every axis on a device, even if only one axis was changed.  Many applications don’t care about every axis.  For instance, an application may only use the left analog stick (<code>AXIS_X/AXIS_Y</code>) for movement, and nothing else.  This application will still get an event if, for instance, the right analog stick (<code>AXIS_Z/AXIS_RZ</code>) was moved.  If an application handles any <code>MotionEvent</code>, it is highly recommended that it indicates to Android it has handled the event by returning <code>true</code>.  This will make sure Android will not perform its default action for an axis which may not be what the user or developer expects.</p>
+        <h5>MotionEvents and Axes</h5>
+        <p>Noting that every axis is reported in a <code>MotionEvent</code>, consider that some controllers may have other functionality.  This is usually mouse emulation.  It is acceptable for a controller to report the mouse axes as <code>AXIS_X/AXIS_Y</code>, just like the left analog stick.  The difference between the two <code>X/Y</code> sets is that they come from different sources <code>InputDevice.MotionRange.getSource()</code> (see <a href="#Filtering_Events">Filtering Events</a> for more information).   This is a nuance that is easily missed, especially when calling something like <code>MotionEvent.axisFromString(“AXIS_X”)</code> which doesn’t allow an input source and may return the wrong <code>“AXIS_X”</code>.  It is critical that the developer take into account input source on axes.</p>
+        <p>One possible solution is to simply crawl through all the axes, checking the input source on each<code> MotionEvent;</code> shortened for clarity.</p>
+        <blockquote><pre class="prettyprint">for (MotionRange range : device.getMotionRanges())<br />{<br />&#160;&#160;&#160;&#160;&#160;if (((range.getSource() &amp; InputDevice.SOURCE_GAMEPAD) != 0) ||<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;((range.getSource() &amp; InputDevice.SOURCE_JOYSTICK) != 0))<br />&#160;&#160;&#160;&#160;&#160;{<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int nAxisId = range.getAxis();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float nAxisValue = event.getAxisValue(nAxisId);<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;String strAxes = MotionEvent.axisToString(nAxisId);<br />&#160;&#160;&#160;&#160;&#160;}<br />}</pre>
+        </blockquote>
+        <p>If this method, or a variant of it, works for your application, consider caching the <code>nAxisIds</code> that are already filtered by source to simplify, thus allowing a simple call to <code>getAxisValue(nAxisId)</code> for each cached ID.</p>
+        <p>Another possible solution is to ask the <code>InputDevice</code> about each particular axis, using input sources on each <code>MotionEvent;</code> shortened for clarity.</p>
+        <blockquote><pre class="prettyprint">// We care about GAMEPAD and JOYSTICK sources.<br />InputDevice.MotionRange mrX = device.getMotionRange(<br />&#160;&#160;&#160;&#160;&#160;MotionEvent.AXIS_X, InputDevice.SOURCE_JOYSTICK);<br />if (mrX == null)<br />{<br />&#160;&#160;&#160;&#160;&#160;mrX = device.getMotionRange(<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;MotionEvent.AXIS_X, InputDevice.SOURCE_GAMEPAD);<br />}<br />if (mrX != null) {<br />&#160;&#160;&#160;&#160;&#160;int nAxisIdX = mrX.getAxis();<br />&#160;&#160;&#160;&#160;&#160;float nAxisValueX = event.getAxisValue(nAxisIdX);<br />}</pre>
+        </blockquote>
+        <p>This is another case in which caching will simplify code.  Cache the <code>nAxisId</code> in an ordered table by the corresponding axis.  For instance, <code>AXIS_X</code> is always the first entry, <code>AXIS_Y</code> the second, and so on.</p>
+        <h5><a name="Handling_Multiple_Controllers"></a>Handling Multiple Controllers </h5>
+        <p>Every attached input device, including controllers, has an associated device ID number.  Using this id number allows you to easily identify what attached device generated a particular event.  This can be obtained by using the method <code>InputEvent.getDeviceId()</code>.  Keeping track of IDs can allow you to develop single-device multiplayer games.</p>
+        <p>Note that if a controller gets disconnected from the device and reconnects, it will lose its current device ID.  API16 has a way to listen for device connects and disconnects; however, since API16 isn’t widely adopted yet, we need to consider other solutions.  There are several ways of handling a disconnect without API16 functionality. One way would be to periodically poll the <code>InputDevice.getDeviceIds()</code> and wait for another controller to connect.  Another way would be to wait for an event that is not from the device ID you expect, and ask the user about the new controller.  See the <a href="#API_Levels">API Levels</a> topic for further reading on recent APIs that could be helpful.</p>
+        <h5><a name="Filtering_Events"></a>Filtering Events</h5>
+        <p>A device can generate input events from many sources – touchscreen, controllers, headsets, pens, etc.  When it comes to controllers, there are a few ways a developer could filter events to the ones that matter.  Both multiplayer and single player games should consider the first method described below.  For a single player game, only the first method should be considered; otherwise, you risk unnecessary filtering.  In short, filter only as needed.</p>
+        <p>Every event comes from one or more sources.  To get an event’s source bits, use the method <code>InputEvent.getSource()</code>.  For controllers, you should mask against <code>InputDevice.SOURCE_GAMEPAD</code> and <code>InputDevice.SOURCE_JOYSTICK</code>.  If the event is from one or both of those sources, it should be considered as coming from the controller.  It should be noted, system keys like <code>KEYCODE_BACK</code> or <code>KEYCODE_MENU</code>, may not come from the controller, and therefore should not be filtered.</p>
+        <p>Another way events could be filtered is by using the controller’s device ID.  This is described in the <a href="#Handling_Multiple_Controllers">Handling Multiple Controllers</a> section above.  Filtering by device ID is typically only needed when you are handling multiplayer single device situations; when you need to know which controller a particular event came from.  In single player games, this type of filtering is usually unnecessary since, if not handled properly, it could overly restrict a user.  Take the instance of a user first playing a game on the SHIELD device, connecting it to HDMI to play on the big screen, grabbing their already-paired Bluetooth controller, and sitting back on the couch.  This scenario couldn’t happen if the game filtered strictly against the SHIELD controller's ID.  However, if the game did no device ID filtering at all, this scenario could easily work, and with less developer effort.</p>
+        <p>The final filtering method discussed here is to filter on the controller’s name.  To get the controller’s name string use the method <code>InputDevice.getName()</code>.  See the <a href="#Specific_Controller_Tuning">Specific Controller Tuning</a> section for more information.  We would not recommend using this as a primary filtering method, as it can be very fragile.  It should only be used in cases where you are tuning for a very specific controller.  On the topic of fragility, in Android version 4.2.x, Bluetooth controllers do not report their name properly.  They look to be reporting a base chip name, most commonly, “Broadcom Bluetooth HID.”</p>
+        <h3>Unity API&#160;Specifics </h3>
+        <h5>Auto-Detect the Controller </h5>
+        <p>In Unity, it is easy to detect if a controller is connected.  A call to <code>Input.GetJoystickNames()</code> will return a <code>String</code> list of connected controller names.  If the list length is greater than 0, you have at least one connected controller.</p>
+        <h5>Handling Multiple Connected Controllers in Single Player Games</h5>
+        <p>In a single player game, the reason for handling multiple connected controllers isn’t so obvious on the surface.  However, consider the micro-console, which may have several controllers connected at any given time, or SHIELD connected to a TV and a Bluetooth controller.  In these scenarios, it would be impossible for an application using “Get Motion for all Joysticks” to tell from which of the joysticks an input came.</p>
+        <p>One important case where a developer needs to tell what controller an input came from is described in <a href="#Handling_the_Triggers">Handling the Triggers</a>.  Not handling this case will seriously decrease the amount of controllers your game will support “out of the box.”  We will forgo a sample in this section, as handling multiple controllers folds right into handling the triggers.</p>
+        <h5><a name="Handling_the_Triggers"></a>Handling the Triggers</h5>
+        <p>The controller specification in Unity, when it comes to the triggers, involves some thought and handling.  The specification shows that some controllers will give inputs of <code>7th Axis/8th Axis</code> for <i>LT</i> and <i>RT</i> respectively; while other controllers will give the reverse.  If this reversing doesn’t matter to your application, this section can be safely skipped.</p>
+        <p>There are a few ways to handle this situation.  Two will be described below and should give a developer a decent foundation on developing a solution specific to their application, even in multiplayer situations.  By necessity, the solutions below will also handle multiple connected controllers.  It is recommended an application handle at least one extra controller connected, for a total of two in a single controller application.</p>
+        <p>These solutions will use some short-hand and pseudo-code, especially when it comes to the <b>InputManager</b>, without hurting the clarity.  The scenario is a single player game in which the <i>LT</i> is “use scope” and <i>RT</i> is “fire.”</p>
+        <h6>Setup the Input Manager </h6>
+        <ul style="list-style-type: square;">
+            <li value="1">Only Name, Type, Axis, and Joy Num are listed </li>
+            <li value="2">Use scope (<i>LT</i>) is not listed, but uses 7th Axis </li>
+        </ul>
+        <table style="margin-left: auto;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 150px;" />
+            <col style="width: 93px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="text-align: left;"><b>Name</b>
+                    </td>
+                    <td style="text-align: center;"><code>JoyAllFire</code>
+                    </td>
+                    <td style="text-align: center;"><code>Joy1Fire</code>
+                    </td>
+                    <td style="text-align: center;"><code>Joy2Fire</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><b>Type</b>
+                    </td>
+                    <td style="text-align: center;"><code>Joystick Axis</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;"><code>Joystick Axis</code> <![CDATA[ ]]></td>
+                    <td style="text-align: center;"><code>Joystick Axis</code> <![CDATA[ ]]></td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><b>Axis</b>
+                    </td>
+                    <td style="text-align: center;"><code>8th Axis</code>
+                    </td>
+                    <td style="text-align: center;"><code>8th Axis</code>
+                    </td>
+                    <td style="text-align: center;"><code>8th Axis</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;"><b>Joy Num</b>
+                    </td>
+                    <td style="text-align: center;"><code>Get Motion from all Joysticks</code>
+                    </td>
+                    <td style="text-align: center;"><code>Joystick 1</code>
+                    </td>
+                    <td style="text-align: center;"><code>Joystick 2</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <h6>Helper Function for Solutions </h6>
+        <blockquote><pre class="prettyprint">function IsTriggerFlipped (strController : String) : boolean {<br />&#160;&#160;&#160;&#160;&#160;// The controllers below are known to NOT need the triggers<br />&#160;&#160;&#160;&#160;&#160;// flipped from what we’ve defined in the InputManager.  There<br />&#160;&#160;&#160;&#160;&#160;// are less of these to check against.
+<br />&#160;&#160;&#160;&#160;&#160;if (strController.StartsWith("NVIDIA Corporation NVIDIA Controller v01"))<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return false;
+<br />&#160;&#160;&#160;&#160;&#160;// These are true in 4.3 and modern NVIDIA devices.<br />&#160;&#160;&#160;&#160;&#160;if (strController == "Microsoft X-Box 360 pad") return false;<br />&#160;&#160;&#160;&#160;&#160;if (strController == "Generic X-Box pad") return false;<br />&#160;&#160;&#160;&#160;&#160;if (strController == "OnLive Wireless Controller") return false;
+<br />&#160;&#160;&#160;&#160;&#160;return true;<br />}</pre>
+        </blockquote>
+        <h6>Solution Idea 1</h6>
+        <blockquote><pre class="prettyprint">// Handles 2 controllers well.  Any controller after the 2nd<br />// controller will be considered non-flipped.  Extending this<br />// to n-controllers is trivial.<br /><br />var flScope:float = Input.GetAxis("JoyAllScope");<br />var flFire:float = Input.GetAxis("JoyAllFire");<br />var nUsingJoyNum:int = -1;<br /><br />if (flFire &gt; AXIS_FIRE_THRESHOLD) {<br />&#160;&#160;&#160;&#160;&#160;if (Input.GetAxis("Joy1Fire") == flFire) nUsingJoyNum = 0;<br />&#160;&#160;&#160;&#160;&#160;if (Input.GetAxis("Joy2Fire") == flFire) nUsingJoyNum = 1;<br />}<br /><br />if ((flScope &gt; AXIS_SCOPE_THRESHOLD) &amp;&amp; (nUsingJoyNum &lt; 0)) {<br />&#160;&#160;&#160;&#160;&#160;if (Input.GetAxis("Joy1Scope") == flScope) nUsingJoyNum = 0;<br />&#160;&#160;&#160;&#160;&#160;if (Input.GetAxis("Joy2Scope") == flScope) nUsingJoyNum = 1;<br />}<br /><br />if (nUsingJoyNum &gt;= 0) {<br />&#160;&#160;&#160;&#160;&#160;if (IsTriggerFlipped(Input.GetJoystickNames()[nUsingJoyNum])) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;var flTemp:float =  flScope;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;flScope = flFire;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;flFire = flTemp;<br />&#160;&#160;&#160;&#160;&#160;}<br />}</pre>
+        </blockquote>
+        <h6>Solution Idea 2</h6>
+        <blockquote><pre class="prettyprint">// Will handle any number of controllers that are connected. The<br />// part that needs some care is deciding when a particular<br />// controller is _the_ controller.<br /><br />var flFire:float = 0.0f;<br />var flScope:float = 0.0f;<br />var nControllerNdx:int = 0;<br />var strControllerTable:String[] = Input.GetJoystickNames();<br /><br />while (nControllerNdx &lt; strControllerTable.length) {<br />&#160;&#160;&#160;&#160;&#160;if (IsTriggerFlipped(Input.GetJoystickNames()[nControllerNdx])) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;flScope = Input.GetAxis("Joy" + nControllerNdx + "Fire");<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;flFire = Input.GetAxis("Joy" + nControllerNdx + "Scope");<br />&#160;&#160;&#160;&#160;&#160;} else {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;flFire = Input.GetAxis("Joy" + nControllerNdx + "Fire");<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;flScope = Input.GetAxis("Joy" + nControllerNdx + "Scope");<br />&#160;&#160;&#160;&#160;&#160;}<br /><br />&#160;&#160;&#160;&#160;&#160;// Insert heuristic on what controller is being used.<br />&#160;&#160;&#160;&#160;&#160;if ((flFire &gt; 0.05f) || (flScope &gt; 0.05f)) break;<br /><br />&#160;&#160;&#160;&#160;&#160;nControllerNdx++;<br />}</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

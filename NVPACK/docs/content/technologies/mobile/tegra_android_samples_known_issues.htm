@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Use Tegra Android Samples Pack">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Release Notes</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/tegra_android_samples_known_issues.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Release Notes</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor81"></a>
+        <h2><span class="SystemTitle">Release Notes</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <h5>Version 10.03</h5>
+        <ul>
+            <li value="1">
+                <p>The OpenMAX AL extension samples have been removed from the pack.  MediaPlayer, MediaExtractor and MediaCodec samples covering similar use cases are planned for an upcoming release.</p>
+            </li>
+            <li value="2">
+                <p>All of the samples have been upgraded to target SDK 15.  Note that they will still run on older OS versions.  The minimum SDK levels have all been set appropriately.  The target SDK levels ensure a good experience on the latest Jellybean devices</p>
+            </li>
+            <li value="3">
+                <p>The samples and templates that used the menu button have been modified to use on-screen buttons, as Android is phasing out the use of the menu button in modern applications.<br /></p>
+            </li>
+        </ul>
+        <h5>Version 10.01</h5>
+        <ul>
+            <li value="1">A bug in <code>NvEGLUtil</code> that caused it to fail the <code>eglMakeCurrent</code> call has been fixed.  This call was not used in any of the samples pack samples or libraries, but may have affected apps using the library.<br /></li>
+        </ul>
+        <h5>Version 10.00</h5>
+        <p>Initial release.<br /></p>
+        <h4>Known Issues and Warnings</h4>
+        <p>Note the following issues and warnings with respect to this version of the samples pack:</p>
+        <ul>
+            <li value="1">This is a new set of samples (and has not been battle-tested to the same degree as previous samples packs); applications late in the production process should use the code in this pack only as a reference for the features demonstrated.  NVIDIA does not recommend all games move immediately to this framework.</li>
+            <li value="2">Performance and latency of the event handling code in the new samples pack has not been profiled.  This is being analyzed and tuned for an upcoming release.  In addition, frame rate limiters are also being considered for the apps.  This coming analysis may cause some of the event-queue handling in the sample apps’ <code>main.cpp</code> (and thus developer apps based on it) to need changes.</li>
+            <li value="3">Several applications present in previous samples packs are not included or replaced by direct analogues in this new pack; specifically the shader-heavy “water”, the vertex-heavy “Lorenz” and the Java-based SurfaceTexture sample.  Applications similar to these (and others) are slated to be added for later releases.</li>
+            <li value="4">The user interfaces of some of samples and demos are currently rendering off of the edges of smartphone screens in portrait orientation.  All are still usable, but this visual anomaly will be fixed in an upcoming release.</li>
+            <li value="5">When exiting all of the samples on some ICS OS images, an Android warning/error is shown in logcat.  This warning has not been root-caused, but note that the Google-supplied <code>NativeActivity</code> sample in the official NDK causes the same message:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">E/ActivityThread( 2292): Activity android.app.NativeActivity has leaked IntentReceiver
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android.view.ViewRootImpl$1@410e6e50 that was originally registered here.
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Are you missing a call to unregisterReceiver()?
+E/ActivityThread( 2292): android.app.IntentReceiverLeaked: Activity android.app.
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NativeActivity has leaked IntentReceiver android.view.ViewRootImpl$1@410e6e50 that was originally
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;registered here. Are you missing a call to unregisterReceiver()?E/ActivityThread( 2292): at
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android.app.LoadedApk$ReceiverDispatcher.&lt;init&gt;(LoadedApk.java:763)
+E/ActivityThread( 2292): at android.app.LoadedApk.getReceiverDispatcher(LoadedApk.java:567)
+E/ActivityThread( 2292): at android.app.ContextImpl.registerReceiverInternal(ContextImpl.java:1043)
+E/ActivityThread( 2292): at android.app.ContextImpl.registerReceiver(ContextImpl.java:1030)
+E/ActivityThread( 2292): at android.app.ContextImpl.registerReceiver(ContextImpl.java:1024)
+E/ActivityThread( 2292): at android.content.ContextWrapper.registerReceiver(ContextWrapper.java:341)
+E/ActivityThread( 2292): at android.view.ViewRootImpl.&lt;init&gt;(ViewRootImpl.java:391)
+E/ActivityThread( 2292): at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:267)
+E/ActivityThread( 2292): at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:215)
+E/ActivityThread( 2292): at android.view.WindowManagerImpl$CompatModeWrapper.addView(WindowManagerImpl.java:140)
+E/ActivityThread( 2292): at android.view.Window$LocalWindowManager.addView(Window.java:537)
+E/ActivityThread( 2292): at android.app.ActivityThread.handleResumeActivity(ActivityThread.java:2507)
+E/ActivityThread( 2292): at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:1986)
+E/ActivityThread( 2292): at android.app.ActivityThread.access$600(ActivityThread.java:123)
+E/ActivityThread( 2292): at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1147)
+E/ActivityThread( 2292): at android.os.Handler.dispatchMessage(Handler.java:99)
+E/ActivityThread( 2292): at android.os.Looper.loop(Looper.java:137)
+E/ActivityThread( 2292): at android.app.ActivityThread.main(ActivityThread.java:4424)
+E/ActivityThread( 2292): at java.lang.reflect.Method.invokeNative(NativeMethod)
+E/ActivityThread( 2292): at java.lang.reflect.Method.invoke(Method.java:511)
+E/ActivityThread( 2292): at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:784)
+E/ActivityThread( 2292): at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:551)
+E/ActivityThread( 2292): at dalvik.system.NativeStart.main(Native Method)</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

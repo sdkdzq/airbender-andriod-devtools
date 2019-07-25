@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Dynamic Shader Editing</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_dynamic_shader_editing.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Dynamic Shader Editing</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <div id="pageheader">
+            <h1><span class="SystemTitle">Dynamic Shader Editing</span>
+            </h1><a name="kanchor50"></a>
+            <hr width="100%" size="0" align="center" />
+        </div>
+        <p>It is possible to edit shaders dynamically with <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>, using the following steps:&#160;</p>
+        <ol>
+            <li value="1">Open the <a href="tgd_api_inspector.htm">API&#160;Inspector</a>. </li>
+            <li value="2">Navigate to the <b>Program</b> page. <br /><br /><a class="MCPopupThumbnailLink" href="images/tgd_api_inspector_program.001.png"><img class="MCPopupThumbnail img" data-mc-width="1111" data-mc-height="712" src="images/tgd_api_inspector_program.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a></li>
+        </ol>
+        <p>In the <b>Shaders</b> section of the Program page, you will find two active links. </p>
+        <ul>
+            <li value="1"><b>Type</b> brings you to the fragment shader page. </li>
+            <li value="2"><b>Source</b> opens the Shader Editor.  <br /><br /><img src="images/tgd_shader_editor_view.png" style="mc-thumbnail-max-width: 600px;" /></li>
+        </ul>
+        <h3>
+            How to Dynamically Edit Shaders </h3>
+        <p>When you have the Shader Editor window open, you can right-click anywhere on the window and select <b>Edit</b>. This will open a dual-pane <b>Shader Editor View</b>. </p>
+        <p>
+            <img src="images/tgd_shader_editor_view_editing.png" style="mc-thumbnail-max-width: 600px;" />
+        </p>
+        <p>The pane on the left is the original shader. Make your edits in the right pane, then right-click on it and select <b>Compile</b> to see the results of your edits on both the target and host. </p>
+        <p>
+            <img src="images/tgd_shader_editor_view_contextmenu.png" style="mc-thumbnail-max-width: 600px;" />
+        </p>
+        <p>You can also right-click to activate either the original or edited shader, and toggle back and forth between them, to see the difference it makes in your application. </p>
+        <p>When you are finished editing the shader, you can either choose <b>Discard Edits</b> to go back to the original shader, or you can choose <b>Promote</b> to make the edited shader the new primary shader that is being used by the application. </p>
+        <p>If there is a problem with the new shader, you will see an error in the <b>Compile Results</b> pane, at the bottom of the Shader Editor window. </p>
+        <p>
+            <img src="images/tgd_shader_editor_view_compileerrors.png" style="mc-thumbnail-max-width: 600px;" />
+        </p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

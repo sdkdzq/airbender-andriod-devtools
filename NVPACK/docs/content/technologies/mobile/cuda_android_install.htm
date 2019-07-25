@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|CUDA&#160;for Android">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Installing CUDA Development Tools</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/cuda_android_install.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="cuda_android_main.htm">CUDA&#160;for Android</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Installing CUDA Development Tools</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Installing CUDA Development Tools</span>
+        </h1><a name="kanchor62"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>The setup of CUDA development tools on a system running the appropriate version of Linux consists of a few simple steps:</p>
+        <ul>
+            <li value="1">Verify the device is running a supported version of Android.</li>
+            <li value="2">Verify the host system is running a supported version of Linux.</li>
+            <li value="3">Install NVIDIA&#160;AndroidWorks.</li>
+            <li value="4">Test that the installed software runs correctly and communicates with the hardware.</li>
+        </ul>
+        <h3>Step 1:&#160;Verify You Have a Supported Version of Linux </h3>
+        <p>The CUDA Development Tools are only supported on some specific distributions of Linux. These are listed in the CUDA Toolkit release notes. </p>
+        <p>To determine which distribution and release number you're running, type the following at the command line:</p>
+        <blockquote><pre class="prettyprint">uname -m &amp;&amp; cat /etc/*release</pre>
+        </blockquote>
+        <p>You should see output similar to the following, modified for your particular system:</p>
+        <blockquote><pre class="prettyprint">i386 Red Hat Enterprise Linux WS release 4 (Nahant Update 6)</pre>
+        </blockquote>
+        <p>The <b>i386</b> line indicates you are running on a 32-bit system. On 64-bit systems running in 64-bit mode, this line will generally read: <b>x86_64</b>. The second line gives the version number of the operating system.</p>
+        <h3>Step 2:&#160;Install the NVIDIA&#160;CUDA&#160;Toolkit </h3>
+        <p>The CUDA Toolkit is part of the NVIDIA AndroidWorks installation.</p>
+        <p>Please refer to <a href="../../developertools/mobile/androidworks/androidworks_install.htm">Download and Install AndroidWorks</a> for details on installing the CUDA&#160;Toolkit. </p>
+        <h3>Step 3:&#160;Verify the Installation </h3>
+        <p>Before continuing, it is important to verify that the CUDA toolkit can find and communicate correctly with the cross compilers and that the CUDA-capable hardware has been updated with the correct OS image. To do this, you need to compile and run some of the included sample programs.</p>
+        <p>Make sure the Android NDK environment is set properly, inside Eclipse which was launched as the last step of installation, go to <b>Windows</b> &gt; <b>Preferences</b>. Expand <b>Android</b> in the left pane of the dialog that appears and choose <b>NDK</b>. On the right pane, make sure that NDK location is set to <code>~/NVPACK/android-NDK-<i>[version]</i></code>, click <b>Apply</b> and then OK.</p>
+        <h5>Verify the OS image and drivers on the device</h5>
+        <p>This can be done through your <b>System Settings</b> &gt; <b>About tablet</b> &gt; <b>Build number</b>. The build number should match the Android image installed by AndroidWorks</p>
+        <h5>Compiling the Examples</h5>
+        <p>The version of the CUDA Toolkit can be checked by running <code>nvcc -V</code> in a terminal window. The <code>nvcc</code> command runs the compiler driver that compiles CUDA programs.</p>
+        <p>It calls the NDK <code>gcc</code> compiler for C code and the NVIDIA PTX compiler for the CUDA code.</p>
+        <p>The NVIDIA CUDA Toolkit includes sample programs in source form. You should compile them by choosing <code>~/NVPACK/cudasample_workspace</code> as the workspace in the Eclipse that was installed in previous steps. The samples are already imported in this workspace.</p>
+        <p>On the command line, change directory to the <code>cuda</code> directory within the desired sample's directory. Run <code>make</code>. This will build the CUDA components in to a native library in the same directory.</p>
+        <p>In Eclipse, select and right-click on the desired sample's project, and select <b>Build Project</b>. This will build the APK for the project in to the <code>bin</code> directory within the sample's directory.</p>
+        <h5>Running the Binaries </h5>
+        <p>After successfully building the project, in Eclipse, right click the project and select <b>Run As</b> &gt; <b>Android Application</b>.</p>
+        <p><a class="MCPopupThumbnailLink" href="../desktop/images/cuda_boxfilter_sample.001.jpg"><img class="MCPopupThumbnail img" data-mc-width="1921" data-mc-height="1200" src="../desktop/images/cuda_boxfilter_sample.001_thumb_700_0.jpg" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+            <br />Results of running the boxFilter sample </p>
+        <p>The exact appearance might be different on your system. The important outcome is that a blurred version of the Lena image is visible, which signifies both that the device was found, and that a CUDA application was successfully able to run.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

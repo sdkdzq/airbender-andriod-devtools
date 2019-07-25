@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger|Frame Debugging">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Frame Profiler</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_frame_profiler.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tgd_frame_debugging.htm">Frame Debugging</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Frame Profiler</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <div id="pageheader">
+            <h1><span class="SystemTitle">Frame Profiler</span>
+            </h1><a name="kanchor48"></a>
+            <hr width="100%" size="0" align="center" />
+        </div>
+        <p>The <strong>Frame Profiler</strong> is a powerful tool  that can help you optimize the rendering of your application. Once you have captured and profiled a frame, the Frame  Profiler shows CPU and GPU execution times, as well as GPU hardware unit  utilization and bottlenecks on a per draw call basis. Understanding how your  draw calls utilize the actual GPU hardware is invaluable in optimizing your use of the GPU resources. </p>
+        <p>The Frame Profiler also includes unmatched data mining capabilities that  allow you do group draw calls by common state, such as pixel or vertex  shader.</p>
+        <p><strong>To profile a graphics frame:</strong>
+        </p>
+        <ol>
+            <li value="1">Start <a href="tgd_frame_debugging.htm">debugging your graphics  project</a>.   </li>
+            <li value="2">From the <strong>View</strong> menu, select <strong>Profiler</strong>. This will open the <b>Frame Profiler</b> page. <br /><br /><a class="MCPopupThumbnailLink" href="images/tgd_frame_profiler.004.png"><img class="MCPopupThumbnail img" data-mc-width="1077" data-mc-height="706" src="images/tgd_frame_profiler.004_thumb_800_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 800px;" tabindex="" /></a></li>
+        </ol>
+        <h2>Understanding the Frame Profiler Page</h2>
+        <p>The Frame Profiler page has four main parts: the <b>Profiler toolbar</b>, <strong>Draw Call Groups</strong>, <strong>Draw Calls</strong> table, and the <strong>Performance Graph</strong>.</p>
+        <h3>Frame Profiler Toolbar </h3>
+        <p>In the top left corner of the Frame Profiler page, you'll find the following buttons:&#160;</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_frame_profiler_toolbar.001.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Clone</b> — Makes a copy of the current view, so that you can compare different parts of the Frame Profiler (or other cloned views) for the current action.</li>
+            <li value="2"><b>Lock</b> — Freezes the current view and the data contained within so that changing the current event or refreshing the Profiler does not update this view. This is helpful when trying to compare the same state on two different actions or the effects of shader editing.</li>
+            <li value="3"><b>Save Profiler Data to CSV</b> — Allows you to save the Frame Profiler page to a CSV file for future reference. By default, this will be saved in your Documents folder with the name <code>profiling_&lt;timestamp&gt;.csv</code>. </li>
+            <li value="4"><b>Edit State Buckets</b> — Clicking this opens the Edit State Buckets dialog, which allows you to create groups based on draw calls that share a common characteristic.</li>
+            <li value="5"><b>Select Perf Markers</b> — Clicking this brings up a perf marker scrubber, so you can select the perf marker items that you want to include in the group.</li>
+            <li value="6"><b>Rerun Profiler</b> — This can be used to refresh the data on the Frame Profiler screen, which is particularly useful if you have locked one Frame Profiler screen and opened a new one to make changes. This will allow you to quickly compare and contrast the changes you have made.</li>
+        </ul>
+        <h3>
+            Draw Call Groups</h3>
+        <p>On the top left of the Frame Profiler page, the Draw Call Groups table allows you to  group draw calls in your frame, based on different criteria, which can give you deeper insight into your  frame's performance characteristics. The Frame Profiler allows you to group by  draw call state, and by performance marker.  By default, the Draw Call Groups table also includes a default group, <b>All Events</b>, which includes all draw calls in the frame. Both the Draw Calls  table and the Performance Graphs will only show draw calls from the selected  state bucket in this table.</p>
+        <table cols="2">
+            <col style="width: 123px;">
+            </col>
+            <col style="width: 426px;">
+            </col>
+            <tbody>
+                <tr>
+                    <th>Column Label</th>
+                    <th>Description</th>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>Calls</td>
+                    <td>The number of calls in the Draw Call Group on this row.</td>
+                </tr>
+                <tr>
+                    <td>Primitives</td>
+                    <td>The total number of primitives rendered across all calls in the Draw Call Group.</td>
+                </tr>
+                <tr>
+                    <td>CPU Time</td>
+                    <td>The total amount of CPU time the draw calls in the group needed to execute.</td>
+                </tr>
+                <tr>
+                    <td>GPU Time</td>
+                    <td>The total amount of GPU time the draw calls in the group needed to execute.</td>
+                </tr>
+                <tr>
+                    <td>Pixels</td>
+                    <td>The total number of pixels the draw calls in the group shaded.</td>
+                </tr>
+                <tr>
+                    <td>Perf Markers</td>
+                    <td>Any NVTX performance markers associated with the group. This column only has data when a group based on a performance maker is defined.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>This table can be sorted in either ascending or descending order by any  column value by clicking on the column header.</p>
+        <h6>State Buckets
+        </h6>
+        <p>Grouping draw calls by state allows you to see draw calls which use a common state(s) setting or asset(s), like a pixel or vertex shader. In this example, optimizing the  shader can reduce GPU execution time across all draw calls in the state  bucket, multiplying the optimization effort spent.</p>
+        <h3>Draw Calls Table
+        </h3>
+        <p>Located on the top right of the Frame Profiler page, the Draw Calls table displays information on each draw call in the selected  state bucket.</p>
+        <table cols="2">
+            <col style="width: 123px;">
+            </col>
+            <col style="width: 474px;">
+            </col>
+            <tbody>
+                <tr>
+                    <th>Column Label</th>
+                    <th>Description</th>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td>Index</td>
+                    <td>The index of this draw call. Clicking on the linked indices in this column will  navigate you to the full Draw Call page for this specific call.</td>
+                </tr>
+                <tr>
+                    <td>Primitives</td>
+                    <td>The number of primitives rendered by this draw call.</td>
+                </tr>
+                <tr>
+                    <td>CPU Time</td>
+                    <td>The amount of CPU time this draw call needed to execute.</td>
+                </tr>
+                <tr>
+                    <td>GPU Time</td>
+                    <td>The amount of GPU time this draw call needed to execute.</td>
+                </tr>
+                <tr>
+                    <td>Pixels</td>
+                    <td>The number of shaded pixels this draw call shaded.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>This table can be sorted in either ascending or descending order by any column value by clicking on the column header.</p>
+        <h3>
+            Performance Graphs</h3>
+        <p>The Performance Graph area, on the bottom of the Frame Profiler page, allows you to visualize performance data about the selected state bucket. </p>
+        <h4>Types of Performance Graphs </h4>
+        <p>There are seven different performance graphs available:</p>
+        <h5>1. Summary 
+        </h5>
+        <p>
+            <img src="images/tgd_frame_profiler_summary.001.png" />
+        </p>
+        <p>The Summary displays weighted-average bottleneck percentages for each GPU unit, over all draw calls in the selected state bucket. Weighing the draw call's contribution by different factors allows you to optimize your application's performance based on image contribution or primitive. By examining each type of graph, you can rule out any possible issues by seeing the cost of a given area of the screen, bottlenecks for the most expensive draw calls, and any other performance inhibitors. </p>
+        <p>The results are laid out in the same way that data flows through the GPU pipeline. It starts from the Input Assembler, where the vertex attributes are gathered , loops multiple times through the shader unit, samples from the texture units, reads from L1 and the impact those have on the memory subsystem, etc. Note that this graph may vary based on the hardware being used, as well as the type of application you are profiling.</p>
+        <p>You can choose how to weight the summary graph in one the following ways:</p>
+        <ul>
+            <li value="1"><b>Unweighted</b> — Weight the contribution of each draw call uniformly.</li>
+            <li value="2"><b>Pixels</b> — Weight the contribution of each draw call by the number of pixels shaded by the draw call.</li>
+            <li value="3"><b>Primitives</b> — Weight the contribution of each draw call by the number of primitives in the draw call.</li>
+            <li value="4"><b>GPU Time</b> — Weight the contribution of each draw call to the unit utilization and bottleneck percentages by the amount of execution time for the draw call.</li>
+        </ul>
+        <h5>2. Bottleneck Percentage</h5>
+        <p>
+            <img src="images/tgd_frame_profiler_bottleneck.001.png" />
+        </p>
+        <p>This graph shows the hardware  unit bottleneck percentages across seven different units inside of the GPU for each draw call in the selected state bucket. A unit is a bottleneck if it is preventing units upstream from sending it data, but is free to send data to units downstream (so it isn’t penalized if downstream units are blocking it from making progress).  This is shown as a percentage of the time that the draw call was in the pipeline. </p>
+        <h5>3. Utilization Percentage
+        </h5>
+        <p>
+            <img src="images/tgd_profiler_utilization.001.png" />
+        </p>
+        <p>This graph shows the hardware  unit utilization percentages across seven different units inside of the GPU for each draw call in the selected state  bucket. A unit is utilized if it is actively processing data during the given sampling time.  This is shown as a percentage of the time that the draw call was in the pipeline.</p>
+        <h5>4. Shader Type Percentage </h5>
+        <p>
+            <img src="images/tgd_profiler_shadertype.001.png" />
+        </p>
+        <p>This graph displays the breakdown of the shader types that are used for each draw call in the selected state bucket. Since modern GPUs have a shared shader unit, it is not really possible to say that a given draw call is "pixel shader bound," per se.  Given the data that can be collected from the GPU, you can see if the shader unit was the bottleneck and you can see the percentage of time the shader units worked on various shader types.</p>
+        <h5>5. Shaded Pixels
+        </h5>
+        <p>
+            <img src="images/tgd_profiler_shadedpixels.001.png" />
+        </p>
+        <p>This graph shows the number of pixels rendered or shaded by each draw call in the selected state bucket, and the percent coverage for each draw call. Draw calls which write only the depth buffer, or otherwise have a large percentage of fragments rejected by early-Z will have a correspondingly small number of shaded pixels.</p>
+        <h5>6. Primitives Graph
+        </h5>
+        <p>
+            <img src="images/tgd_profiler_primitives.001.png" />
+        </p>
+        <p>This graph shows the number of primitives submitted for rendering by each draw call in the selected Draw Call Group.</p>
+        <h5>7. Counters </h5>
+        <p>
+            <img src="images/tgd_profiler_counters.001.png" />
+        </p>
+        <p>The counter graph is essentially a raw output of the data you are profiling. The columns are the events, and the rows list the various counters. </p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>
+        </p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

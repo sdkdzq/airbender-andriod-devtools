@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Use Tegra Android Samples Pack">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Creating New Applications</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/tegra_android_samples_create_new_app.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Creating New Applications</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor88"></a>
+        <h2><span class="SystemTitle">Creating New Applications</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>In order to ease the creation of new Android JNI native/Java samples that can be built from Eclipse, the SDK includes a bash shell script that generates new projects from a selection of templates.  This tool is called <code>app_create</code>.  It can create new applications in subdirectories of <code>user_apps/</code> that can be used as the basis for more complex application projects.  To use the script, do the following:</p>
+        <ol>
+            <li value="1">Choose a path name for the application, e.g., <code>my_app</code>.  A directory of the given name under <code>user_apps/</code> must NOT already exist prior to running the script, or the script will fail.  This is a safety measure to avoid overwriting existing code.</li>
+            <li value="2">Choose a Java package name for the application, e.g., <code>com.mycorp.myapp</code>.&#160;</li>
+            <li value="3">Choose a Java class name for the application, e.g., <code>MyApp</code>.</li>
+            <li value="4">Select your desired application template.  The options are:<ul><li value="1"><code>basic</code>: similar to the framework used for most of the current samples, a simple template using <code>nv_native_app_glue</code>.</li><li value="2"><p><code>subclass</code>: a copy of the <code>native_subclass</code> Android feature demo, with both native and Java code. </p></li></ul></li>
+            <li value="5">Open a Cygwin/bash shell to the SDK’s<code> tools\app_create</code> directory.</li>
+            <li value="6">Run the script:&#160; <br /><pre class="prettyprint">./app_create.sh &lt;app path name&gt; &lt;app java name&gt; &lt;template name&gt;</pre> <br />For example:&#160;<br /><pre class="prettyprint">./app_create.sh my_app MyApp nv_event</pre></li>
+        </ol>
+        <p>This will result in the new application being created in the indicated subdirectory of <code>user_apps/</code>.  To load the new application into Eclipse for building, simply re-run the steps previously mentioned for <a href="tegra_android_samples_compile.htm#(Optiona">Setting up the Eclipse workspace</a>, selecting only the new project from the project import dialog.  The new application project should be added to your workspace.</p>
+        <p>The project may be treated exactly like any other project in the SDK.  New source files may be added to the app’s <code>jni </code>directory and <code>Makefile</code>, an <code>assets </code>directory, may be created and filled with assets for the APK, and additional settings may be added to the <code>AndroidManifest.xml</code>.</p>
+        <p>The basic template is based directly on the sample <code>app native_basic</code>, which is a pure native <code>NativeActivity/nv_native_app_glue</code> application.  The subclass template is based directly on the android feature demo <code>native_subclass</code>, which includes app-written Java code.<br /><br /></p>
+        <h4>Moving an App_Create-Generated Application</h4>
+        <p>If you need to move an <code>app_create</code>-based application after creating it, note that the applications created with this script make relative-path reference to the samples pack’s <code>libs/jni</code> directory.  So if you move the application, you must change the app’s<code> jni/Android.mk</code> line:</p>
+        <blockquote><pre class="prettyprint">$(call import-add-path, ../../../libs/jni) </pre>
+        </blockquote>
+        <p>To reference the correct absolute or relative path to the samples pack’s libs source tree, or else the application will not build.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

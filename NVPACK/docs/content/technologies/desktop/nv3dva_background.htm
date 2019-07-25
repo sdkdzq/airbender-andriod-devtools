@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Desktop Technologies|NVIDIA 3D Vision Automatic">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Background Information</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/desktop/nv3dva_background.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../desktop_technologies_aw.htm">Desktop Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nv3dva_main.htm">NVIDIA 3D Vision Automatic</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Background Information</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Background Information</span>
+        </h1><a name="kanchor56"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>This chapter briefly covers the basics of all stereoscopic technologies then delves into the math behind the existing 3D conceptual pipeline. It extends the pipeline to encompass stereoscopic spaces and covers the basic operations 3D Vision Automatic performs on your behalf.</p>
+        <h4>Stereoscopic Background</h4>
+        <p>Delivering a compelling 3D image on a 2D screen has been the dream of content producers for nearly 160 years, beginning with anaglyph technology originally developed in the 1850s.</p>
+        <p>Although the technology has matured significantly, the basic concepts have remained largely the same.</p>
+        <p>Stereoscopic technology works by presenting each eye with a slightly different image, prepared as though the viewer was standing at a particular location. This can be done using many techniques.</p>
+        <p>Anaglyph, as already mentioned, was the first such technique. This is the traditional red/blue glasses with images that have been separated and desaturated. Originally developed in the 1850s, this technique saw fairly widespread adoption in Hollywood in the 1950s. This is also the technology used by 3D Vision Discover as a preview for what 3D Vision can deliver with a true shutter glass setup.</p>
+        <p>Polarization systems, as seen in some movie theaters, use multiple projectors with polarizing filters to display two images overlaid directly on top of one another. The viewer then wears passive glasses with matching polarized lenses—each eye gets one of the two images at exactly the same time.</p>
+        <p>Active systems, such as the shutter glasses sold by NVIDIA, use a set of lenses that alternatively become opaque and then transparent at a refresh rate that matches that of the user's display. By displaying only with monitors capable of using a native 120 Hz input signal, NVIDIA is able to deliver a smooth 60 Hz to each eye. This significantly reduces eyestrain over previous generations of shutter technology.</p>
+        <table>
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>: To display stereo, Tegra powered devices requires: a 3D TV that supports 3D output from mobile devices; a 3D TV that supports HDMI 1.4 (or higher); or a stereoscopic panel display.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Stereoizing Content in Games</h4>
+        <p>There are two basic techniques to stereoized<a href="javascript:void(0);" class="MCTextPopup popup popupHead" style="font-size: 0.9em; vertical-align: super">1<span class="MCTextPopupBody MCTextPopupBody_Closed needs-pie popupBody"><span class="MCTextPopupArrow"></span>Pseudo stereo effects or Stereoizers create a stereo signal from a source signal which is possibly (but not necessarily) a mono signal.</span></a>  content for games: <i>active</i> stereoization and <i>passive</i> stereoization.</p>
+        <h5>Active Stereoization</h5>
+        <p>In active stereoization, a game utilizes two different cameras to build and render distinct scenes to each eye. At the end of a single render update, the game engine tells the API which render target corresponds to which eye and moves on to building the next frame(s).</p>
+        <p>This poses significant challenges to developers that are developing in existing engines. One obvious obstacle is that many game engines rely on there being a single camera, while this technique requires two. In addition, the engine itself has to make decisions about which components of the scene are eye dependent and which components are not. Shadow maps are a common example of buffers that should be built only once. The engine additionally has to offer options to the user to manage the strength and complexity of the stereoscopic effect.</p>
+        <p>Active stereoization incurs runtime costs as well. For example, most titles already budget their draw call count to get the maximum fidelity possible while maintaining playable frame rates. Active stereoization will result in substantially more draw calls-up to twice as many—which can result in an application becoming severely CPU limited.</p>
+        <p>Finally, the effort to add support for active stereoization can range from a week or so to several months. The actual development time required is dependent upon the technology stack in question.</p>
+        <h5>Passive Stereoization</h5>
+        <p>Passive stereoization attempts to mitigate these shortcomings and reduce development effort without compromising on the quality of the 3D effect. The application continues to render the 3D scene as normal. The 3D display driver watches as rendering calls go by and builds stereoscopic information from the calls made by the 3D rendering engine.</p>
+        <p>Using heuristics, the stereoscopic driver decides which objects need to be rendered per-eye and which do not, building the full left and right eye image in a manner that is transparent to the developer.</p>
+        <p>In effect, the stereoscopic driver does what an application developer would do, but it does so once for all titles. The result is a robust stereoscopic solution that requires significantly less effort from an application developer's standpoint.</p>
+        <p>Passive Stereoization, and specifically 3D Vision Automatic, is available for:</p>
+        <ul>
+            <li value="1">Direct3D 9, 10 and 11 under Windows Vista and Windows 7; and</li>
+            <li value="2">OpenGL ES under Android 3.2 (or later) on devices with Tegra 3 (or later).</li>
+        </ul>
+        <h4><a name="The_Existing_Conceptual_Pipeline"></a>The Existing Conceptual Pipeline</h4>
+        <p>On its way through the pipeline, a primitive is transformed through many different coordinate systems, or spaces. Understanding issues with stereoscopic is greatly simplified with a solid understanding of the existing pipeline, and how stereoscopic modifies that pipeline. A reasonable facsimile of the spaces that a primitive travels through during display is shown in Figure 1.</p>
+        <p>Geometry is usually authored in <i>model</i> space. In this space, geometry is rooted at a local origin, which is commonly a location near the base of the model. This allows the model to be easily placed in the <i>world</i> as you might place a chess piece on the board.</p>
+        <p>To place models in the world, they will be transformed by the world transform. World space is application-defined, and serves as a useful mechanism for relating objects with each other.<br /></p>
+        <p>
+            <img src="images/nv3dva_fig1_existing_pipeline.png" />
+            <br /><b>Figure 1. Spaces during Normal Render</b>
+        </p>
+        <p>Once in world space, models are further transformed by the view transform, to relocate the model into eye space. Eye space has many names, among them view space and camera space. (For the purposes of this document, we will consistently refer to this as <i>eye space</i> to avoid confusion with viewport space). In a left-handed coordinate system, eye space has its origin at (0, 0, 0), <b>X</b> increasing to the right, <b>Y</b> increasing upwards and <b>Z</b> increasing into the screen. The canonical View matrix is as follows:</p>
+        <p>
+            <img src="images/nv3dva_canonical_view_matrix.png" />
+        </p>
+        <p>After eye space, the model is further transformed by the projection matrix to clip or projected space. This transform typically serves three purposes. First, it scales the <b>X</b> and <b>Y</b> position of the object by the appropriate aspect ratio of the display window. Second, it reinterprets eye-space <b>Z</b> from <b>[Zn, Zf]</b> to <b>[0, Zeye]</b> and stores this in the <b>Z</b> coordinate of the vertex. Finally, the projection matrix stores eye-space <b>Z</b> in the <b>W</b> coordinate of the vertex. A typical left-handed projection matrix is given below.</p>
+        <p>
+            <img src="images/nv3dva_lefthand_projection_matrix.png" />
+        </p>
+        <p>Note that while they are unique spaces, the <i>model</i>, view and <i>projection matrix</i> are often concatenated together to create the Model-View-Projection matrix. Vertices are transformed directly from model space to homogenous clip space.</p>
+        <p>Homogenous clip space is the last space developers typically think about, as it is the last space they can manipulate from the vertex shader. However, the trip through the conceptual pipeline is not complete. Next, vertices are clipped against a cube of size <b>W</b>. The vertex coordinates <b>X</b>, <b>Y</b> and <b>Z</b> are divided by <b>W</b>, and <b>1/W</b> is placed in the <b>W</b> coordinate for later perusal. This step, referred to as the perspective divide, is performed in fixed function hardware. The resulting vertex is in normalized device coordinates.</p>
+        <p>Vertices are then grouped into primitives according to ordering or an index buffer, and are rasterized. The viewport transform is applied, creating fragments in viewport space. The pixel shader gets a chance to modify the output color, after which the final result is written to the render target for later usage or display to the user.</p>
+        <h4>How 3D Vision Automatic Fits in</h4>
+        <p>3D Vision Automatic modifies the existing conceptual pipeline by splitting the post clip space pipeline into left- and right-eye spaces. The stereoscopic conceptual pipeline is shown in Figure 2. The following sections cover how the existing conceptual pipeline is modified to create the stereoscopic pipeline.</p>
+        <p>&#160;</p>
+        <p>
+            <img src="images/nv3dva_fig2_stereoscopic_render.png" />
+            <br /><b>Figure 2.	Spaces During Stereoscopic Render</b>
+        </p>
+        <h5>Duplicate and Modify</h5>
+        <p>Conceptually, the 3D Vision Automatic can be thought of doing two tasks: duplication and modification. As can be seen in the stereoscopic pipeline in Figure 1 2, viewport space has been split into a left- and right-eye viewport space. To support this, the driver does several things on the application's behalf:</p>
+        <ul>
+            <li value="1">Duplicate render targets based on stereoscopic heuristics.</li>
+            <li value="2">Modify vertex shaders to perform mono-to-stereoscopic Clip space transformation.</li>
+            <li value="3">Replace individual draw calls with two draw calls, one per each eye.</li>
+        </ul>
+        <h5>Duplicate Render Targets</h5>
+        <p>One of the most obvious tasks that 3D Vision Automatic performs on an application's behalf is to duplicate the primary render target used. This allows the driver to build a render target to present each eye individually. Additionally, other render targets may be duplicated based on heuristic analysis at creation time. The driver handles all of the mapping for the developer, so that when the developer asks to bind a target, the appropriate per-eye target is bound. Likewise, if the developer uses render-to-texture, stereoization may be performed. If bound for reading, the proper left or right variant of the texture will be used.</p>
+        <h5>Vertex Shader Modification</h5>
+        <p>While render target replication is necessary for correct stereoscopic display, it is not sufficient. 3D Vision Automatic also monitors vertex shader creation, and adds a footer to each shader. By using a footer, the driver is able to operate in clip space, which has several unique properties. Among them is that clip space is oriented the same way for all applications, regardless of local concerns. It is also unit-less. Because it is directly before the perspective divide, clip space has the unique property that scaling the x, y, z and w coordinates of a vertex by a scalar factor affects the apparent stereoscopic depth without altering the rasterized location or z-buffer depth of the resultant fragments. Given that the shader has placed the position result in a variable called <b>PsInput</b>, the equation for the footer looks as follows:</p>
+        <blockquote><pre class="prettyprint">PsInput.x += Separation*(〖PsInput〗_w-Convergence)</pre>
+        </blockquote>
+        <p>Convergence is set to a relatively low value by default, and can be modified by users as described in Separation Adjustment on page 32. Values less than the convergence value will experience negative separation, and appear to the user as <i>out of screen</i> effects. When <b>PsInput<span style="vertical-align: sub;">w</span></b> is equal to Convergence, no separation is present. This is ideal for many HUD elements. Finally, objects further than Convergence depth will experience normal parallax effects. The effect becomes more pronounced the further the object is located from the Convergence plane.</p>
+        <table>
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>: On the PC, Current Convergence values can be read using the function call <code>NvAPI_Stereo_GetConvergence</code>, and set with <code>NvAPI_StereoSetConvergence</code>.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Separation is more easily controlled using one of the methods listed in <a href="nv3dva_stereoscopic_qa.htm#Separati">Separation Adjustment</a>. Users will adjust the magnitude or Separation, while the current eye being rendered (left or right) will modify the sign of separation—positive for the left eye and negative for the right eye.</p>
+        <table>
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>: Current Separation can be computed as the result of multiplying the results from calls to <code>NvAPI_Stereo_GetSeparation</code> and <code>NvAPI_Stereo_GetEyeSeparation</code>, and dividing by 100.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Neither Separation nor Convergence should ever be set to negative values.</p>
+        <p>Figure 3 shows separation and convergence as they conceptually apply to stereo.</p>
+        <p>&#160;</p>
+        <p>
+            <img src="images/nv3dva_fig3_convergence.png" />
+            <br /><b>Figure 3.	Separation and Convergence</b>
+        </p>
+        <h5>Draw Call Substitution</h5>
+        <p>When running in 3D Vision Automatic mode, application issued draw calls are substituted for two separate draw calls—one for the left eye and one for the right eye. The following pseudo-code could be thought of executing:</p>
+        <blockquote><pre class="prettyprint">HRESULT NVDisplayDriver::draw()
+{
+if (StereoActive) {
+VShader = GetStereoShader(curShader);
+VShaderConstants["Separation"] = curSeparation;
+VShaderConstants["Convergence"] = curConvergence;
+SetBackBuffer(GetStereoBuffer(curBackBuffer, LEFT_EYE));
+reallyDraw();
+
+VShaderConstants["Separation"] = -VShaderConstants["Separation"];
+SetBackBuffer(GetStereoBuffer(curBackBuffer, RIGHT_EYE));
+reallyDraw();
+&#160;&#160;} else {
+&#160;&#160;&#160;&#160;// Normal draw call stuff
+reallyDraw();
+&#160;&#160;}
+}</pre>
+        </blockquote>
+        <p>Although this code is naturally a gross simplification, it is conceptually accurate.</p>
+        <h5>Remembering it All</h5>
+        <p>NVIDIA creates a stereoscopic profile for each and every title that goes through our QA process. These profiles contain settings to control and guide heuristics as well as specifying reasonable default values for separation and convergence. The stereoscopic profile also contains information that can be used to control the footer that is applied to vertex shaders.</p>
+        <table>
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>:  To avoid a poor end user experience it is important for both PC and Tegra developers to communicate to NVIDIA any changes in the rendering engine pipeline. NVIDIA can then ensure the 3D Vision profile is always up to date.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra System Profiler|Tegra System Profiler 2.x">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Release Notes</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_system_profiler/tegraprofiler_release_notes.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegraprofiler_aw.htm">Tegra System Profiler</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegraprofiler_v2x.htm">Tegra System Profiler 2.x</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Release Notes</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Release Notes</span>
+        </h1><a name="kanchor22"></a>
+        <hr width="100%" size="0" align="center" />
+        <h3>Tegra System Profiler 2.4 </h3>
+        <h4>Supported Platforms </h4>
+        <ul>
+            <li value="1">Android<ul style="list-style-type: circle;"><li value="1">Android TV </li><li value="2">NVIDIA&#160;SHIELD&#160;Tablet </li><li value="3">NVIDIA SHIELD Portable (requires OTA OS update 65 or above)
+</li><li value="4">Google Project Tango Tablet
+</li><li value="5">Google Nexus 9 (requires OS v5.1 rooted) </li><li value="6">Various devkits <![CDATA[                   ]]></li></ul></li>
+            <li value="2">L4T (Linux For Tegra)                <ul style="list-style-type: circle;"><li value="1">Jetson TK1
+ </li><li value="2">Jetson TX1                 </li></ul></li>
+            <li value="3">Vibrante (with Android, Ubuntu, or Yocto) 
+                <ul style="list-style-type: circle;"><li value="1">Jetson Pro TK1
+</li></ul></li>
+        </ul>
+        <h4>What's New </h4>
+        <ul>
+            <li value="1">Timeline tooltips now show the thread blocked state call-stack when you hover the mouse over the thread’s blocked state segment.  This will improve the user’s ability to diagnose the cause of a thread blocking.</li>
+            <li value="2">Thread names are now auto-populated from OS APIs without NVTX.  NVTX may override the name provided through the OS.</li>
+            <li value="3">Threads may be sorted by utilization.</li>
+            <li value="4">Support for CUDA API trace and tracing corresponding GPU workloads.  L4T and Vibrante only.</li>
+            <li value="5">NVTX (NVIDIA Tools Extensions) are now supported on 64-bit processes. </li>
+            <li value="6">Various performance and backtrace quality improvements, bug fixes. </li>
+        </ul>
+        <h4>Known Issues </h4>
+        <ul>
+            <li value="1">Profiling with max frequency for long periods of time may cause buffer overflow errors. <span style="color: #808080;">(Issue #25660)</span>&#160;</li>
+            <li value="2">Backtraces are sometimes incorrect, particularly for functions that take very little time. (If the sampling occurs during the prolog/epilog the PC register.) Sampling for a longer period of time and ignoring low-impact functions (hiding these often-wrong, seldom-occurring values) may help. <span style="color: #696969;">(Issue #14669)</span></li>
+            <li value="3">Profiling on Vibrante Yocto for longer than a minute may result in termination of the profiling session by system.
+            </li>
+            <li value="4">Profiling on L4T and Vibrante will require apt-get debug packages for OS libraries from Ubuntu and Yocto to successfully backtrace.
+            </li>
+            <li value="5">The following devices do not support L1/L2 counters: Google Project Tango Tablet, Google Nexus 9, and NVIDIA SHIELD&#160;Tablet prior to OTA 2.2.
+</li>
+            <li value="6">Google Nexus 9 OS v5.1x and below require root privileges. This issue will be fixed in a future release. </li>
+        </ul>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

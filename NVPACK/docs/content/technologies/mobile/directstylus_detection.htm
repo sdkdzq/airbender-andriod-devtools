@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|DirectStylus">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Detecting When You Are Running on a Device with DirectStylus Support</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/directstylus_detection.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="directstylus_main.htm">DirectStylus</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Detecting When You Are Running on a Device with DirectStylus Support</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Detecting When You Are Running on a Device with DirectStylus Support</span>
+        </h1><a name="kanchor65"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>There are times when it is desirable or necessary for your application to know when it is running on a device with DirectStylus support.</p>
+        <p>It is easy for you to detect this inside of your application. You simply need to query the <code>PackageManager</code> for a list of available system features and search for the necessary strings.</p>
+        <p>The following are currently defined features that you can search for:</p>
+        <table style="width: 100%;margin-left: auto;margin-right: auto;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>System Feature</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>com.nvidia.feature.DirectStylus</code> <![CDATA[ ]]></td>
+                    <td>If present, indicates the device supports DirectStylus. <br /><br />For backward compatibility with existing devices, please see <code>com.nvidia.nvsi.feature.DirectStylus</code> below. </td>
+                </tr>
+                <tr>
+                    <td><code>com.nvidia.nvsi.feature.DirectStylus</code> <![CDATA[ ]]></td>
+                    <td>If present, indicates the device supports DirectStylus.<br /><br />DEPRECATED:&#160;Please check for this feature flag for backward compatibility with existing devices, but also check for <code>com.nvidia.feature.DirectStylus</code> to ensure future compatibility.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following is a code sample that shows how to detect if the device supports DirectStylus:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">final android.content.pm.PackageManager packageManager = activity.getPackageManager(); <br />final android.content.pm.FeatureInfo[] featuresList = packageManager.getSystemAvailableFeatures();<br />for (android.content.pm.FeatureInfo f : featuresList)<br />{ <br />&#160;&#160;&#160;&#160;&#160;if (f.name != null &amp;&amp;
+     (f.name.equals("com.nvidia.feature.DirectStylus") ||<br />      f.name.equals("com.nvidia.nvsi.feature.DirectStylus"))   // for backward compatibility
+<br />&#160;&#160;&#160;&#160;&#160;{ <br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// running on device that supports DirectStylus<br />&#160;&#160;&#160;&#160;&#160;}<br />}</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

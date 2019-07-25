@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|ARM DS-5">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Prepare and Start Profiling</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#developertools/mobile/ds5_profile_prep.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="ds5_intro.htm">ARM DS-5</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Prepare and Start Profiling</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor54"></a>
+        <h1><span class="SystemTitle">Prepare and Start Profiling</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Prepare the Target</h4>
+        <p>If you have downloaded and installed DS-5 as part of TADP, you will not need to configure the kernel or compile the gator driver and daemon individually. </p>
+        <p>However, if you have installed DS-5 separately, the steps to prepare the target are as follows:&#160;</p>
+        <blockquote><pre class="prettyprint">$ adb shell insmod /system/lib/modules/gator.ko <br />$ adb forward tcp:8080 tcp:8080<br />$ adb shell gatord &amp;<br /></pre>
+        </blockquote>
+        <table style="margin-left: 0;margin-right: auto;">
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>: Either <code>gatord</code> and <code>gator.ko</code> should be in the same directory, or the <code>gator.ko</code> module should be already loaded. 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Prepare the Host</h4>
+        <ol>
+            <li value="1">Launch DS-5 Eclipse. <br />Enter the target address as <code>localhost</code>. The connection is made to the target port 8080.</li>
+            <li value="2">Click the <b>Capture Options</b> button. Enter the capture session name, and the address as <code>localhost</code>. Turn call stack unwinding on, turn <b>Process Debug Information</b> on, set the sample rate to <b>Normal</b>, and buffer mode to <b>Streaming</b>.<br />To get symbols resolved, add the profiled application library's ELF files to the <b>Program Images</b> section.<br /><table style="margin-left: 0;margin-right: auto;"><col /><col /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;vertical-align: middle;"><b>Note</b>: The profiled <code>Example.apk</code> is a zip archive that contains the <code>lib/</code> folder with the needed ELF files.</td></tr></tbody></table></li>
+            <li value="3">Click the <b>Counters</b> button. Select the counters to be profiled and save the configuration. To save modifications, the <b>Counters Options</b> directory from where <code>gatord</code> was launched must be writable.<br /><table><col /><col /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;vertical-align: middle;"><b>Note</b>: L2 cache counters work with the patched kernel.</td></tr></tbody></table></li>
+            <li value="4">Start profiling. <br />Manually start the application on the target, and press <b>Start</b> in DS-5. When finished, press <b>Stop</b> and wait while DS-5 analyzes the gathered data. </li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

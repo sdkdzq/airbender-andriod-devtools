@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Using the Debugger: Rooted</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_setup_rooted.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Using the Debugger: Rooted</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Using the Debugger: Rooted</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>This guide will give you a walkthrough of using <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> with a rooted device. </p>
+        <h4>Launching Applications with <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>:&#160;</h4>
+        <ol>
+            <li value="1">Start the <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> Host from the Start menu. <br />The <b>Connect to Application</b> dialog will appear and default to your connected device. <br />If you have multiple devices connected, you can choose the drop-down menu next to <b>Target</b> and select the device you want to use. <br /><br /><a class="MCPopupThumbnailLink" href="images/tgd_connection.003.png"><img class="MCPopupThumbnail img" data-mc-width="1036" data-mc-height="689" src="images/tgd_connection.003_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a><br /></li>
+            <li value="2">The <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> GUI supports launching applications with the interposer preloaded.  This requires pushing the interposer <code>.so</code> file to the target system.  Once you select your target device, the button in the upper right corner will show the current status of the interposer.<br /><br /><img src="images/tgd_launch_apk.001.png" /><br />If the button has an X, the interposer is not on the target device.  Click the button to push the interposer to the target device.<br /><br /><table><col /><col style="width: 660px;" /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;"><img src="../images/warningbox.png" /></td><td style="background-color: #ffffe0;vertical-align: middle;">
+                        If you see an error in the log saying “failed to copy” and “Read-only file system,” open a DOS box and use the <code>adb root</code> and <code>adb remount</code> commands to allow the files to be uploaded.
+                    </td></tr></tbody></table></li>
+            <li value="3">Choose the apk you are interested in debugging from the list of applications, and press the Launch button in the lower right hand on your device. Once the application has started you should see the main screen transition to the Performance Dashboard.</li>
+        </ol>
+        <h4>Attaching to Applications with <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span><br /></h4>
+        <ol>
+            <li value="1">If you have linked your application with the <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> and launched it by tapping on the application icon on the device, select the tab that says <b>Attach</b>, and click the refresh button just above the <b>Application Name</b> list to see the application of interest. <br /><br /><a class="MCPopupThumbnailLink" href="images/tgd_interposer_target.002.png"><img class="MCPopupThumbnail img imgbtn-sm" data-mc-width="1036" data-mc-height="689" src="images/tgd_interposer_target.002_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a><br /></li>
+            <li value="2">Applications that are enabled for Frame Debugging will appear in the list. <ol style="list-style-type: lower-alpha;"><li value="1">You can choose <b>Show All</b> if you want to view all applications that are running on the target device; applications that cannot be debugged will appear with their names grayed out.</li><li value="2">To quickly locate a specific application by name, you can type the first few letters of its name, or its process ID in the <b>Search</b> field, and only matching applications will appear in the list. </li></ol></li>
+            <li value="3">Select the application and click <b>Attach</b> in the lower right corner to start using the <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>.</li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

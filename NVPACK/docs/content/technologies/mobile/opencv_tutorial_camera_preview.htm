@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|OpenCV for Tegra|OpenCV for Tegra Examples">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>OpenCV Tutorial 1: Camera Preview</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/opencv_tutorial_camera_preview.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="opencv_main.htm">OpenCV for Tegra</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">OpenCV Tutorial 1: Camera Preview</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor74"></a>
+        <h1><span class="SystemTitle">OpenCV Tutorial 1: Camera Preview</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>This tutorial shows one of the simplest way in which an Android application can use OpenCV&#160;(i.e., via the OpenCV application helper classes). The application grabs preview frames from the camera in real time, and displays them in full screen mode either using OpenCV’s Java or native camera API. It also allows the user to switch between the Java and native modes.</p>
+        <p>Observe the following special permissions in the <code>AndroidManifest.xml</code> file, which allow access to the device camera:</p>
+        <blockquote><pre class="prettyprint">&lt;uses-permission android:name="android.permission.CAMERA"/&gt; <br />&lt;uses-feature android:name="android.hardware.camera" android:required="false"/&gt;<br />&lt;uses-feature android:name="android.hardware.camera.autofocus" android:required="false"/&gt;<br />&lt;uses-feature android:name="android.hardware.camera.front" android:required="false"/&gt;<br />&lt;uses-feature android:name="android.hardware.camera.front.autofocus" android:required="false"/&gt;</pre>
+        </blockquote>
+        <p>Note also, the following lines in the <code>AndroidManifest.xm</code>l file that enable the application to run in full screen mode:</p>
+        <blockquote><pre class="prettyprint">&lt;application <br />&#160;&#160;&#160;&#160;&#160;android:icon="@drawable/icon"<br />&#160;&#160;&#160;&#160;&#160;android:label="@string/app_name"<br />&#160;&#160;&#160;&#160;&#160;android:theme="@android:style/Theme.NoTitleBar.Fullscreen" &gt;</pre>
+        </blockquote>
+        <p>The tutorial only defines the Android Activity class, and uses the helper View  classes from OpenCV (<code>JavaCameraView</code> or <code>NativeCameraView</code>). The application’s layout is described in the <code>tutorial1_surface_view.xml</code> file as the following:</p>
+        <blockquote><pre class="prettyprint">&lt;FrameLayout xmlns:android=http://schemas.android.com/apk/res/android<br />&#160;&#160;&#160;&#160;&#160;xmlns:tools=http://schemas.android.com/tools<br />&#160;&#160;&#160;&#160;&#160;xmlns:opencv=http://schemas.android.com/apk/res-auto<br />&#160;&#160;&#160;&#160;&#160;android:layout_width="match_parent"<br />&#160;&#160;&#160;&#160;&#160;android:layout_height="match_parent" &gt;
+<br />&#160;&#160;&#160;&#160;&#160;&lt;org.opencv.android.JavaCameraView<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:layout_width="fill_parent"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:layout_height="fill_parent"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:visibility="gone"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:id="@+id/tutorial1_activity_java_surface_view"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;opencv:show_fps="true"  opencv:camera_id="any" /&gt;
+<br />&#160;&#160;&#160;&#160;&#160;&lt;org.opencv.android.NativeCameraView<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:layout_width="fill_parent"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:layout_height="fill_parent"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:visibility="gone"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;android:id="@+id/tutorial1_activity_native_surface_view"<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;opencv:show_fps="true"  opencv:camera_id="any" /&gt;
+<br />&lt;/FrameLayout&gt;</pre>
+        </blockquote>
+        <p>The above statements create and make invisible two full screen views of the predefined OpenCV types. Each view can become visible, depending on the application menu choice selected by the user. The application's <code>Activity</code> class is defined in the <code>TutorialActivity.java</code> file. The code to initialize OpenCV asynchronously via the OpenCV Manager Android service is as follows: </p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@Override<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;public void onManagerConnected(int status) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;switch (status) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;case LoaderCallbackInterface.SUCCESS:<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Log.i(TAG, "OpenCV loaded successfully");<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mOpenCvCameraView.enableView();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;} break;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;default:<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;super.onManagerConnected(status);<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;} break;<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}<br />&#160;&#160;&#160;&#160;&#160;};
+<br />@Override<br />&#160;&#160;&#160;&#160;&#160;public void onResume() {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;super.onResume();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;OpenCVLoader.initAsync( OpenCVLoader.OPENCV_VERSION_2_4_8,<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;this, mLoaderCallback );<br />&#160;&#160;&#160;&#160;&#160;}</pre>
+        </blockquote>
+        <p>Note that it is not allowed to use OpenCV Java calls or load the native libraries that call OpenCV native functions before invoking this callback.</p>
+        <p>The <code>Tutorial1Activity</code> class implements the <code>CvCameraViewListener2</code> interface that allows the app to subscribe to the <code>onCameraFrame</code> callback. This callback delivers a new frame from the camera for processing before displaying it. The subscription is done with the following call:</p>
+        <blockquote><pre class="prettyprint">@Override <br />public void onCreate(Bundle savedInstanceState) {<br />&#160;&#160;&#160;&#160;&#160;// …<br />&#160;&#160;&#160;&#160;&#160;mOpenCvCameraView.setCvCameraViewListener(this);<br />}</pre>
+        </blockquote>
+        <p>On receiving a new frame, the activity class does not process it in any way, and simply returns it, displaying as:</p>
+        <blockquote><pre class="prettyprint">&#160;&#160;&#160;&#160;&#160;public Mat onCameraFrame(CvCameraViewFrame inputFrame) {<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return inputFrame.rgba();<br />&#160;&#160;&#160;&#160;&#160;}</pre>
+        </blockquote>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> If you wish to call OpenCV for Tegra Java functions in your existing Eclipse Android projects, use the steps listed below to correctly setup your Android projects.</p>
+                        <ol>
+                            <li value="1">Verify that the Eclipse project for the OpenCV Library is imported into your current workspace. If it isn’t, follow steps 3c-3e listed in the <a href="opencv_tegra_examples.htm#top">Setup</a> section to import it.</li>
+                            <li value="2">Include the OpenCV Library into your Android project by right clicking on the project in <b>Project Explorer</b> &gt; <b>Properties</b> &gt; <b>Android</b> &gt; <b>Library</b> &gt; <b>Add</b> &gt; Select the listed <b>OpenCV Library – 2.4.8.2</b> &gt; <b>OK</b>. </li>
+                            <li value="3">Modify your application for asynchronous initialization of OpenCV using the OpenCV Manager service. </li>
+                        </ol>
+                        <p>For more details see: <a href="http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#java" target="_blank">http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#java</a></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> It is also possible to employ so-called "static" initialization of the OpenCV libraries instead of asynchronous initialization with the OpenCV Manager.</p>
+                        <p>The detailed procedure for how to do this is <a href="http://docs.opencv.org/trunk/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#application-development-with-static-initialization" target="_blank">here</a> . However, note the following exceptions to these instructions for development with OpenCV for Tegra.</p>
+                        <ol>
+                            <li value="1">If your application does not have a JNI part, copy the library files from the <code>&lt;path to TADP directory&gt;/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/libs/tegra3</code> directory for Tegra 3 or 4 devices, <code>&lt;path to TADP directory&gt;/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/libs/tegra5-static-cuda</code> for Tegra K1, or from the <code>&lt;path to TADP directory&gt;/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/libs/armeabi-v7a</code> directory for Tegra 2 devices, respectively, to the <code>libs/armeabi-7a</code> folder of your project.</li>
+                            <li value="2">If your application has a JNI part, on Tegra 3, 4i, 4 or K1, modify its <code>Android.mk</code> file to include the line: <br /><pre class="prettyprint">include ../../sdk/native/jni/OpenCV-tegra3.mk</pre><br />Tegra 2:&#160; <br /><pre class="prettyprint">include ../../sdk/native/jni/OpenCV.mk &#160;&#160;</pre></li>
+                        </ol>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

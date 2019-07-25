@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Optimize OpenGL ES 2.0 Performance for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Vertex Shader Performance</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles2_perf_vertex_shader.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Vertex Shader Performance</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor118"></a>
+        <h1><span class="SystemTitle">Vertex Shader Performance</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>The Tegra vertex shader unit is extremely powerful and flexible.  It is a super-scalar, dual-issue unit consisting of a vector floating point (4-wide)  pipeline alongside a scalar floating point "multi-function unit" pipeline (providing common transcendental function implementations; <code>sin</code>, <code>sqrt</code>, <code>log2</code>, etc).</p>
+        <p>It has full support for conditional operations and looping, and is capable of transforming vertices at a rate of more than 100M per second. It has pre-transform and post-transform cache support systems in order to help achieve high throughput efficiently, without loading the back-end memory system excessively.</p>
+        <h4>Vertex Shader Guidelines and Optimizations</h4>
+        <p>Reduce the memory footprint and optimize the layout of vertex data to minimize load on the memory system by doing the following:</p>
+        <ul>
+            <li value="1">Store vertex data as interleaved attribute streams ("array of structures" layout),  such that "over-fetch" for an attribute tends to pre-fetch data that is likely to be useful for subsequent attributes and vertices. Storing attributes as distinct, non-interleaved ("structure of arrays") streams  can lead to "page-thrashing" in the memory system, with a massive resultant drop in performance.</li>
+            <li value="2">Use compressed vertex attribute formats; Tegra supports byte and short formats, as well as half-precision(fp16) and full-precision(fp32) float vertex attribute formats. All attributes are converted to floating point (for free) and can be renormalized (according to the GLES2 spec, also for free) when fetched into the vertex unit. Judicious use of byte (normal and tangent vectors, colors), half precision float (texture mapping coordinates) can easily reduce vertex footprint, and thus vertex fetch memory bandwidth, by 50%, with negligible, or zero, impact on image quality.</li>
+            <li value="3">Optimize geometry for pre-transform cache. Typically this involves a trivial re-ordering of vertex data (and subsequent remapping of indices) to improve cache coherency of fetched vertex attributes.</li>
+        </ul>
+        <p>Take full advantage of Tegra’s sophisticated post-transform cache by following these guidelines:</p>
+        <ul>
+            <li value="1">Always use indexed primitives (<code>glDrawElements</code>). This reduces the average number of vertices shaded per triangle, which improves overall geometry throughput considerably.</li>
+            <li value="2">Prefer indexed triangle lists to indexed triangle strips. The degenerate triangles that are used to link triangle strips consume precious cycles for no return; therefore, using triangle strips (indexed or otherwise) is not optimal on Tegra devices.</li>
+            <li value="3">Optimize index buffers to minimize cache misses when fetching the indexed vertex stream. For complex vertex shaders, this can be hugely beneficial. Reusing vertices from post-transform cache reduces load on the vertex shader unit for zero cost. NVIDIA provide the <code>NvTriStrip</code> tool to help optimize geometry for post (and pre) transform cache.</li>
+        </ul>
+        <p>Use vertex buffer objects (VBOs) to store ALL geometry (vertex and index) data:</p>
+        <ul>
+            <li value="1">By storing data in VBOs, the application makes a contract with the driver, stating that the buffer content will not change, except via certain well-defined API’s.</li>
+            <li value="2">Mark as many VBOs as possible with <code>GL_STATIC_DRAW</code>. This makes a further statement to the driver that the application does not intend to modify the contents of a particular buffer in the foreseeable future. This allows the driver to deal with that buffer content as if it were immutable, without fear of the content being modified.</li>
+            <li value="3">If the content of a VBO is likely to change, mark the buffer as <code>GL_DYNAMIC_DRAW</code> (or <code>GL_STREAM_DRAW</code>, depending on the likely update pattern).</li>
+        </ul>
+        <p>Avoid updating dynamic VBO content for a buffer already in use by the GPU:</p>
+        <ul>
+            <li value="1">Attempting to access a buffer already referenced by one or more in-flight drawcalls will stall the CPU until all drawcalls referencing that buffer have been processed. Use at least a pool of round-robin VBOs for dynamic objects (reusing in least-recently-drawn fashion), and if possible, use an independent VBO set per dynamic object.</li>
+        </ul>
+        <p>Minimize unnecessary load on the memory system when updating VBO content dynamically:</p>
+        <ul>
+            <li value="1">If CPU-side update of dynamic VBO content is unavoidable, the most efficient way to do this on Tegra is with <code>glMapBuffer</code>/<code>glUnmapBuffer</code> APIs. Using this approach removes the need for the driver to copy the data (as the application writes directly to the mapped buffer storage).</li>
+        </ul>
+        <h4>Character Skinning and the Vertex Unit</h4>
+        <p>Moving character skinning from the CPU to the GPU is a perfect way to offload the CPU and lower memory bandwidth.  OpenGL ES 2.0 makes dynamic character skinning possible on the GPU, even if the skinning method does not fit the "basic bone-palette" limitations.  Even more complex skinning can be done on the GPU (e.g., bone skinning and morph deformations).  By moving all skinning to the GPU, we can also avoid using dynamic vertex buffers, since all of the source data (except matrices) can be static.  However, there are a few recommendations for character skinning on the GPU:</p>
+        <ul>
+            <li value="1">Analyze the use of bone matrices per object, and avoid passing down unused bone matrices as uniforms for a given object.</li>
+            <li value="2">Analyze bone weights per vertex offline, and cull bones with inconsequential weights.</li>
+            <li value="3">Since bone matrices are normally rigid transforms, consider using 3x4 matrices (a set of 3 4-vector uniforms) to represent each as a 3x3 rotation+scale and a 3D translation rather than 4x4 matrices for bones, especially if the bone palette is large.  Then the final transform from world or post-deformed model space to clip space can be a single 4x4 matrix.  This can cut the number of 4-vector uniforms per vertex shader by 25%.</li>
+            <li value="4">If multiple sub-sections of a character are to be drawn with the same shader, but each with different rendering settings, consider setting the shader and its bone transform uniforms once, then interleave texture and render state changes with sub-mesh draw calls without ever changing the shader or the bone uniforms.  This can greatly lower the overhead of the sub-object rendering.  In this case, since the entire character’s palette of bone matrices can be sent down once, it is fine that each subsection of the mesh does not use all of the bones.</li>
+            <li value="5">Carefully analyze the performance of multi-pass rendering algorithms with complex GPU skinning, since GPU skinning is computed for each rendering pass, not once per frame.</li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

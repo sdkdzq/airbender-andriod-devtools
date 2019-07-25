@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Optimize OpenGL ES 2.0 Performance for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Maximizing the GPU and CPU/GPU Parallelism</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles2_perf_maximize_gpu.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Maximizing the GPU and CPU/GPU Parallelism</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor117"></a>
+        <h1><span class="SystemTitle">Maximizing the GPU and CPU/GPU Parallelism</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>The most common initial performance issues in 3D applications tend to involve causing the driver to do needless work, or doing work in the app on the CPU that could be done more efficiently on the GPU.</p>
+        <h4>Avoid Redundant State Changes</h4>
+        <p>Avoid redundant state changes to the driver (e.g. <code>glEnable</code>/<code>glDisable</code>).  There are several common cases:</p>
+        <p>
+            <img src="images/gles2_perf_redundant_state.png" />
+        </p>
+        <h5>Do not "Push and Pop"</h5>
+        <p>Do not "push" and "pop" render state. In other words, during a scene graph traversal, every render state change should be directly related to a draw call.  Often, push/pop-style behavior can lead to cases such as the following (see the simple scene graph above):</p>
+        <ul>
+            <li value="1">Set state to an initial value A at the start of the frame, based on the root.</li>
+            <li value="2">Set state to B and traverse down into object (driver must flag a change).</li>
+            <li value="3">Draw object with state B.</li>
+            <li value="4">Step up the tree, out of the object and reset the state to A (driver must flag a change).</li>
+            <li value="5">Set state to B again and traverse down into another object (driver must flag a change).</li>
+            <li value="6">Draw object with state B.</li>
+        </ul>
+        <p>In this case, both objects were drawn with the driver having to at least process the changed state in order to determine that it hadn’t actually changed (it was B in both draw calls).  Associate state with drawable objects and set accordingly.</p>
+        <h5>Avoid Setting Entire "Materials" on Each Draw Call</h5>
+        <p>Do not send every render state to the driver on every draw call and assume the driver will test for unchanged values.  Use high-level app knowledge to send only state that has changed, since this can often be done with far fewer comparisons at a higher level.</p>
+        <h5>Avoid Changing Expensive States</h5>
+        <p>Know which states are particularly expensive, and do not change them very frequently.  Particularly expensive states include:</p>
+        <ul>
+            <li value="1"><code style="font-weight: bold;">glUseProgram</code>: Changing shader programs can be very expensive, as the shader program is responsible (according to the GLES spec) for storing and restoring the state of all of its uniforms (or shader constants).  The more uniforms in the shader, the more expensive swapping will be. Avoid dynamically re-linking shader programs, as compiling and linking shaders are heavyweight operations.</li>
+            <li value="2"><b>Some texture formats</b>:  Switching between non-floating-point and floating-point texture formats used with a given shader can cause a driver-level shader change, and perhaps a recompile.</li>
+            <li value="3"><b>Alpha/Pixel blending mode</b>:  When using runtime-compiled shaders, switching pixel blending modes used with a given shader can cause a driver-level shader change and perhaps a recompile.  This is a case where it may be worthwhile to have independent versions of a shader, one for each blended (and the non-blended) mode, and use a fixed blending mode with each copy.</li>
+            <li value="4"><b>Buffer masking</b>: When using runtime-compiled shaders, switching buffer masking modes used with a given shader can cause a driver-level shader change and perhaps a recompile</li>
+        </ul>
+        <h5>Consider State-Sorted Rendering</h5>
+        <p>Where possible, accumulate the scene’s drawable objects into sets, grouped by expensive states like shader program, and then render all objects with those same states together, changing state only at the start of each different set, not each object.  This form of state gathering can also be useful for analysis.</p>
+        <h4>Avoid CPU-GPU Pixel Transfers</h4>
+        <p>Avoid the following functions on a per-frame basis, as they use memory bandwidth and can stall the rendering pipeline, minimizing GPU/CPU parallelism:</p>
+        <ul>
+            <li value="1"><code>glReadPixels</code> <![CDATA[ ]]></li>
+            <li value="2"><code>gl*Tex*Image*</code> <![CDATA[ ]]></li>
+        </ul>
+        <h4>Avoid CPU-processed Vertices</h4>
+        <p>Processing vertices on the CPU is sub-optimal for several reasons:</p>
+        <ul>
+            <li value="1">It uses the CPU for work that is better-suited to the GPU’s vertex unit.</li>
+            <li value="2">It leaves the powerful GPU vertex unit underworked.</li>
+            <li value="3">It requires transferring the transformed vertices to OpenGL ES each frame.</li>
+        </ul>
+        <p>Therefore, it is best to rework CPU-based vertex transforms and deformations into vertex shaders.  This can allow for a range of optimizations, since vertex shaders on Tegra can utilize a wide range of data types directly (i.e., float, half-float, byte, short, etc).  This can allow for smaller vertex data than would have to be kept around for CPU-based vertex processing.</p>
+        <h4>Maximize Geometry per API Call</h4>
+        <p>Try to deliver as much geometry as possible with each submitted drawcall. Drawing tens (or even hundreds) of triangles per drawcall results in low GPU utilization and poor overall performance. Consider batching (in your tool-chain, preferably) each scene (or sub-scene) by material to increase the payload of each drawcall. Doing this will ensure maximum "bang for your buck" for every drawcall, and keep the GPU operating as close to peak efficiency as possible.</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

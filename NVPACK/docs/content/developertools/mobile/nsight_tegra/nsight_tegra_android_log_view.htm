@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Android Log View</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_android_log_view.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Android Log View</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Android Log View</span>
+        </h1><a name="kanchor37"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h3><a name="Showing_and_Hiding_the_Log_View"></a>Showing and Hiding the Log View</h3>
+        <p>The Android Log View window is named <b>Android Log</b> and is showed by clicking the <b>Tegra</b> &gt;&#160;<b>Windows</b> &gt;&#160;<b>Android Log (logcat)</b>&#160;menu item. <img src="images/nsight_tegra_enable_android_logging.001.png" /></p>
+        <h3>Working with the Log View</h3>
+        <h5>General Usage Info</h5>
+        <p>The figure below shows the <b>Log Window</b> view, in the state that occurs when the filters panel has been closed. </p>
+        <p>
+            <img src="images/nsight_tegra_android_log_view_numbered.002.png" />
+        </p>
+        <p>For reference, the controls numbered above include:&#160;</p>
+        <ol>
+            <li value="1">Clear the search text box (item #2).</li>
+            <li value="2"><a name="Search_text_box"></a>Search text box (see <a href="#Searching">Searching</a>). </li>
+            <li value="3">Desired level of the message importance (see <a href="#Filtering">Filtering</a>). </li>
+            <li value="4">Save the selected log lines to file. </li>
+            <li value="5">Clear the log window (device log is preserved). </li>
+            <li value="6">Clear the log on the device.</li>
+            <li value="7"><a name="Filters_panel"></a>Open or close the filters panel. A&#160;“pressed” button state indicates that the filters panel is open.</li>
+            <li value="8">Scroll locking. A&#160;“pressed” button state indicates that when new log lines are supplied from the device, the list view will auto-scroll to the bottommost line.</li>
+            <li value="9">Filter log by PID&#160;of the debugged app. This button is visible only during the debug session. </li>
+        </ol>
+        <p>When resizing the window horizontally, the width of the search text box changes accordingly. If the window width is not enough to contain all of the toolbar controls, the search text box can be collapsed, and the toolbar controls on the far right can be hidden.</p>
+        <p>Below the toolbar is the main log list view area. The <b>List View</b> is capable of selecting multiple lines using standard <code>Shift + click</code> and <code>Ctrl + click</code> actions. </p>
+        <p><code>Shift + click</code> will select all the lines from the first selected line to the clicked one. <code>Ctrl + click</code> will toggle the selected state of the clicked line.</p>
+        <p>Some of the log lines from the Android logcat command may not be recognized by the Log View. These lines are marked by the <b>Unrecognized</b> level, and have dummy values in each field, with the exception of <b>Text</b>, which contains the full log message text.</p>
+        <p>Each log line has a color that is calculated from the log message's level. The colors are:</p>
+        <ul>
+            <li value="1">Unrecognized: light gray</li>
+            <li value="2">Verbose: gray</li>
+            <li value="3">Debug: light blue</li>
+            <li value="4">Info: green</li>
+            <li value="5">Warning: orange</li>
+            <li value="6">Error: red</li>
+            <li value="7">Fatal: purple</li>
+        </ul>
+        <p>The List View has a context menu with the following menu items:</p>
+        <ul>
+            <li value="1"> <b>Copy (Ctrl + C)</b> — Copies the selected lines onto the clipboard.</li>
+            <li value="2"><b>Filter similar messages…</b> — Opens an <b>Edit Filter</b> window (see <a href="#Filtering">Filtering</a>) and fills all of the fields with the values from the selected log line (or the first selected log line, if multiple lines have been selected).</li>
+        </ul>
+        <p>Double-clicking the List View column’s right border will auto-resize that column to the size of the longest currently visible value in that column.</p>
+        <h5><a name="Searching"></a>Searching</h5>
+        <p>Searching is available via the <a href="#Search_text_box">search text box,</a> and has the following capabilities:</p>
+        <ul>
+            <li value="1">Search by text, search text format is <code>text:&lt;search text&gt;</code>. <br />Example: <br /><code>text:GC_CONCURRENT</code></li>
+            <li value="2">Search by tag, search text format is <code>tag:&lt;search text&gt;</code>. <br />Example: <br /><code>tag:dalvikvm</code></li>
+            <li value="3">Search by pid, search text format is <code>pid:&lt;search text&gt;</code>. <br />Example: <br /><code>pid:1083</code></li>
+        </ul>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Notes on searching: </b></p>
+                        <ul>
+                            <li value="1">Default search mode is search by text, therefore it is unnecessary to specify the <code>text:</code> prefix in order to search by text. For example, <code>text:&lt;search text&gt;</code> is equal to <code>&lt;search text&gt;</code>.</li>
+                            <li value="2">C# regexes can be used when searching by text or by tag.</li>
+                            <li value="3">Search by pid will match only the exact pid, i.e. <code>pid:10</code> will not match <code>pid 1083</code>. Searching by text or tag will match the full string by its part, because of the default regexes behavior (see previous note)</li>
+                            <li value="4">If all of the letters in the search string are lower case, then the search will be case-insensitive. If even one letter is upper case, then the search will be case-sensitive. <br />This is true even if the letter is escaped, e.g. letter in the regex character class <code>\W</code>.</li>
+                            <li value="5">Searching with the empty <code>&lt;search text&gt;</code> will result in all the log lines, i.e. it will not search for anything. To clarify this, the following search text box values will result in all log lines that are available: <code>“”</code>, <code>“pid:”</code>, <code>“tag:”</code>, <code>“text:”</code>.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5><a name="Filtering"></a>Filtering</h5>
+        <p>Android Log View can be filtered using two different features. </p>
+        <ol>
+            <li value="1">Global filtering by Message Importance Level. </li>
+            <li value="2">Persistent filters functionality.</li>
+        </ol>
+        <p><a name="Message_Importance_Level"></a>The <b>Message Importance Level</b> drop-down box has the following values:</p>
+        <ul>
+            <li value="1">Verbose</li>
+            <li value="2">Debug</li>
+            <li value="3">Info</li>
+            <li value="4">Warning</li>
+            <li value="5">Error</li>
+            <li value="6">Fatal</li>
+        </ul>
+        <p>Selecting any of these levels will show only the log lines which has a level that is equal or more severe (important) than the selected level. For example, selecting <code>Info</code> will filter out all the <code>Verbose</code> and <code>Debug</code> log messages. In this mechanism, any unrecognized log lines are treated as <code>Verbose</code>.</p>
+        <p>The <b>persistent filters</b> panel can be opened by pressing the <a href="#Filters_panel">Show Filters Panel</a> button. The default Android Log window view with the filters panel open is displayed below.</p>
+        <p>
+            <img src="images/nsight_tegra_android_log_view_filters.002.png" />
+        </p>
+        <p>The vertical bar between the filters panel and the main area can be adjusted to resize the filters panel. </p>
+        <p>Pressing the <code>+</code> button will open an <b>Add Filter</b> dialog, as shown below. </p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_add_filter_window.002.png" />
+            </p>
+        </blockquote>
+        <p>The <b>Name</b> field will be shown in the filters window. The Name field is not unique and can be empty. <b>Filter by Tag</b>, <b>Filter by Text</b>, and <b>Filter by PID</b> behaves the same as the <a href="#Searching">Searching by tag, text, and pid behaviors</a>. The <b>Filter by Log Level</b> behavior is the same as the <a href="#Message_Importance_Level">Message Importance Level</a> filter. </p>
+        <p>Filter fields are combined using logical <code>AND</code>. For example, <code>Filter by PID = 4129</code> and <code>Filter by Tag = System.err</code> will show only the log lines whose pid is <code>4129</code> and tag is <code>System.err</code>.</p>
+        <p>The filters panel with two added filters is displayed below.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_filters_panel.002.png" />
+            </p>
+        </blockquote>
+        <p>Each filter has a number in parentheses associated to it, which indicates how many log lines satisfy the filter’s conditions. That number changes dynamically as log lines are added or removed. Turning the filter on and off can be done via clicking anywhere inside the filter’s listbox item (except for the rightmost two-button area). Enabled filters are designated by marked checkboxes. If the filter name is too long to fit into the listbox, then it is trimmed and ellipsis (<code>…</code>) is added to the name.</p>
+        <p>It is possible to use multiple persistent filters, by checking several listbox items at once. The filtered result is calculated as filtered log lines of each filter combined by logical <code>OR</code>. Note that the combined log lines' count is not necessarily equal to the sum of the filters’ reported filtered log lines count. This is because one log line may satisfy different filters and therefore is included in several filters’ results at once.</p>
+        <p>When the mouse cursor hovers over the listbox item, two buttons are shown. These buttons can be used for either deleting or editing the filter.</p>
+        <h3>Log View Persistence</h3>
+        <p>Several aspects of the view are preserved between the Visual Studio runs, such as:</p>
+        <ul>
+            <li value="1">Scroll lock state.</li>
+            <li value="2">Log filtering by the debugged app's PID&#160;state. </li>
+            <li value="3">Filters panel open/closed state.</li>
+            <li value="4">Filters panel width. If the panel was closed prior to exiting the Visual Studio, then it will have the saved width after reopening it in the next VS run.</li>
+            <li value="5">Message Importance Level.</li>
+            <li value="6">All the persistent filters and their state (applied/not applied).</li>
+            <li value="7">Log list view columns’ widths.</li>
+            <li value="8">Window state (shown/not shown) (see <a href="#Showing_and_Hiding_the_Log_View">Showing and hiding the Log View</a>).</li>
+        </ul>
+        <p>However, the search box text is not persisted.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> To reset the view to the default state (except for the window state), remove  the <code>%LocalAppData%\NVIDIA Corporation\Nsight Tegra\Settings\logcat_view.xml</code> file.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

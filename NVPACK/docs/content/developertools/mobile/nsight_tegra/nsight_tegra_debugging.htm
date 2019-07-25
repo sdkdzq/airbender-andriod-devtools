@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Debugging an App</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_debugging.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Debugging an App</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor35"></a>
+        <h1><span class="SystemTitle">Debugging an App</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>When <span class="MyVariablesNsightTegraFULL">Nsight Tegra, Visual Studio Edition</span> builds a project in debug mode, a copy of GDB server is included in the application package file (<code>.apk</code>)&#160;and run on the device when the application is debugged.  A <code>gdb.setup</code> file is also created in the project root directory and used to initialize the GDB client.  This file contains commands to set the library search paths and source directories.  The setup file is generated each time the project is built, but additional GDB user commands can be entered in the <code>#BEGIN USER COMMANDS</code> section and will not be overwritten.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_gdb_setup_file_238x130.png" style="width: 238;height: 130;" />
+            </p>
+        </blockquote>
+        <p>In the case of a <b>Make Application</b> project, <code>NDK-BUILD</code> generates the <code>gdb.setup</code> file during a build.  When a project is launched, the debugger will first look for the file in the project root, then search for it in the project directories.</p>
+        <p>By default, the application project set as the startup project will be debugged.  To set a project for startup, right-click on it and select <b>Set as Startup Project</b>.  A different project can also be debugged by right-clicking on the project and selecting the <b>Debug</b> &gt; <b>Start new instance</b> menu.</p>
+        <p>An application can be installed, run, and debugged on the device using the <b>Start Debugging</b> button or menu.  By default, Visual Studio will prompt to build the project if it is out of date.  This can be changed using the <b>Project and Solutions</b> &gt; <b>Build and Run</b> &gt; <b>On Run</b>, when projects are out of date option.</p>
+        <p>By default when a project is started it will install, run, and attach to the application process on the device.  If the application has already been installed and is running on the device, the debugger can be set to attach to the existing process.  This can be selected in the project’s <b>Debugging</b> properties.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_debugging_attach.png" />
+            </p>
+        </blockquote>
+        <p>An existing process can also be attached by using the <b>Debug</b> &gt; <b>Attach to Process…</b> menu.  This will open the Visual Studio <b>Attach to Process</b> dialog.</p>
+        <blockquote>
+            <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_attach_process.001.png"><img class="MCPopupThumbnail img" data-mc-width="870" data-mc-height="587" src="images/nsight_tegra_attach_process.001_thumb_600_0.png" style="mc-thumbnail-max-height: auto;mc-thumbnail: link;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+            </p>
+        </blockquote>
+        <ol>
+            <li value="1">The <b>Transport</b> should be set to <code><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span></code>. </li>
+            <li value="2"> All connected Android devices and emulators will be shown in the <b>Qualifier</b> list.  Select the device that is running the application and the processes will be listed.  The process for an application will have the same name as the application package.  </li>
+            <li value="3">Select the process that corresponds to the application and click the <b>Attach</b> button.</li>
+        </ol>
+        <p>Once an application is launched or attached, a status dialog will be displayed.  If the connection is successful, the debug session will start.  If the connection fails, information about the error will be displayed in the status dialog.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_attaching_dialog.004.png" />
+            </p>
+        </blockquote>
+        <p>When debugging is stopped, a launched program will be terminated.  An attached program will continue to run on the device.</p>
+        <h4>Debugging Java and Native Code</h4>
+        <p>In order to debug both Java and native code, the <b>Debug Mode</b> in the project debugging properties must be set to <code>Java and Native code</code>.</p>
+        <p>The debugger can only be stopped in either Java or native code at any given time.  When encountering a Java breakpoint, the debugger will stop in Java code.  Likewise, when encountering a C/C++ breakpoint, the debugger will stop in C/C++ code.  When <b>Break All</b> is selected, the debugger uses the active editor to determine if it should stop in Java or native code.  For <code>.java</code> files, the debugger will stop in Java code.  For <code>.c</code>, <code>.h</code>, <code>.cpp</code>, <code>.hpp</code>, <code>.cxx</code>, and <code>.hxx</code> files, the debugger will stop in C/C++ code. </p>
+        <p> By default, a prompt will be displayed if the type of stop cannot be determined from the active editor.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_stop_prompt.png" />
+            </p>
+        </blockquote>
+        <p>This can be changed in the <b>Tools</b> &gt; <b>Options…</b> &gt; <b>Android</b> &gt; <b>Debug</b> &gt; <b>Code to stop in by default</b> option.</p>
+        <p>When the debugger is stopped in native code, Java threads may not be inspected.  This is because the entire process is suspended and the Java virtual machine is not able to respond to commands.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_call_stack_location.png" />
+            </p>
+        </blockquote>
+        <p>A breakpoint set in Java code will not be installed until the program is resumed and the virtual machine can respond to the breakpoint request.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_breakpoint_response.png" />
+                <br />
+            </p>
+        </blockquote>
+        <h4>Execution</h4>
+        <p>The <b>Debug</b> toolbar can be used to control execution of the program.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_debug_toolbar.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Continue</b> — Resumes a suspended program.</li>
+            <li value="2"><b>Break All</b> — Suspends the program.</li>
+            <li value="3"><b>Step Into</b> —  Steps into the next statement.</li>
+            <li value="4"><b>Step Over</b> —  Steps over the next statement.</li>
+            <li value="5"><b>Step Out</b> —  Steps out of the current function.  If stepping out of application code into the VM, the program will be resumed.</li>
+        </ul>
+        <p>When a source file is active, a source step will be performed.  When the <b>Disassembly</b> window is active, an instruction step will be performed.</p>
+        <h4>Debugging an Existing APK </h4>
+        <p>In order to debug an existing <code>.apk</code> file with native <code>.so</code> libraries compiled separately from <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>, you should do the following:&#160;</p>
+        <ol>
+            <li value="1">Create a new project by going to <b>File</b> &gt;&#160;<b>New</b> &gt;&#160;<b>Project</b>. Select the <b>Android Hello World Demo</b> project. <br /></li>
+            <li value="2">Go to <b>Build</b> &gt;&#160;<b>Configuration Manager</b> and uncheck the <b>Build</b> checkbox. <br /><br /><a class="MCPopupThumbnailLink" href="images/nsight_tegra_build_config_mgr.004.png"><img class="MCPopupThumbnail img" data-mc-width="807" data-mc-height="580" src="images/nsight_tegra_build_config_mgr.004_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 600px;mc-thumbnail-max-height: auto;" tabindex="" /></a><br /></li>
+            <li value="3">Go to your project's <b>Properties</b> page and do the following:&#160;<ol style="list-style-type: lower-alpha;"><li value="1">On the <b>Debugging</b> tab, click the drop-down arrow next to <b>Override APK&#160;Path</b>, and select <b>Edit</b>. Then enter the path to your APK. <br /><br /><a class="MCPopupThumbnailLink" href="images/nsight_tegra_override_apk_path.png"><img class="MCPopupThumbnail img" data-mc-width="1016" data-mc-height="770" src="images/nsight_tegra_override_apk_path_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a><br />Note that if you select the <b>Browse</b> dialog, it will require you to select an <code>.exe</code> file. This is a known issue. </li><li value="2">On the General tab, click the drop-down arrow next to Target Android API&#160;Level, and set the required API&#160;level. <br /><br /><a class="MCPopupThumbnailLink" href="images/nsight_tegra_target_api_level.004.png"><img class="MCPopupThumbnail img" data-mc-width="1020" data-mc-height="775" src="images/nsight_tegra_target_api_level.004_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 600px;mc-thumbnail-max-height: auto;" tabindex="" /></a><br /></li></ol></li>
+            <li value="4">Create a <code>libs\&lt;architecture&gt;</code> directory inside the <b>Hello World</b> project root folder. The default setting is <code>libs\armeabi-v7a</code>. Alternately, this can be done through the project's debug properties. </li>
+            <li value="5">Update <code>AndroidManifest.xml</code> with relevant data, the most important of which is to change the package and activity names. Alternately, you can also substitute it with your own manifest file. </li>
+            <li value="6">Set breakpoints and begin debugging. </li>
+        </ol>
+        <h3>Setting Breakpoints</h3>
+        <p><b>Breakpoints</b> are set by clicking in the vertical margin of a source file, or by using the toggle breakpoint menu item (F9).</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_line_breakpoint.png" />
+            </p>
+        </blockquote>
+        <p>The debugger will stop program execution when the breakpoint is encountered.  Breakpoints can be set before a project is launched.</p>
+        <p>When debugging, if a breakpoint fails to set, it will be annotated with a warning and the tooltip will include information.  If a breakpoint is set in the source for a module that has not loaded yet, it will be marked pending.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_pending_breakpoint.png" />
+            </p>
+        </blockquote>
+        <p>When the module is loaded, the breakpoint will set and update in the source file.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>	Note: Pending breakpoints are only available using NVNDK GDB 7.2.  The NDK GDB 6.6 does not support library load events.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Function Breakpoint</h4>
+        <p>A breakpoint can be set on a named function using the <b>Debug</b> &gt; <b>New Breakpoint</b> &gt; <b>Break at Function…</b> menu.</p>
+        <p>
+            <img src="images/nsight_tegra_function_breakpoint.png" />
+        </p>
+        <p>The breakpoint will stop the program when the function is entered.  The <b>Line</b> and <b>Character</b> elements are not supported and will result in an error if used.</p>
+        <h4>Breakpoint Condition</h4>
+        <p>A condition can be set for a breakpoint by right-clicking on it and selecting <b>Condition…</b>  A valid GDB expression can be entered for the condition.  Only expressions that result in a ‘true’ evaluation are supported.  Breaking when an expression <b>Has changed</b> is not supported.</p>
+        <p>
+            <img src="images/nsight_tegra_breakpoint_condition.png" />
+        </p>
+        <h4>Breakpoint Hit Count</h4>
+        <p>A breakpoint can be set to stop after it is hit a specified number of times by right-clicking on it and selecting <b>Hit Count…</b></p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_breakpoint_hit_count.png" />
+            </p>
+        </blockquote>
+        <h4>Breakpoint Filter</h4>
+        <p>A filter can be set for a breakpoint by right-clicking on it and selecting <b>Filter…</b></p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_breakpoint_filter.png" />
+            </p>
+        </blockquote>
+        <p>A breakpoint in code that is called by multiple threads can be set to stop only for certain threads by using the <code>ThreadId</code> or <code>ThreadName</code> intrinsics.</p>
+        <h4>Tracepoints</h4>
+        <p>A breakpoint can be set to print a message when it is hit.  Right-click on the breakpoint and select <b>When Hit…</b>, or right-click in the source window and select <b>Breakpoint</b> &gt; <b>Insert Tracepoint</b>.  Instead of stopping on the breakpoint, the debugger will print the message when it is encountered.  The message will be printed to the <b>Debug</b> pane of the Output window.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_tracepoint.png" />
+            </p>
+        </blockquote>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>	Note: Attempting to step over a function containing a tracepoint will cause the debugger to stop at the tracepoint.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Watchpoints</h4>
+        <p>Watchpoints stop the program when the specific address in memory is read or written. There are two ways to set up a watchpoint in <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>. First, you can select the <b>New</b> &gt; <b>New Data Breakpoint...</b> menu item in the Breakpoints window and specify an address or an expression to watch, which will create an on-write watchpoint.</p>
+        <p>
+            <img src="images/nsight_tegra_watchpoint.001.png" />
+        </p>
+        <p>The other option is to use the <b>Tegra</b> &gt; <b>Debug</b> &gt; <b>New Watchpoint</b> menu item (<img src="images/nsight_tegra_watchpoint_menu_item.001.bmp" />  on the toolbar), which will bring up a dialog that allows you to choose the type of the watchpoint.</p>
+        <p>
+            <img src="images/nsight_tegra_watchpoint_new.001.png" />
+        </p>
+        <p>On-access watchpoints stop the program when the memory is either read or written. </p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>	Note: There is a device-dependent limit on amount of watchpoints that can be active at any given time. Exceeding this limit will trigger an error.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Signals</h4>
+        <p>Signals are asynchronous events that can happen in the program. Android defines many signals that can occur during program execution. The signals can be configured in the Visual Studio Exceptions dialog accessed from the <b>Debug</b> &gt; <b>Exceptions…</b> menu. The signals are located under <b>Android Exceptions</b> &gt; <b>Signals</b>. The debugger can be set to stop for a signal; this setting will be remembered between debug sessions.</p>
+        <blockquote>
+            <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_exceptions.001.png"><img class="MCPopupThumbnail img" data-mc-width="828" data-mc-height="477" src="images/nsight_tegra_exceptions.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+            </p>
+        </blockquote>
+        <p>If the debugger is set to stop for a signal, the debugger will prompt when the signal occurs. You can choose to <b>Break</b> or <b>Continue</b> program execution, executing any signal handlers. You can also choose to <b>Ignore</b> the signal, and continue the program execution.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_signals.001.png" style="mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" />
+            </p>
+        </blockquote>
+        <h4>Exceptions</h4>
+        <p>The debugger can be set to stop for C/C++ exceptions.  This is enabled in the Visual Studio <b>Exceptions Dialog</b> accessed from the <b>Debug</b> &gt; <b>Exceptions…</b> menu.</p>
+        <blockquote>
+            <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_exception_dialog.002.png"><img class="MCPopupThumbnail img" data-mc-width="725" data-mc-height="364" src="images/nsight_tegra_exception_dialog.002_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+            </p>
+        </blockquote>
+        <p>If enabled, the debugger will prompt when a C++ exception is thrown and you can choose to stop or continue program execution.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_c_exception.001.png" />
+            </p>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

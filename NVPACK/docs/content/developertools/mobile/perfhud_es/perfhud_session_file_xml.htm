@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Session File XML</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_session_file_xml.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Session File XML</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor11"></a>
+        <h1><span class="SystemTitle">Session File XML</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>We do not recommend manual modification of the session configuration XML file, but a high-level description is provided here for reference.  The XML file is composed of 4 sections: <b>Communication</b>, <b>Protocol</b>, <b>Profiler</b>, and <b>GUI</b>.</p>
+        <p>By default, the session configuration file is named as <code>default.xml</code> and placed at  <code>&lt;user local application data directory&gt;\NVIDIA Corporation\&lt;PerfHUD ES Host Type&gt;</code> in Windows platform; while in Linux platform, <code>.perfhudes.xml</code> in the user’s HOME directory is used instead. When installing a newer PerfHUD ES host, the existing <code>default.xml/.perfhudes.xml</code> will be backed up with postfix of date and time.</p>
+        <p>Besides the session configure file per user, another backup session file is also shipped with PerfHUD ES and placed in the same folder of your host installation folder in Windows, or <code>/usr/share/doc/perfhudes/perfhudes.xml</code> in Linux.</p>
+        <h4>&lt;communication&gt; </h4>
+        <p>Use this section to set the default TCP/IP address and port of the target device.  On most devices, the PerfHUD server listens to port 7876.  For USB devices, the address and port fields are ignored.  The timeout field can be adjusted according to the frequency of communication drop-outs.  Using the default value is recommended, but for slow connections, you might need to increase the value.</p>
+        <h4>&lt;protocol&gt;</h4>
+        <ul>
+            <li value="1"><code>&lt;rpix&gt;</code>
+                <br />Default scrub mode (see documentation on the menu item).  It can be set to “always” for Framebuffer Capture, or “never” for ES Emulation.</li>
+            <li value="2"><code>&lt;speed&gt;</code> <br />Default speed for apps that use the timer extension.  Can be one of: "pause", "play", "16th", "8th", "quarter", "half", "2x", "4x", "8x", "16x".</li>
+            <li value="3"><code>&lt;breakOnError&gt;, &lt;breakOnFrame&gt;, &lt;breakOnFps&gt;</code>
+                <br />The host automatically switches from Performance Dashboard to Frame Debugger when a breakpoint occurs.</li>
+            <li value="4"><code>&lt;directedTests&gt;</code>
+                <br />Set of enabled tests upon startup.</li>
+            <li value="5"><code>&lt;counters&gt;</code>
+                <br />List of counters to request from the target device.  This list can vary for different target devices.</li>
+            <li value="6"><code>&lt;distribution&gt;</code> <br />Three integers (start, delta, max) used to configure the batching graph.</li>
+        </ul>
+        <h4>&lt;profiler&gt;&#160;</h4>
+        <ul>
+            <li value="1"><code>&lt;bucketTable&gt;</code>
+                <br />Enumerates the columns in the bucket table.</li>
+            <li value="2"><code>&lt;drawCallTable&gt;</code>
+                <br />Enumerates the columns in the draw call table.</li>
+            <li value="3"><code>&lt;profGraphs&gt;</code>
+                <br />Enumerates the tans in the graph widget.</li>
+        </ul>
+        <h4>&lt;GUI&gt;</h4>
+        <ul>
+            <li value="1"><code>&lt;windowGeometry&gt;</code>
+                <br />Left, top, width, height of window on startup.</li>
+            <li value="2"><code>&lt;fontSize&gt;</code>
+                <br />Point size for various text, including graph labels.</li>
+            <li value="3"><code>&lt;audio&gt;</code>
+                <br />Resource upload lights can be accompanied by an audible clicking sound.</li>
+            <li value="4"><code>&lt;maximized&gt;</code> <br />Set to true if window is maximized on startup.</li>
+            <li value="5"><code>&lt;steppedGraphs&gt;</code>
+                <br />An alternative style for line graphs that uses a “square wave” type of pattern.</li>
+            <li value="6"><code>&lt;smoothScrolling&gt;</code>
+                <br />Enables graphs to scroll in a more regular and smooth fashion.</li>
+            <li value="7"><code>&lt;statusBarVisible&gt;</code> <br />Toggles visibility of the status pane on the bottom of the screen.</li>
+            <li value="8"><code>&lt;modeBarVisible&gt;</code> <br />Toggles visibility of the vertical pane on the left of the screen.</li>
+            <li value="9"><code>&lt;showAddressQueryAtStartup&gt;</code>
+                <br />Has no effect for USB-enabled versions of PerfHUD.  Otherwise, if set to true, the address dialog is shown at startup.</li>
+            <li value="10"><code>&lt;ipAddressHistory&gt;</code> <br />History of IP addresses that can be accessed via the drop-down list in the address dialog.</li>
+            <li value="11"><code>&lt;searchPaths&gt;</code> <![CDATA[ ]]></li>
+            <li value="12"><code>&lt;tabWidth&gt;</code> <br />Changes the width of tabs in Shader Viewer.</li>
+            <li value="13"><code>&lt;lineNumbers&gt;</code> <br />Shows line numbers in Shader Viewer.</li>
+            <li value="14"><code>&lt;highlighting&gt;</code>
+                <br />Used to set colors for various tokens in Shader Viewer.  (high-level source only)</li>
+        </ul>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

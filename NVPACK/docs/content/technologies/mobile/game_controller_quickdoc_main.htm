@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Supporting the Android Controller Quickstart</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_quickdoc_main.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Supporting the Android Controller Quickstart</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Supporting the Android Controller Quickstart</span>
+        </h1> <a name="kanchor105"></a><div id="pageheader"><hr style="height: 1px;" width="100%" size="0" align="center" /></div><h3>The Full Controller Experience </h3><table><col style="width: 43px;" /><col style="width: 509px;" /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;vertical-align: top;"><b>Note:</b>This document already assumes the reader is familiar with Android or Unity input APIs. </td></tr></tbody></table><p>By using our experience in evaluating countless Android applications that use the controller, we've come up with a checklist of topics and issues to watch out for.  By executing this simple checklist in the next section, your application will have the best-in-class controller experience possible.</p><p>In the sections following the checklist, “gotchas” found by developers and important details are expanded upon.  These details are packaged in a highly dense manner, so take care in examining them.  It's likely even the most experienced developers will find these sections useful.</p><p>With just a little forethought and attention to the details, it's quite simple to elevate your controller support from basic to best-in-class.</p><h4>The Checklist </h4><ul><li value="1"><b>Don’t run under 20fps.</b>  Applications running under 20fps feel especially sluggish when using a controller. While 60fps is the ideal, 30 fps is also acceptable. </li><li value="2"><b>Include testing using HDMI</b>, for the TV-connected device, and – more importantly – to support the new class of "micro-console" devices.</li><li value="3"><b>Auto-detect the controller</b> and use by default, if available.</li><li value="4"><b>Bring up a one-time controller map</b> if your controls are complex.</li><li value="5"><b>In the UI</b>:
+			<ul><li value="1">Have a visual indicator of focus (highlight, arrows, etc.).</li><li value="2">Use classic standards for navigation.</li><li value="3">Every function must be usable from menu items to sliders.</li><li value="4">Have an "exit" menu item in the main and pause menus.</li></ul></li><li value="6"><b>Remove all on-screen touch controls/elements</b> when the controller is the primary input to de-clutter the screen.</li><li value="7"><b>Expect multiple controllers to be connected.</b> A user may not be using the first enumerated controller. For Unity developers, special care needs to be taken to support multiple connected controllers; this is discussed more in a following section. </li><li value="8"><b>Avoid developing for specific controllers, don’t limit your compatibility.</b>  The controller specification supplied here is recommend by Google and NVIDIA.  It covers the “supported” Google controllers as well as the “Built for NVIDIA Tegra” controllers.  This covers 90% of all controllers that most users are likely to have, from console controllers to all major third party manufacturers.</li><li value="9"><b>Support the micro-consoles properly.</b>  This means the user has no touchscreen, and therefore your application needs to support controllers everywhere, from full UI support to gameplay.  To tell Google Play that you are ready for this, it is <b>critical</b> you add this to your manifest:<br /><pre class="prettyprint">&lt;uses-feature android:name="android.hardware.touchscreen" android:required="false"/&gt;</pre></li></ul><p>As you can see, with just a little forethought, it’s quite simple to elevate your controller support from basic to best-of-class.  The following sections will have some helpful data and quick details to help you accomplish this.</p><p>&#160;</p><h4>The Checklist Details </h4><p>Below are some further details not included in the above checklist.</p><ul><li value="1"><b>Include testing using HDMI.</b>  This is important to make sure your work translates to the big screen and still maintains excellent fps.  Keep in mind your application may be dealing with two screen resolutions – the device resolution and the television resolution.  For instance, your device may be 720p and TV 1080p.  At 1080p, your application may suffer in fps from the increased resolution.  Our recommendation is to render to 720p and let the hardware scalar handle the upscale.
+                    </li><li value="2"><b>Auto-detect the controller.</b> A static call to <code>InputDevice.getDeviceIds()</code> and then <code>InputDevice.getDevice(int id)</code> should be all you need to detect if a controller is connected on application startup.  While an application is running, you can wait for the first event from the controller, and ask from which device the event came.  Detecting a controller in Unity will be discussed in a later section.
+                    </li><li value="3"><b>In the UI, have a visual indicator of focus.</b>  A developer should remember to make space for this indicator while designing the UI.  Also, keep in mind all the UI elements when designing the indicator like sliders, radio buttons, tabs, etc.
+                    </li><li value="4"><b>Use classic standards for navigation.</b>  See table:</li></ul><table style="margin-left: auto;margin-right: auto;"><col /><col /><thead><tr><th colspan="2">Navigation Control</th></tr></thead><tbody><tr><td>Positive Answer (Ok, Accept) </td><td>06 and 09 o'clock buttons, <br />pushed Analog Sticks</td></tr><tr><td>Negative Answer (Cancel, Deny) </td><td>12 and 03 o'clock buttons</td></tr><tr><td>UI Focus Movement</td><td>Left Analog Stick and DPAD</td></tr><tr><td>Tab/Page Movement</td><td>Left and Right Top Shoulder Buttons</td></tr><tr><td>In-Application Pause/Options</td><td>Right Middle Button (e.g., Start)</td></tr><tr><td>Go Back/Cancel</td><td>Left Middle Button (e.g., Select, Back) </td></tr></tbody></table><ul><li value="1"><b>Expect multiple controllers to be connected.</b>  There are certain devices that have a built in controller, consider NVIDIA's SHIELD.  Further, consider the SHIELD plugged into a television (“console mode”) with the user sitting with a Bluetooth controller in hand.  Or consider a micro-console with several controllers already hooked to the system.  In each of these scenarios, it is likely the first enumerated controller will not be the controller being used.</li><li value="2"><b>Avoid developing for specific controllers.</b>  Given the wide coverage of the below specification, a developer can virtually eliminate the need for a “Controller Setup Screen.”  However, because of how Unity handles input, we still recommend backing up this specification with a setup screen, if possible.  See the specification represented in controller form on the following pages.</li></ul><p>&#160;</p><p>&#160;</p><hr style="height: 1px;" width="100%" size="0" align="center" /><script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true"></script><p>&#160;</p><div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;"><div class="button-group-container-left"><button class="button needs-pie previous-topic-button" type="button" title="Navigate previous"><img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" /></button><div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div><button class="button needs-pie next-topic-button" type="button" title="Navigate next"><img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" /></button></div></div><p> </p><p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span></p></body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|Appendix">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Appendix A: EGL Extensions</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_appendix_egl_extensions.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Appendix A: EGL Extensions</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Appendix A: EGL Extensions</span>
+        </h1><a name="kanchor18"></a>
+        <hr width="100%" size="0" align="center" />
+        <h3><span style="font-family: 'Courier New';">EGL_NV_system_time</span>
+        </h3>
+        <table>
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td><pre class="prettyprint">egl_nv_system_time</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name Strings</td>
+                    <td><pre class="prettyprint">EGL_NV_system_time</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contact</td>
+                    <td>NVIDIA&#160;Corporation (<a href="mailto:NVPerfHUDESDev@nvidia.com?subject=PerfHUD&#160;ES Support" target="_blank">NVPerfHUDESDev@nvidia.com</a>)&#160;</td>
+                </tr>
+                <tr>
+                    <td>Dependencies</td>
+                    <td>Requires EGL 1.2.</td>
+                </tr>
+                <tr>
+                    <td>Overview</td>
+                    <td>This extension exposes an alternative method of querying the system time  from the driver instead of the operating system.</td>
+                </tr>
+                <tr>
+                    <td>Issues</td>
+                    <td><b>Add 64 bit types?
+</b>
+                        <br />Yes, EGL doesn't support any 64 bit types, so this extension adds <code>int64</code> and <code>uint64</code> types.
+</td>
+                </tr>
+                <tr>
+                    <td>New Types</td>
+                    <td><pre class="prettyprint">typedef long long int EGLint64NV;<br />typedef unsigned long long int EGLEGLuint64NV;</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>New Procedures<br />and Functions</td>
+                    <td><pre class="prettyprint">EGLuint64NV eglGetSystemTimeFrequencyNV(void);<br />EGLuint64NV eglGetSystemTimeNV(void);</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>New Tokens</td>
+                    <td>None. </td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>
+                        <p>The command:
+        </p>
+                        <blockquote><pre class="prettyprint">EGLuint64NV eglGetSystemTimeFrequencyNV(void);</pre>
+                        </blockquote>
+                        <p>Returns the frequency of the system timer, in counts per second. The frequency will not change while the system is running.
+</p>
+                        <p>The command:
+</p>
+                        <blockquote><pre class="prettyprint">EGLuint64NV eglGetSystemTimeNV(void);</pre>
+                        </blockquote>
+                        <p>Returns the current value of the system timer. The system time in seconds can be calculated by dividing the returned value by the frequency returned by the <code>GetSystemTimeFrequencyNV</code> command. Multiple calls to <code>GetSystemTimeNV</code> may return the same values, applications need to be careful to avoid divide by zero errors when using the interval calculated from successive <code>GetSystemTimeNV</code> calls.
+</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Usage Example</td>
+                    <td>
+                        <blockquote><pre class="prettyprint">EGLuint64NV frequency = eglGetSystemTimeFrequencyNV();
+loop
+{
+&#160;&#160;&#160;&#160;&#160;&#160;EGLuint64NV start = eglGetSystemTimeNV() / frequency; 
+&#160;&#160;&#160;&#160;&#160;&#160;// draw 
+&#160;&#160;&#160;&#160;&#160;&#160;EGLuint64NV end = eglGetSystemTimeNV() / frequency; 
+&#160;&#160;&#160;&#160;&#160;&#160;EGLuint64NV interval = end - start; 
+&#160;&#160;&#160;&#160;&#160;&#160;if (interval &gt; 0) update_animation(interval); 
+&#160;&#160;&#160;&#160;&#160;&#160;eglSwapBuffers(dpy, surface);
+}  </pre>
+                        </blockquote>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p> </p>
+        <p> </p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

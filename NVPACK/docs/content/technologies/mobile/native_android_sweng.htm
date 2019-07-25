@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Native Development on NVIDIA&#160;Android Devices">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Software Engineering Tools</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/native_android_sweng.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="native_android_development.htm">Native Development on NVIDIA&#160;Android Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Software Engineering Tools</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Software Engineering Tools</span>
+        </h1><a name="kanchor131"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h3>Astyle for code beautification</h3>
+        <p><a href="http://astyle.sourceforge.net/">Artistic Style</a>  (or <b>astyle</b> for short) is a source code indenter, formatter, and beautifier for the C, C++, C# and Java programming languages. It is a great tool to ensure your code is beautifully and consistently formatted and indented, and can be used to replace any tabs with spaces, ensuring consistent indentation regardless of the editor you use to view the code. </p>
+        <p>You can apply astyle from command line simply by:</p>
+        <blockquote><pre class="prettyprint">astyle file.cpp</pre>
+        </blockquote>
+        <p>This would format the file with 4 spaces per indent. You can configure the way of formatting, either with command line options or by placing the default options into the <code>~/.astylerc</code> file.</p>
+        <p>It is also possible to run an external tool on a file in the editor window in Eclipse. Select <b>Run &gt; External Tools &gt; External Tools Configurations...</b>, create a new <b>Program</b> configuration, and fill in the boxes as below:</p>
+        <p>
+            <img src="images/external_tools_setup.png" />
+        </p>
+        <p>For convenience, the parameters we have used are here:</p>
+        <blockquote><pre class="prettyprint">--indent=spaces=4 --style=allman --indent-labels --indent-preprocessor --indent-col1-comments \<br />--max-instatement-indent=60 --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in \<br />--break-closing-brackets --add-brackets --keep-one-line-blocks --keep-one-line-statements \<br />--convert-tabs --align-pointer=name --align-reference=name --suffix=none --options=none</pre>
+        </blockquote>
+        <p>You should remove the newlines and backslashes if you copy-paste the text into the <b>Arguments</b> box. This version requires version 2.02 or newer — to use version 2.01, drop the parameter <code>--align-reference=name</code>.</p>
+        <p>Note that after pasting the above parameters in the <b>Arguments</b> box, you need to append <code>${container_loc}/${resource_name}</code>, specific for configuring the tool in Eclipse. Then configure the <b>Refresh</b> tab. </p>
+        <p>
+            <img src="images/ext_refresh.png" />
+        </p>
+        <p>And configure the <b>Build</b> tab.</p>
+        <p>
+            <img src="images/ext_build.png" />
+        </p>
+        <p>Next, select <b>Run &gt; External Tools &gt; Organize Favorites...</b> and add the <b>astyle</b> tool.</p>
+        <p>
+            <img src="images/ext_tool_favorites.png" />
+        </p>
+        <p>Now you can run astyle for the file that is selected in the edit window by clicking this button.</p>
+        <p>Note that you should save the file first as the input is taken from the file, not from the editor window.  The content of the editor window is refreshed automatically.</p>
+        <p>
+            <img src="images/run_ext_tool.png" />
+        </p>
+        <p>Eclipse has a built-in formatter, but it is not as nice as astyle.  Whereas astyle lets you format whitespace in the editor, such as aligning comments, assignments, or variable declarations in the consecutive lines and doesn't disturb the edits, Eclipse's formatter will reformat everything, and doesn't allow as much manual override.  However, it's nice if Eclipse's default formatting is somewhat similar to what astyle will use.  You can configure Eclipse by selecting Eclipse <b>Window &gt; Preferences &gt; C/C++ &gt; Code Style &gt; Import</b> and import the <code>mvc_style.xml</code> file.</p>
+        <p>You can apply the formatter by selecting text and hitting <b>CTRL-SHIFT-F</b> (or <b>CMD-SHIFT-F</b> on Mac).</p>
+        <h3>Git for version control</h3>
+        <p><a href="http://git-scm.com/">Git</a>   is a distributed version control system.  If you are not familiar with git, it is recommended that you read the <a href="http://git-scm.com/book/en/Getting-Started">Getting Started</a> and <a href="http://git-scm.com/book/en/Git-Basics">Git Basics</a> chapters. In this section, we will cover:</p>
+        <ul>
+            <li value="1">The EGit plugin for Eclipse</li>
+            <li value="2">Working with a remote server</li>
+            <li value="3">Using hooks to run Astyle before a commit</li>
+        </ul>
+        <h4>EGit Eclipse Plugin</h4>
+        <p>EGit is a plugin for Eclipse that provides Git integration. To setup EGit go to <b>Help &gt; Install New Software</b> and select the <a href="http://download.eclipse.org/egit/updates">http://download.eclipse.org/egit/updates</a> site from the <code>Work with</code> drop down box. If you don't see the site listed, click on <b>Available software sites</b> and enable it if it is already on the list (usually the case) or add it if it is missing.</p>
+        <p>
+            <img src="images/eclipse_egit_install.png" />
+        </p>
+        <p>To enable Git integration for a project, right-click on the project and</p>
+        <ol>
+            <li value="1">Open <b>Team &gt; Share Project</b> (if you don't see this option, your project already has source control enabled under some software configuration management tool).</li>
+            <li value="2">Under <b>Select repository type</b> click on <b>Git</b>.</li>
+            <li value="3">Check the option <i>Use or create repository in parent folder of project</i>.</li>
+            <li value="4">If you already have a git repository for this project, then check it in the list and click <b>Finish</b>.</li>
+            <li value="5">If you didn't have a git repository for this project, click on the <b>Create repository</b> button to create a new one.</li>
+        </ol>
+        <p>After you have shared the project through Git, you will see a decoration next to the project name that tells you the repository name and the current branch. You can now execute Git commands using the <b>Team</b> context menu, most typically <b>Team &gt; Commit</b>, <b>Team &gt; Pull</b>, and <b>Team &gt; Switch To</b>.</p>
+        <h4>Using hooks to run Astyle before a commit </h4>
+        <p>Git allows you to define a series of hooks to run at different stages of the Git workflow. One such hook is called the pre-commit hook and can be executed when you invoke the <code>git commit</code> command.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> The hooks we cover here are shell scripts that are executed locally, and as such, you must ensure they work on all operating systems the project can be developed on. The EGit plugin for Eclipse doesn't execute the hooks.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>We now show a sample <code>pre-commit</code> hook that invokes Astyle on all files to be committed. Copy the code into <code>.git/hooks/pre-commit</code> to enable it.</p>
+        <blockquote><pre class="prettyprint">#!/bin/sh<br /><br />if git rev-parse --verify HEAD &gt;/dev/null 2&gt;&amp;1<br />then<br />    against=HEAD<br />else<br />    # Initial commit: diff against an empty tree object<br />    against=4b825dc642cb6eb9a060e54bf8d69288fbee4904<br />fi<br /><br /># If you want to allow non-ascii filenames set this variable to true.<br />allownonascii=$(git config hooks.allownonascii)<br /><br /># Cross platform projects tend to avoid non-ascii filenames; prevent<br /># them from being added to the repository. We exploit the fact that the<br /># printable range starts at the space character and ends with tilde.<br />if [ "$allownonascii" != "true" ] &amp;&amp;<br />    # Note that the use of brackets around a tr range is ok here, (it's<br />    # even required, for portability to Solaris 10's /usr/bin/tr), since<br />    # the square bracket bytes happen to fall in the designated range.<br />    test "$(git diff --cached --name-only --diff-filter=A -z $against |<br />    LC_ALL=C tr -d '[ -~]\0')"<br />then<br />    echo "Error: Attempt to add a non-ascii file name."<br />    echo<br />    echo "This can cause problems if you want to work"<br />    echo "with people on other platforms."<br />    echo<br />    echo "To be portable it is advisable to rename the file ..."<br />    echo<br />    echo "If you know what you are doing you can disable this"<br />    echo "check using:"<br />    echo<br />    echo "  git config hooks.allownonascii true"<br />    echo<br />    exit 1<br />fi<br /><br />version=`astyle --version 2&gt; /dev/null`<br />if test "x$version" != "x"; then<br />echo "SDF3 git pre-receive hook:"<br />echo "Did not find astyle, please install it before continuing."<br />exit 1<br />fi<br />ASTYLE=astyle<br /><br />case `$ASTYLE --version 2&gt; /dev/null` in<br />  Artistic*)<br />    ;;<br />  default)<br />    echo "SDF3 git pre-commit hook:"<br />    echo "Did not find astyle, please install it before continuing."<br />    exit 1<br />    ;;<br />esac<br /><br />ASTYLE_PARAMETERS="\<br />    --indent=spaces=4 \<br />    --style=allman \<br />    --indent-labels \<br />    --indent-preprocessor \<br />    --indent-col1-comments \<br />    --max-instatement-indent=60 \<br />    --min-conditional-indent=0 \<br />    --pad-oper \<br />    --unpad-paren \<br />    --pad-paren-in \<br />    --break-closing-brackets \<br />    --add-brackets \<br />    --keep-one-line-blocks \<br />    --keep-one-line-statements \<br />    --convert-tabs \<br />    --align-pointer=name \<br />    --align-reference=name \<br />    --suffix=none \<br />    --options=none "<br /><br />ASTYLE_PARAMETERS_JAVA="\<br />    --indent=spaces=4 \<br />    --style=java \<br />    --indent-labels \<br />    --indent-preprocessor \<br />    --indent-col1-comments \<br />    --max-instatement-indent=60 \<br />    --min-conditional-indent=0 \<br />    --pad-oper \<br />    --unpad-paren \<br />    --pad-paren-in \<br />    --break-closing-brackets \<br />    --add-brackets \<br />    --keep-one-line-blocks \<br />    --keep-one-line-statements \<br />    --convert-tabs \<br />    --align-pointer=name \<br />    --align-reference=name \<br />    --suffix=none \<br />    --options=none "<br /><br />echo "--Formatting source code--"<br /><br />files=`git-diff-index --diff-filter=ACMR --name-only -r --cached $against --`<br />for file in $files; do<br />    x=`echo $file |grep -E '(\.c$|\.cc$|\.h$|\.cpp$|\.hpp$)'`<br />    if test "x$x" != "x"; then<br />    # Save a temp copy of the origin file<br />    cp $file ${file}.orig<br />    $ASTYLE ${ASTYLE_PARAMETERS} $file<br />    git add $file<br />    # If the saved copy and the new file are the same<br />    # delete the temporary copy<br />    if diff $file ${file}.orig &gt;/dev/null ; then<br />        rm ${file}.orig<br />    fi<br />fi<br /><br />x=`echo $file |grep -E '(\.java$)'`<br />if test "x$x" != "x"; then<br />    # Save a temp copy of the origin file<br />    cp $file ${file}.orig<br />    $ASTYLE ${ASTYLE_PARAMETERS_JAVA} $file<br />    git add $file<br />    # If the saved copy and the new file are the same<br />    # delete the temporary copy<br />    if diff $file ${file}.orig &gt;/dev/null ; then<br />        rm ${file}.orig<br />    fi<br />    git add $file<br />  fi<br />done<br /><br />echo "--Formatting source code done--"</pre>
+        </blockquote>
+        <h3>Doxygen for documentation</h3>
+        <p>Documenting the code is important for many reasons: it clarifies your thinking of what the software really does, reminds you later of the same thing, and allows others to use your code. Writing documents separately from your code is error-prone, and quite often the documentation lags behind and gets stale as the code evolves.  The solution is to automate as much of the process as possible, and tie the documentation and the program code together. <a href="http://www.doxygen.org/">Doxygen</a>  is the right tool for this task.</p>
+        <p>Let's try using it: install doxygen, go to <code>/tutorials/SimpleImageOpenCV_GL_Complete/jni</code>, and run:</p>
+        <blockquote><pre class="prettyprint">doxygen -g</pre>
+        </blockquote>
+        <p>to generate a default *Doxyfile*, with default configuration that you can edit, and: </p>
+        <blockquote><pre class="prettyprint">doxygen</pre>
+        </blockquote>
+        <p>which generates the documentation.</p>
+        <p>Then open <code>html/index.html</code>.  Click <b>Classes &gt; Engine</b>, and you'll see the documentation for the <code>Engine</code> class.</p>
+        <p>This piece of the header file...</p>
+        <p>
+            <img src="images/doxy_in.png" />
+        </p>
+        <p>...has turned into this piece of documentation.</p>
+        <p>
+            <img src="images/doxy_out.png" />
+        </p>
+        <p>The trick is the special syntax of the comment, where the comment starts with <b>/**</b>. FCam documentation has been created using doxygen.  Open <code>fcam4tegra.zip</code> and unzip it; then open <code>modules/fcam/docs/html/index.html</code> to see the documentation.</p>
+        <p>You can create documentation at many levels.  If you open <code>fcam/include/FCam/FCam.h</code>, you see several types of tags.  One of them is <code>\mainpage</code>, which produces the main page of FCam documentation.  Various types of links are provided, and you can even include bitmap images.  Every file can be documented with the <code>\file</code> tag.</p>
+        <p>If you open <code>fcam/include/FCam/Image.h</code>, you see that a comment before the class definition is used to provide an overview of the class, a comment before a method documents the method, and a comment before a member variable documents that.  There are keywords that support documenting function arguments and the return values.</p>
+        <p>A <a href="http://www.stack.nl/~dimitri/doxygen/manual.html">detailed manual</a> is provided. Here is an example of documented code, from that manual (you should set JAVADOC_AUTOBRIEF to YES in Doxyfile with this example):</p>
+        <blockquote><pre class="prettyprint">/** <br />*  A test class. A more elaborate class description.<br />*/<br />class Test<br />{<br />public:<br />/**<br />* An enum.<br />* More detailed enum description.<br />*/<br />enum TEnum<br />{<br />TVal1, /**&lt; enum value TVal1. */<br />TVal2, /**&lt; enum value TVal2. */<br />TVal3  /**&lt; enum value TVal3. */<br />}<br />*enumPtr, /**&lt; enum pointer. Details. */<br />enumVar;  /**&lt; enum variable. Details. */<br />/**<br />* A constructor.<br />* A more elaborate description of the constructor.<br />*/<br />Test();<br />/**<br />* A destructor.<br />* A more elaborate description of the destructor.<br />*/<br />~Test();<br />/**<br />* A normal member taking two arguments and returning an integer value.<br />* @param a an integer argument.<br />* @param s a constant character pointer.<br />* @see Test()<br />* @see ~Test()<br />* @see testMeToo()<br />* @see publicVar()<br />* @return The test results<br />*/<br />int testMe( int a, const char *s );<br />/**<br />* A pure virtual member.<br />* @see testMe()<br />* @param c1 the first argument.<br />* @param c2 the second argument.<br />*/<br />virtual void testMeToo( char c1, char c2 ) = 0;<br />/**<br />* A public variable.<br />* Details.<br />*/<br />int publicVar;<br />/**<br />* A function variable.<br />* Details.<br />*/<br />int ( *handler )( int a, int b );<br />};</pre>
+        </blockquote>
+        <p>The output will look like <a href="http://www.stack.nl/~dimitri/doxygen/examples/jdstyle/html/class_test.html">this</a>. Click <a href="http://www.stack.nl/~dimitri/doxygen/docblocks.html">here</a> for more details. You can even include <a href="http://www.stack.nl/~dimitri/doxygen/formulas.html">LaTeX formulas</a>. Additional information, including quick-start guides, can be found <a href="http://www.stack.nl/~dimitri/doxygen/articles.html">here</a>.</p>
+        <h3>Gtest for unit testing</h3>
+        <p>Unit test is one of the most important stages in any development project. Unit test will reduce the number of bugs, the cost of change of the existing code, and even improve the design of the project. Here are good articles that show why writing unit tests is necessary: <a href="http://onjava.com/pub/a/onjava/2003/04/02/javaxpckbk.html">Top 12 reasons to Write Unit Tests</a>, and <a href="http://www.petrikainulainen.net/programming/unit-testing/wrong-reasons-not-to-write-unit-tests/">Wrong reasons Not to Write Unit Tests</a>. </p>
+        <p><a href="http://code.google.com/p/googletest/">Google's C++ unit test framework</a> (we will call it as <b>Gtest</b> from now on) provides a variety of testing capabilities for C++ based projects. It supports automatic test discovery, a rich set of assertions, user-defined assertions, death tests, and various options for running the tests. In this tutorial, we show how to use <b>Gtest</b> library in an Android project.</p>
+        <p>To make its use in Android easy for you, we have already built the library, and added the library, header files, and <code>Android.mk</code> in <code>tutorials/UnitTestDriver</code>. You can still download <a href="http://code.google.com/p/googletest/downloads/list">Gtest source code</a>, then build it yourself if needed.</p>
+        <p>Now let's start by importing our unit test driver project, tutorials/UnitTestDriver (if you need help, see <a href="native_android_opengles.htm#Importing_existing_project">importing a project into Eclipse</a>). </p>
+        <p>Then, let's first look into <code>tutorials/UnitTestDriver/jni/gtest-1.6.0</code>:</p>
+        <blockquote><pre class="prettyprint">[...] <br />include<br />libs<br />[...]<br />Android.mk</pre>
+        </blockquote>
+        <p>There are other files inside the folder, but the pre-built library for Android, <code>libgtest.a</code>, can be found in <code>gtest-1.6.0/libs/armeabi-v7a/</code>. The paths for the library are defined in <code>gtest-1.6.0/Android.mk</code> as shown below.</p>
+        <blockquote><pre class="prettyprint">LOCAL_PATH := $(call my-dir)<br />include $(CLEAR_VARS)<br /><br />LOCAL_MODULE := gtest<br /><span style="background-color: #ffffe0;">LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">LOCAL_SRC_FILES := ./libs/$(TARGET_ARCH_ABI)/libgtest.a</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">include $(PREBUILT_STATIC_LIBRARY)</span></pre>
+        </blockquote>
+        <p>Now, let's check out if we correctly include ``gtest.h`` at the beginning of ``unittestdriver.h``::</p>
+        <blockquote><pre class="prettyprint">#include &lt;gtest/gtest.h&gt;</pre>
+        </blockquote>
+        <p>Then, let's open and look at <code>unittestdriver.cpp</code>. This file is a driver file that loads and initializes <code>Gtest</code>, and runs the testing code. Because Gtest internally prints out the result streams, the driver function handles the output of the testing streams from Gtest, and prints them out on the display in Android app. </p>
+        <p>The following code shows the <code>UnitTestDriver::run()</code> function that runs unit test.</p>
+        <blockquote><pre class="prettyprint">void UnitTestDriver::run() <br />{<br />    char * argv[] =<br />    { ( char * ) "UnitTestDriver" };<br />    int argc = sizeof( argv ) / sizeof( const char * );<br /><br />    logStream() &lt;&lt; "*** Starting Unit Test ***" &lt;&lt; std::endl &lt;&lt; flush();<br /><br />    // Initialize the testing framework<br /> <span style="background-color: #ffffe0;">::testing::InitGoogleTest( &amp;argc, argv );</span><br /><br />    // Add this class as an event listener<br /> <span style="background-color: #ffffe0;">::testing::UnitTest::GetInstance()-&gt;listeners().Append( this );</span><br /><br />    // Run all the tests.<br /> <span style="background-color: #ffffe0;">mTestResult = RUN_ALL_TESTS();</span><br />}</pre>
+        </blockquote>
+        <p>In the code above, we first set the initial argument with the name of the whole test, then added the current driver class as an event listener to the Gtest class. Finally, we run all the tests by calling <code>RUN_ALL_TESTS()</code> function. By calling this function, Gtest will search all types of unit test (<code>TEST(string, string)</code>) that are shown in any source files inside <code>jni</code> directory.</p>
+        <p>Now we can write actual tests. In <code>jni</code> folder, we have added <code>unittest.cpp</code>. The following code shows some sample unit tests using Gtest.</p>
+        <blockquote><pre class="prettyprint"><span style="background-color: #ffffe0;">#include&lt;gtest/gtest.h&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">unsigned int Fibonacci( unsigned int n )</span><br />{<br />    if ( n == 1 ) return 1;<br />    if ( n == 0 ) return 0;<br /><br />    return Fibonacci( n - 1 ) + Fibonacci( n - 2 );<br />}<br /><br />// Tests Fibonacci of 0, 1<br /><span style="background-color: #ffffe0;">TEST(FibonacciTest, HandlesZeroInput)</span><br />{<br />    EXPECT_EQ( 0, Fibonacci(0) );<br />    EXPECT_EQ( 1, Fibonacci(1) );<br />}<br /><br />// Tests Fibonacci of numbers greater than 1<br /><span style="background-color: #ffffe0;">TEST(FibonacciTest, HandlesGreaterThan1)</span><br />{<br />    EXPECT_EQ( 1, Fibonacci(2) );<br />    EXPECT_EQ( 2, Fibonacci(3) );<br />    EXPECT_EQ( 21, Fibonacci(8) );<br />    EXPECT_EQ( 55, Fibonacci(10) );<br />}</pre>
+        </blockquote>
+        <p>We first define a testing module as a function, <code>Fibonacci (unsigned int n)</code> at the beginning, and call this module inside each testing function <code>TEST()</code>. In each test function, the first argument refers to the module, and the second one refers to each unit test.</p>
+        <p>Many types of assertion and comparison functions are introduced in <a href="http://code.google.com/p/googletest/wiki/Primer#Basic_Assertions">GTest basic assertion page</a>. Next, modify <code>jni/Android.mk</code> as shown below.</p>
+        <blockquote><pre class="prettyprint">[...]<br /><br /># Driver source files<br />LOCAL_SRC_FILES := unittestdriver.cpp com_nvidia_unittest_UnitTestDriver.cpp<br /><br /># Add your test files here<br /><span style="background-color: #ffffe0;">LOCAL_SRC_FILES += unittest.cpp</span><br /><br /># GTest required library<br />LOCAL_STATIC_LIBRARIES := gtest<br /><br /># Add your additional libraries here<br />LOCAL_STATIC_LIBRARIES +=<br /><br />[...]<br /><br />$(call import-add-path, $(LOCAL_PATH))<br />$(call import-module, gtest-1.6.0)</pre>
+        </blockquote>
+        <p>Now, let's build and run the project. The following image shows the result.</p>
+        <p>
+            <img src="images/unittest-fibo.png" />
+        </p>
+        <p>The results shows that the tests for Fibonacci function was successful.</p>
+        <p>Now, you can test your own code by locating the source code at /jni folder. However, in practice, we may want to test existing codes from other projects. In next section, we will show how to construct a code organization to modulize the projects, then we will show that we can directly test the existing codes from each module.</p>
+        <h3>Unit testing from the modules of existing codes</h3>
+        <p>In the above sections, we have shown how to perform unit testing, and to construct an organization of modules. Now we show how to test the modulized codes with our Gtest driver projects. First, let's look at the organization of <code>tutorials/UnitTestDriver_module</code> folder.</p>
+        <blockquote><pre class="prettyprint"><span style="background-color: #ffffe0;">/tutorials/UnitTestDriver_module/</span><br />	/UnitTestDriver/<br />		jni/<br />		    Android.mk<br />	/modules/<br />		OpenCVSupport/<br />			include/<br />			src/<br />			Android.mk<br />		OpenCVSupport2/<br />			include/<br />			src/<br />			Android.mk</pre>
+        </blockquote>
+        <p>There are two folders, <code>UnitTestDriver</code> and <code>modules</code> inside the main folder. The project <code>UnitTestDriver</code> is the same driver project used in previous sections. In the module folder, there are two modules called <code>OpenCVSupport</code> and <code>OpenCVSupport2</code>, and we assume that these two modules are existing codes. In this tutorial, the main driver project calls each module, which is built as a separate static library and runs Gtest for the functions in each module.</p>
+        <p>The modules contain several functions using OpenCV, and we will test the modules by calling functions that detect FAST features in the image <code>lena.jpg</code> (which is already used in the OpenCV tutorial) with fixed parameters. If you did not follow the OpenCV tutorial section and did not upload the image onto your Cardhu, please upload it now to <code>/storage/sdcard0/DCIM</code>.</p>
+        <p>However, each module also includes an external library such as OpenCV; therefore, we have to set the project so that (1) the driver can acceess the functions in each module, (2) the driver can also use library functions that are included in the module (OpenCV), and (3) the build settings in <code>Android.mk</code> for each module should avoid loading the same libraries (i.e., OpenCV in this example).</p>
+        <p>Let's first import a unit testing driver projects from the folder in <code>tutorials/UnitTestDriver_module/UnitTestDriver</code> (if you need help, see <a href="native_android_opengles.htm#Importing_existing_project">importing a project into Eclipse</a>).</p>
+        <p>After importing the UnitTestDriver, open the <code>Android.mk</code> file in the <code>/jni</code> folder. Then, let's specify the static libraries for unit testing. See the following example in <code>Android.mk</code>.</p>
+        <blockquote><pre class="prettyprint">LOCAL_PATH := $(call my-dir)<br /><br />include $(CLEAR_VARS)<br /><br />LOCAL_MODULE    := unittestdriver<br /><br /># Enable &lt;memory&gt;<br />LOCAL_CFLAGS += -std=gnu++0x<br /><br />ifeq (1, $(NDK_DEBUG))<br />LOCAL_CFLAGS += -DWAIT_FOR_DEBUGGER<br />endif<br /># Driver source files<br />LOCAL_SRC_FILES := unittestdriver.cpp com_nvidia_unittest_UnitTestDriver.cpp<br /><br /># Add your test files here<br />LOCAL_SRC_FILES += unittest.cpp opencv_test.cpp<br /><br /># GTest required library<br />LOCAL_STATIC_LIBRARIES += gtest<br /><br /># Add your additional libraries here<br /><span style="background-color: #ffffe0;">LOCAL_STATIC_LIBRARIES += OpenCVSupportLib OpenCVSupportLib2</span><br /><br /># If you add shared libraries, don't forget to<br /># add a System.loadLibrary() call in UnitTestDriver.java<br />LOCAL_SHARED_LIBRARIES +=<br /><br />LOCAL_LDLIBS := ./obj/local/armeabi-v7a/libgnustl_static.a -landroid<br /><br />include $(BUILD_SHARED_LIBRARY)<br /><br />$(call import-add-path, $(LOCAL_PATH))<br />$(call import-module, gtest-1.6.0)<br /># add here<br /><span style="background-color: #ffffe0;">$(call import-module, OpenCVSupport)</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">$(call import-module, OpenCVSupport2)</span></pre>
+        </blockquote>
+        <p>In the above example, <code>LOCAL_SRC_FILES</code> specifies a source file where the actual testing codes are located. Here, <code>opencv_test.cpp</code> is supposed to call functions in module <code>OpenCVSupport</code> and <code>OpenCVSupport2</code>. The names of the libraries for both modules are then specified in <code>LOCAL_STATIC_LIBRARIES</code>. At the end of the above code, we have also specified that we import these modules for testing.</p>
+        <p>Because all sources inside UnitTestDriver do not recognize the location of modules at this moment, we have to specify the location of them. In <b>Project &gt; Properties &gt; C/C++ Build &gt; Environment</b>, Click <b>Add</b> button, and define <code>NDK_MODULE_PATH</code> with the absolute paths for the <code>module</code> directory.</p>
+        <p>Now open the <code>opencv_test.cpp</code> which was added to the <code>/jni</code> folder. The following codes are added in the file.</p>
+        <blockquote><pre class="prettyprint">#include&lt;gtest/gtest.h&gt;<br /><span style="background-color: #ffffe0;">#include&lt;OpenCVSupport/OpenCV_native.h&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">#include&lt;OpenCVSupport2/OpenCV_native2.h&gt;</span><br /><br /><span style="background-color: #ffffe0;">TEST(OpenCVTest, FeatureDetection)</span><br />{<br />    COpenCVSample pCv;<br /><span style="background-color: #ffffe0;">    int i = pCv.FeatureDetecTest();</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    EXPECT_EQ( 141, i ) &lt;&lt;"number of features for this test1 = " &lt;&lt; i;</span><br /><br />}<br /><br />TEST(OpenCVTest, FeatureDetection2)<br />{<br />    COpenCVSample2 pCv;<br /><span style="background-color: #ffffe0;">    int i = pCv.FeatureDetecTest();</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    EXPECT_EQ( 141, i ) &lt;&lt;"number of features for this test2 = " &lt;&lt; i;</span><br /><br />}</pre>
+        </blockquote>
+        <p>In the above code, we first include header files for our existing codes (<code>OpenCV_native.h</code> and <code>OpenCV_native2.h</code>) to test.</p>
+        <p>Then two Gtest functions <code>TEST(OpenCVTest, FeatureDetection)</code> and <code>TEST(OpenCVTest2, FeatureDetection2)</code> are calling <code>FeatureDetecTest()</code> functions from both modules (for simplicity, we added the same function to both modules).</p>
+        <p>Now the assertion function <code>EXPECT_EQ(141,i)</code> will print out "success" if the number of detected features in the image is equal to 141.</p>
+        <p>Now the unit test is ready to test the modules as long as it can access each library for the modules. Let's look at the settings for both modules now.</p>
+        <p>The following code shows the settings for <code>Android.mk</code> in the module <code>OpenCVSupport</code> (which is almost identical to <code>OpenCVSupport2</code>).</p>
+        <blockquote><pre class="prettyprint">LOCAL_PATH := $(call my-dir)
+<br />include $(CLEAR_VARS)
+<br /><span style="background-color: #ffffe0;">ifeq ($(OPENCV_MODULES),)
+</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_CAMERA_MODULES  := on</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_INSTALL_MODULES := on</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_LIB_TYPE        := STATIC</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">include $(NVPACK_PATH)/OpenCV-2.4.2-Tegra-sdk/sdk/native/jni/OpenCV-tegra3.mk</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_LOCAL_STATIC_LIBRARIES := $(LOCAL_STATIC_LIBRARIES)</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_LOCAL_LD_LIBS := $(LOCAL_LD_LIBS)
+</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">endif</span><br /><br />LOCAL_MODULE := OpenCVSupportLib
+<br />MY_PREFIX          := $(LOCAL_PATH)<br />MY_SOURCES         := $(wildcard $(LOCAL_PATH)/src/*.cpp)<br />MY_SOURCES         += $(wildcard $(LOCAL_PATH)/src/*.c)<br />LOCAL_SRC_FILES    += $(MY_SOURCES:$(MY_PREFIX)%=%)<br />LOCAL_LDLIBS    	+= -lc -lm -llog -landroid -ldl -lGLESv2 -lEGL<br /><span style="background-color: #ffffe0;">LOCAL_C_INCLUDES 	:= $(LOCAL_PATH)/include $(OPENCV_LOCAL_C_INCLUDES)
+</span><br style="background-color: #ffffe0;" /># for the module test<br /><span style="background-color: #ffffe0;">LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include $(OPENCV_LOCAL_C_INCLUDES)</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">LOCAL_EXPORT_STATIC_LIBRARIES := $(OPENCV_LOCAL_STATIC_LIBRARIES)</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">LOCAL_EXPORT_CFLAGS 	+= -std=gnu++0x $(OPENCV_LOCAL_CFLAGS)</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">LOCAL_EXPORT_LDLIBS    += $(OPENCV_LOCAL_LD_LIBS) -lc -lm -llog -landroid -ldl </span>-lGLESv2 -lEGL -lz
+<br />include $(BUILD_STATIC_LIBRARY)</pre>
+        </blockquote>
+        <p>In the above settings, we first set the OpenCV library at the begining, to avoid the multiple load of same library (in case when a main application loads several modules that are using OpenCV seperately) by adding the condition, <code>ifeq($(OPENCV_MODULES),)</code>. If the OpenCV library is not yet loaded, we set some flags used for OpenCV.mk, and specify the paths for the location of OpenCV library.</p>
+        <p>Then, we specify the name of this module (<code>LOCAL_MODULE</code>), and also set the paths for sources and header files.</p>
+        <p>Finally, we have to specify the exporting setup, because this module is built as a static library, and will be used in other applications outside this module. We first specify the paths of the headers in this module, then we also need to <i>pass through</i> the OpenCV library (<code>LOCAL_EXPORT_STATIC_LIBRARIES := $(OPENCV_LOCAL_STATIC_LIBRARIES)</code>) and its supporting libraries to the other applications.</p>
+        <p>Now we are done with the settings for one module. We can also apply the same set up to <code>OpenCVSupportLib2</code>.</p>
+        <p>Then, let's build and run the <code>UnitTestDriver</code> application. After running the application, you will see the <b>SUCCESS</b> message from both tests.</p>
+        <p>
+            <img src="images/unittest-opencv.png" />
+        </p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|How To: Analyze Application Performance Using PerfHUD ES">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Textures</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/phes_analyze_texture.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Textures</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor16"></a>
+        <h1><span class="SystemTitle">Textures</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Mipmaps</h4>
+        <p>Texture size is generally not a performance issue as long as a mipmap chain is present. Not providing mipmap chains, or not setting appropriate filter modes, will impact performance significantly.</p>
+        <p>When possible, it's recommended that you create mipmaps for all textures, and use an appropriate mip-selecting filter mode.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Texture Viewer</b>. </li>
+            <li value="2">Ensure <b>All MipLevels</b> is selected. </li>
+            <li value="3">Scrub through all draw calls in the scene, verifying that mipmaps are present where appropriate. If a draw call uses multiple textures, check each in turn.</li>
+        </ul>
+        <h4>Texture Filter Modes</h4>
+        <p>Bilinear filtering (within a single mip-level) is free on Tegra, trilinear comes with a (moderate) performance cost.</p>
+        <p>Use trilinear filtering only when necessary, to improve visual quality. This typically occurs on landscape meshes with large oblique polygons.</p>
+        <p>Tegra supports anisotropic filtering with up to 16 samples. It's recommended that anisotropic filtering be used only when absolutely necessary, to reduce visual artifacts.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>State Viewer</b>. </li>
+            <li value="2">Open up the <b>Texture Objects</b> sub-hierarchy. </li>
+            <li value="3">Scrub through all draw calls in the scene, verifying that, for each active texture:<ul style="list-style-type: circle;"><li value="1"><b>max anisotropy</b> is set to some reasonable value (preferably 0),</li><li value="2"><b>min filter</b> is set to some mip-selecting filter mode (for example, not <code>GL_LINEAR</code> or <code>GL_NEAREST</code>).</li></ul></li>
+        </ul>
+        <h4>Texture Formats</h4>
+        <p>Texture fetch bandwidth can significantly impact performance. We support a wide range of compressed and single/dual channel texture formats to help reduce this load.</p>
+        <ul>
+            <li value="1">Use DXT1 for bulk assets with no alpha channel.</li>
+            <li value="2">Use DXT5 for bulk assets with alpha.</li>
+            <li value="3">Use single channel luminance/alpha textures for 1D look up tables.</li>
+            <li value="4">Use dual channel luminance-alpha for 2D look up tables.</li>
+            <li value="5">Only use the high-bandwidth 32bit rgba format to reduce specific visual artifacts.</li>
+            <li value="6">We support fp16 2 and 4 channel formats, but recommend their use only when absolutely necessary.</li>
+        </ul>
+        <p>Note that blanket use of 8/16bit component rgba format assets will impact performance considerably.</p>
+        <p>A high-level issue is identified in directed test. </p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Texture Viewer</b>. </li>
+            <li value="2">Scrub through all draw calls in the scene, verifying that texture assets are suitably compressed.</li>
+        </ul>
+        <h4>Dynamically Updated Textures</h4>
+        <p>The presence of a possible performance issue here can be verified by looking at the dynamic texture indicator, in the dashboard. (Status bar, lower right).</p>
+        <p>To identify the specific drawcalls responsible for the issue, the same process used to identify VBO lock-down is required; see the section on Dynamically Modified VBO's.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

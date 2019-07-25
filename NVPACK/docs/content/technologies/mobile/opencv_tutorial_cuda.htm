@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|OpenCV for Tegra|OpenCV for Tegra Examples">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>OpenCV&#160;Tutorial 4:&#160;CUDA</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/opencv_tutorial_cuda.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="opencv_main.htm">OpenCV for Tegra</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">OpenCV&#160;Tutorial 4:&#160;CUDA</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">OpenCV&#160;Tutorial 4:&#160;CUDA</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>The example demonstrates the simple way of using CUDA-accelerated <code>opencv_gpu</code> module in your Android application. The sample is a modification of the Tutorial 2 discussed above. Native part of the example implements the same FAST feature detector, but it calls CUDA implementation:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">JNIEXPORT void JNICALL <br />Java_org_opencv_samples_tutorial4_Tutorial4Activity_FindFeatures(JNIEnv*, jobject, jlong addrGray, jlong addrRgba)<br />{<br />    Mat&amp; mGr  = *(Mat*)addrGray;<br />    Mat&amp; mRgb = *(Mat*)addrRgba;<br />    vector&lt;KeyPoint&gt; keypoints;<br />    GpuMat grGpu(mGr);
+<br />    FAST_GPU fast(50);<br />    fast(grGpu, GpuMat(), keypoints);<br />    for( unsigned int i = 0; i &lt; keypoints.size(); i++ )<br />    {<br />	const KeyPoint&amp; kp = keypoints[i];<br />	circle(mRgb, Point(kp.pt.x, kp.pt.y), 10, Scalar(255,0,0,255));<br />    }<br />}</pre>
+        </blockquote>
+        <p>All CUDA-accelerated algorithms use special <code>GpuMat</code> container that stores its content in GPU memory. For more details about <code>GpuMat</code> and usage of CUDA-accelerated vision algorithms see in OpenCV reference manual.</p>
+        <p><code>Android.mk</code> also has slightly different structure. <code>opencv_gpu</code> module is too big to distribute it as is with OpenCV Manager, so it is designed to be linked statically. It allows to cut all unnecessary functions in link time to decrease size of native libraries.</p>
+        <p><code>Opencv_gpu</code> module depends on CUDA runtime library and some CUDA-accelerated mathematical libraries like <code>NPP</code> and <code>CUFFT</code>. <code>Android.mk</code> must define path to CUDA toolkit via <code>CUDA_TOOLKIT_DIR</code> parameter. By default, <code>Android.mk</code> uses <code>CUDA_TOOLKIT_ROOT</code> environment variable that is set by the AndroidWorks installer. Furthermore, CUDA runtime library and math libraries are not a part of Android firmware, so a CUDA-accelerated application must contain them in the APK package. To enable CUDA libraries installation in application package, additional options must be added:</p>
+        <blockquote><pre class="prettyprint">INSTALL_CUDA_LIBRARIES:=on</pre>
+        </blockquote>
+        <p>To prevent sample execution on non-CUDA devices hardware check is placed in Java code:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">public void onResume()<br />{<br />    super.onResume();<br />    if (OpenCVLoader.initDebug(true))<br />    {<br />	// Check CUDA support<br />	if (Gpu.getCudaEnabledDeviceCount() &lt;= 0)<br />	{<br />	    Log.e(TAG, "No CUDA capable device found!");<br />	    AlertDialog InitFailedDialog = new<br />	    AlertDialog.Builder(Tutorial4Activity.this).create();<br />	    InitFailedDialog.setTitle("OpenCV CUDA error");<br />	    InitFailedDialog.setMessage(<br />	        "CUDA compatible device was not found!"<br />	    );<br />	    InitFailedDialog.setCancelable(false);<br />	    InitFailedDialog.setButton(AlertDialog.BUTTON_POSITIVE,<br />	    "OK", new OnClickListener() {<br />		public void onClick(DialogInterface dialog, int which) {<br />		    Tutorial4Activity.this.finish();<br />		}<br />	    });<br />	    InitFailedDialog.show();<br />	}<br />	else<br />	{<br />	    // Load native library after(!) OpenCV initialization<br />	    Log.i(TAG, "Found CUDA capable device!");<br />	    System.loadLibrary("cuda_sample");<br />	    mOpenCvCameraView.enableView();<br />	}<br />    }<br />}</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

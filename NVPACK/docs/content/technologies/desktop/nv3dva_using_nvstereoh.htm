@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Desktop Technologies|NVIDIA 3D Vision Automatic">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Using nvstereo.h</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/desktop/nv3dva_using_nvstereoh.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../desktop_technologies_aw.htm">Desktop Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nv3dva_main.htm">NVIDIA 3D Vision Automatic</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Using nvstereo.h</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Using nvstereo.h</span>
+        </h1><a name="kanchor60"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>In order to simplify correct usage of NVAPI with stereo, NVIDIA has written a header file <code>nvstereo.h</code>, which can be freely used in your application. This header is targeted at PC developers and will work with Direct3D 9 or 10.</p>
+        <h4>Availability</h4>
+        <p><code>nvstereo.h</code> is available as part of the NVIDIA SDK 11 for PC developers.</p>
+        <h4>Usage</h4>
+        <h5>Inclusion in your project</h5>
+        <p>The <code>nvstereo.h</code> header is a simple header library, and needs only to be included from your source code to be used. However, it does have a dependency on the public NVAPI. To setup NVAPI with your project, follow the instructions in the <a href="nv3dva_using_nvapi.htm">Using NVAPI</a> section.</p>
+        <h5>What it does</h5>
+        <p><code>nvstereo.h</code> manages several important aspects for you.</p>
+        <ul>
+            <li value="1">Manages user settings for your application.</li>
+            <li value="2">Manages the <code>StereoHandle</code> for your application.</li>
+            <li value="3">Updates an app-provided texture with per-eye constant data.</li>
+        </ul>
+        <p>Although the specific data stored in the texture can be modified by the application, by default the information is stored as:</p>
+        <ul>
+            <li value="1">Eye-specific separation stored in pixel(0, 0).r</li>
+            <li value="2">Covergence stored in pixel(0, 0).g</li>
+            <li value="3">Unit Vector identifying the current eye stored in pixel(0, 0).b<ul style="list-style-type: circle;"><li value="1">Left eye is -1</li><li value="2">Right eye is 1</li></ul></li>
+        </ul>
+        <h5>How to Use nvstereo.h</h5>
+        <p>Detailed usage instructions for <code>nvstereo.h</code> are included in the header itself to ease integration. However, the general steps are:</p>
+        <ol>
+            <li value="1">Create appropriate <code>ParamTextureManager</code> prior to device creation.</li>
+            <li value="2">Call <code>UpdateStereoTexture</code> once per frame, at the beginning of the frame. <br />Call even while the device is lost.</li>
+            <li value="3">Delete the <code>ParamTextureManager</code> after the device has been destroyed.</li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

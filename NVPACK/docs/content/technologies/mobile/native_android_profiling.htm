@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Native Development on NVIDIA&#160;Android Devices">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Profiling your Application</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/native_android_profiling.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="native_android_development.htm">Native Development on NVIDIA&#160;Android Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Profiling your Application</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Profiling your Application</span>
+        </h1><a name="kanchor127"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>Now that you know how to create non-trivial native Android apps, we want to make them run fast. The first thing to do, before evaluating whether the application is fast enough, is to try building and running the project in the release mode, as opposed to the debug mode (see section <a href="#Preparing_for_profiling">Preparing for profiling</a>  below). If that didn't give you enough speed-up, you will have to employ heavier tools. To find the hot spots in your application and optimize them away, you have to profile the application code. There are several tools and approaches that will help you in profiling on Tegra-based devices.</p>
+        <ol>
+            <li value="1">If you already know where the bottleneck is, you need to measure its execution time with a timer class as you optimize the bottleneck away. We provide a timer class implementation for your convenience.</li>
+            <li value="2"><b>Tegra System Profiler</b> is the standard and default Tegra profiler. It offers a nice graphical user interface, but it only runs on Windows.</li>
+            <li value="3"><b>PerfHUD ES</b> is a tool for debugging and profiling OpenGL ES 2.0 applications.</li>
+        </ol>
+        <p>In this tutorial we will learn how to use the first and the second approach for the code example <code>SimpleImageOpenCV</code>.</p>
+        <p>For PerfHUD ES, we will use the last of the OpenGL ES tutorials, <code>SimpleImageDisplayGL</code>.</p>
+        <h3><a name="Preparing_for_profiling"></a>Preparing for profiling</h3>
+        <p>First of all, we need to check whether you have the profiling tools. If you chose to install the complete version of AndroidWorks, you already have Tegra System Profiler (on Windows) and PerfHUD ES in your NVPACK folder.</p>
+        <p>For all the profilers you need to add these flags in the <code>Application.mk</code> file:</p>
+        <blockquote><pre class="prettyprint">APP_CFLAGS += -fno-omit-frame-pointer -mno-thumb</pre>
+        </blockquote>
+        <p>If compiler optimizations are causing incorrect function backtraces, you can add <code>-g</code> flag:</p>
+        <blockquote><pre class="prettyprint">APP_CFLAGS += -fno-omit-frame-pointer -mno-thumb -g</pre>
+        </blockquote>
+        <p>We need to make sure your application is compiled in release mode. If you created build configurations, right-click on the project's name in the in the <b>Project Explorer</b> pane, then <b>Build Configuration &gt; Set Active &gt; Release</b>. Otherwise, right-click on the project's name in the in the <b>Project Explorer</b> pane, then <b>Properties</b>; click on the <b>C/C++ Build</b> entry in the left pane and look at the <b>Build Command</b> field: if it contains <code>NDK_DEBUG = 1</code>, either remove it or set it to zero.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> You might find in the documentation for the profiling tools that another solution to the problem of incorrect backtraces      is to compile your application in debug mode, using for instance the following flag in the <code>Android.mk</code> file:<br /><blockquote><pre class="prettyprint">APP_OPTIM := debug</pre></blockquote><br />We discourage you from doing this because profiling information gathered on non-optimized code does not correctly reflect the performance you can expect if you let the compiler optimize the code.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Now, clean the project, compile it, and you're ready to start profiling.</p>
+        <h3>Tegra System Profiler</h3>
+        <p>This tool is easy to set up and use, therefore it is a recommended choice for Windows hosts. There is a complete user guide <a href="../../developertools/mobile/tegra_system_profiler/tegraprofiler_main.htm">here</a>, but we'll go over the basics with a full example here.</p>
+        <p>Launch Tegra System Profiler, and a new project will be docked in the interface.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegra_profiler_connect_1024x768.png"><img class="MCPopupThumbnail img" data-mc-width="1024" data-mc-height="768" src="images/tegra_profiler_connect_1024x768_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>If you have more than one device attached to your computer, use the <b>Device</b> drop-down list in the top-left to select your device. Details for the selected device are shown below the combo box.</p>
+        <p>Select the application to sample. If you have already installed your application on the device, choose the <b>Application</b> option and select your application from the combo box.</p>
+        <p>The list also includes a PID column, so you can see whether or not the process is already running. Below are checkboxes that control the attach and relaunch behaviors.</p>
+        <p>Alternatively, if you have an APK on your computer, and would like deploy it to the device for sampling, click the "Install application from APK file" link, located above the application list, and it will pop up a standard file selection dialog. The APK will be installed, and then you may select it in the application list.</p>
+        <p>Below the application area is a collapsible area for symbols. Some APKs will have their symbols but into the <code>*.so</code> files but most will not. Instead, right-click on this list, and add a directory pointing at the version of the <code>*.so</code> files in your APK that are not stripped of symbols. Typically this is the output of the native build stage, before it is copied into the APK packaging directory and then stripped there.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> If you do not provide symbols, then functions will appear with their hexadecimal address instead of its proper name.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Press the Next button in the upper-right corner, to switch to the <b>Analysis Options</b> setup page.</p>
+        <p>Select the sampling rate and hardware counters you would like to sample. Turn on <b>Collect Call Stacks</b> to calculate backtraces for each sample (at a significant impact to sampling performance). The higher the rate, the more data you will generate and the more impact sampling will have on your application. We recommend 10 kHz for short sessions of 30 seconds or less, as long sessions may terminate due to fast buffering requirements.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegra_profiler_config_1024x768.png"><img class="MCPopupThumbnail img" data-mc-width="1024" data-mc-height="768" src="images/tegra_profiler_config_1024x768_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>Choose whether you wish to start capturing immediately, on demand, or after a predefined period of time, and whether you wish to stop sampling on demand or after a predefined period of sampling.</p>
+        <p>Press <b>Start</b>.</p>
+        <p>Press the <b>Stop sampling</b> button when you have exercised your application sufficiently.</p>
+        <p>In the end you should see something like this:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegra_profiler_report_1024x768.png"><img class="MCPopupThumbnail img" data-mc-width="1024" data-mc-height="768" src="images/tegra_profiler_report_1024x768_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>From this report it is easy to see which functions required more time to run (the percentages by the different function names), as well as the temporal distribution of the different calls (in this example, calls are mostly uniformly distributed).</p>
+        <h3>Using a timer class</h3>
+        <p>Sometimes, instead of sampling what function is being executed and determining a rough percentage of time spent on different functions, you need to get exact execution times of particular lines (or blocks) of the code. To this end, you can use timers. In this tutorial we provide you with a timer class that allows you to do that, or you can write your own. If you are familiar with Matlab's tic and toc functions you'll find yourself at home with this class.</p>
+        <p>Much like Matlab's timing functions, this timer saves the timestamps of successive calls of the function <code>Timer::tic()</code> in a stack. Subsequent calls to <code>Timer::tic()</code> provide the time elapsed (in ms) from the last <code>Timer::tic()</code> call, and pop that timestamp from the stack. You can also get the time in milliseconds since the construction of the timer by using <code>Timer::get()</code>.</p>
+        <p>To see how to use the timer class, we will play again with the <b>SimpleImageOpenCV</b> example. Let's measure how long it takes to compute Fast features on your device. Copy <code>Timer.cpp</code> and <code>Timer.h</code> from <code>/tutorials/SharedCode</code> into <code>&lt;Your Workspace&gt;/SimpleImageOpenCV/jn</code>i. (If you copy them outside of Eclipse, you should select <code>jni</code> folder and refresh with <b>F5</b> so you'll see them.)  Then, open <code>OpenCV_native.cpp</code>. Let's include a couple of headers in this file (more information about logging can be found in <a href="native_android_devprocess.htm#Printing_to_android_log_from_native_code">Printing to Android log from native code</a>):</p>
+        <blockquote><pre class="prettyprint">#include "Timer.h"        // The timer class<br />#include &lt;android/log.h&gt;  // We will use android's log to print the timing results<br />// Let's define a tag called MyTimer so that we can filter logs later<br />#define LOG(...) __android_log_print(ANDROID_LOG_VERBOSE, "MyTimer", __VA_ARGS__)</pre>
+        </blockquote>
+        <p>We also need to add the timer source file to the list of source files in the <code>Android.mk</code> file:</p>
+        <blockquote><pre class="prettyprint">LOCAL_SRC_FILES := main.cpp Engine.cpp DrawRect.cpp RectShader.cpp OpenCV_native.cpp Timer.cpp</pre>
+        </blockquote>
+        <p>Now let's find the chunk of code we want to analyze in <code>OpenCV_native.cpp</code>, and let's add a couple of lines to the function <code>COpenCVSample::runOpenCVFeatureDetector()</code>:</p>
+        <blockquote><pre class="prettyprint">// detect FAST features<br />Timer t;<br /><br />t.tic(); // Start the timer<br /><br />std::vector&lt;cv::KeyPoint&gt; v;<br />cv::FastFeatureDetector detector(50);<br />detector.detect(g_img, v);<br /><br />LOG("cv::FastFeatureDetector took %d ms to run.", t.toc()); // t.toc() gives the time in ms since t.tic()</pre>
+        </blockquote>
+        <p>Before we run the code, let's open the LogCat view in Eclipse to see the logs. Go to <b>Window &gt; Show View &gt; LogCat</b>. If you don't see the LogCat option, go to <b>Window &gt; Show View &gt; Other...</b> and look for LogCat. Now let's add a filter so that our logs don't get lost in a bunch of clutter. Click on the plus symbol in the <code>Filters</code> pane:</p>
+        <p>
+            <img src="images/timer_addfilter.png" />
+        </p>
+        <p>If you don't see the filter pane, you need to toggle the Filter view button:</p>
+        <p>
+            <img src="images/timer_showfilters.png" />
+        </p>
+        <p>Finally name the filter and use the same tag we defined in the cpp file:</p>
+        <p>
+            <img src="images/timer_settingfilter.png" />
+        </p>
+        <p>Now if we run the application on the device and select the option <b>IMAGE</b>, we should see in the LogCat viewer something like the following (click on the image to enlarge):</p>
+        <p><a class="MCPopupThumbnailLink" href="images/timer_resultingtime.png"><img class="MCPopupThumbnail img" data-mc-width="1122" data-mc-height="442" src="images/timer_resultingtime_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <h3>PerfHUD ES (Profiling OpenGL ES code)</h3>
+        <p>PerfHUD ES is a complete tool for profiling and debugging OpenGL ES applications. It allows you to access performance information, as well as the call trace, mipmaps, etc.</p>
+        <p>If you chose to install the complete version of AndroidWorks, you already have PerfHUD ES in your NVPACK folder. In the same folder you can find a guide to its use. In order for PerfHUD ES to be able to gather statistics, we have to first enable the target support.</p>
+        <p>Connect your device; then go to <code>NVPACK_PATH/perfhud_switch</code> folder and run the file <code>enable_perfhud.bat</code> (in Linux or Mac <code>enable_perfhud.sh</code>). Note that this script only enables support until the device is rebooted, so you'll have to do it again if you turn your device off.</p>
+        <p>Let us use the <code>SimpleImageDisplayGL</code> tutorial to learn the basics of the profiler. Because of the way PerfHUD ES talks to the application, we need to recompile the project adding internet permission in <code>AndroidManifest.xml</code>:</p>
+        <blockquote><pre class="prettyprint">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"<br />package="com.nvidia.tutorial"<br />android:versionCode="1"<br />android:versionName="1.0"&gt;<br /><br /><span style="background-color: #ffffe0;">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</span><br /><br />[...]</pre>
+        </blockquote>
+        <p>Now you can compile and run the application on your device. Let's open LogCat and type NV in the search field. You should see the following messages (and a bunch more):</p>
+        <blockquote><pre class="prettyprint">NV Interposer: nvdmInit called by perfhud<br />NV Interposer: NVPerfHUD ES is active.<br />NV Interposer: Communication layer init succeed, listen on port 7876.</pre>
+        </blockquote>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> If you have a firewall software installed on your host machine you might have to open the port indicated in the LogCat as shown above to allow PerfHUD ES to communicate with the application on your Tegra device.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>We can now start PerfHUD ES, while the application is running. You should see a screen like the one below:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/performancedashboard1024x768.png"><img class="MCPopupThumbnail img" data-mc-width="1024" data-mc-height="768" src="images/performancedashboard1024x768_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>The first graph shows the CPU load for the different CPUs, the second shows a bunch of statistics. You can choose to show/hide any of these statistics by clicking on their name below the graph. Let's switch to the <b>Frame Debugger</b> mode (second button on the left-hand frame):</p>
+        <p><a class="MCPopupThumbnailLink" href="images/framedebugger1024x768.png"><img class="MCPopupThumbnail img" data-mc-width="1024" data-mc-height="768" src="images/framedebugger1024x768_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>There are several tabs at the top. The currently active tab, <b>Frame Scrubber</b>, shows the content of the frame buffer at the time of different draw calls. In the current view, the word <i>OFF</i> should be blinking: that was the element that was drawn by the current call. At the bottom of the window you will see a scroll-bar (circled in red in the figure above). Right above it you will see the call to <code>glDrawElements()</code>. If you drag the bar back one step by 3 steps you will see that the background was rendered (hopefully you will not get an attack of epilepsy) with the call <code>glDrawElements()</code>.</p>
+        <p>Note that this bar is common to all the <b>Frame Scrubber</b> tabs. For instance, if you go to the <b>Texture Viewer</b>, you can use it to change between different draw calls and see the corresponding textures (it should flip between the background image and different sets of fonts).</p>
+        <p>The most interesting tab is probably the <b>Shader Viewer</b> tab.  Here you can see what shaders are called and when. In our example, we do not precompile the shaders so we can see the code, interact with it, and even change it at run-time!</p>
+        <p>Let's look at the top-left pane:</p>
+        <p>
+            <img src="images/perf_shaderviewer.png" />
+        </p>
+        <p>Note that the actual numbers of the programs might be different in the window you are looking at. In this case, <i>program 3</i> is relative to the text we've drawn on the screen (the two buttons and the timer) and was therefore used by the last three draw calls (as indicated by "3-5" in the <b>Used by Draw Call</b> column). Since the scroll-bar at the bottom is all the way to the left, this program is shown as active (light blue). Note that you can click on any of the attributes or uniforms to see values and information. Now use the navigation bar to go back to the second draw call and you will see that program 9, which is relative to the background texture, becomes active.  The fragment and vertex shaders shown in the right pane are <code>plain.frag</code> and <code>plain.vert</code> from our code.</p>
+        <p>Let's go on the device and hit the ON button in the example application; PerfHUD ES will not update this view automatically, we need to hit the button to <b>Capture next frame</b>, indicated by the red circle in this screenshot:</p>
+        <p>
+            <img src="images/perf_newframe.png" />
+        </p>
+        <p>Now the shaders in the right pane are our <code>filter.vert</code> and <code>filter.frag</code>. Note that if you click on uniforms within the code you will be able to see information about it in the left panes. Let's go to the fragment shader, and change the sobel filter to be from vertical to horizontal.</p>
+        <p>Click the <b>Edit Shader</b> button and replace the first 6 lines of the main function with:</p>
+        <p>gl_FragColor  =       texture2D( uTex, vTexCoord + vec2(  uD.x,  uD.y ) );<br />gl_FragColor += 2.0 * texture2D( uTex, vTexCoord + vec2(  uD.x,  0.0  ) );<br />gl_FragColor +=       texture2D( uTex, vTexCoord + vec2(  uD.x, -uD.y ) );<br />gl_FragColor -=       texture2D( uTex, vTexCoord + vec2( -uD.x,  uD.y ) );<br />gl_FragColor -= 2.0 * texture2D( uTex, vTexCoord + vec2( -uD.x,  0.0  ) );<br />gl_FragColor -=       texture2D( uTex, vTexCoord + vec2( -uD.x, -uD.y ) );</p>
+        <p>Then hit <b>Compile and Apply</b>. Look at the screen of your device and you should see that now the screen has changed:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/perf_newshader.png"><img class="MCPopupThumbnail img" data-mc-width="1280" data-mc-height="800" src="images/perf_newshader_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>PerfHUD ES is also a powerful profiling tool. However, aside from the information provided in the <b>Performance Dashboard</b> tab, the profiling data is only available for specific system images and, therefore, we will not cover those capabilities here.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Debugging Unreal Engine 3 (UE3) Games</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_debug_ue3.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Debugging Unreal Engine 3 (UE3) Games</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor38"></a>
+        <h1><span class="SystemTitle">Debugging Unreal Engine 3 (UE3) Games</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>	Note: While reading this document you will see <code>[GAME]</code>.  This symbol is intended to be replaced by the name of your game.  For instance, Unreal Engine 3  comes with <code>ExampleGame</code> and <code>UDKGame</code>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Unreal Engine 3 Changes</h4>
+        <p>The following sub-sections outline the changes that need to be made to the Unreal Engine 3 (UE3)&#160;tool-chain, depending on which Visual Studio project of UE3 solution you would like to debug.</p>
+        <h4>Build.bat</h4>
+        <p>This change is required for all UE3 users to enable debugging as a whole.  The UE3 tool-chain renames some of its files during the build process, but GDB requires that the symbols names match the library name.</p>
+        <p>Otherwise if Win7 and below, you can modify the build scripts to do this automatically. The file we need to modify within the UE3 root directory is: <code>Development\Src\Android\java\build.bat</code>. </p>
+        <p>Just after the following line:&#160;</p>
+        <blockquote><pre class="prettyprint">copy %1-Android-%2.so libs\armeabi-v7a\libUnrealEngine3.so &gt; NUL</pre>
+        </blockquote>
+        <p>Add the following:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">ECHO Creating a symbolic link to allow debugging because file names must match.<br />mklink /H libUnrealEngine3.so %1-Android-%2.so &gt; NUL</pre>
+        </blockquote>
+        <h4>AndroidToolChain</h4>
+        <p>This modification is recommended to ensure that all call stack entries can retrieve source code files.  Only some projects may have problems without this change, but it is easier to make the change sooner than to remember why it is behaving poorly later.</p>
+        <p>Modify <code>Development\Src\Android\UnrealBuildTool\System\AndroidToolChain.cs</code> inside of the function<code> GetCLArguments_Global()</code>. From here, find the following line:</p>
+        <blockquote><pre class="prettyprint" xml:space="preserve">Result += "-ffunction-sections";</pre>
+        </blockquote>
+        <p>You can comment this out or move this line to the area lower in the function, to where release optimizations are being applied (such as <code>–O2</code>). This flag has pros and cons so you should profile your app in release mode and look at the file size since it can affect either in both good or bad ways.</p>
+        <p>We also recommend:</p>
+        <h5>For performance profiling (Debug or release)</h5>
+        <blockquote>
+            <p><pre class="prettyprint">Result += " -g";|<br />Result += " -funwind-tables"<br />Result += " -fno-omit-frame-pointer”<br />Result += " -marm</pre>
+            </p>
+        </blockquote>
+        <h5>Target fast modern architectures</h5>
+        <blockquote>
+            <p><pre class="prettyprint">Result += " -march=armv7-a";<br />Result += " -mtune=cortex-a15";<br />Result += " -mfloat-abi=softfp";</pre>
+            </p>
+        </blockquote>
+        <h5>Target fast floating point uses using either:</h5>
+        <ol>
+            <li value="1"><pre>Result += " -mfpu=vfpv4";</pre>
+            </li>
+            <li value="2"><pre>Result += " -mfpu=neon-vfpv4";</pre>
+            </li>
+        </ol>
+        <p>But for neon, the user must either do additional hand coding of neon assembly, or add additional unsafe math flags and work out the issues that may result.</p>
+        <h5>Replacing the Toolchain (optional)</h5>
+        <p>Some users have chosen to move to newer versions of NDK and even move to the win64 toolchain so that they can make incredibly large linked files. Here are somethings to consider.</p>
+        <p>You may need to modify the NDKROOT to point to the new NDK. UE3 build tools typically sets its own if this environment variable is not set.  This is done in <code>AndroidToolChain.cs</code>.</p>
+        <p>To move to win64, tools paths in <code>AndroidToolChain.cs</code> need to switch from <code>windows</code> to <code>windows-x86_64</code>.</p>
+        <h4>Preparing Your Level Data</h4>
+        <p>At this point, be sure that your project builds normally.  Use <code>UnrealFrontEnd.exe</code> before using <span class="MyVariablesNsightTegraFULL">Nsight Tegra, Visual Studio Edition</span> so that <code>UnrealFrontEnd.exe</code> may load the game level data to the target device.  Even with <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>, you will need to use this tool to load the game data, but <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> will be able to update the game's APK.<br /></p>
+        <h3><a name="The_DebugOnly_Project"></a>The Project for Debugging</h3>
+        <p>In the earlier steps, you have prepared UE3 so that it compiles and packages everything correctly in preparation for debugging.  The work there is done by the Unreal Build Tools.  Now we must set up a project for the <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> debugger to appropriately launch and attach to your UE3 based game.</p>
+        <h4>New Project</h4>
+        <ol>
+            <li value="1">Create a new project in your existing UE3 solution by going to <b>File</b>&gt;&#160;<b>New</b>&gt;&#160;<b>Project…</b> <br />Pick <b>Android</b> from the templates column on the left. Then select <b>Android Project (External Build System)</b>. </li>
+            <li value="2">We recommend setting the project directory to: <code>Development\Src\Debugger</code>.</li>
+            <li value="3">In the project wizard, fill in the following fields:&#160;
+			<p>Working directory = <code>$(SolutionDir)\..\Intermediate\[GAME]\Android\$(Configuration)</code></p><p>Path to APK&#160;= <code>$(SolutionDir)\..\Intermediate\[GAME]\Android\$(Configuration) \bin\UnrealEngine3-$(Configuration).apk</code> <![CDATA[ ]]></p><p>Symbols Directories = <code>$(SolutionDir)\..\Intermediate\[GAME]\Android\$(Configuration)</code> <![CDATA[ ]]></p><p>Java source code directories = <code>$(SolutionDir)\Android\java\src</code></p></li>
+            <li value="4">Complete the project creation. </li>
+        </ol>
+        <h4>Configure for Launch and Dependency Building</h4>
+        <ol>
+            <li value="1">Right-click on the new project and set it as your start-up project. </li>
+            <li value="2">Right-click on the project and select <b>Project Dependencies</b>. Check <code>[GAME] Android</code>, which you would use to compile the game normally. </li>
+            <li value="3">Set up the platform first by changing the platform on the toolbar to <b>Tegra-Android</b>. Then modify the platform configuration setting by going to <b>Build</b> &gt;<b>Configuration Manager</b>. <ol style="list-style-type: lower-alpha;"><li value="1">Make sure the platform in to top left is still set to <b>Tegra-Android</b>. </li><li value="2">Find the row for project <code>[GAME] Android</code>.  Set it to build and ensure that its platform is Win32.  This will enable F5 and other build and debug commands that are needed to compile the complete project. </li></ol></li>
+        </ol>
+        <h4>Building and Launching</h4>
+        <ol>
+            <li value="1">Make sure the platform in the toolbar is set to <b>Tegra-Android</b>.</li>
+            <li value="2">You may use any of the conventional methods to debug and launch in one step: <ul><li value="1">F5 </li><li value="2">The <b>Start Debugging</b> toolbar button </li><li value="3">From the Visual Studio menu, <b>Debug</b> &gt; <b>Start Debugging</b>.</li></ul></li>
+            <li value="3">Alternately, you may use the corresponding build commands to build separately.</li>
+        </ol>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

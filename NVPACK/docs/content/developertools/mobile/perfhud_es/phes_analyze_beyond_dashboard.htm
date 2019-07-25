@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|How To: Analyze Application Performance Using PerfHUD ES">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Beyond the Dashboard</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/phes_analyze_beyond_dashboard.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Beyond the Dashboard</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor14"></a>
+        <h1><span class="SystemTitle">Beyond the Dashboard</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>Beyond the dashboard, PerfHUD ES grabs, and processes, two distinct sets of data: <b>Frame Debugger</b> and <b>Frame Profiler</b>. These data-sets are complementary, and both are required to take full advantage of PerfHUD ES.</p>
+        <h3>Frame Debugger</h3>
+        <p>The Frame Debugger data is a complete capture of a single rendered frame (delimited by <code>eglSwapBuffers</code> by default, or some other user-specified function if necessary). PerfHUD allows the user to scrub through the scene and examine state (geometry, texture, gl state, framebuffer contents, and shaders) for each submitted draw call. This data set does not include any timing information.</p>
+        <h3>Frame Profiler</h3>
+        <p>The Frame Profiler data contains detailed timing information captured from the running application.</p>
+        <h3>Grabbing a Paired Data-Set</h3>
+        <p>In order to grab the Frame Profiler data, PerfHUD ES needs to repeatedly re-submit the current frame, instrumenting various aspects of the scene each time. </p>
+        <p>In order for this process to succeed, and for the data captured to match the Frame Debugger data, the application <i>must</i> be capable of entering some state such that it will re-render <i>exactly</i> the same scene every frame.</p>
+        <p>To facilitate this, we provide an egl extension to present <b>Time Update APIs</b> to the application. If an application uses this extension to drive its internal update, PerfHUD ES can interfere with the time presented to the application to effectively slow down, speed up, or fully pause the application. Generally, this allows PerfHUD ES to gather the myriad timing data-sets needed by the Frame Profiler.</p>
+        <h4>Identifying High-Level Inefficiencies </h4>
+        <p>Currently the process of identifying many of these issues involves manually scrubbing through the scene in the Frame-Debugger, while monitoring some appropriate view of the rendered data. Future plans are to automate much of this manual effort, by processing the scene and reporting a summary of status for each item (possibly along with recommendations to address specific problems).</p>
+        <h4>Batching</h4>
+        <ul>
+            <li value="1">How many draw calls? How many shaders?<ul><li value="1">Could the number of draw calls be reduced significantly by merging materials?</li></ul></li>
+        </ul>
+        <h5>Using the Bucket Definition View</h5>
+        <p>The <b>Bucket Definition</b> view can show you how many unique shaders (programs) that the application uses. Check only the <b>Shader State</b> checkbox to view this list of buckets (in the central view).</p>
+        <p>Certain render states (for example, alpha-blending) can result in fragment shader recompilation (i.e., each application-provided fragment shader is actually an umbrella for the set of fragment-shaders generated from that particular shader, in combination with render-state). Check the <b>Shader State</b> and <b>Raster State</b> options to view these buckets.</p>
+        <p>The third option, <b>Framebuffer Object</b>, allows further breaking down of buckets based on the render target to which each draw call was submitted. Be aware, though, that this feature does not handle the case where a single FBO handle is dynamically re-attached to multiple sets of surfaces.</p>
+        <p>Whichever checkboxes are marked, selecting a bucket in the <b>Bucket-List</b> view displays the list of draw calls contributing to that bucket in the right-hand <b>Draw Call</b> view.</p>
+        <p>Both buckets and draw calls can be ordered by duration, allowing easy identification of key bottlenecks. Use this view to focus and drive your optimization effort.</p>
+        <h4>Draw Order</h4>
+        <p>For depth buffered scenes, a front-to-back draw order is always the most efficient.</p>
+        <ul>
+            <li value="1">Could a simple layering (for example, foreground first, terrain, then skybox last) reduce overdraw?</li>
+            <li value="2">For games with non-trivial scene-structure, some more complex scheme may be necessary. <ul><li value="1">Portals/PVS etc. </li><li value="2">In some high-overdraw cases, a depth-prepass could also improve performance.</li></ul></li>
+        </ul>
+        <p>Go to <b>Frame Debugger</b> -&gt; <b>Frame Scrubber</b>. </p>
+        <p>Scrub through all draw calls in the scene. Verify that, for each rendered frame buffer, draw calls are dispatched in approximately front-to-back order, and that depth buffering is enabled (i.e., the depth buffer is updated as the scene is drawn).</p>
+        <p>The requirements to efficiently batch and simultaneously submit by increasing depth are conflicted.</p>
+        <ul>
+            <li value="1">Because of state change overhead, more than a few hundred draw calls will degrade performance.</li>
+            <li value="2">More than 2x overdraw will also have a significant performance impact.</li>
+        </ul>
+        <h4>Frame Buffer Surfaces</h4>
+        <h5>Check Appropriate Frame Buffer Surface Size and Format</h5>
+        <p>Are off-screen/visible frame buffer's sensible sizes?</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Frame Scrubber</b>.</li>
+            <li value="2">Scrub through all draw calls in the scene verifying that:<ul><li value="1">Frame buffer sizes are appropriate.</li><li value="2">Frame buffer formats are appropriate. Don't use RGBA 32-bit for everything by default. PerfHUD&#160;ES supports an extensive range of FBO formats (including single channel 8 bit, 4-channel 4bit, 2 channel fp16/u8).</li></ul></li>
+        </ul>
+        <h5>Redundant Frame Buffer Clears</h5>
+        <p>Don't clear surfaces redundantly. In particular, don't clear the color-buffer if every pixel will be written.</p>
+        <p>The most reliable way to identify <code>glClear</code> calls, currently, is the following: </p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Call Trace</b>. </li>
+            <li value="2">Export the call trace. </li>
+            <li value="3">Load the exported file into a text editor and search for <code>glClear(</code>. </li>
+            <li value="4">Verify that each clear is necessary, and only the minimal required subset of surfaces is selected.</li>
+        </ul>
+        <h4>Disable Unused Frame Buffers (stencil/vcaa)</h4>
+        <p>Explicitly disable the frame buffers that are not needed for the active render. For example, do not write stencil/depth, unless the written content is required and meaningful.</p>
+        <ul>
+            <li value="1">Use minimum-sized off-screen buffers possible to maintain visual quality.</li>
+            <li value="2">Go to <b>Frame Debugger</b> -&gt; <b>Frame Scrubber</b>. </li>
+            <li value="3">Scrub through all draw calls in the scene verifying, by eye, that the draw calls affect only the required surfaces.</li>
+        </ul>
+        <h4>State Filtering</h4>
+        <p>Keep track of GLES state in the application and only make the minimum GLES2 function calls required. This helps to reduce the intrusiveness of PerfHUD ES, and also reduces redundant application overhead.</p>
+        <p>Texture state is cached by the driver (filter mode, wrap mode). It isn't necessary to redundantly set this state for every draw call. This also applies to shader state; uniforms are cached per-shader once they are set.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>Call Trace</b>. </li>
+            <li value="2">Scan through the call-trace looking for repeated redundant state. In many cases, vertex attributes, textures, and other state data will be set, then reset per draw call.</li>
+        </ul>
+        <p>Realistically, all applications will tend to submit some redundant state, and the overhead for this is negligible. However, the most common patterns of abuse are trivial to identify, and often involve very little engineering effort to resolve.</p>
+        <h4>Minimize Alpha-Blending</h4>
+        <p>Alpha blending causes a read-modify write frame buffer access pattern, which reduces memory efficiency and overall fragment throughput. It's recommended that you use alpha-blending sparingly.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>State Viewer</b>. </li>
+            <li value="2">Open up the <b>Color Buffer</b> sub-hierarchy. </li>
+            <li value="3">Scrub through all draw calls in the scene. Verify that blending is disabled for the opaque scene.</li>
+        </ul>
+        <h4>Minimize Alpha-Test (Fragment Shader Discard)</h4>
+        <p>Discard (primarily used for alpha-test) disables our (efficient) early depth/stencil buffer write mechanism, reducing memory efficiency and overall fragment throughput. It's recommended that you use discard sparingly.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Profiler</b>. </li>
+            <li value="2">Check all 3 bucket definition check boxes. </li>
+            <li value="3">Go to <b>Frame Debugger</b> -&gt; <b>Shader Viewer</b>. </li>
+            <li value="4">Click <b>Export to Disk File</b>. </li>
+            <li value="5">Select both the <b>By performance contribution</b> and <b>all program</b> radio buttons. </li>
+            <li value="6">Select your output folder and click <b>Save</b>. </li>
+            <li value="7">Search for <b>discard</b> in the exported fragment shader source files, with a <code>.glslf</code> file extension. </li>
+            <li value="8">Check the contribution for each <b>discarding</b> fragment shader. (To do so, you can use either the exported <b>shader_readme.txt</b>, or the bucket-list in the <b>Frame Profiler</b>.)</li>
+        </ul>
+        <h4>Take advantage of Back Face Cull</h4>
+        <p>Backface cull helps to reduces overdraw significantly. It's recommended that you enable backface cull consistently, for as much of the scene as possible.</p>
+        <ul>
+            <li value="1">Go to <b>Frame Debugger</b> -&gt; <b>State Viewer</b>. </li>
+            <li value="2">Open up the <b>Polygon State</b> sub-hierarchy. </li>
+            <li value="3">Scrub through all draw calls in the scene. Verifying that back-face culling is enabled for the bulk of the opaque scene.</li>
+        </ul>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

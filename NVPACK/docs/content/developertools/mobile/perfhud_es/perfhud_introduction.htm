@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Introduction to PerfHUD</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_introduction.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Introduction to PerfHUD</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor5"></a>
+        <h1><span class="SystemTitle">Introduction to PerfHUD</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h5>What is PerfHUD&#160;ES?&#160;</h5>
+        <p>PerfHUD ES enables experimentation and in-depth analysis of OpenGL ES applications.  Through data provided by the OpenGL ES driver and the NVIDIA GPU, developers are given access to GPU performance and bottleneck information, in order to target optimizations where they are most needed.  The debugging capabilities give full access to the state of the OpenGL ES pipeline, related textures and shaders, and all rendering states to help find the causes for improper setup and rendering anomalies.</p>
+        <h5>Why is it called "PerfHUD&#160;ES"?</h5>
+        <p>PerfHUD ES is inspired by NVIDIA’s PerfHUD for PC (Perf = Performance, HUD = Heads-Up Display).  While PerfHUD ES does not use a heads-up display, its features are modeled after PerfHUD PC.  PerfHUD for PC is mature and industry-proven, used by top game developers like Epic, Crytek, DICE, Relic Entertainment, Blizzard, and more.</p>
+        <h5>How PerfHUD&#160;ES&#160;Works</h5>
+        <p>PerfHUD ES uses a client-server model.  The target device runs a special instrumented driver that communicates across a TCP/IP, USB, or ActiveSync connection with the PerfHUD ES Host application (subsequently referred to as the PerfHUD Host). When first started, the PerfHUD Host will attempt to connect to running applications on the target device using ADB, if ADB exists on your host system. If ADB does not exist, or if no connection is found, then you will need to select the "Not connected" button at the bottom right of the PerfHUD ES main screen. Selecting the "Not connected"&#160;button  presents the developer with a connection interface, as shown in Figure 1.  The connection between the PerfHUD Host and target can be established at any time while the target application is running.<br /></p>
+        <blockquote>
+            <p>
+                <img src="images/perfhud_fig1_host_connection_interface.001.png" />
+                <br />Figure 1. PerfHUD&#160;Host Connection Interface</p>
+        </blockquote>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 659px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p>Note that the screenshot images in this guide may be slightly different than what you experience, as multiple platforms and projects are supported.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The <b>ADB Forwarding</b> checkbox is only available for Android targets and is the easiest way to connect.  Simply select the checkbox, and PerfHUD ES will use ADB to discover all of the running graphics applications on the target device.  Alternatively, you can use the advanced method listed below.<br /><br /></p>
+        <h6>Switch between Different Graphics Processes</h6>
+        <p>On some systems, multiple graphics applications may be running on the target at the same time. If you want to switch between these different graphics processes, you need go to <b>File</b> &gt;&#160;<b>IP&#160;Address</b> (or press <b>Ctrl+I</b>) to open the <b>Target IP Setting</b> dialog. </p>
+        <p>When the target's host name and IP is set in this dialog, click the <b>Refresh</b> button, and you will see a list of processes running on the target side. You can connect to a process by double-clicking the entry, or single-click the entry and choose the <b>Connect</b> button.</p>
+        <p>On the target, when PerfHUD finds the default port 7876 is used by an existing graphics process, it will increase the port number and try to listen on that port until the upper boundary 7976 is reached. If <b>localhost</b> is used as the host name/IP, then ports in this range must be forwarded, in order for the processes to be visible in the list.</p>
+        <h6>System Requirements </h6>
+        <p>The PerfHUD host can run on any PC that supports OpenGL 1.5 (or higher) and the following OpenGL extensions:</p>
+        <ul>
+            <li value="1"><code>GL_EXT_framebuffer_object</code> <![CDATA[ ]]></li>
+            <li value="2"><code>GL_ARB_texture_rectangle</code> <![CDATA[ ]]></li>
+            <li value="3"><code>GL_ARB_point_parameters</code> <![CDATA[ ]]></li>
+            <li value="4"><code>GL_ARB_texture_env_combine</code> <![CDATA[ ]]></li>
+            <li value="5"><code>GL_ARB_color_buffer_float</code> <![CDATA[ ]]></li>
+            <li value="6"><code>GL_ARB_half_float_pixel</code> <![CDATA[ ]]></li>
+            <li value="7"><code>GL_ARB_texture_float</code> <![CDATA[ ]]></li>
+            <li value="8"><code>GL_ARB_vertex_shader</code> <![CDATA[ ]]></li>
+            <li value="9"><code>GL_ARB_fragment_shader</code> <![CDATA[ ]]></li>
+            <li value="10"><code>GL_ARB_shader_objects</code> <![CDATA[ ]]></li>
+        </ul>
+        <p>If your PC has NVIDIA hardware, then any GeForce 6 series GPU (or higher) should suffice.</p>
+        <p>For Windows CE based devices, you need to install ActiveSync 4.5 (or higher) in order for the PerfHUD ES host to establish connection with target.</p>
+        <p>PerfHUD ES for Tegra currently only supports OpenGL ES 2.0 applications. However, you can leverage PerfHUD ES for your OpenGL ES 1.X applications if your target OpenGL ES 1.X driver is a wrapper around an OpenGL ES 2 driver.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop Apps Using Android Application Lifecycle|Android Lifecycle Basics in Practice">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Additional Lifecycle Concepts and Realities</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/lifecycle_addl_concept_realities.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Additional Lifecycle Concepts and Realities</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor91"></a>
+        <h2><span class="SystemTitle">Additional Lifecycle Concepts and Realities</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <h4>Being "Killable"</h4>
+        <p>The Android developer documentation makes reference to an application being in a "killable" state.  While Android tries to keep the process of an application resident even after it has exited (i.e. after <code>onDestroy</code>), it does need to be able to kill these processes in low-resource situations to reclaim memory.  The states in which an application is killable differ per OS version.  On all versions of Android, applications that have returned from <code>onStop</code> or <code>onDestroy</code> are silently killable.  On versions of Android prior to Honeycomb, applications that had returned from <code>onPause</code> were also killable.  Being killable simply means that Android reserves the right to terminate your application’s process at any time without running even another instruction of your app’s code. </p>
+        <p> In other words, if you have any state that must be recoverable (such as a player’s game progress, items, awards, etc.), you must save those to persistent storage no later than the last callback before entering a killable state.</p>
+        <p>In addition, while applications can run native threads even when they are in a killable state and even post-<code>onDestroy</code>, this is to be avoided, since the process kill will also kill those threads.  This could cause all manner of corruption and shutdown issues.<br /></p>
+        <h4>Callback-Handling AND ANR’s</h4>
+        <p>It may seem possible to avoid becoming killable by choosing not to return from the last callback before entering the killable state (e.g., <code>onPause</code> or <code>onStop</code>).  This will not work.  In fact, it will have disastrous consequences for your application that highlight another aspect of application lifecycle.  Applications are required by Android to handle any posted input events within 5 seconds.  Since that input is delivered on the same thread (the main or UI thread) as the lifecycle callbacks, blocking for 5 seconds in a lifecycle callback will break this rule.</p>
+        <p>When an application breaks the "5 second rule," the device user will be given an <b>Application Not Responding (ANR)</b> error dialog box.  This will give the user the option of waiting for your (assumedly crashed) application to continue, or else kill your application.  This is to be avoided in any application.  Applications should carefully plan their callback code to avoid making blocking calls that could take an unknown amount of time.  This includes such operations as large storage reads/writes and especially network operations, which should be done in spawned threads.<br /></p>
+        <h4>onPause versus onStop</h4>
+        <p>In addition to the lifecycle state items previously mentioned, there is one other important difference between <code>onPause</code> and <code>onStop</code> callbacks.  The <code>onPause</code> callback halts the visible UI thread, and thus any time spent in <code>onPause</code> will actively block the app’s UI interaction.  Thus, it is important to make <code>onPause</code> as responsive as possible while still saving absolutely key application state.</p>
+        <p>The <code>onStop</code> callback, on the other hand, is called once the app is no longer visible.  Thus, while it is important to avoid ANRs from this callback, it is not pivotal to return immediately from <code>onStop</code>.  Spending a little more time in <code>onStop</code> will not cause application/device responsiveness issues.<br /></p>
+        <h4>Rendering and Threading</h4>
+        <p>Related to callbacks and the potential for ANRs, it is important for applications to do their rendering in a secondary thread, either in Java or in native.  If a native thread is to be calling OpenGL and EGL, it should be sure that it calls up to Java from native to bind the EGL context.  The thread that is calling OpenGL ES must be the same thread that bound the context.  The main UI thread should not bind the context and then have some other thread in native calling OpenGL ES.  This is likely to cause problems.  NVIDIA’s Tegra Android Samples Packs include examples of exposing EGL call wrappers in Java that can be called from native threads to make this easier.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

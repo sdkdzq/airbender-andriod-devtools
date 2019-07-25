@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Performance Counters</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_perf_counters.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Appendix: Performance Counters</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <div id="pageheader">
+            <h1><span class="SystemTitle">Performance Counters</span>
+            </h1>
+            <hr width="100%" size="0" align="center" />
+        </div>
+        <p>There are three types of counters available through <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>. Hardware counters provide data directly from various points inside the GPU. Software counters give insight into the state and performance of the driver. Simplified Experiments are multi-pass experiments that give detailed information about the state of the GPU.</p>
+        <p>The GPU counters give results accumulated from the previous time the GPU was sampled. For instance, the triangle_count gives the number of triangles rendered since the last sample was taken. Once you integrate the counters into your own application, you can sample on a per-frame basis and correlate the data to a given frame.</p>
+        <p>All of the software/driver counters represent a per frame accounting. These counters are accumulated and updated in the driver per frame, so even if you sample at a sub-frame rate frequency, the software counters will hold the same data (from the previous frame) until the end of the current frame.</p>
+        <p>Counter data is provided as either raw values or as a percentage. Raw counters count events (triangles, pixels, milliseconds, etc.) since the last call. Percentage counters are event counts based on the clock rate where the event count is divided by the number of cycles. For example, gpu_idle counts the number of clock ticks that the GPU was idle since the last call. This value is automatically divided by the total number of clock ticks to give the percentage of time that the GPU was idle.</p>
+        <p>The table below outlines all performance counters that are supported in <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>. </p>
+        <table cols="10">
+            <col style="width: 229px;" />
+            <col style="width: 110px;" />
+            <col style="width: 75px;" />
+            <col style="width: 539px;" />
+            <tbody>
+                <tr>
+                    <th>Name</th>
+                    <th>API</th>
+                    <th>Unit</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>cpu_00_frequency
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The current frequency of the CPU core in Hz.</td>
+                </tr>
+                <tr>
+                    <td>cpu_00_load
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The utilization of the CPU&#160;core. </td>
+                </tr>
+                <tr>
+                    <td>cpu_01_frequency
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The current frequency of the CPU core in Hz.</td>
+                </tr>
+                <tr>
+                    <td>cpu_01_load
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The utilization of the CPU&#160;core. </td>
+                </tr>
+                <tr>
+                    <td>cpu_02_frequency
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The current frequency of the CPU core in Hz.</td>
+                </tr>
+                <tr>
+                    <td>cpu_02_load
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The utilization of the CPU&#160;core. </td>
+                </tr>
+                <tr>
+                    <td>cpu_03_frequency
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The current frequency of the CPU core in Hz.</td>
+                </tr>
+                <tr>
+                    <td>cpu_03_load
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The utilization of the CPU&#160;core. </td>
+                </tr>
+                <tr>
+                    <td>cpu_load
+                    </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>The average utilization of all the CPU cores. </td>
+                </tr>
+                <tr>
+                    <td>elapsed_cycles
+                    </td>
+                    <td>Compute</td>
+                    <td>&#160;</td>
+                    <td>Max elapsed cycles of all the GPCs. </td>
+                </tr>
+                <tr>
+                    <td>geom_busy
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Cycles the geometry unit is busy.</td>
+                </tr>
+                <tr>
+                    <td>GPU Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Index for GPU bottleneck</td>
+                </tr>
+                <tr>
+                    <td>GPU_busy
+                    </td>
+                    <td>Both</td>
+                    <td>GPU</td>
+                    <td>Cycles the Graphics engine or the Compute engine is busy.</td>
+                </tr>
+                <tr>
+                    <td>GPU_idle
+                    </td>
+                    <td>Both</td>
+                    <td>GPU</td>
+                    <td>Cycles the Graphics engine and Compute engine is idle.</td>
+                </tr>
+                <tr>
+                    <td>IA Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Input Attribute Is Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>IA SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Input Attribute SOL</td>
+                </tr>
+                <tr>
+                    <td>ia_requests
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Number of Input Assembler requests.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_cs
+                    </td>
+                    <td>Both</td>
+                    <td>SM</td>
+                    <td>Instructions executed by Compute shaders (CS), not including replays.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_cs_ratio
+                    </td>
+                    <td>Both</td>
+                    <td>SM</td>
+                    <td>Percentage of total instructions executed that were executed by a Compute
+			shader.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_gs
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Instructions executed by geometry shaders (GS), not including replays.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_gs_ratio
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Percentage of total instructions executed that were executed by a
+			geometry shader.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_ps
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Instructions executed by pixel shaders (PS), not including replays.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_ps_ratio
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Percentage of total instructions executed that were executed by a pixel
+			shader.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_tcs
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Instructions executed by tesselation control shaders (TCS/hull), not
+			including replays.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_tcs_ratio
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Percentage of total instructions executed that were executed by a hull
+			shader.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_tes
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Instructions executed by tesselation evaluation shaders (TES/domain), not
+			including replays.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_tes_ratio
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Percentage of total instructions executed that were executed by a domain
+			shader.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_vs
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Instructions executed by vertex shaders (VS), not including replays.</td>
+                </tr>
+                <tr>
+                    <td>inst_executed_vs_ratio
+                    </td>
+                    <td>Graphics</td>
+                    <td>SM</td>
+                    <td>Percentage of total instructions executed that were executed by a vertex
+			shader.</td>
+                </tr>
+                <tr>
+                    <td>l1_atoms_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written through L1 for ATOM instructions.</td>
+                </tr>
+                <tr>
+                    <td>l1_atoms_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>ATOM transactions. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_atoms_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of atom transactions in L1 per atom instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from L1 for global memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_hitrate
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Hit rate in percent in L1 for global load operations.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global load transactions. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_transactions_hit
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global load transactions that hit in the L1 cache. A transaction is 128
+			bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_transactions_hit_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global load transactions that hit in the L1 cache by this SM. A
+			transaction is 128 bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_transactions_miss
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global load transactions that miss in the L1 cache. A transaction is 128
+			bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_transactions_miss_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global load transactions that miss in the L1 cache by this SM. A
+			transaction is 128 bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of global load transactions in L1 per global/surface load
+			instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_uncached_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Uncached global load executed. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_load_uncached_transactions_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Uncached global load executed by this SM. A transaction is 128 bytes.
+			Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_store_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written to L1 for global memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_store_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global store transactions executed. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_store_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of global store transactions in L1 per global/surface store
+			instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_store_transactions_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Global store transactions executed by this SM. A transaction is 128
+			bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_global_uncached_load_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from L2 for global uncached memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_hitrate
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Hit rate in percent in L1 for global load and local load and store
+			operations.</td>
+                </tr>
+                <tr>
+                    <td>l1_l2_bytes
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of bytes transferred to the L2 unit by the L1 unit.</td>
+                </tr>
+                <tr>
+                    <td>l1_l2_requests
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of L2 requests from the L1 unit.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from L1 for local memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_hitrate
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Hit rate in percent in L1 for local load operations.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local load transactions. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_transactions_hit
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local load transactions that hit in the L1 cache. A transaction is 128
+			bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_transactions_hit_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local load transactions that hit in the L1 cache by this SM. A
+			transaction is 128 bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_transactions_miss
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Local load transactions that miss in the L1 cache. A transaction is 128
+			bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_transactions_miss_vsm0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Local load transactions that miss in the L1 cache by this SM. A
+			transaction is 128 bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_load_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of local load transactions in L1 per local load instructions
+			executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written to L1 for local memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_hitrate
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Hit rate in percent in L1 for local store operations.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local store transactions. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_transactions_hit
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local store transactions that hit in the L1 cache. A transaction is 128
+			bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_transactions_hit_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local store transactions that hit in the L1 cache by this SM. A
+			transaction is 128 bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_transactions_miss
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local store transactions that miss in the L1 cache. A transaction is 128
+			bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_transactions_miss_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Local store transactions that miss in the L1 cache by this SM. A
+			transaction is 128 bytes. Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_local_store_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of local store transactions in L1 per local store instructions
+			executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_reds_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written through L1 for RED instructions.</td>
+                </tr>
+                <tr>
+                    <td>l1_reds_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>RED transactions. A transaction is 128 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_reds_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of red transactions in L1 per red instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_bank_conflicts
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bank conflicts for shared memory operations.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_load_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from L1 for shared memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_load_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Shared load transactions. A transaction is 256 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_load_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of shared load transactions in L1 per shared load instructions
+			executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_load_transactions_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Shared load transactions by this SM. A transaction is 256 bytes.
+			Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_store_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written to L1 for shared memory.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_store_transactions
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Shared store transactions. A transaction is 256 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_store_transactions_per_request
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of shared store transactions in L1 per shared store instructions
+			executed.</td>
+                </tr>
+                <tr>
+                    <td>l1_shared_store_transactions_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Shared store transactions by this SM. A transaction is 256 bytes.
+			Increments by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>L2 Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>L2 Is Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>l2_read_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_bytes_atomic
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read by atomic from L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_bytes_ia
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Number of bytes returned from L2 to the Input Assembler.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_bytes_l1
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read by L1 from L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_bytes_rop
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read to the L2 unit by the ROP unit. </td>
+                </tr>
+                <tr>
+                    <td>l2_read_bytes_tex
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read by texture from L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_sectors
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors read from L2. A sector is 32 bytes. </td>
+                </tr>
+                <tr>
+                    <td>l2_read_sectors_atomic
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors read by atomic from L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_sectors_l1
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors read by L1 from L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_read_sectors_tex
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors read by texture from L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_read_sectors_atomic_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector reads for ATOM/RED to L2 cache that hit in the L2 cache in the
+			given slice and FB partition. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_read_sectors_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector reads that hit in the L2 cache in the given slice and FB
+			partition. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_read_sectors_l1_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector reads from L1 to L2 cache that hit in the L2 cache in the given
+			slice and FB partition. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_read_sectors_tex_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector reads from TEX to L2 cache that hit in the L2 cache in the given
+			slice and FB partition. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_write_sectors_atomic_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector writes for ATOM/RED to L2 cache in the given slice and FB
+			partition. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_write_sectors_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector writes to the L2 cache in the given slice and FB partition. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_write_sectors_l1_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector writes from L1 to L2 cache in the given slice and FB partition. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_slice0_write_sectors_tex_fb0
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Sector writes from TEX to L2 cache in the given slice and FB partition. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_bytes
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written to L2. </td>
+                </tr>
+                <tr>
+                    <td>l2_write_bytes_atomic
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written by atomic to L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_bytes_l1
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written by L1 to L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_bytes_rop
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written to the L2 unit by the ROP unit. </td>
+                </tr>
+                <tr>
+                    <td>l2_write_bytes_tex
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of bytes written by texture to L2.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_sectors
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors written to L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_sectors_atomic
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors written by atomic to L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_sectors_l1
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors written by L1 to L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>l2_write_sectors_tex
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Number of sectors written by texture to L2. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;% driver waiting</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Percent of time in frame that driver is waiting. </td>
+                </tr>
+                <tr>
+                    <td>OGL AGP/PCI-E usage (bytes) </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Current amount of AGP or PCI-E memory (non-local video memory) used in bytes. </td>
+                </tr>
+                <tr>
+                    <td>OGL AGP/PCI-E usage (MB) </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Current amount of AGP or PCI-E memory (non-local video memory) used in MB. </td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;driver sleeping</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Last frame mSec sleeping in OGL driver. </td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;FPS</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Frames/Sec rendered since last sample.</td>
+                </tr>
+                <tr>
+                    <td>OGL Frame Batch Count</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Number of draw batches issued during the last frame.</td>
+                </tr>
+                <tr>
+                    <td>OGL Frame Primitive Count</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Number of primitives issued during the last frame.</td>
+                </tr>
+                <tr>
+                    <td>OGL Frame Time</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Last frame to frame time measured by OGL in mSec. </td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;Frame Vertex Count </td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Number of vertices issued during the last frame.</td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;vidmem bytes</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Current amount of video memory (local video memory) allocated in bytes.  Drawables and render targets are not counted.</td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;vidmem MB</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL Current amount of video memory (local video memory) allocated in MB.  Drawables and render targets are not counted.</td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;vidmem total bytes</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL total amount of video memory (local video memory) in bytes.</td>
+                </tr>
+                <tr>
+                    <td>OGL&#160;vidmem total MB</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>OGL total amount of video memory (local video memory) in MB.</td>
+                </tr>
+                <tr>
+                    <td>Primitive Setup Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Primitive Setup is the Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>Primitive Setup SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Primitive Setup SOL</td>
+                </tr>
+                <tr>
+                    <td>Rasterization Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Rasterization is the Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>Rasterization SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Rasterization SOL</td>
+                </tr>
+                <tr>
+                    <td>ROP Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>ROP Is Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>ROP SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>ROP SOL</td>
+                </tr>
+                <tr>
+                    <td>setup_primitive_count
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Count of primitives seen by the setup unit.</td>
+                </tr>
+                <tr>
+                    <td>shaded_pixel_count
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Number of rasterized pixels sent to the shading units.</td>
+                </tr>
+                <tr>
+                    <td>shader_busy
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Cycles the shader unit is busy.</td>
+                </tr>
+                <tr>
+                    <td>SHD Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>SHD Is Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>SHD SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>SHD SOL</td>
+                </tr>
+                <tr>
+                    <td>shd_l1_read_bytes
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of bytes transferred from the L1 unit by the shader unit.</td>
+                </tr>
+                <tr>
+                    <td>shd_l1_requests
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of L1 requests from the shader unit.</td>
+                </tr>
+                <tr>
+                    <td>shd_tex_read_bytes
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from the texture unit by the shader unit.</td>
+                </tr>
+                <tr>
+                    <td>shd_tex_requests
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of texel read requests from the shader unit.</td>
+                </tr>
+                <tr>
+                    <td>sm_active_cycles
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Sum of cycles that SM was active. Increments by 0-NumSMs per cycle.</td>
+                </tr>
+                <tr>
+                    <td>sm_active_cycles_vsm0
+                    </td>
+                    <td>Both</td>
+                    <td>SM</td>
+                    <td>Number of cycles that this SM has at least one active warp. Increments by
+			0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_active_warps
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Sum of warps that SM was active. Increments by 0-64 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_branches_diverged
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Increments by one if at least one thread in a warp diverges (that is,
+			follows a different execution path) via a data dependent conditional branch.</td>
+                </tr>
+                <tr>
+                    <td>sm_branches_diverged_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Divergent branches by this VSM. This counter increments by one if at
+			least one thread in a warp diverges (that is, follows a different execution
+			path) via a data dependent conditional branch. Increments by 0-1 per cycle.</td>
+                </tr>
+                <tr>
+                    <td>sm_branches_executed
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Counts the number of branch instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_branches_executed_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Branches taken by this VSM. This counter increments by one if at least
+			one thread in a warp takes the branch. Increments by 0-1 per cycle.</td>
+                </tr>
+                <tr>
+                    <td>sm_branches_taken
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Increments by one if at least one thread in a warp takes the branch.</td>
+                </tr>
+                <tr>
+                    <td>sm_branches_taken_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Increments by one if at least one thread in a warp takes the branch.
+			Increments by 0-4 per cycle.</td>
+                </tr>
+                <tr>
+                    <td>sm_ctas_launched
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Thread blocks launched. Increments by 1 per thread block launched.</td>
+                </tr>
+                <tr>
+                    <td>sm_ctas_launched_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Thread blocks launched. Increments by 1 per thread block launched.</td>
+                </tr>
+                <tr>
+                    <td>sm_executed_ipc
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>The average instructions executed per active cycle per SM. Final value is
+			between 0 and 7.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Instructions executed, not including replays.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_atomics
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>ATOM instructions executed, including ATOM.CAS.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_generic_loads
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Generic load instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_generic_loads_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Generic load instructions executed by this SM. Increments by 0-1 per
+			cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_generic_stores
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Generic store instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_generic_stores_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Generic store instructions executed by this SM. Increments by 0-1 per
+			cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_local_loads
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Local load instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_local_loads_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Local load instructions executed by this SM. Increments by 0-1 per cycle
+			per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_local_stores
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Local store instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_local_stores_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Local store instructions executed by this SM. Increments by 0-1 per cycle
+			per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_lsu_red_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>reduction in SM Quad0 GPC0.TPC0.SM</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_reductions
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>RED instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_shared_loads
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Shared load instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_shared_loads_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Shared load instructions executed by this SM. Increments by 0-1 per cycle
+			per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_shared_stores
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Shared store instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_shared_stores_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Shared store instructions executed by this SM. Increments by 0-1 per
+			cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_loads_byte
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface load instructions (byte mode) executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_loads_byte_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface load (byte mode) instructions executed by this SM. Increments by
+			0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_loads_pixel
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface load instructions (pixel mode) executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_loads_pixel_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface load (pixel mode) instructions executed by this SM. Increments by
+			0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_stores_byte
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface store instructions (byte mode) executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_stores_byte_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface store (byte mode) instructions executed by this SM. Increments by
+			0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_stores_pixel
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface store instructions (pixel mode) executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_surface_stores_pixel_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>Memory</td>
+                    <td>Surface store (pixel mode) instructions executed by this SM. Increments
+			by 0-1 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_texture
+                    </td>
+                    <td>Compute</td>
+                    <td>Cache</td>
+                    <td>Texture instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_executed_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Instructions executed in this SM, not including replays. Increments by
+			0-8 per cycle per SM.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_issued
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Instructions issued by the scheduler, including replays.</td>
+                </tr>
+                <tr>
+                    <td>sm_inst_issued_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Number of active cycles that this warp scheduler issued an instruction.</td>
+                </tr>
+                <tr>
+                    <td>sm_issued_ipc
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>The average instructions issued per active cycle per SM. Final value is
+			between 0 and 7.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_00
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger00/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_00_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger00/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_01
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger01/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_01_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger01/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_02
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger02/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_02_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger02/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_03
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger03/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_03_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger03/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_04
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger04/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_04_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger04/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_05
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger05/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_05_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger05/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_06
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger06/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_06_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger06/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_07
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger07/pmevent instructions executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_pmevent_07_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>__prof_trigger07/pmevent instructions executed where at least 1 thread is
+			not predicated off. Increments by 0-1 per warp instruction executed.</td>
+                </tr>
+                <tr>
+                    <td>sm_thread_inst_executed
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Thread instructions executed, not including replays.</td>
+                </tr>
+                <tr>
+                    <td>sm_warps_launched
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Warps launched. Increments by 1 per warp launched.</td>
+                </tr>
+                <tr>
+                    <td>sm_warps_launched_vsm0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Warps launched. Increments by 1 per warp launched.</td>
+                </tr>
+                <tr>
+                    <td>Stream Out Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Stream Out Is Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>Stream Out SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Stream Out SOL</td>
+                </tr>
+                <tr>
+                    <td>stream_out_bytes
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Number of bytes streamed out.</td>
+                </tr>
+                <tr>
+                    <td>Tessellator SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Tessellator SOL</td>
+                </tr>
+                <tr>
+                    <td>TEX Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>TEX Is Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>TEX SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>TEX SOL</td>
+                </tr>
+                <tr>
+                    <td>tex_bank_conflicts
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Bank conflicts occurred while accessing data from the texture units.</td>
+                </tr>
+                <tr>
+                    <td>tex_cache_hitrate
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Hit rate of texture cache queries.</td>
+                </tr>
+                <tr>
+                    <td>tex_cache_read_bytes
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Number of bytes read from all texture units.</td>
+                </tr>
+                <tr>
+                    <td>tex_cache_sector_queries
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Sector texture cache requests in all texture units. A sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>tex0_bank_conflicts_gpc0_tpc0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Texture bank conflicts accurred while accessing data from the given
+			texture unit in the TPC.</td>
+                </tr>
+                <tr>
+                    <td>tex0_cache_sector_misses_gpc0_tpc0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Sector texture cache misses in the given texture unit in the TPC. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>tex0_cache_sector_queries_gpc0_tpc0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Sector texture cache requests in the given texture unit in the TPC. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>tex0_cache_texel_queries
+                    </td>
+                    <td>Graphics</td>
+                    <td>Cache</td>
+                    <td>Number of texture cache queries (32b each request)</td>
+                </tr>
+                <tr>
+                    <td>tex1_bank_conflicts_gpc0_tpc0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Texture bank conflicts accurred while accessing data from the given
+			texture unit in the TPC.</td>
+                </tr>
+                <tr>
+                    <td>tex1_cache_sector_misses_gpc0_tpc0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Sector texture cache misses in the given texture unit in the TPC. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>tex1_cache_sector_queries_gpc0_tpc0
+                    </td>
+                    <td>Both</td>
+                    <td>Cache</td>
+                    <td>Sector texture cache requests in the given texture unit in the TPC. A
+			sector is 32 bytes.</td>
+                </tr>
+                <tr>
+                    <td>texture_busy
+                    </td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>Cycles the texture unit is busy.</td>
+                </tr>
+                <tr>
+                    <td>threads_launched
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Count the total number of threads launched for this TPC.</td>
+                </tr>
+                <tr>
+                    <td>threads_launched_gpc0_tpc0
+                    </td>
+                    <td>Compute</td>
+                    <td>SM</td>
+                    <td>Threads launched by this SM. Increments by 1 per thread launched.</td>
+                </tr>
+                <tr>
+                    <td>ZCull Bottleneck</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>ZCull is the Bottleneck</td>
+                </tr>
+                <tr>
+                    <td>ZCull SOL</td>
+                    <td>Graphics</td>
+                    <td>GPU</td>
+                    <td>ZCull SOL</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

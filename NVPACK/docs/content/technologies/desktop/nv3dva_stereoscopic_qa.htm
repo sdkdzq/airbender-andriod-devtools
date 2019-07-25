@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Desktop Technologies|NVIDIA 3D Vision Automatic">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Stereoscopic QA</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/desktop/nv3dva_stereoscopic_qa.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../desktop_technologies_aw.htm">Desktop Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nv3dva_main.htm">NVIDIA 3D Vision Automatic</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Stereoscopic QA</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Stereoscopic QA</span>
+        </h1><a name="kanchor61"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>As with any unique code path, 3D Vision Automatic does require a bit of attention during the QA process. Following these tips and steps will minimize the cost of stereoscopic QA while providing maximum coverage for your application.</p>
+        <h4>Testing 3D Vision on PC</h4>
+        <p>NVIDIA suggests that developers use anaglyph mode as often as possible, both in daily development and for QA purposes. This will reduce the resource contention and specialty hardware requirements for your testing efforts without compromising on coverage.</p>
+        <p>3D Vision Discover mode (Red/Blue glasses and a default driver install) uses the same code paths as 3D Vision Automatic, except for the final step. In 3D Vision Automatic mode, the final step is to present the image to each eye, while in 3D Vision Discover mode the final step is to composite the two images into a single Red/Blue image pair.</p>
+        <p>3D Vision Discover Mode can be enabled by running the Stereoscopic Wizard from the Stereoscopic 3D section of the NVIDIA Control Panel.</p>
+        <h4>Testing 3D Vision on Tegra Devices</h4>
+        <p>For Tegra developers, NVIDIA suggests using a compatible Tegra device connected via HDMI to a 3DTV during development and QA testing. The developers and QA testers should play the game in stereo noting any graphical glitches, depth issues, problems with UI, or other issues that are exclusive to the game when played in stereo.</p>
+        <p>With the initial release of 3D Vision for Tegra, each game requires a valid 3D Vision profile to run in stereo. Contact your NVIDIA account manager to obtain a stereo profile for your game and instructions on how to install the profile to the Tegra device. NVIDIA is working to remove this requirement and make it more seamless in the future.</p>
+        <p>If there are issues setting up the HDMI output or the 3DTV fails to display a 3D image from an Android-Tegra device, do the following:</p>
+        <ul>
+            <li value="1">Load the main Android Settings menu, then the Display or HDMI section and verify that the <b>Enable HDMI</b> option is checked. The 3DTV must be connected to the device before the HDMI option will appear so verify it is correctly connected and powered on.</li>
+            <li value="2">To verify stereo is enabled, load the main <b>Android Settings</b> menu, then the Display or HDMI section and verify the <b>Enable 3D</b> options is checked (it should be checked by default).</li>
+        </ul>
+        <p>If problems persist, contact your NVIDIA account representative.</p>
+        <h4>User Settings</h4>
+        <p>The two primary settings that users can adjust for a title are Separation and Convergence. Adjustments of these settings should be considered an important part of the testing matrix.</p>
+        <h5><a name="Separati"></a>Separation Adjustment</h5>
+        <p>Separation can be adjusted on both the PC and on Tegra devices in several ways.</p>
+        <ul>
+            <li value="1">On the PC, you can use the global hotkeys (<b>Ctrl-F3</b>, <b>Ctrl-F4</b> by default), or more easily using the wheel on the back of the IR emitter cube. Separation should be tested from the lowest setting to the highest.</li>
+            <li value="2">For Tegra powered devices, adjust the separation during gameplay by using the separation slider in the 3D Vision System UI. NVIDIA will also provide an API to adjust the separation in the future.</li>
+        </ul>
+        <table>
+            <col />
+            <col style="width: 509px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>: In general, rendering should work for the entire gamut of separation values. In particular, full screen effects should work at both low and high separation.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Convergence Adjustment</h5>
+        <p>Convergence adjustment is considered an advanced feature, and must be enabled from the control panel.</p>
+        <ul>
+            <li value="1">On PC, enable convergence adjustment in the NVIDIA control panel, by selecting <b>Stereoscopic 3D</b> &gt; <b>Set up stereoscopic 3D</b> &gt; <b>Set Keyboard Shortcuts</b>. <br />In the Set Keyboard Shortcuts dialog box, check <b>Enable advanced in-game settings</b>. The default keys to adjust convergence are <b>Ctrl-F5</b> and <b>Ctrl-F6</b>.</li>
+            <li value="2">On Tegra devices convergence is currently not adjustable, but NVIDIA will provide an API in the near future.</li>
+        </ul>
+        <p>Adjusting convergence will move the convergence plane closer or further from the user. Most engines can tolerate some adjustment to this value, but objects will tend to separate somewhat severely at high values of convergence. This is normal and expected.</p>
+        <p>As with Separation, full screen and post-processing effects should continue to work regardless of the value used for convergence, even after objects have diverged beyond the brain’s ability to rectify the image.</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

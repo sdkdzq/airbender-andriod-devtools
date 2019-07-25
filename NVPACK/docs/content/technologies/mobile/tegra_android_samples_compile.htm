@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Use Tegra Android Samples Pack">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Compiling the Samples</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/tegra_android_samples_compile.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Compiling the Samples</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor86"></a>
+        <h2><span class="SystemTitle">Compiling the Samples</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <h4>TADP-Installed Samples Pack Workspace</h4>
+        <p>For developers who installed this pack via the TADP installer, the provided Eclipse workspace in the TADP NVPACK tree will already include the samples.  They are ready for immediate use.</p>
+        <h4>Re-Using an Existing Samples Workspace</h4>
+        <h5>Preparing the Existing Workspace</h5>
+        <p>Developers who used the Tegra Android Tools pack to install the new samples pack on top of an existing (old) TADP install can replace the previous samples in the default Eclipse workspace as follows.  While the existing TADP-created samples workspace can be re-used, to prepare this workspace for the new samples, we must clear out the old samples to avoid confusion or overlap/collision.</p>
+        <ol>
+            <li value="1">Open Eclipse to the TADP-created samples workspace.</li>
+            <li value="2">Select all of the existing samples projects in the Project Explorer tree view.</li>
+            <li value="3">Right-click and select <b>Delete</b>.</li>
+            <li value="4">Ensure that <b>Delete project contents on disk</b> is NOT checked, so that the projects themselves are not removed. </li>
+            <li value="5">Click <b>Okay</b> to clear these projects from the workspace.</li>
+        </ol>
+        <p>This will provide an empty but configured workspace, ready to import the samples from the new pack.</p>
+        <h5>Importing the Samples/Demos</h5>
+        <p>Once a workspace has been prepared, it is possible to import the existing application projects that ship with this pack.</p>
+        <ol>
+            <li value="1">Import projects by selecting <b>File</b>-&gt;<b>Import</b>-&gt;<b>General</b>-&gt;<b>Existing projects into workspace</b>.</li>
+            <li value="2">Select the NVIDIA Android samples root (the path to <code>nvidia_tegra_android_samples_preview</code>/).</li>
+            <li value="3">Ensure that the option <b>Copy projects into workspace</b> is NOT checked.<br /></li>
+        </ol>
+        <h4><a name="(Optiona"></a>(Optional)&#160;Setting Up the Eclipse Workspace Manually</h4>
+        <p>Developers who have used the previous method of re-using the TADP workspace should not follow this section, but should skip ahead to importing the projects.</p>
+        <p>NVIDIA strongly recommends using the existing TADP workspace, as it is already set up and ready to delete the previous applications and import the new ones.  However, if a new workspace must be created from scratch, the steps are as follows:</p>
+        <ol>
+            <li value="1">Create a new workspace (in Eclipse click <b>File</b> &gt; <b>Switch Workspace</b> &gt; <b>Other…</b>).</li>
+            <li value="2">Select the menu <b>Window</b> &gt; <b>Preferences</b> &gt; <b>Java</b> &gt; <b>Build Path</b> &gt; <b>Classpath Variables</b>, and add <code>ANDROID_JAR</code> with the path to the android.jar. <br />For example <code>C:\android\android-sdk-windows\platforms\android-8\android.jar</code>.</li>
+            <li value="3">Set the path to the Android SDK via the menu <b>Window</b> &gt; <b>Preferences</b> &gt; <b>Android</b> &gt; <b>Android SDK Location</b>. <br />For example <code>c:\android\android-sdk-windows</code>.</li>
+            <li value="4">It is recommended that <b>Project</b> &gt; <b>Build Automatically</b> be disabled, as it can cause failed builds.</li>
+            <li value="5">Follow the import instructions in the previous section. <br /></li>
+        </ol>
+        <h4>Building the Samples/Demos</h4>
+        <p>Build everything by selecting <b>Project</b> &gt; <b>Build All</b>.</p>
+        <p>WARNING: The rebuilt APK files will NOT be placed in <code>prebuilt</code>.  They will be placed in the <code>bin</code> subdirectory for each app.  Reinstalling the APKs from the <code>prebuilt</code> tree will simply reinstall the APKs shipped with the SDK, not the newly-built copies.</p>
+        <p>Notes to keep in mind when building the samples/demos:&#160;</p>
+        <ul>
+            <li value="1">Sometimes the build step must be done multiple times to resolve errors about <b>missing required source folder: ‘gen’</b>. If after building twice, you still get, <b>The project cannot be built until build path errors are resolved</b>, try editing a .java file in that project, save the change and build again.</li>
+            <li value="2">Another option for the above errors is to exit and restart Eclipse which will often allow the <b>build all</b> to complete the build process and clear the errors.</li>
+            <li value="3">If the compiler gives the error <b>must override a superclass method</b> for overloaded run functions, please make sure that the Compiler compliance level is set to 1.6. Go to <b>Preferences</b> &gt; <b>Java</b> &gt; <b>Compiler</b> and select <b>1.6</b> in the Compiler compliance level drop down list.</li>
+            <li value="4">If there still are errors after this, make sure everything is set up correctly according to this guide and check the Problems View for more details about the error, by selecting the menu item <b>Window</b> &gt; <b>Show View</b> &gt; <b>Problems</b>.</li>
+            <li value="5">
+                <p>If you have installed the prebuilt samples using the <code>install_samples.bat</code> script, you may receive the error:&#160;<br /><code>[INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES]</code><br />If you see this error, uninstall the samples on the Tegra device by going to <b>Settings</b> &gt; <b>Applications</b> &gt; <b>Manage Applications</b>, then select the application you want to uninstall and press the <b>Uninstall</b> button. Try running/installing the samples from Eclipse again.</p>
+            </li>
+        </ul>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

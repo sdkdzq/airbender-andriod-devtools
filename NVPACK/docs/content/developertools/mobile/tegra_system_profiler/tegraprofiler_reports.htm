@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra System Profiler|Tegra System Profiler 2.x">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Reports</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_system_profiler/tegraprofiler_reports.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegraprofiler_aw.htm">Tegra System Profiler</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegraprofiler_v2x.htm">Tegra System Profiler 2.x</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Reports</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Reports</span>
+        </h1><a name="kanchor25"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>When you have completed sampling your application, <span class="MyVariablesQuadD">Tegra System Profiler</span> will spend a few seconds preparing the results and will then display a sampling report, which is automatically saved on disk into a <code>.qdrep</code> file. The main purpose of this report page is to show <b>per-function CPU usage</b>. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegra_system_profiler_report.001.png"><img class="MCPopupThumbnail img" data-mc-width="1199" data-mc-height="801" src="images/tegra_system_profiler_report.001_thumb_800_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 800px;" tabindex="" /></a>
+        </p>
+        <p>The report page consists of three views: the <b>Analysis Summary</b>, the <b>Function Table View</b>, and the <b>Symbol Resolution Logs</b>. The Function Table View contains an interactive timeline view on top, and a function table below. </p>
+        <blockquote>
+            <p>
+                <img src="images/tegrasystemprofiler_function_table_view.001.png" />
+            </p>
+        </blockquote>
+        <p>The function table can work in three modes: the Top-Down View, the Bottom-Up View, and the Flat View.</p>
+        <blockquote>
+            <p>
+                <img src="images/tegrasystemprofiler_report_views.001.png" />
+            </p>
+        </blockquote>
+        <p>To switch between these views, use the drop-down menus at the top of the window. </p>
+        <p>Pressing the <b>Filter</b> button at the top brings up a pop-up menu, which can help you narrow your results to only the threads you want to view. </p>
+        <blockquote>
+            <p>
+                <img src="images/tegra_system_profiler_filter.001.png" />
+            </p>
+        </blockquote>
+        <h3>Timeline </h3>
+        <p>The upper pane of the report page is the timeline, which provides information over the timespan of the capture.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegra_system_profiler_timeline_expanded.001.png"><img class="MCPopupThumbnail img" data-mc-width="893" data-mc-height="641" src="images/tegra_system_profiler_timeline_expanded.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>CPU&#160;graphs have sub-pixel information, so each graph has 2 colors.</p>
+        <ul>
+            <li value="1">Black = average</li>
+            <li value="2">Gray = maximum</li>
+        </ul>
+        <p>The top row shows processor utilization, the next several child rows show core utilization.  Each core has a color code which correlates with the threads below.</p>
+        <p>In the thread group, each thread has 2 rows. </p>
+        <ul>
+            <li value="1">The first row is a graph, which shows how well the thread is utilizing the time it is provided on the CPU.</li>
+            <li value="2">The second row is color coded, showing you the “core occupancy.”  This shows which core it is occupying during that point in time.  Due to sub-pixel information, there may be multiple color at a particular time coordinates. </li>
+        </ul>
+        <p>To zoom in on the timeline, left-click, drag, and release.</p>
+        <blockquote>
+            <p>
+                <img src="images/tegra_system_profiler_timeline_scrubber.001.png" />
+            </p>
+        </blockquote>
+        <p>Here you can choose whether to zoom,  filter, or zoom and filter.</p>
+        <p>If you already have a selection, you can undo a zoom, remove the filter, or both.</p>
+        <h3>Function Table View </h3>
+        <p>The lower pane of the report page shows the various function table views. <br /></p>
+        <h4>Top-Down View</h4>
+        <p><a class="MCPopupThumbnailLink" href="images/tegraprofiler2x_report_topdownview.001.png"><img class="MCPopupThumbnail img" data-mc-width="992" data-mc-height="415" src="images/tegraprofiler2x_report_topdownview.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>The <b>top-down view</b> shows the call path to functions in your application sorted by the total amount of CPU  each call path took. The <b>Self</b> column shows the CPU usage for calls to the function itself, while the <b>Total</b> column shows the CPU usage for calls to this function and all functions it called.</p>
+        <p>The last column shows a graph of when each function was active during the sample. Black bars indicate time used by the function itself (the <b>Self</b> column) while gray bars indicate time used by calls made to other functions.</p>
+        <p>The colored bar graphs behind each <b>Self</b> and <b>Total</b> cell provide a quick visualization for that value. The color of bar graphs is derived directly from the value, while the width of the bar graph is proportional to the largest value in the column.</p>
+        <p>Note that the top-down view does not group multiple calls to the same function if they occur through different call paths. Further, functions that do little work themselves (such as <code>VM_Call</code> or <code>RE_EndFrame</code>) appear high in the list if they call other functions that do a lot of work. This yields an incomplete picture of which functions need to be called less (or rewritten to do less work) in  order to improve performance. To find out which functions contributed most to CPU usage, regardless of how they were called, use the Bottom-Up View.<br /></p>
+        <h4>Bottom-Up View</h4>
+        <p>While the top-down view shows a hierarchy of call paths to functions, the <b>bottom-up view</b> shows how much each function contributed to overall CPU usage, broken down by call path.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegraprofiler2x_report_bottomupview.001.png"><img class="MCPopupThumbnail img" data-mc-width="992" data-mc-height="409" src="images/tegraprofiler2x_report_bottomupview.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>Note that in the bottom-up view, the <b>Self</b> and <b>Total</b> numbers displayed for rows that are not at the "root" of the tree correspond to a breakdown of the values at the root of the tree. They explicitly do not refer to the usage of that function.</p>
+        <p>Also note that items at the root of the bottom-up view with no children (e.g., <code>memcpy</code>) represent function calls that were sampled but had no call stack (or at least not one that could be determined by <span class="MyVariablesQuadD">Tegra System Profiler</span>).</p>
+        <h4>Flat View </h4>
+        <p>The <b>flat view</b> shows how much time a function was present anywhere on the call stack during the profiling session. This way, it becomes possible to easily observe how CPU utilization is distributed among different high-level parts of the application (e.g., graphics or physics simulation).</p>
+        <p>The <b>Stack</b> column specifies how much time that particular function was present on the call stack. Other columns are similar to those in the bottom-up view.</p>
+        <h3>Analysis Summary </h3>
+        <p>The <b>Analysis Summary</b> report gives a simple overview of your <span class="MyVariablesQuadD">Tegra System Profiler</span> session, including total number of threads, number of samples collected, most active functions, module activity, thread activity, and other high-level information. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegraprofiler2x_report_analysissummary.001.png"><img class="MCPopupThumbnail img" data-mc-width="992" data-mc-height="558" src="images/tegraprofiler2x_report_analysissummary.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <h3>Symbol Resolution Logs </h3>
+        <p>The <b>Symbol Resolution Logs</b> view contains a detailed log of which libraries were picked to resolve symbols. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/tegraprofiler2x_report_symbolresolutionlogs.001.png"><img class="MCPopupThumbnail img" data-mc-width="991" data-mc-height="556" src="images/tegraprofiler2x_report_symbolresolutionlogs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

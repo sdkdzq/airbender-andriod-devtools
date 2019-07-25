@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Native Development on NVIDIA&#160;Android Devices">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>High-Performance Image Processing</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/native_android_imageprocessing.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="native_android_development.htm">Native Development on NVIDIA&#160;Android Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">High-Performance Image Processing</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">High-Performance Image Processing</span>
+        </h1><a name="kanchor129"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h3>Introduction</h3>
+        <p>The objective of this tutorial is to demonstrate various optimization strategies for image processing algorithms on NVIDIA Tegra devices. Many computer graphics and vision methods are computationally demanding, but their computation and data access patterns are characterized by high data locality and relatively independent calculation. This so-called <b>data-parallel</b> paradigm means that a typical image processing algorithm can be decomposed into a series of independent operations applied to a large array of elements (e.g., image pixels).</p>
+        <p>We can significantly increase the speed of such calculations with Tegra's powerful computation engines, namely multi-core ARM CPU with SIMD unit and a GPU. </p>
+        <p>In this section, we will demonstrate on various examples how to use this hardware to speed up your image processing code.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b>Throughout this tutorial, you will see many source code fragments. All the code segments, except those in <b>Implementation Note</b> sections, should be copied to the test bed application. <b>Implementation Notes</b> contain short discussions of technical details, and their corresponding source already exists in the project source base.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Prerequisites</h3>
+        <p>This tutorial is by no means a complete introduction to parallel programming or general optimization techniques. Specifically, we assume that you are familiar with general C++ programming and basic graphics pipeline/OpenGL API. Below, we include a list of resources that will be helpful in both understanding the contents of this tutorial and developing your own code on top of it.</p>
+        <ol>
+            <li value="1"><a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.ddi0406b/index.html">ARM Architecture Reference Manual</a> — contains a complete description of ARM architecture and machine language, including a detailed description of the ARM NEON instruction set.</li>
+            <li value="2"><a href="http://www.agner.org/optimize/">Optimizing software in C++</a> — a comprehensive presentation on general code optimization techniques. Some sections are specific to <b>x86</b> architecture, but the majority of presented methodology also applies to Tegra SOCs.</li>
+            <li value="3"><a href="http://www.ethernut.de/en/documents/arm-inline-asm.html">ARM inline assembly tutorial</a> — an introduction to GNU Assembler (gas). Contains a basic introduction to writing inline ARM assembly for GNU C compiler. In this tutorial, we use NEON intrinsics and let the compiler to deal with low-level tasks, such as register allocation or instruction scheduling.</li>
+            <li value="4"><a href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0204j/Bcfjicfj.html">ARM NEON assembly guide</a>  — ARM NEON instruction set reference web page.</li>
+            <li value="5"><a href="http://blogs.arm.com/software-enablement/161-coding-for-neon-part-1-load-and-stores/">ARM NEON image processing tutorial</a>  — an image processing tutorial from ARM.</li>
+            <li value="6"><a href="http://code.google.com/p/math-neon/">ARM NEON math library</a>  — an open source library that implements many useful math functions with ARM NEON code.</li>
+            <li value="7"><a href="https://computing.llnl.gov/tutorials/pthreads/">POSIX Threads programming tutorial</a>  — a detailed introduction to the API and basic concepts of threaded program design.</li>
+            <li value="8"><a href="http://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.25.pdf">OpenGL ES Specification Version 2.0.25</a>  — a full specification of OpenGL ES 2.0 API.</li>
+            <li value="9"><a href="http://www.khronos.org/registry/gles/specs/2.0/GLSL_ES_Specification_1.0.17.pdf">OpenGL ES Shading Language Version 1.00</a>  — a specification of OpenGL ES shading language.</li>
+        </ol>
+        <h3>Test application</h3>
+        <p>The performance of the examples we cover here is evaluated inside a test-bed application. Before explaining how it works, let's try to build and run it.</p>
+        <p>Import it to Eclipse as an existing project.</p>
+        <p>Open Eclipse, select <b>File &gt; Import &gt; Android &gt; Existing Android Code into Workspace</b>, and browse into the <b>Root Directory</b> of the test app (<code>/tutorials/ImageProcessingNeonMT</code>).</p>
+        <p>If you choose to copy the files into workspace, you may have to also copy the folder <code>SharedCode</code> under the <code>tutorials</code> folder into the workspace. Then hit <b>Finish</b>.</p>
+        <p>As this is a native project, select the C/C++ perspective...</p>
+        <p>
+            <img src="images/c_cpp_perspective.png" />
+        </p>
+        <p>...by right-clicking on the project in <b>Package Explorer</b> and selecting <b>Android Tools &gt; Add Native Support</b>.</p>
+        <p>
+            <img src="images/image_proc_native_support.png" />
+        </p>
+        <p>Then we have to select a name for the library storing the native code. Please use <b>ImageProcessingNeonMT</b> as the name.</p>
+        <p>
+            <img src="images/image_proc_native_support_lib_name.png" />
+        </p>
+        <p>Build the project (right-click <b>ImageProcessingNeonMT &gt; Build Project</b>) and run it on device (right-click <b>ImageProcessingNeonMT &gt; Run As &gt; Android Application</b>). Every time we run the activity, the code reads two bitmap images from <code>assets</code> directory (<code>checker_board.bmp</code> and <code>nvidia_logo.bmp</code>), measures the execution speed of multiple image processing methods, prints out aggregated timing values to the Android log, and writes the output images to the SD card. Check out the log messages in LogCat by typing <b>tag:tutorial</b> in the log search line. Running the unmodified project file should print out:</p>
+        <blockquote><pre class="prettyprint">D/tutorial( 5684): 1/10<br />D/tutorial( 5684): 2/10<br />D/tutorial( 5684): 3/10<br />D/tutorial( 5684): 4/10<br />D/tutorial( 5684): 5/10<br />D/tutorial( 5684): 6/10<br />D/tutorial( 5684): 7/10<br />D/tutorial( 5684): 8/10<br />D/tutorial( 5684): 9/10<br />D/tutorial( 5684): 10/10<br />D/tutorial( 5684): AddImage8(): 0.000ms<br />D/tutorial( 5684): AddImage8AlignedNEON(): 0.000ms<br />D/tutorial( 5684): AddImage8UnalignedNEON(): 0.000ms<br />D/tutorial( 5684): AddImage8MT(): 0.000ms<br />D/tutorial( 5684): AddImage8NEON_MT(): 0.000ms<br />D/tutorial( 5684): VBlurImage8(): 0.000ms<br />D/tutorial( 5684): VBlurImage8AlignedNEON(): 0.000ms<br />D/tutorial( 5684): VBlurImage8MT(): 0.000ms<br />D/tutorial( 5684): VBlurImage8NEON_MT(): 0.000ms<br />D/tutorial( 5684): VBlurImage8NEON_MT_TILED(): 0.000ms</pre>
+        </blockquote>
+        <p>At this stage the output files are black as the processing functions are empty stubs.</p>
+        <p>The test application is a simple function timing routine. The main timing loop in <code>SimpleNativeAndroid.cpp</code> is defined as follows:</p>
+        <blockquote><pre class="prettyprint">Timer t;<br />std::vector&lt;std::vector&lt;double&gt; &gt; timings( 10 );<br />int const measurementCount = 10;<br /><br />for( int i = 0; i &lt; measurementCount; i++ )<br />{<br />// we pass 4 times bigger width because each pixel has 4 color channel (argb)<br />t.tic();<br />AddImage8( dest, sourcePtr1, sourcePtr2, w * 4, h );<br />timings[0].push_back( t.toc() );<br /><br />t.tic();<br />AddImage8AlignedNEON( aDest, alignedSourcePtr1, alignedSourcePtr2, wAligned * 4, h );<br />timings[1].push_back( t.toc() );<br /><br />t.tic();<br />AddImage8UnalignedNEON( dest, sourcePtr1, sourcePtr2, w * 4, h );<br />timings[2].push_back( t.toc() );<br /><br />t.tic();<br />AddImage8MT( dest, sourcePtr1, sourcePtr2, w * 4, h );<br />timings[3].push_back( t.toc() );<br /><br />t.tic();<br />AddImage8NEON_MT( dest, sourcePtr1, sourcePtr2, w * 4, h );<br />timings[4].push_back( t.toc() );<br /><br />result.copyTo( aimage1 );<br /><br />t.tic();<br />VBlurImage8( aDest, alignedSourcePtr1, wAligned * 4, h, wAligned * 4, 0, h );<br />timings[5].push_back( t.toc() );<br /><br />t.tic();<br />VBlurImage8AlignedNEON( aDest, alignedSourcePtr1, wAligned * 4, h, wAligned * 4, 0, h );<br />timings[6].push_back( t.toc() );<br /><br />t.tic();<br />VBlurImage8MT( aDest, alignedSourcePtr1, wAligned * 4, h );<br />timings[7].push_back( t.toc() );<br /><br />t.tic();<br />VBlurImage8NEON_MT( aDest, alignedSourcePtr1, wAligned * 4, h );<br />timings[8].push_back( t.toc() );<br /><br />t.tic();<br />VBlurImage8NEON_MT_TILED( aDest, alignedSourcePtr1, wAligned * 4, h );<br />timings[9].push_back( t.toc() );<br /><br />LOG( "%i/%i", i + 1, measurementCount );<br />}</pre>
+        </blockquote>
+        <p>In order to improve the stability of timings (or reduce the impact of outliers to the estimated timing), we repeat the measurement 10 times for each method and use median as the final timing estimator.</p>
+        <blockquote><pre class="prettyprint">const char *procNames[] =<br />{<br />    "AddImage8", "AddImage8AlignedNEON", "AddImage8UnalignedNEON", "AddImage8MT", 
+    "AddImage8NEON_MT", "VBlurImage8", "VBlurImage8AlignedNEON", "VBlurImage8MT", 
+    "VBlurImage8NEON_MT", "VBlurImage8NEON_MT_TILED" <br />};<br /><br />for( int i = 0; i &lt; timings.size(); i++ )<br />{<br />    // display median of all measurements for each type of call<br />    std::sort( timings[i].begin(), timings[i].end() );<br />    LOG( "%s(): %.3fms", procNames[i], timings[i][timings[i].size() / 2] );<br />}</pre>
+        </blockquote>
+        <p>As you check the Android log, you notice that all the timings are very close to 0.0ms. That is because the bodies of these function are empty. We'll show you how to fill those out over the course of this tutorial, and run the test application to compare the execution speeds of different code versions.</p>
+        <h3>Example 1: Adding images</h3>
+        <p>In the first example, we consider a simple operation of adding two images together while saturating pixel sums at the maximum supported intensity. This is visualized in the figure below, where the right image is a sum of left (NVIDIA logo) and middle (checker-board pattern) images.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/image_proc_add.png"><img class="MCPopupThumbnail img" data-mc-width="1024" data-mc-height="253" src="images/image_proc_add_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 700px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>For the sake of simplicity, let's assume that each pixel is defined as an 8-bit intensity value, in which case the image sum operation can be described with the following code:</p>
+        <ul>
+            <li value="1">Copy the function below to <code>ExampleAddImageNEON.h</code>: </li>
+        </ul>
+        <blockquote><pre class="prettyprint">void AddImage8( uint8_t *dst, uint8_t const *src1, uint8_t const *src2, int width, int height )<br />{<br />    int index = 0;<br />    // iterate over rows<br />    for( int y = 0; y &lt; height; y++ )<br />    {<br />	// iterate over pixels in a row<br />	for( int x = 0; x &lt; width; x++ )<br />	{<br />	    // sum pixel values<br />	    int t = src1[index] + src2[index];<br />	    // clamp the sum if it is larger than 8-bit integer can represent<br />	    dst[index] = t &gt; 255 ? 255 : t;<br />	    //  move over to the next pixel<br />	    index++;<br />	}<br />    }<br />}</pre>
+        </blockquote>
+        <p>The above code can also be used for true color images, for which pixels contain multiple 8-bit color channels.</p>
+        <p>In such a case, we simply assume the width of the input image corresponds to the width of the true color image multiplied by the number of color channels. For example, if the original width of 32-bit ARGB image is 1024, use 4096 instead.</p>
+        <h4>Vectorizing the computation with NEON intrinsics</h4>
+        <p>NVIDIA Tegra 3 CPU contains four ARM Cortex-A9 cores. Each of these cores is equipped with a NEON SIMD (<i>Single Instruction, Multiple Data</i>) co-processor that allows exploiting data level parallelism in your algorithm.</p>
+        <p>To demonstrate how SIMD works, let's consider a simple example of adding together two sets of numbers:</p>
+        <blockquote><pre class="prettyprint">a0 := b0 + c0;<br />a1 := b1 + c1;<br />a2 := b2 + c2;<br />a3 := b3 + c3;</pre>
+        </blockquote>
+        <p>For SIMD approach, all <code>a</code>, <code>b</code> and <code>c</code> elements would be stored in corresponding vector words, and the above code would map to a single instruction that operates on those vectors, i.e., <code>a := b + c</code>.</p>
+        <p>There are two ways of programming the NEON unit. The first one involves writing your routines as inline assembly (see this <a href="http://www.ethernut.de/en/documents/arm-inline-asm.html">tutorial</a> for details). It requires lots of manual labor, but also provides fine-grained control over the generated machine code.</p>
+        <p>Another way, which we follow in this tutorial, is to use NEON intrinsics — C-style functions that operate on vector data types. Each intrinsic function has specific input and output type requirements and maps directly to a single machine instruction.</p>
+        <p>An important feature of NEON intrinsics is the ability to map NEON vector registers to regular C variables. Combined with strong typing of vector data types, intrinsics make the programming safer and less prone to bugs. Because the programmer is relieved from manual register allocation and instruction scheduling, the source code is also easier to read and modify.</p>
+        <p>The NEON vector registers are 128-bits long, and can be interpreted as many primitive data types. The most important ones are listed below:</p>
+        <blockquote><pre class="prettyprint">int8x8_t    int8x16_t <br />int16x4_t   int16x8_t<br />int32x2_t   int32x4_t<br />int64x1_t   int64x2_t<br />uint8x8_t   uint8x16_t<br />uint16x4_t  uint16x8_t<br />uint32x2_t  uint32x4_t<br />uint64x1_t  uint64x2_t<br />float16x4_t float16x8_t<br />float32x2_t float32x4_t</pre>
+        </blockquote>
+        <p>Each of these types reads as <code>&lt;element_type&gt;&lt;element_size&gt;x&lt;element_count&gt;_t</code>, where <code>element_type</code> corresponds to the basic type (<code>int</code>, <code>uint</code>, <code>float</code>) of each element in a vector, <code>element_size</code> denotes the size in bits of each element (8, 16, 32, 64-bits) and <code>element_count</code> tells us how many elements fit in a vector. For instance, <code>uint8x16_t</code> type holds sixteen 8-bit unsigned integers.</p>
+        <p>The NEON unit has an extensive instruction set that has been optimized for many multi-media related tasks. The functionality includes:</p>
+        <ul>
+            <li value="1">Addition</li>
+            <li value="2">Multiplication</li>
+            <li value="3">Subtraction</li>
+            <li value="4">Comparison</li>
+            <li value="5">Absolute difference</li>
+            <li value="6">Max/Min</li>
+            <li value="7">Pairwise addition</li>
+            <li value="8">Folding maximum</li>
+            <li value="9">Folding minimum</li>
+            <li value="10">Shifts by signed variable</li>
+            <li value="11">Shifts by a constant</li>
+            <li value="12">Shifts with insert</li>
+            <li value="13">Loads of a single vector or lane</li>
+            <li value="14">Store a single vector or lane</li>
+            <li value="15">Loads of an N-element structure</li>
+            <li value="16">Extract lanes from a vector and put into a register</li>
+            <li value="17">Load a single lane of a vector from a literal</li>
+            <li value="18">Initialize a vector from a literal bit pattern</li>
+            <li value="19">Set all lanes to same value</li>
+            <li value="20">Combining vectors</li>
+            <li value="21">Splitting vectors</li>
+            <li value="22">Converting vectors</li>
+            <li value="23">Table look up</li>
+            <li value="24">Operations with a scalar value</li>
+            <li value="25">Vector extract</li>
+            <li value="26">Reverse vector elements (swap endianness)</li>
+            <li value="27">Abs, neg, bit counting</li>
+            <li value="28">Reciprocal &amp; square root (with Newton-Raphson refinement)</li>
+            <li value="29">Logical operations</li>
+            <li value="30">Transposition operations</li>
+        </ul>
+        <p>See the ARM Architecture Manual Reference and ARM website for a detailed description of the instruction set. You can also look into the <code>arm_neon.h</code> header, where intrinsic prototypes and vector data types are defined.</p>
+        <p>The <code>AddImage8()</code> function can be efficiently vectorized by assuming that a pack of 4 pixels (16 color channels or 16 unsigned 8-bit integers) maps to a single vector word. The code performing the addition with saturation of two images containing 16-bytes vectors data can be defined. </p>
+        <ul>
+            <li value="1">Copy the function below to <code>ExampleAddImageNEON.h</code>:&#160;</li>
+        </ul>
+        <blockquote><pre class="prettyprint">void AddImage8AlignedNEON( uint8_t *dst, uint8_t const *src1, uint8_t const *src2, int width, int height ) <br />{<br />    // compute the number of vector words that fit in each row<br />    int const vectorNumberPerRow = width / 16;<br />    // iterate over rows<br />    for( int y = 0; y &lt; height; y++ )<br />    {<br />	// iterate over *vectors* of pixels in a row<br />	for( int i = 0; i &lt; vectorNumberPerRow; i++ )<br />	{<br />	    // load 16 pixels to vector a<br />	    uint8x16_t a = vld1q_u8( src1 );<br />	    // load 16 pixels to vector b<br />	    uint8x16_t b = vld1q_u8( src2 );<br />	    // perform 8-bit element-wise addition with saturation of vector data<br />	    uint8x16_t r = vqaddq_u8( a, b );<br />	    // store the resulting vector in the destination image<br />	    vst1q_u8( dst, r );
+<br />	    // shift the source and destination pointers by 16 pixels we have just processed<br />	    src1 += 16;<br />	    src2 += 16;<br />	    dst += 16;<br />	}<br />    }<br />}</pre>
+        </blockquote>
+        <p>Try compiling and running the application, and take a look at the log.  You can see that the NEON version runs much faster than the basic version.  You can also check that the output images look right; check the path from the log, and use a command such as:</p>
+        <blockquote><pre class="prettyprint">adb pull /storage/sdcard0/Android/data/com.nvidia.tutorial.imageproc/files/result0.bmp</pre>
+        </blockquote>
+        <p>The <code>result0.bmp</code> contains the output of the basic version, and <code>result1.bmp</code> the output from the NEON version. Some of the functions that we add next will overwrite the same files with their outputs.</p>
+        <p>It is important to note that ARM NEON unit assumes the pointers to source and destination data (<code>src1</code>, <code>src2</code>, <code>dst</code>) are 16-bytes aligned. Reading from or writing to unaligned memory location will result in a fatal exception and application termination. In theory, ARM CPUs support unaligned memory accesses, however, such accesses are slower than their aligned counterparts. To get maximum performance benefits from SIMD approach, your image processing code should always use aligned memory accesses.</p>
+        <p>The above code assumes that image data is always aligned, i.e., each row starts at a location aligned to a 16-byte boundary. As the offset of the top-left pixel (zero) is always aligned to a vector boundary, this constraint means that the image width must be a multiple of 16 for the code work. If you look at <code>result0.bmp</code> and <code>result1.bmp</code> you'll notice that the width of these two images is different, as a consequence of this.</p>
+        <p>In order to address this limitation and support all kinds of image sizes, we need to have two row processing functions: a vectorized version that has both input and output addresses aligned, and a scalar version that can be called for elements at arbitrary memory locations.</p>
+        <p>Knowing which function to call for which elements requires keeping track of current pixel offset alignment, which is often a difficult task. To simplify the accounting, let's introduce a template method <code>template&lt;typename T&gt; void RunVectorizedLoop&lt;T&gt;()</code>. This method calls two member methods <code>T::runScalarLoop()</code> and <code>T::runVectorLoop()</code> to process vector and scalar elements, respectively.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Implementation Note:</b><code>RunVectorizedLoop()</code> is a helper function (in <code>Common.h</code>) that executes image processing method from template parameter class over a specified range of elements, automatically accounting for unaligned memory accesses and lengths which are not multiples of vector size. The method is designed to work only for single index loops, i.e., both source and destination images use the same index to address their elements.<br /> <blockquote><pre class="prettyprint" xml:space="preserve">// return an integer with last n bits as 1, other bits are 0 <br />FORCE_INLINE int LastBits( int n )            { return ( 1 &lt;&lt; n ) - 1; }<br />// find the largest number aligned to b bits that is at most as large as n<br />FORCE_INLINE int AlignEnd( int n, int b )     { return n &amp; ~LastBits( b ); }<br />// find how much to add to n to get to next number aligned to b bits<br />FORCE_INLINE int AlignStart( int n, int b )   { return ( ( 1 &lt;&lt; b ) - n ) &amp; LastBits( b ); }<br />/*<br /> * a helper function that executes operator class over the specified range of elements<br /> * and automatically takes care of unaligned memory and length values which are not<br /> * multiple of vector size<br /> */<br />template&lt;class T&gt; FORCE_INLINE void RunVectorizedLoop( T const &amp;processor, int loopStart, int loopEnd,<br />			int baseOffset = 0 )<br />{<br />    // start address alignment fix<br />    int start0 = loopStart + AlignStart( baseOffset + loopStart, T::VECTOR_LOG2_LENGTH );<br />    if( start0 &gt; loopEnd )<br />    {<br />	start0 = loopEnd;<br />    }<br />    // run scalar computation for unaligned elements<br /><span style="background-color: #ffffe0;">    processor.runScalarLoop( loopStart, start0, baseOffset );</span><br />    // vector count fix<br />    int end0 = start0 + AlignEnd( loopEnd - start0, T::VECTOR_LOG2_LENGTH );<br />    // run vector computation for aligned elements<br /><span style="background-color: #ffffe0;">    processor.runVectorLoop( start0, end0, baseOffset );</span><br />    // run scalar computation for the remainder of elements<br /><span style="background-color: #ffffe0;">    processor.runScalarLoop( end0, loopEnd, baseOffset );</span><br />}</pre></blockquote></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>With this helper template, we can modify the previous code to add support for arbitrary image sizes. </p>
+        <ul>
+            <li value="1">Copy  the function below to <code>ExampleAddImageNEON.h</code>:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">void AddImage8UnalignedNEON( uint8_t *dst, uint8_t const *src1, uint8_t const *src2, int width, int height ) <br />{<br />    // instantiate a row processing class with source and destination pointers<br />    AddImage8Processor processor( dst, src1, src2 );<br /><br />    // index of the 1st pixel in current row<br />    int baseOffset = 0;<br />    // iterate over rows<br />    for( int y = 0; y &lt; height; y++ )<br />    {<br />	// invoke a method that uses scalar and vector processing functions<br />	// of the row processor class to compute pixel values in the current row<br />	RunVectorizedLoop( processor, 0, width, baseOffset );<br />	// shift the offset to the next row<br />	baseOffset += width;<br />    }<br />}</pre>
+        </blockquote>
+        <p>The instance of <code>AddImage8Processor</code> class stores pointers to source and destination images and comprises two loop processing functions called by <code>RunVectorizedLoop()</code>. </p>
+        <ul>
+            <li value="1">Copy the function below to <code>ExampleAddImageNEON.h</code> (before the <code>AddImage8UnalignedNEON()</code> function):&#160;</li>
+        </ul>
+        <blockquote><pre class="prettyprint">class AddImage8Processor <br />{<br />public:<br />    // base 2 logarithm of the numbers of elements (pixels) in a vector<br />    // trait needed by RunVectorizedLoop() template function<br />    enum<br />    {<br />	VECTOR_LOG2_LENGTH = 4 // 16 pixels in a vector<br />    };<br /><br />    // initialize source and destination pointers<br />    AddImage8Processor( uint8_t *dst, uint8_t const *src1, uint8_t const *src2 )<br />	: mDst( dst ), mSrc1( src1 ), mSrc2( src2 )<br />    {<br />    }<br /><br />    // scalar loop processor -&gt; start and end indices can have arbitrary values<br /><span style="background-color: #ffffe0;">    FORCE_INLINE void runScalarLoop( int start, int end, int baseOffset ) const</span><br />    {<br />	// compute local source/dest pointers<br />	uint8_t const *src1 = mSrc1 + baseOffset;<br />	uint8_t const *src2 = mSrc2 + baseOffset;<br />	uint8_t *dst = mDst + baseOffset;<br /><br />	// iterate over columns of pixels<br />	for( int i = start; i &lt; end; i++ )<br />	{<br />	    // sum pixel values<br />	    int t = src1[i] + src2[i];<br />	    // clamp the sum if it is larger than 8-bit integer can represent<br />	    dst[i] = t &gt; 255 ? 255 : t;<br />	}<br />    }<br /><br />    // vector loop processor -&gt; (start + baseOffset) and (end + baseOffset) indices<br />    // must be a multiple of 2^VECTOR_LOG2_LENGTH (2^4=16 in this case)<br /><span style="background-color: #ffffe0;">    FORCE_INLINE void runVectorLoop( int start, int end, int baseOffset ) const</span><br />    {<br />	// shift the range by base offset<br />	start += baseOffset;<br />	end += baseOffset;<br /><br />	// compute local source/dest pointers<br />	uint8_t const *src1 = mSrc1 + start;<br />	uint8_t const *src2 = mSrc2 + start;<br />	uint8_t *dst = mDst + start;<br /><br />	// convert element count to vector count<br />	// note: (end - start) is always a multiple of 16<br />	end = start + ( end - start ) / 16;<br /><br />	for( int i = start; i &lt; end; i++ )<br />	{<br />	    // load 16 pixels to vector a<br />	    uint8x16_t a = vld1q_u8( src1 );<br />	    // load 16 pixels to vector b<br />	    uint8x16_t b = vld1q_u8( src2 );<br />	    // perform 8-bit element wise addition with saturation of vectors<br />	    uint8x16_t r = vqaddq_u8( a, b );<br />	    // store the resulting vector in the destination image<br />	    vst1q_u8( dst, r );<br /><br />	    // shift the source and destination pointers by 16 pixels we have just processed<br />	    src1 += 16;<br />	    src2 += 16;<br />	    dst += 16;<br />	}<br />   }<br /><br />private:<br />    // pointer to destination image data<br />    uint8_t *mDst;<br />    // pointer to 1st source image data<br />    uint8_t const *mSrc1;<br />    // pointer to 2nd source image data<br />    uint8_t const *mSrc2;<br />};</pre>
+        </blockquote>
+        <h4>Adding multi-threading</h4>
+        <p>To improve the execution speed even further, we can divide the work on a single output image across multiple CPU cores. The idea is to have each CPU core run its own worker thread that will call image processing routine on a subset of image rows. For example, for two threads, we can split the image into two equal parts, assign the top part to the first thread, the bottom part to the second thread, and process them independently. We use the <a href="https://computing.llnl.gov/tutorials/pthreads/">POSIX Threads API</a> for thread creation and management.</p>
+        <p>First, let's define a structure holding the data shared between threads, such as pointers to source/destination images and their dimensions.</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleAddImageMT.h</code>. </li>
+        </ul>
+        <blockquote><pre class="prettyprint">typedef struct<br />{<br />    // image width and height<br />    int width, height;<br />    // pointer to destination image data<br />    uint8_t *dst;<br />    // pointer to 1st source image data<br />    uint8_t const *src1;<br />    // pointer to 2nd source image data<br />    uint8_t const *src2;<br />} AddImage8Data;</pre>
+        </blockquote>
+        <p>After filling in the structure, we pass it to <code>RunThreads()</code> function that configures and launches thread processing for a specific image processing function. This is shown in the code below.</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleAddImageMT.h</code>. </li>
+        </ul>
+        <blockquote><pre class="prettyprint">void AddImage8MT( uint8_t *dst, uint8_t const *src1, uint8_t const *src2, int width, int height ) <br />{<br />    AddImage8Data params;<br /><br />    // set up shared thread data (pointers to source and destination images and their size)<br />    params.src1   = src1;<br />    params.src2   = src2;<br />    params.dst    = dst;<br />    params.width  = width;<br />    params.height = height;<br /><br />    // execute AddImage8ThreadProc() in parallel<br />    // the thread count is set to zero (auto-detect) and the granularity<br />    // of task is set to the number of image rows<br />    RunThreads( AddImage8ThreadProc, &amp;params, height, 0 );<br />}</pre>
+        </blockquote>
+        <p>The last line of the above code runs <code>AddImage8ThreadProc()</code> function on a number of threads, and returns when they finish. The last argument of <code>RunThreads()</code> is the number of threads, 0 asks for the default number, which we have defined to be 2 in <code>Common.cpp</code>. We refer to <code>AddImage8ThreadProc()</code> as the <b>thread body</b>.</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleAddImageMT.h</code> (above <code>AddImage8MT()</code> function). </li>
+        </ul>
+        <blockquote><pre class="prettyprint">static void *AddImage8ThreadProc( void *ptr ) <br />{<br />    ThreadData&lt;AddImage8Data&gt; const *tdata = static_cast&lt;ThreadData&lt;AddImage8Data&gt; const *&gt;( ptr );<br />    AddImage8Data const *params = tdata-&gt;params;<br /><br />    // compute start offset (tdata-&gt;taskStartIndex corresponds to image row number)<br />    int index = tdata-&gt;taskStartIndex * params-&gt;width;<br /><br />    // invoke image processing on the image area assigned to the current thread<br />    AddImage8( params-&gt;dst + index, params-&gt;src1 + index, params-&gt;src2 + index, params-&gt;width,<br />		tdata-&gt;taskEndIndex - tdata-&gt;taskStartIndex );<br />    return 0;<br />}</pre>
+        </blockquote>
+        <p>The argument that the thread body receives is a pointer to <code>ThreadData</code> that is filled in the <code>RunThreads()</code> utility (see the implementation note below) in <code>Common.cpp</code>. From that we know which part of the image should be processed by calling <code>AddImage8()</code>.</p>
+        <p>Note that the amount of code required to support multi-threading is relatively small. The thread body function internally executes the standard single-threaded version of the image adding function (<code>AddImage8()</code>). The only difference is that each thread works only on a fragment of the output image.  Run the program and verify the running times, you see that using 2 threads almost halves the running time compared to the single-thread version. You can't directly control where the threads will execute, but if you start several threads with substantial workloads, they will be most likely assigned to separate CPU cores (Tegra 3 has four fast CPU cores). However, power saving policies may choose to make fewer than all four CPU cores available to your program. Try varying the number of threads between 2 and 5 and see how that affects the execution time.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Implementation Note:</b>The <code>RunThreads()</code> function allows executing user-specified code in a number of threads that may run simultaneously. Each thread will have a number of tasks assigned. The concept of a task is abstract and does not correspond to any physical resource. We use it to describe the granularity of work being distributed across threads. The tasks are, by default, split equally between the threads, and their total number is specified by the user. <br /><br />In case of our image processing examples, the task count corresponds to the number of rows in the image. Each thread will have a certain numbers of tasks (rows) assigned, and all together they will process the entire image. <br /> <blockquote><pre class="prettyprint">// pointer to thread body <br />typedef void *(*THREAD_PROC)( void * );<br /><br />// per thread information structure<br />template&lt;typename T&gt; struct ThreadData<br />{<br />    // the range of tasks to be executed by a given thread<br />    int taskStartIndex, taskEndIndex;<br />    // thread index<br />    int threadIndex;<br />    // pointer to parameter structure passed in RunThreads() invocation<br />    // it is read-only and shared between all threads<br />    T const *params;<br />};
+							<br />void RunThreads( THREAD_PROC proc, void *params, int taskCount, int threadNum )<br />{<br />    if( threadNum &lt;= 0 )<br />    {<br />	// if number of threads is less or equal zero, set it to default value<br />	threadNum = DEFAULT_THREAD_COUNT;<br />    }<br /><br />    // allocate space for per-thread data structure<br />    std::unique_ptr&lt;ThreadData&lt;void&gt; []&gt; tdata( new ThreadData&lt;void&gt; [threadNum] );<br />    // pthread thread ids array<br />    std::unique_ptr&lt;pthread_t[]&gt; tid( new pthread_t[threadNum] );<br /><br />    // current thread task start index<br />    int taskStartIndex = 0;<br />    // the number of tasks per thread (rounded up)<br />    int threadTaskRange = ( taskCount + threadNum - 1 ) / threadNum;<br /><br />    // split the tasks across the threads<br />    for( int i = 0; i &lt; threadNum; i++ )<br />    {<br />	// initialize data for each thread<br />	tdata[i].threadIndex = i;<br />	tdata[i].taskStartIndex = taskStartIndex;<br />	tdata[i].taskEndIndex = taskStartIndex + threadTaskRange;<br />	tdata[i].params = params;<br /><br />	// last thread end range might go out of borders if height is not a multiple of threadNum<br />	if( tdata[i].taskEndIndex &gt; taskCount )<br />	{<br />	    tdata[i].taskEndIndex = taskCount;<br />	}<br /><br />	taskStartIndex += threadTaskRange;<br /><br />	// spawn a thread<br /><span style="background-color: #ffffe0;">	pthread_create( &amp;tid[i], 0 /* use default attributes */, proc, &amp;tdata[i] );</span><br />    }<br /><br />    // wait for each thread to complete its work<br />    for( int i = 0; i &lt; threadNum; i++ )<br />    {<br /><span style="background-color: #ffffe0;">	pthread_join( tid[i], 0 /* ignore exit status */ );</span><br />    }<br />}</pre></blockquote></td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Combining multi-threading and NEON code</h4>
+        <p>What if we would like to combine the benefits of vectorized code with multi-threaded execution? It turns out that we can achieve this with minimal changes to the existing code. First, let's define a new version of the image adding function:</p>
+        <p>Copy the code below to <code>ExampleAddImageMT.h</code>.</p>
+        <blockquote><pre class="prettyprint">void AddImage8NEON_MT( uint8_t *dst, uint8_t const *src1, uint8_t const *src2, int width, int height )<br />{<br />    AddImage8Data params;<br /><br />    // set up shared thread data (pointers to source and destination images and their size)<br />    params.src1   = src1;<br />    params.src2   = src2;<br />    params.dst    = dst;<br />    params.width  = width;<br />    params.height = height;<br /><br />    // execute AddImage8ThreadProcNEON() in parallel<br />    // the thread count is set to zero (auto-detect) and the granularity<br />    // of task is set to the number of image rows<br />    RunThreads( AddImage8ThreadProcNEON, &amp;params, height, 0 );<br />}</pre>
+        </blockquote>
+        <p>Now, the only difference with respect to the previous code is that we pass a different thread body function to <code>RunThreads()</code>:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleAddImageMT.h</code> (above <code>AddImage8NEON_MT()</code> function)</li>
+        </ul>
+        <blockquote><pre class="prettyprint">static void *AddImage8ThreadProcNEON( void *ptr )<br />{<br />    ThreadData&lt;AddImage8Data&gt; const *tdata = static_cast&lt;ThreadData&lt;AddImage8Data&gt; const *&gt;( ptr );<br />    AddImage8Data const *params = tdata-&gt;params;<br /><br />    // compute start offset (tdata-&gt;taskStartIndex corresponds to image row number)<br />    int index = tdata-&gt;taskStartIndex * params-&gt;width;<br /><br />    // invoke image processing on the image area assigned to the current thread<br />    AddImage8UnalignedNEON( params-&gt;dst + index, params-&gt;src1 + index, params-&gt;src2 + index, params-&gt;width,<br />			tdata-&gt;taskEndIndex - tdata-&gt;taskStartIndex );<br /><br />    return 0;<br />}</pre>
+        </blockquote>
+        <p>This function, similar to <code>AddImage8ThreadProc()</code>, calls a single-threaded image adding method to process part of the image assigned to the current thread. In this case, however, <code>AddImage8UnalignedNEON()</code> uses NEON extensions to accelerate processing across the columns.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Implementation Note:</b>The code presented here creates and destroys multiple threads every time we call the image processing function. This is a convinient approach, however, for very fast image processing functions the overhead of thread management is often larger than the speedup gained through parallelization. In such situations it is beneficial to manually manage threads with so-called <b>thread pools</b>. You can read more about design and implementation of thread pools <a href="http://en.wikipedia.org/wiki/Thread_pool_pattern">here</a>.</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example 2: Gaussian blur</h3>
+        <p>In this example we demonstrate how to parallelize convolution operation. The following figure shows the effects of applying the operator (right) to the result of previous example (left). For better visibility of blur, we downsampled the input before filtering.</p>
+        <p>
+            <img src="images/image_proc_vblur.png" />
+        </p>
+        <p>We start with a semi-optimized C++ version of a vertical blur function:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageNEON.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">void VBlurImage8( uint8_t *dst, uint8_t const *src, int const width, int const height, int const lineStride,<br />		  int const startY, const int endY )<br />{<br />    // blur weights<br />    uint16_t const weights[] = { 1, 3, 5, 3, 1 };<br />    // weight sum<br />    int const weightsSum = 13;<br />    // kernel size<br />    int const ksize = sizeof( weights ) / sizeof( weights[0] );<br /><br />    // weight sum fractional precision<br />    int const weightsNormShift = 7;<br />    // 1.0 represented as fixed point number<br />    float const weightsNorm = (float) ( 1 &lt;&lt; weightsNormShift );<br />    // inverse of weight sum (fixed-point)<br />    float const iwsum = weightsNorm / weightsSum;<br />    // blur weights in fixed point precision<br />    uint16_t const iweights[] =<br />    { (uint16_t) ( weights[0] * iwsum ), (uint16_t) ( weights[1] * iwsum ), (uint16_t) ( weights[2] * iwsum ),<br />      (uint16_t) ( weights[3] * iwsum ), (uint16_t) ( weights[4] * iwsum ) };<br /><br />    // shift source and destination pointers to the start row<br />    dst += startY * lineStride;<br /><br />    // loop over a range of rows<br />    for( int y = startY; y &lt; endY; y++ )<br />    {<br />	// we start integrating at current pixel y position minus half of the kernel size<br />	int istart = y - ( ksize / 2 );<br />	// we end integrating at current pixel y position plus half of the kernel size<br />	int iend = y + ( ksize / 2 ) + 1;<br /><br />	// compute row start offset<br />	int rowStartOffset = istart * lineStride;<br /><br />	if( istart &gt;= 0 &amp;&amp; iend &lt; height )<br />	{<br />	    // integration happens completely inside of the image (no clipping)<br /><br />	    for( int x = 0; x &lt; width; x++ )<br />	    {<br />		// current pixel offset<br />		int currentOffset = rowStartOffset + x;<br />		// pixel accumulator<br />		int accum = 0;<br />		// accumulate weighted pixel values from neighboring rows<br />		for( int i = 0; i &lt; ksize; i++ )<br />		{<br />		    accum += iweights[i] * src[currentOffset];<br />		    // shift to the next row<br />		    currentOffset += lineStride;<br />		}<br /><br />		// write out the accumulator divided by the sum of weights<br />		dst[x] = static_cast&lt;uint8_t&gt;( accum &gt;&gt; weightsNormShift );<br />	    }<br />	}<br />	else<br />	{<br />	    // integration goes outside the image (clip)<br />	    int woffset = istart;
+<br />	    // clip if we go outside of the image<br />	    if( istart &lt; 0 )    {<br />		istart = 0;<br />		rowStartOffset = 0;<br />	    }<br />	    if( iend &gt; height ) { iend = height; }<br /><br />	    // compute temporary *normalized* weights for this row<br />	    uint16_t tweights[ksize];<br /><br />	    // weights sum needed for normalization<br />	    int wsum = weights[istart - woffset];<br />	    for( int i = istart + 1; i &lt; iend; i++ )<br />	    {<br />		wsum += weights[i - woffset];<br />	    }<br /><br />	    // normalize weights<br />	    float wnorm = weightsNorm / wsum;<br />	    for( int i = istart; i &lt; iend; i++ )<br />	    {<br />		tweights[i - istart] = static_cast&lt;uint16_t&gt;( weights[i - woffset] * wnorm );<br />	    }<br /><br />	    // process pixels in a row<br />	    for( int x = 0; x &lt; width; x++ )<br />	    {<br />		// current pixel offset<br />		int currentOffset = rowStartOffset + x;<br />		// pixel accumulator<br />		int accum = 0;<br />		// accumulate weighted pixel values from neighboring rows<br />	    	for( int i = istart; i &lt; iend; i++ )<br />		{<br />		    accum += tweights[i - istart] * src[currentOffset];<br />	  	    // shift to the next row<br />		    currentOffset += lineStride;<br />		}<br /><br />		// write out the accumulator divided by the sum of weights<br />		dst[x] = static_cast&lt;uint8_t&gt;( accum &gt;&gt; weightsNormShift );<br />	    }<br />	}<br /><br />	// shift to the next row of destination image<br />	dst += lineStride;<br />    }<br />}</pre>
+        </blockquote>
+        <p>When vectorizing more complex image processing functions (such as the one shown above), we recommend to transform your C++ code to a form that will be "almost" vectorized; i.e., selected lines of code can be directly replaced with NEON intrinsics. For example, in the above function, we represent weights in 16-bit fixed-point arithmetic, so that we can pack more pixel accumulators in a single NEON register. We simplify the computations in the inner-most loop a lot (single multiply-add operation) so most of the work is done by NEON unit.</p>
+        <h4>Vectorizing the computation with NEON intrinsics</h4>
+        <p>Similar to the previous example, we can vectorize the code above simply by reinterpreting the data in the image and processing pixels in packs of four. For brevity and simplicity of this example, we limit the kernel to aligned data only (image width must be a multiple of 16).</p>
+        <p>We first put all the NEON code into macros that we can use in both the clipped and unclipped loop.  We fetch 16 bytes at a time.  We multiply them with weights using the same fixed-point arithmetics as above: as the weights sum up to one, the weighted sum of 8-bit inputs will fit into 16 bits.  We need to use two vectors that each can store 8 16-bit accumulators to calculate the weighted sum.  We shift the results back right, dropping the decimal part, and pack the lower-order 8-bit results into a single 16-wide vector, which we store to the destination image.</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageNEON.h</code>. </li>
+        </ul>
+        <blockquote><pre class="prettyprint">#define INIT_16BIT_ACCUMULATORS( a1, a2 ) \<br />    uint16x8_t a1 = vmovq_n_u16( 0 ); \<br />    uint16x8_t a2 = vmovq_n_u16( 0 )
+<br />#define ACCUMULATE_16_8BIT_WEIGHTED( data, a1, a2, weight ) \<br />    /* load 16x8-bit uint pixels to a vector */ \<br />    uint8x16_t p_u8 = vld1q_u8( data ); \<br />    /* extract the first 8 and the last 8 to separate vectors */ \<br />    uint8x8_t lp_u8 = vget_low_u8( p_u8 ); \<br />    uint8x8_t hp_u8 = vget_high_u8( p_u8 ); \<br />    /* convert (expand) their format from 8x8-bit uint into 8x16-bit uint */ \<br />    uint16x8_t lp_u16 = vmovl_u8( lp_u8 ); \<br />    uint16x8_t hp_u16 = vmovl_u8( hp_u8 ); \<br />    /* multiply by scalar weight and add to accumulators */ \<br />    a1 = vmlaq_n_u16( a1, lp_u16, weight ); \<br />    a2 = vmlaq_n_u16( a2, hp_u16, weight )
+<br />#define STORE_ACCUMULATORS_TO_16_8BIT( a1, a2, dst ) \<br />    /* normalize the accumulators back to 8-bit range by shifting decimal point to right */ \<br />    a1 = vshrq_n_u16( a1, weightsNormShift ); \<br />    a2 = vshrq_n_u16( a2, weightsNormShift ); \<br />    /* convert accumulators format from 8x16-bit uint into 8x8-bit uint, high-order bits not needed */ \<br />    uint8x8_t laccum_u8 = vmovn_u16( a1 ); \<br />    uint8x8_t haccum_u8 = vmovn_u16( a2 ); \<br />    /* combine two 8x8-bit accumulators into one 16x8-bit accumulator */ \<br />    uint8x16_t accum_u8 = vcombine_u8( laccum_u8, haccum_u8 ); \<br />    /* store the resulting vector in the destination image */ \<br />    vst1q_u8( dst, accum_u8 )
+<br />NO_INLINE<br />void VBlurImage8AlignedNEON( uint8_t *dst, uint8_t const *src, int const width, int const height, int const lineStride,<br />			     int const startY, int const endY )<br />{<br />    // blur weights<br />    uint16_t const weights[] = { 1, 3, 5, 3, 1 };<br />    // weight sum<br />    int const weightsSum = 13;<br />    // kernel size<br />    int const ksize = sizeof( weights ) / sizeof( weights[0] );
+<br />    // weight sum fractional precision<br />    int const weightsNormShift = 7;<br />    // 1.0 represented as fixed point number<br />    float const weightsNorm = (float) ( 1 &lt;&lt; weightsNormShift );<br />    // inverse of weight sum (fixed-point)<br />    float const iwsum = weightsNorm / weightsSum;<br />    // blur weights in fixed point precision<br />    uint16_t const iweights[] =<br />    { (uint16_t) ( weights[0] * iwsum ), (uint16_t) ( weights[1] * iwsum ), (uint16_t) ( weights[2] * iwsum ),<br />      (uint16_t) ( weights[3] * iwsum ), (uint16_t) ( weights[4] * iwsum ) };
+<br />    // compute the number of vector words that fit in each row<br />    int const vectorNumberPerRow = width / 16;
+<br />    // shift source and destination pointers to the start row<br />    src += startY * lineStride;<br />    dst += startY * lineStride;
+ <br />    // loop over a range of rows<br />    for( int y = startY; y &lt; endY; y++ )<br />    {<br />	// we start integrating at current pixel y position minus half of the kernel size<br />	int istart = y - ( ksize / 2 );<br />	// we end integrating at current pixel y position plus half of the kernel size<br />	int iend = y + ( ksize / 2 ) + 1;
+<br />	if( istart &gt;= 0 &amp;&amp; iend &lt; height )<br />	{<br />	    // integration happens completely inside of the image (no clipping)<br />	    // this is a major case executed for most of the image rows
+<br />	    int rowStartOffset = -( ksize / 2 ) * lineStride;
+<br />	    // iterate over all vectors in a row<br />	    for( int x = 0; x &lt; vectorNumberPerRow; x++, src += 16, dst += 16 )<br />	    {<br />		// shift the source pointer to the top row<br />		uint8_t const *sourceData = src + rowStartOffset;
+<br />		// initialize two 8x16-bit accumulators so we can accumulate 16 pixels at a time<br />		INIT_16BIT_ACCUMULATORS( laccum_u16, haccum_u16 );
+<br />		for( int i = 0; i &lt; ksize; i++, sourceData += lineStride )<br />		{<br />		    ACCUMULATE_16_8BIT_WEIGHTED( sourceData, laccum_u16, haccum_u16, iweights[i] );<br />		}
+<br />		STORE_ACCUMULATORS_TO_16_8BIT( laccum_u16, haccum_u16, dst );<br />	    }<br />	}<br />	else<br />	{<br />	    // integration goes outside the image (clip)<br />	    // this is minor case executed for top and bottom-most rows in the image
+<br />	    int woffset = istart;<br />	    // clip if we go outside of the image<br />	    if( istart &lt; 0 )    { istart = 0; }<br />	    if( iend &gt; height ) { iend = height; }
+<br />	    // compute temporary *normalized* weights for this row<br />	    uint16_t tweights[ksize];
+<br />	    // weights sum needed for normalization<br />	    int wsum = weights[istart - woffset];<br />	    for( int i = istart + 1; i &lt; iend; i++ )<br />	    {<br />		wsum += weights[i - woffset];<br />	    }
+<br />	    float wnorm = weightsNorm / wsum;<br />	    for( int i = istart; i &lt; iend; i++ )<br />	    {<br />		tweights[i - istart] = static_cast&lt;uint16_t&gt;( weights[i - woffset] * wnorm );<br />	    }
+<br />	    int rowStartOffset = ( istart - y ) * lineStride;
+<br />	    for( int x = 0; x &lt; vectorNumberPerRow; x++, src += 16, dst += 16 )<br />	    {<br />		uint8_t const *sourceData = src + rowStartOffset;
+<br />		// initialize two 8x16-bit accumulators so we can accumulate 16 pixels at a time<br />		INIT_16BIT_ACCUMULATORS( laccum_u16, haccum_u16 );
+<br />		// iterate over all vectors in a row<br />		for( int i = istart; i &lt; iend; i++, sourceData += lineStride )<br />		{<br />		    ACCUMULATE_16_8BIT_WEIGHTED( sourceData, laccum_u16, haccum_u16, tweights[i - istart] );<br />		}
+<br />		STORE_ACCUMULATORS_TO_16_8BIT( laccum_u16, haccum_u16, dst );<br />	    }<br />	}
+<br />	// correct data pointers by the difference between image width and row stride<br />	src += lineStride - width;<br />	dst += lineStride - width;<br />    }<br />}</pre>
+        </blockquote>
+        <h4>Adding multi-threading</h4>
+        <p>In order to parallelize the work across multiple CPUs, we follow the methodology from the previous example. First, let's define a structure holding read-only data for each of the threads:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">typedef struct<br />{<br />    // source and destination image size<br />    int width, height;<br />    // pointer to destination image data<br />    uint8_t *dst;<br />    // pointer to source image data<br />    uint8_t const *src;<br />} VBlurImage8Data;</pre>
+        </blockquote>
+        <p>Then, we specify the function that configures the extent of image processing work and launches threads:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">void VBlurImage8MT( uint8_t *dst, uint8_t const *src, int width, int height )<br />{<br />    // set up shared thread data (pointers to source and destination images and their size)<br />    VBlurImage8Data params;<br />    params.src = src;<br />    params.dst = dst;<br />    params.width = width;<br />    params.height = height;<br /><br />    // execute VBlurImage8ThreadProc() in parallel<br />    // the thread count is set to zero (auto-detect) and the granularity<br />    // of task is set to the number of image rows<br />    RunThreads( VBlurImage8ThreadProc, &amp;params, height, 0 );<br />}</pre>
+        </blockquote>
+        <p>Finally, let's define the function executed by each thread:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code> (above <code>VBlurImage8MT()</code> function).</li>
+        </ul>
+        <blockquote><pre class="prettyprint">static void *VBlurImage8ThreadProc( void *ptr )<br />{<br />    ThreadData&lt;VBlurImage8Data&gt; const *tdata = static_cast&lt;ThreadData&lt;VBlurImage8Data&gt; const *&gt;( ptr );<br />    VBlurImage8Data const *params = tdata-&gt;params;<br /><br />    // invoke image processing on the image area assigned to the current thread<br />    VBlurImage8( params-&gt;dst, params-&gt;src, params-&gt;width, params-&gt;height, params-&gt;width, tdata-&gt;taskStartIndex,<br />		 tdata-&gt;taskEndIndex );<br />    return 0;<br />}</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <h4>Combining multi-threading and NEON code</h4>
+        <p>Below, we show how to extend the code for combined NEON and multi-threaded processing:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">void VBlurImage8NEON_MT( uint8_t *dst, uint8_t const *src, int width, int height )
+{<br />    // set up shared thread data (pointers to source and destination images and their size)<br />    VBlurImage8Data params;<br />    params.src = src;<br />    params.dst = dst;<br />    params.width = width;<br />    params.height = height;<br /><br />    // execute VBlurImage8ThreadProcNEON() in parallel<br />    // the thread count is set to zero (auto-detect) and the granularity<br />    // of task is set to the number of image rows<br />    RunThreads( VBlurImage8ThreadProcNEON, &amp;params, height, 0 );<br />}</pre>
+        </blockquote>
+        <p>Similar to the previous example, we replace the thread body with a function that uses NEON for processing:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code> (above <code>VBlurImage8NEON_MT()</code> function). </li>
+        </ul>
+        <blockquote><pre class="prettyprint">static void *VBlurImage8ThreadProcNEON( void *ptr )<br />{<br />    ThreadData&lt;VBlurImage8Data&gt; const *tdata = static_cast&lt;ThreadData&lt;VBlurImage8Data&gt; const *&gt;( ptr );<br />    VBlurImage8Data const *params = tdata-&gt;params;<br /><br />    // invoke image processing on the image area assigned to the current thread<br />    VBlurImage8AlignedNEON( params-&gt;dst, params-&gt;src, params-&gt;width, params-&gt;height, params-&gt;width,<br />			    tdata-&gt;taskStartIndex, tdata-&gt;taskEndIndex );<br />    return 0;<br />}</pre>
+        </blockquote>
+        <h4>Going further: cache blocking</h4>
+        <p>Tegra CPUs can process data very fast. In fact, they can process the data much faster than they can read it from the system memory. In order to reduce the amount of time the processor waits for the data (commonly referred to as <b>access latency</b>), Tegra CPUs include a hierarchy of cache memory: a small and fast subsystem that "buffers" memory operations between the CPU and the system memory.</p>
+        <p>Cache memory is optimized towards data reuse: the data your code reads from the system memory stays in the cache hierarchy for future reads, until it is overwritten by newer chunks of data. Because most memory access patterns in the CPU code are of random, but local nature, the use of cache memory has a tremendous impact on the system performance.</p>
+        <p>To maximize the benefit from short cache access times, we have to make sure that our algorithm's memory access patterns maximize the probability of <b>cache hit</b> (requested data found in cache); in other words, maximize the reuse of data stored in the cache. </p>
+        <p>From the two examples that we have presented, only the second one (image blurring) reads the same pixel data multiple times. At first glance, it looks like the method has good data locality — each output pixel is computed via weighted sum of its vertical neighbors. But what is local in image space is not necessarily local to the CPU. This is because the CPU has a linear view of the image data, so pixels in neighboring rows are located in different memory regions.</p>
+        <p>The algorithm computes the output in a scan-line traversal order (left-to-right and top-to-bottom). This means that as soon as rows used for the convolution operator become larger than the cache capacity, processing the beginning of a new row will require refetching the data from the system memory and result in a significant reduction of the performance. To mitigate the above issue, we can use <b>cache blocking</b> method, which basically is a modification of the computation/traversal order that maximizes <b>cache-hit</b> to <b>cache-miss</b> ratio. Let's start by defining a new variation of blurring method:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">void VBlurImage8NEON_MT_TILED( uint8_t *dst, uint8_t const *src, int width, int height )<br />{<br />    // set up shared thread data (pointers to source and destination images and their size)<br />    VBlurImage8Data params;<br />    params.src = src;<br />    params.dst = dst;<br />    params.width = width;<br />    params.height = height;<br /><br />    // execute VBlurImage8ThreadProcTiledNEON() in parallel<br />    // the thread count is set to zero (auto-detect) and the granularity<br />    // of task is set to the number of image rows<br />    RunThreads( VBlurImage8ThreadProcTiledNEON, &amp;params, height, 0 );<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Copy the code below to <code>ExampleVBlurImageMT.h</code> (above <code>VBlurImage8NEON_MT_TILED()</code> function). </li>
+        </ul>
+        <blockquote><pre class="prettyprint">static void *VBlurImage8ThreadProcTiledNEON( void *ptr )<br />{<br />    ThreadData&lt;VBlurImage8Data&gt; const *tdata = reinterpret_cast&lt;ThreadData&lt;VBlurImage8Data&gt; const *&gt;( ptr );<br />    VBlurImage8Data const *params = tdata-&gt;params;<br /><br />    // tile size set to 256x256 pixels<br />    int const tileSize = 256;<br /><br />    // scan-line order for tile processing<br />    // TODO: space filling curve might improve the performance<br /><br />    // row range<br />    int const startY = tdata-&gt;taskStartIndex;<br />    int const endY   = tdata-&gt;taskEndIndex;<br /><br />    // image size<br />    int const imageWidth  = params-&gt;width;<br />    int const imageHeight = params-&gt;height;<br /><br />    uint8_t const *src = params-&gt;src;<br />    uint8_t *dst       = params-&gt;dst;<br /><br />    // iterate over rows of tiles<br />    for( int y = startY; y &lt; endY; y += tileSize )<br />    {<br />	// clip end y coordinate of tiles in current row<br />	// if it goes out of valid row range<br />	int ey = y + tileSize;<br />	ey = ey &gt; endY ? endY : ey;<br /><br />	// iterate over a row of tiles<br />	for( int x = 0; x &lt; imageWidth; x += tileSize )<br />	{<br />	    // clip tile end x coordinate if it goes out of image<br />	    int ex = x + tileSize;<br />	    ex = ex &gt; imageWidth ? imageWidth : ex;<br /><br />	    // execute NEON kernel for the current tile<br />	    VBlurImage8AlignedNEON( dst + x, src + x, ex - x, imageHeight, imageWidth, y, ey );<br />	}<br />    }<br /><br />    return 0;<br />}</pre>
+        </blockquote>
+        <p>The thread body function has been modified to process the image as a matrix of fixed-size tiles. This way we make sure that, during the scan-line processing, all the rows necessary for computation of convolution are in the cache, and each new row inside of the tile will be fetched from the system memory only once.</p>
+        <h4>Going further: data prefetching</h4>
+        <p>Another method of hiding memory access latency is to pass a hint to the CPU memory controller about the location of the data you will need in the near future, e.g., several iterations ahead of the current one. Because the memory controller works independently from compute units, we can start <b>prefetching</b> the data into cache for the next iterations while calculating the result of current iteration. This effectively hides part of system memory access latency behind the computation time. GCC compiler has a built-in command that allows to pass a prefetch hint to the CPU memory controller: <code>__builtin_prefetch(x)</code>, where <code>x</code> is a pointer to memory location we want to prefetch.</p>
+        <ul>
+            <li value="1">Copy the code below to the beginning of most inner loop (index i) of <code>AddImage8AlignedNEON()</code> and <code>runVectorLoop()</code> in <code>ExampleAddImageNeon.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// prefetch 64-bytes (2 cache lines on Tegra 3) ahead of current location in the source images <br />__builtin_prefetch(src1 + 64);<br />__builtin_prefetch(src2 + 64);</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Copy the code below to the beginning of most inner loop (index i) of <code>VBlurImage8AlignedNEON()</code> in <code>ExampleVBlurImageNeon.h</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// prefetch 64-bytes (2 cache lines on Tegra 3) ahead of current location in the source image<br />__builtin_prefetch(sourceData + 64);</pre>
+        </blockquote>
+        <p>The choice of how far ahead we should read is a tricky one. It highly depends on the algorithm, its memory access patterns, and even the type of CPU we optimize for (different architecture have different cache line sizes). We recommend you experiment with various settings and measure the speed improvements.</p>
+        <p>An arbitrary look-ahead location can be passed as an argument, but in case of streaming processing, where input elements are processed sequentially, prefetching 32-128 bytes ahead produces best results. The address should also be aligned to the cache line size, which is a minimum transfer unit between CPU and system memory.</p>
+        <h3>Performance analysis</h3>
+        <p>In this section we show the performance figures of the code covered in the tutorial. The examples have been compiled on GNU GCC 4.6 compiler (part of <b>Android NDK r8b</b>) with optimization flags set to <code>-O2 -mfpu=neon</code>. The timings were generated on NVIDIA Cardhu tablet running <b>Android 4.1</b>. The multi-threaded version of the code used two threads for parallel execution.</p>
+        <h4>Speed-up comparison</h4>
+        <p>Running the test app on Cardhu produces the following timings for image sum operation:</p>
+        <blockquote><pre class="prettyprint">AddImage8():                  91.866ms<br />AddImage8AlignedNEON():       48.749ms<br />AddImage8UnalignedNEON():     50.969ms<br />AddImage8MT():                46.991ms<br />AddImage8NEON_MT():           43.770ms</pre>
+        </blockquote>
+        <p>Speed-up ratios:</p>
+        <p>
+            <img src="images/image_proc_add_speedup_493x291.png" style="width: 493;height: 291;" />
+        </p>
+        <p>After augmenting the code with data prefetching the NEON code becomes significantly faster::</p>
+        <blockquote><pre class="prettyprint">AddImage8():                  92.383ms <br />AddImage8AlignedNEON():       34.843ms<br />AddImage8UnalignedNEON():     43.002ms<br />AddImage8MT():                48.473ms<br />AddImage8NEON_MT():           32.402ms</pre>
+        </blockquote>
+        <p>Speed-up ratios:</p>
+        <p>
+            <img src="images/image_proc_add_speedup2_491x293.png" style="width: 491;height: 293;" />
+        </p>
+        <p>The vertical blur operation from the second example takes::</p>
+        <blockquote><pre class="prettyprint">VBlurImage8():                394.113ms <br />VBlurImage8MT():              199.049ms<br />VBlurImage8AlignedNEON():     82.291ms<br />VBlurImage8NEON_MT():         53.299ms<br />VBlurImage8NEON_MT_TILED():   38.850ms</pre>
+        </blockquote>
+        <p>Speed-up ratios:</p>
+        <p>
+            <img src="images/image_proc_vblur_speedup_499x295.png" style="width: 499;height: 295;" />
+        </p>
+        <p>The vertical blur code benefits from prefetching even more. Note that manual data prefetching effectively canceled the benefits of cache blocking:</p>
+        <blockquote><pre class="prettyprint">VBlurImage8():                392.510ms<br />VBlurImage8MT():              197.895ms<br />VBlurImage8AlignedNEON():     65.176ms<br />VBlurImage8NEON_MT():         33.295ms<br />VBlurImage8NEON_MT_TILED():   35.479ms</pre>
+        </blockquote>
+        <p>Speed-up ratios:</p>
+        <p>
+            <img src="images/image_proc_vblur_speedup2_490x291.png" style="width: 490;height: 291;" />
+        </p>
+        <h4>Is my algorithm compute or memory bound?</h4>
+        <p>While analyzing the above figures, you might notice that both algorithms behave differently when increasing parallelism through vectorization and multi-threaded execution. Image adding function doubles the performance with two threads, but does not go much above that, although the NEON code processes 16-pixels in each iteration of the inner loop. This is because the algorithm is not bound by slow computation, but by slow system memory bandwidth.</p>
+        <p>It is important to identify such situations in your software, so you can avoid over-optimizing the code and wasting computational resources. In case of image sum operation, the most optimal version in terms of power/performance ratio is the single-threaded NEON version. The vertical blur method, on the other hand, shows good scaling with the increase of computational resources we throw at the problem. Only when comparing the single-threaded+NEON with multi-threaded+NEON versions do we notice the speed-up does not quite match the expectations; i.e., we get <code>7.4x</code> instead of <code>9.6x</code>. This is most likely the moment where we also hit the memory bandwidth wall. We can address the problem with cache blocking or manual prefetching, that allows us to get closer to the computational SOL (<b>speed-of-light</b>) for this algorithm.</p>
+        <h3>Example 3: Computing a measure of similarity between images</h3>
+        <p>Image comparison is one of the most common tasks performed in computer vision. The majority of methods addressing image registration, pattern matching, feature detection or camera pose estimation, include an evaluation step where one image is transformed and compared to the other using a specific distance metric (e.g., sum of absolute differences). The result of the comparison is a single number that tells us how similar the images are to each other. </p>
+        <p>In this section, we demonstrate how to map this example computer vision algorithm to programmable GPU hardware and how to use some of its fixed-functionality hardware to greatly improve the run-time performance.</p>
+        <p>
+            <img src="images/image_proc_image_diff.png" />
+        </p>
+        <h4>Test application</h4>
+        <p>You can find the source code of an example GPGPU application in <code>/tutorials/ImageProcessingGLES</code>. The import procedure is similar to previous examples.</p>
+        <p>Open Eclipse, select <b>File &gt; Import &gt; Android &gt; Existing Android Code into Workspace</b>, and browse into the <b>Root Directory</b> of the test app (<code>/tutorials/ImageProcessingGLES</code>). If you choose to copy the files into workspace, you may have to also copy the folder <code>SharedCode</code> under the <code>tutorials</code> folder into the workspace. Then hit <b>Finish</b>.</p>
+        <p>As this is a native project, select the C/C++ perspective.</p>
+        <p>
+            <img src="images/c_cpp_perspective.png" />
+        </p>
+        <p>By default all Android projects are Java projects, so let's convert ours to native by right-clicking on the project in <b>Package Explorer</b> and selecting <b>Android Tools &gt; Add Native Support</b>.</p>
+        <p>
+            <img src="images/image_proc_native_support.png" />
+        </p>
+        <p>Then we have to select a name for the library storing the native code. Please use <b>ImageProcessingGLES</b> as the name. You might try to build the project (right-click <b>ImageProcessingGLES &gt; Build Project</b>); however, the initial code base is incomplete. During the course of this tutorial, you will fill in the missing parts, and in the end will be able to successfully run the code on the device.</p>
+        <p>If you would like to skip this step and work with the final application, import <code>/tutorials/ImageProcessingGLES_Complete</code> project directly.</p>
+        <p>The application source code is separated into several files:</p>
+        <ol>
+            <li value="1"><code>ImageProcessingGLES.cpp</code> — main Android native activity code that performs application initalization, EGL window setup, and implements event parsing loop. Also, on every frame the code calls <code>ApplicationGPGPU::runStateMachine()</code> method until it returns true (application has quit).</li>
+            <li value="2"><code>ApplicationGLES.h</code> — contains a definition of <code>ApplicationGLES</code> base class that addresses common functionality of OpenGL ES 2.0 application (e.g., full-screen window setup, event handling).</li>
+            <li value="3"><code>ApplicationGPGPU.h</code> — a simple application that loads a test bitmap (<i>/assets/lena.bmp</i>) and computes its similarity to a transformed (i.e., rotated) copy. Additionally, the application displays an intermediate difference image, GPU timing, and the measure of similarity (<b>Image difference</b>) in text and graphical form (as a difference history scroll).</li>
+        </ol>
+        <p>We have implemented a simple state machine that controls the life-cycle of the application. You can find its implementation in <code>ApplicationGPGPU::runStateMachine()</code> method. Note the three distinct states: <code>STATE_INIT</code> (initial state used for resource loading and OpenGL ES 2.0 initialization), <code>STATE_PROCESS</code> (main rendering loop), and <code>STATE_EXIT</code> (stop state).</p>
+        <h4>Accelerating image processing with OpenGL ES 2.0</h4>
+        <p>So far we have been focusing on CPU-based optimizations. If the achieved speed-up is still not enough for your application, the next step is to use another powerful accelerator inside the Tegra SoC — a programmable GPU (<b>Graphics Processing Unit</b>). There are many graphics-related applications for which GPUs produce an order of magnitude higher speed-ups than those presented above. </p>
+        <p>In mobile world GPUs are normally used by Android OS to improve the user experience and graphics quality of the system UI. They are also widely employed in video games, where high pixel and geometry processing throughput is often required. However, since the GPU is basically a programmable compute unit, we can use it to accelerate the processing of many tasks traditionally handled by the CPU.</p>
+        <p>This programming paradigm, commonly referred to as GPGPU (<b>General-purpose computing on the GPU</b>) is particularly beneficial to methods that involve moving image pixels around (projective transformations), filtering, or resampling the image data.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Implementation Note:</b>One of the most important features introduced in core OpenGL ES 2.0 API is the addition of <b>Frame Buffer Objects</b> (FBOs). They allow for efficient rendering to an off-screen surface, where the off-screen surface might be defined as a texture (<i>render-to-texture</i>) or a <b>Render Buffer Object</b> (RBO). Texture FBO targets (or <i>attachments</i>) are necessary when we plan to use the output of current rendering pass as an input to subsequent rendering passes, whereas RBOs are more suitable when we plan to read the contents of the FBO back (to host CPU space) or display it.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p> Here is an example render-to-texture code:</p>
+        <blockquote><pre class="prettyprint">int const outputWidth  = 512;<br />int const outputHeight = 512;<br /><br />// create destination texture<br />GLuint textureId;<br />glGenTextures( 1, &amp;textureId );<br />// bind the texture<br />glBindTexture( GL_TEXTURE_2D, textureId );<br />// setup default filtering mode<br />glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );<br />glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );<br />glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );<br />glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );<br />// allocate memory<br />glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, outputWidth, outputHeight, 0, GL_RGBA,<br />	      GL_UNSIGNED_BYTE, 0 );<br /><br />// create FBO<br />GLuint fbo;<br />glGenFramebuffers( 1, &amp;fbo );<br />// bind FBO as the current frame buffer<br />glBindFramebuffer( GL_FRAMEBUFFER, fbo );<br />// attach output texture to the framebuffer<br />glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureId, 0 );<br />// set the rendering viewport size to match FBO attachment size<br />glViewport( 0, 0, outputWidth, outputHeight );<br /><br />// CALL YOUR RENDERING CODE HERE
+<br />// unbind FBO -&gt; switching to regular "screen" rendering mode<br />glBindFramebuffer( GL_FRAMEBUFFER, 0 );<br />// destroy the FBO when not needed anymore<br />glDeleteFramebuffers( 1, &amp;fbo );</pre>
+        </blockquote>
+        <p>The code using RBOs instead of textures (providing possibly a more efficient read-back to system memory) looks similar:</p>
+        <blockquote><pre class="prettyprint">int const outputWidth  = 512;<br />int const outputHeight = 512;<br /><br />// create RBO<br />GLuint rbo;<br />glGenRenderbuffers( 1, &amp;rbo );<br />// bind the RBO<br />glBindRenderbuffer( GL_RENDERBUFFER, rbo );<br />// allocate memory for output pixels<br />glRenderbufferStorage( GL_RENDERBUFFER, GL_RGBA8_OES, outputWidth, outputHeight );<br /><br />// create FBO<br />GLuint fbo;<br />glGenFramebuffers( 1, &amp;fbo );<br />// bind FBO as the current frame buffer<br />glBindFramebuffer( GL_FRAMEBUFFER, fbo );<br />// attach the RBO to the framebuffer<br />glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, rbo );<br />// set the rendering viewport size to match FBO attachement size<br />glViewport( 0, 0, outputWidth, outputHeight );<br /><br />// CALL YOUR RENDERING CODE HERE<br />// read the results from the RBO<br />int *data = new int[outputWidth * outputHeight];<br />glReadPixels( 0, 0, outputWidth, outputHeight, GL_RGBA, GL_UNSIGNED_BYTE, data );<br /><br />// unbind FBO -&gt; switching to regular "screen" rendering mode<br />glBindFramebuffer( GL_FRAMEBUFFER, 0 );<br />// destroy framebuffer and renderbuffer when not needed anymore<br />glDeleteRenderbuffers( 1, &amp;rbo );<br />glDeleteFramebuffers( 1, &amp;fbo );</pre>
+        </blockquote>
+        <h4>2D perspective warp on the GPU</h4>
+        <p>^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</p>
+        <p>First, let's define a basic image comparison algorithm:</p>
+        <ol>
+            <li value="1">Apply a perspective transformation to texture A. The transformation is described by a 2D homography matrix *H*.</li>
+            <li value="2">Write the result to A'.</li>
+            <li value="3">Subtract texture B from A'.</li>
+            <li value="4">Write out the absolute values of per pixel differences to texture D.</li>
+            <li value="5">Accumulate values in D to create a single similarity measure.</li>
+        </ol>
+        <p>Next, let's try to address each of those points and implement their functionality in C++.</p>
+        <p>Given the homography matrix <b>H</b>:</p>
+        <p>
+            <img src="images/math/0aee6034455fc20084deabe9817c5da81dc11d99.png" />
+        </p>
+        <p>we can define the 2D perspective transformation as:</p>
+        <p>
+            <img src="images/math/214fd17107f9f76d7a8e67f250913f2c559e248b.png" />
+        </p>
+        <p>where <code>src</code> is the input image and <code>dst</code> is the output image. This formulation is equivalent to OpenCV <code>cv::warpPerspective()</code> function, and can be implemented on the GPU in a straightforward way. All you need to do is render two triangles (<b>quad</b>) over the entire area of the output image. This way we guarantee that every pixel's value in the output image is generated by the currently attached fragment program. The pixel shader will simply evaluate the function for every pixel and write out its value to corresponding location in the output texture. </p>
+        <p>This approach is clean and an order of magnitude faster that the CPU code, but we can still accelerate it by using fixed-functionality hardware that enables perspective-corrected rasterization.</p>
+        <p>First, let's take a quick (and simplified) look at the geometry transformation stage in the OpenGL graphics pipeline (see section 2.11 of the OpenGL ES 2.0 specification). The key observation here is that the vertex output position <code>V = (x, y, z, w)</code>, together with every varying attribute generated by a vertex shader, is projected to the clip-space via a perspective projection <code>V' = (x/w, y/w, z/w, 1/w)</code>.</p>
+        <p>These coordinates are then linearly interpolated in screen-space by the rasterizer (see section 3.5.1 of the OpenGL ES 2.0 specification), but right before they get accessible in a fragment program they are subject to division by the last component of vertex position (interpolated <code>1/w</code>) again. This way the values available to the programmer in the pixel shader become "perspective corrected".</p>
+        <p>Since perspective correction is always on (therefore "free"), we can speed up our 2D warping code significantly by moving part of the computation to the vertex shader and rasterizer hardware. This can be achieved simply by reshuffling coefficients of the 2D homography matrix into a <code>4x4</code> OpenGL-compatible homography matrix:</p>
+        <p>
+            <img src="images/math/e6b84cf43ffdb2172565aeb709cf0630d39bff33.png" />
+        </p>
+        <p>The final vertex shader that renders a warped texture quad is defined as:&#160;</p>
+        <ul>
+            <li value="1">Copy the code below to <code>assets/warped_diff.vert</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// vertex position <br />attribute vec2 aPosition;<br />// vertex coordinate inside the texture<br />attribute vec2 aTexCoord;<br />// transformation matrix<br />uniform mat4 uTransformMatrix;<br />// per-pixel coordinate inside the texture<br />varying vec2 vTexCoord;<br /><br />void main(void)<br />{<br />    vTexCoord   = aTexCoord;<br />    gl_Position = uTransformMatrix * vec4( aPosition.x, aPosition.y, 0.0, 1.0 );<br />}</pre>
+        </blockquote>
+        <p>Since the perspective transformation has been done completely by the fixed-functionality hardware, the pixel shader is reduced into a single texture look-up, and we can skip all the warping computations here:</p>
+        <blockquote><pre class="prettyprint">precision mediump float; <br />// handler to input texture<br />uniform sampler2D uWarpedTex;<br />// per pixel coordinate inside the texture (perspective transform corrected)<br />varying vec2 vTexCoord;<br /><br />void main(void)<br />{<br />    // look-up the input texture and write out the result<br />    gl_FragColor = texture2D( uWarpedTex, vTexCoord );<br />}</pre>
+        </blockquote>
+        <p>The above fragment program will read the input image, warp it (point #1 from the algorithm overview) and write-out the result (point #2). Then, another render pass will read the warped image together with image <code>B</code> (point #3) and compute the difference between them. To minimize the amount of utilized memory bandwidth we can combine/fuse perspective warp with subtraction stage and create a single shader that will directly (and in a single draw pass) compute a difference image between warped <code>A </code>and <code>B</code>:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>assets/warped_diff.frag</code>:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">precision mediump float; <br />// handler to the image B<br />uniform sampler2D uBaseTex;<br />// handler to the image A<br />uniform sampler2D uWarpedTex;<br />// normalization factor that converts window coordinates<br />// to texture coordinates (1/width, 1/height)<br />uniform vec2 uFragCoordNorm;<br /><br />varying vec2 vTexCoord;<br /><br />void main(void)<br />{<br />    // fetch texels from both images and subtract<br />    vec4 diff = texture2D( uBaseTex, gl_FragCoord.st * uFragCoordNorm ) - texture2D( uWarpedTex, vTexCoord );<br />    // write out the absolute value<br />    gl_FragColor = abs( diff );<br />}</pre>
+        </blockquote>
+        <p>As the above shader is not covering the entire output texture anymore (only the part resulting from warping the input image), we need to clear the destination difference image before the draw calls (i.e., <code>glClear(GL_COLOR_BUFFER_BIT)</code>). A complete function that renders the difference image into a texture is defined as follows:</p>
+        <ul>
+            <li value="1">Copy the code below into the <code>ApplicationGPGPU</code> class definition (inside <code>ApplicationGPGPU.h</code>):</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// compute difference image between an image and its perspective transformed copy <br />void generateDifferenceImage( Math::Matrix4x4f const &amp;transformMatrix )<br />{<br />    // bind the FBO<br />    glBindFramebuffer( GL_FRAMEBUFFER, mFBO );<br /><br />    // attach output texture to the framebuffer<br />    glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mImageDiffTexture, 0 );<br />    glViewport( 0, 0, mSourceImageWidth, mSourceImageHeight );<br /><br />    // clear the output texture<br />    glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );<br />    glClear( GL_COLOR_BUFFER_BIT );<br />    // activate warping fragment program<br />    glUseProgram( mWarpedDiffProgram );<br /><br />    // setup uniforms<br />    glActiveTexture( GL_TEXTURE0 );<br />    glBindTexture( GL_TEXTURE_2D, mSourceImageTexture );<br /><br />    glActiveTexture( GL_TEXTURE1 );<br />    glBindTexture( GL_TEXTURE_2D, mSourceImageTexture );<br /><br />    glUniform1i( glGetUniformLocation( mWarpedDiffProgram, "uBaseTex" ), 0 );<br />    glUniform1i( glGetUniformLocation( mWarpedDiffProgram, "uWarpedTex" ), 1 );
+<br />    // scale quad to span from -1 to 1 in normalized device coordinate space<br />    Math::Matrix4x4f viewMatrix;<br />    viewMatrix.setScale( 2.0f );<br />    viewMatrix.applyTranslate( -1.0f );<br />    viewMatrix *= transformMatrix;<br /><br />    // pass a normalizer for window coordinates (gl_FragCoord), we need to access reference<br />    // unwarped image from warped image renderer<br />    glUniform2f( glGetUniformLocation( mWarpedDiffProgram, "uFragCoordNorm" ), 1.0f / mSourceImageWidth,<br />		 1.0f / mSourceImageHeight );<br /><br />    glUniformMatrix4fv( glGetUniformLocation( mWarpedDiffProgram, "uTransformMatrix" ), 1, false,<br />			viewMatrix.mData );<br /><br />    // render difference image into a texture<br />    drawQuad( mWarpedDiffProgram );<br />}</pre>
+        </blockquote>
+        <p>The last line of the <code>generateDifferenceImage()</code> function calls a helper method <code>drawQuad()</code>that renders a textured quad with width and height equal to one.</p>
+        <p>Copy the code below into the <code>ApplicationGPGPU</code> class definition (inside <code>ApplicationGPGPU.h</code>):</p>
+        <blockquote><pre class="prettyprint">void drawQuad( GLuint shader, float texCoordScale = 1.0f )<br />{<br />    // 2D vertex position data<br />    float const vertPositionData[] =<br />    { 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f };<br /><br />    // per vertex 2D coordinates inside the texture<br />    float const textureCoordData[] =<br />    { texCoordScale, texCoordScale, 0.0f, texCoordScale, texCoordScale, 0.0f, 0.0f, 0.0f };<br /><br />    // drawing quad<br />    int attribPosCoord = glGetAttribLocation( shader, "aPosition" );<br />    int attribTexCoord = glGetAttribLocation( shader, "aTexCoord" );<br /><br />    glVertexAttribPointer( attribPosCoord, 2, GL_FLOAT, GL_FALSE, 0, vertPositionData );<br />    glVertexAttribPointer( attribTexCoord, 2, GL_FLOAT, GL_FALSE, 0, textureCoordData );<br />    glEnableVertexAttribArray( attribPosCoord );<br />    glEnableVertexAttribArray( attribTexCoord );<br />    glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );<br />    glDisableVertexAttribArray( attribPosCoord );<br />    glDisableVertexAttribArray( attribTexCoord );<br />}</pre>
+        </blockquote>
+        <h4>Computing a sum of pixel values on the GPU</h4>
+        <p>After generating the difference image, we have to add up all the per-pixel differences to create a single number that will tell us how far apart the images are. On the CPU, such operation can be trivially implemented by iterating over the elements and adding their values to a single accumulator. Unfortunately, this linear complexity algorithm is sequential in nature and therefore does not map well to GPU hardware. In order to exploit its massive parallel processing capabilities we implement the sum operation with a pyramidal method that requires multiple render passes, but is fully parallelizable and also linear in nature.</p>
+        <p>
+            <img src="images/image_proc_decimation.png" />
+        </p>
+        <p>Every pass of the parallel sum algorithm creates a texture that is half the size of the input texture and contains pixels that are sums of the local <b>2x2</b> pixel neighborhood from the input (see the above figure). These partial sum textures are further decimated in subsequent passes until the texture size of <b>1x1</b> is reached. The final texel contains the sum of all pixel values from the input.</p>
+        <p>The vertex/pixel shader pair that implements this algorithm is defined as:</p>
+        <ul>
+            <li value="1">Copy the code below to <code>assets/accum4.vert</code>:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// vertex position<br />attribute vec2 aPosition;<br />// vertex coordinate inside the texture<br />attribute vec2 aTexCoord;<br />// transformation matrix<br />uniform mat4 uTransformMatrix;<br />// a distance of half a texel in normalized texture coordinates<br />uniform vec2 uHalfTexelSize;<br />// per-pixel coordinate of (0,0) and (1,0) neighbors inside the input texture<br />varying vec4 vTexCoord0;<br />// per-pixel coordinate of (0,1) and (1,1) neighbors inside the input texture<br />varying vec4 vTexCoord1;<br /><br />void main(void)<br />{<br />    // construct texture coordinates pointing the 2x2 texel neighborhood in input<br />    // texture corresponding to every output texture pixel.<br />    // Output texture has half the size of the input texture<br /><br />    vTexCoord0 = vec4( aTexCoord.x - uHalfTexelSize.x, aTexCoord.y - uHalfTexelSize.y,<br />		        aTexCoord.x + uHalfTexelSize.x, aTexCoord.y - uHalfTexelSize.y );<br />    vTexCoord1 = vec4( aTexCoord.x - uHalfTexelSize.x, aTexCoord.y + uHalfTexelSize.y,<br />			aTexCoord.x + uHalfTexelSize.x, aTexCoord.y + uHalfTexelSize.y );<br /><br />    gl_Position = uTransformMatrix * vec4(aPosition.x, aPosition.y, 0.0, 1.0);<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Copy the code below to <code>assets/accum4.frag</code>:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">precision mediump float; <br />// input texture handler<br />uniform sampler2D uBaseTex;<br />// per-pixel coordinate of (0,0) and (1,0) neighbors inside the input texture<br />varying vec4 vTexCoord0;<br />// per-pixel coordinate of (0,1) and (1,1) neighbors inside the input texture<br />varying vec4 vTexCoord1;<br /><br />void main(void)<br />{<br />    // fetch 2x2 texels<br />    vec4 p00 = texture2D( uBaseTex, vTexCoord0.st );<br />    vec4 p10 = texture2D( uBaseTex, vTexCoord0.pq );<br />    vec4 p01 = texture2D( uBaseTex, vTexCoord1.st );<br />    vec4 p11 = texture2D( uBaseTex, vTexCoord1.pq );<br /><br />    // write out their scaled sum<br />    gl_FragColor = ( p00 + p10 + p01 + p11 ) * 0.5;<br />}</pre>
+        </blockquote>
+        <p>Note that in the pixel shader we sum up four neighbors, but output only half of their actual sum. This is because the destination texture for the partial sum is stored in 8-bits per channel precision and values above 255 (normalized to 1.0) get clipped to 1.0. Scaling down the results before write-out reduces the saturation effects, but also slightly lowers the precision of the final sum. Now, time for the complete GPGPU image similarity measure function:</p>
+        <ul>
+            <li value="1">Copy the code below into the <code>ApplicationGPGPU</code> class definition (inside <code>ApplicationGPGPU.h</code>)</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// down-scale and accumulate the difference image before downloading to system memory<br />float getImageSimilarityMeasure( Math::Matrix4x4f const &amp;transformMatrix )<br />{<br />    // generate difference image<br />    generateDifferenceImage( transformMatrix );<br />    // bind the FBO<br />    glBindFramebuffer( GL_FRAMEBUFFER, mFBO );<br />    // activate the accumulation fragment program<br />    glUseProgram( mAccumProgram );<br />    glViewport( 0, 0, mSourceImageWidth, mSourceImageHeight );<br /><br />    // setup uniforms<br />    glUniform2f( glGetUniformLocation( mAccumProgram, "uHalfTexelSize" ), 0.5f / mSourceImageWidth,<br />    		0.5f / mSourceImageHeight );<br /><br />    glActiveTexture (GL_TEXTURE0);<br />    glUniform1i( glGetUniformLocation( mAccumProgram, "uBaseTex" ), 0 );<br /><br />    GLuint srcTexture = mImageDiffTexture;<br />    GLuint dstTexture = mTempTexture1;<br />    int srcWidth   = mSourceImageWidth;<br />    int srcHeight  = mSourceImageHeight;<br />    float dstScale = 1.0f;<br /><br />    // ping-pong style accumulation<br />    while( srcWidth &gt; MAX_TEXTURE_SIZE &amp;&amp; srcHeight &gt; MAX_TEXTURE_SIZE )<br />    {<br />	// attach output texture to the framebuffer<br />	glFramebufferTexture2D( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, dstTexture, 0 );<br /><br />	// setup uniforms<br />	glBindTexture( GL_TEXTURE_2D, srcTexture );<br /><br />	// set transformation matrix<br />	Math::Matrix4x4f viewMatrix;<br />	viewMatrix.setScale( dstScale );<br />	viewMatrix.applyTranslate( -1.0f );<br />	glUniformMatrix4fv( glGetUniformLocation( mAccumProgram, "uTransformMatrix" ), 1, false, viewMatrix.mData );<br /><br />	// render difference image into a texture<br />	drawQuad( mAccumProgram, dstScale );<br /><br />	// swap source with destination textures<br />	if( dstTexture == mTempTexture1 )<br />	{<br />	    srcTexture = mTempTexture1;<br />	    dstTexture = mTempTexture2;<br />	}<br />	else<br />	{<br />	    srcTexture = mTempTexture2;<br />	    dstTexture = mTempTexture1;<br />	}<br /><br />	// next source texture will have dimensions of current destination<br />	srcWidth  /= 2;<br />	srcHeight /= 2;<br /><br />	// scale down the next destination<br />	dstScale *= 0.5f;<br />    }<br /><br />    // output final pass to the RBO and read-back results<br /><br />    // attach RBO to the FBO for final output<br />    glFramebufferRenderbuffer( GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, mRBO );<br /><br />    // last accumulation shader call<br />    glBindTexture( GL_TEXTURE_2D, srcTexture );<br /><br />    // set transformation matrix<br />    Math::Matrix4x4f viewMatrix;<br />    viewMatrix.setScale( dstScale );<br />    viewMatrix.applyTranslate( -1.0f );<br />    glUniformMatrix4fv( glGetUniformLocation( mAccumProgram, "uTransformMatrix" ), 1, false, viewMatrix.mData );<br /><br />    // render difference image into a texture<br />    drawQuad( mAccumProgram, dstScale );<br /><br />    // next source texture will have dimensions of current destination<br />    srcWidth  /= 2;<br />    srcHeight /= 2;<br /><br />    // read the result back from the current texture attached to the framebuffer<br />    Image&lt;IPF_argb32&gt; image( srcWidth, srcHeight );<br />    glReadPixels( 0, 0, srcWidth, srcHeight, GL_RGBA, GL_UNSIGNED_BYTE, image.getRawPointer() );<br /><br />    // here we store the final accumulated difference between images<br />    float diff = 0.0f;<br />    // sum up pixel differences over RGB channels<br />    int isize = srcWidth * srcHeight;<br />    for( int i = 0; i &lt; isize; i++ )<br />    {<br />	ImagePixelARGB32 pixel( image[i] );<br />	diff += pixel[0];<br />	diff += pixel[1];<br />	diff += pixel[2];<br />    }<br /><br />    // normalize by the number of accumulated samples<br />    diff /= isize * 3;<br /><br />    // unbind FBO<br />    glBindFramebuffer( GL_FRAMEBUFFER, 0 );<br /><br />    // restore the default viewport size<br />    glViewport( 0, 0, mEgl-&gt;getWidth(), mEgl-&gt;getHeight() );<br /><br />    return diff;<br />}</pre>
+        </blockquote>
+        <p>Another important point to note is that we limit the number of render passes until the point we reach a partial sum texture of certain size (i.e., <code>MAX_TEXTURE_SIZE</code> is set to 32 pixels by default).</p>
+        <p>The reason for that is two-fold. First, the cost of issuing a draw call is constant and independent of the texture size. For very small textures, it is much faster to compute the final sum on the CPU rather than call the decimation shaders until we reach <b>1x1</b> partial texture size. Second, the final accumulated difference is more precise when computed on the CPU, since we can use floating point precision accumulator, as opposed to low bit-depth of the texture.</p>
+        <p>This step completes the compute part of the application. Now, to successfully run the project on your Tegra device, we still need a function that handles the initialization of all intermediate textures, shaders and FBOs:</p>
+        <ul>
+            <li value="1">Copy the code below into the <code>ApplicationGPGPU</code> class definition (inside <code>ApplicationGPGPU.h</code>)</li>
+        </ul>
+        <blockquote><pre class="prettyprint">static void RevertColorChannels( Image&lt;IPF_argb32&gt; &amp;bitmap ) <br />{<br />    // converts BGRA to ARGB and back<br />    // we need it to convert between OpenGL and Windows Bitmap pixel formats<br />    int isize = bitmap.getWidth() * bitmap.getHeight();<br />    for( int i = 0; i &lt; isize; i++ )<br />    {<br />	ImagePixelARGB32 pixel( bitmap[i] );<br />	bitmap[i] = ImagePixelARGB32( pixel[0], pixel[1], pixel[2], 255 );<br />    }<br />}<br /><br />bool loadResources( void )<br />{<br />    // initialize the NVIDIA bitfonts<br />    NvBool fontSplit = 1;<br />    const char *fontFile = "utahcond+bold_1024.dds";<br />    if( NVBFInitialize( 1, &amp;fontFile, &amp;fontSplit, 0 ) )<br />    {<br />	LOG( "could not initialize NvBitFont!" );<br />	return false;<br />    }<br /><br />    // allocate the text for the clock and set its properties<br />    mClockText = NVBFTextAlloc();<br />    NVBFTextSetFont( mClockText, 1 ); // should look up by font file name.<br />    NVBFTextSetSize( mClockText, 32 );<br />    NVBFTextCursorAlign( mClockText, NVBF_ALIGN_LEFT, NVBF_ALIGN_TOP );<br />    NVBFTextCursorPos( mClockText, 10, 10 );<br />    NVBFTextSetColor( mClockText, NV_PC_PREDEF_WHITE );<br />    NVBFTextSetShadow( mClockText, 5, NV_PC_PREDEF_BLACK );<br /><br />    // load test image<br />    glGenTextures( 1, &amp;mSourceImageTexture );<br />    glBindTexture( GL_TEXTURE_2D, mSourceImageTexture );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );<br />    {<br />	Image&lt;IPF_argb32&gt; bitmap;<br />	bitmap.loadImage( "lena.bmp" );<br /><br />	// convert texture BGRA to RGBA OpenGL texture format<br />	RevertColorChannels( bitmap );<br /><br />	mSourceImageWidth = bitmap.getWidth();<br />	mSourceImageHeight = bitmap.getHeight();<br />	LOG( "loaded %ix%i input image", mSourceImageWidth, mSourceImageHeight );<br /><br />	glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, mSourceImageWidth, mSourceImageHeight, 0, GL_RGBA,<br />		GL_UNSIGNED_BYTE, bitmap.getRawPointer() );<br />    }<br /><br />    // setup output diff texture<br />    glGenTextures( 1, &amp;mImageDiffTexture );<br />    glBindTexture( GL_TEXTURE_2D, mImageDiffTexture );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );<br />    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, mSourceImageWidth, mSourceImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );<br /><br />    // setup temporary texture for accumulated difference image<br />    glGenTextures( 1, &amp;mTempTexture1 );<br />    glBindTexture( GL_TEXTURE_2D, mTempTexture1 );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );<br />    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, mSourceImageWidth, mSourceImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );<br /><br />    glGenTextures( 1, &amp;mTempTexture2 );<br />    glBindTexture( GL_TEXTURE_2D, mTempTexture2 );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );<br />    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );<br />    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, mSourceImageWidth, mSourceImageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0 );<br /><br />    // init shader loader<br />    nv_shader_init( mNativeAppInstance-&gt;activity-&gt;assetManager );<br /><br />    // load image warping shader<br />    mWarpedDiffProgram = nv_load_program( "warped_diff" );<br />    // load difference accumulation shader<br />    mAccumProgram = nv_load_program( "accum4" );<br />    // load shader drawing textured quad<br />    mPlainTextureProgram = nv_load_program( "plain_tex" );<br />    // load shader drawing color filled quad<br />    mPlainColorProgram = nv_load_program( "plain_col" );<br /><br />    // setup OpenGL<br />    glDisable( GL_CULL_FACE );<br />    glDisable( GL_BLEND );<br /><br />    // create FBO<br />    glGenFramebuffers( 1, &amp;mFBO );<br /><br />    // create and configure RBO<br />    glGenRenderbuffers( 1, &amp;mRBO );<br />    glBindRenderbuffer( GL_RENDERBUFFER, mRBO );<br />    glRenderbufferStorage( GL_RENDERBUFFER, GL_RGBA8_OES, mSourceImageWidth, mSourceImageHeight );<br /><br />    return true;<br />}</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Desktop Technologies|NVIDIA 3D Vision Automatic">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Stereoscopic Issues</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/desktop/nv3dva_stereoscopic_issues.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../desktop_technologies_aw.htm">Desktop Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nv3dva_main.htm">NVIDIA 3D Vision Automatic</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Stereoscopic Issues</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Stereoscopic Issues</span>
+        </h1> <a name="kanchor58"></a><hr width="100%" size="0" align="center" /><h3>Defeating Driver Heuristics</h3><p>As described earlier, 3D Vision Automatic uses driver heuristics to decide which draw calls need to be stereoized and which ones should not be. In this section, some of the common problem heuristics are described, and their specific behaviors outlined.</p><h4>NULL Z-buffer Target</h4><p>For PC based applications, the most common stereoscopic heuristic that applications run into is the state of the Z-buffer. When the Z-buffer is set to NULL, the 3D Vision Automatic driver uses this as a cue that the rendering being actively performed is a blit-with-shader, and disables the stereoscopic portion accordingly.</p><p>If you wish to avoid rendering to the Z-buffer while performing an operation, but still need that operation to be stereoized, set the Z-test function to ALWAYS and Z-write-enable to FALSE, while leaving a Z-target bound.</p><p>Surface Aspect Ratios</p><p>In Direct3D9, all Render Targets (surfaces created with <code>IDirect3DDevice9::CreateRenderTarget</code>), regardless of aspect ratio, are stereoized.</p><p>By default, non-square surfaces that are equal to or larger than the back buffer are stereoized. Non-square surfaces smaller than the backbuffer are not stereoized by default.</p><p>Square surfaces are (by default) not stereoized. The expected usage for these surfaces is typically projected lights or shadow buffers, and therefore they are not eye-dependent.</p><p>In order to apply these heuristics to a Direct3D9 title, applications should create the desired renderable surface with <code>IDirect3DDevice9::CreateTexture</code>, taking care to set the <code>D3DUSAGE_RENDERTARGET</code> bit of the usage parameter.</p><h3>2D Rendering</h3><p>2D Rendering is typically the area of the rendering engine that requires the most care to get right for a successful stereoscopic title.</p><h4>Rendering Without Separation</h4><p>To render an object without separation, at the same screen-space position in the left and right eye, the best approach is to render these objects at convergence depth. This depth can be retrieved from NVAPI by calling <code>NvAPI_Stereo_GetConvergenceDepth</code>.</p><p>If the W coordinate of the output position from the vertex shader is at this depth, no separation will occur between each eye -- the triangles will be at the same screen space position in each eye. See <a href="#Specifying_Depth_for_Stereoization">Specifying a Depth for Stereoization</a> below for suggestions of how to modify the vertex shader output position.</p><p>While there are other methods available if your title has a custom 3D Vision Automatic profile, this method is the most robust.</p><h4><a name="Specifying_Depth_for_Stereoization"></a>Specifying a Depth for Stereoization</h4><p>As explained in <a href="nv3dva_background.htm#The_Existing_Conceptual_Pipeline">The Existing Conceptual Pipeline</a>, controlling the <b>W</b> coordinate output from the vertex shader is the key to controlling the apparent depth of rendered objects. There are several methods to modify this value; the appropriate method for your application depends on your current pipeline and requirements. None of the methods described here should affect rendering when running in non-stereoscopic modes, and can be left enabled at all times for free.</p><h5>Vertex Shader Constant (preferred)</h5><p>The preferred method for modifying this depth is to pipe a constant into the vertex shader, then scale the entire output position of the vertex shader to this value.</p><p>For example, you might have a vertex shader that looks like this:&#160;</p><blockquote><pre class="prettyprint">float4x4gMatHudWVP;
+
+structVsOutput
+{
+float4 Position   : SV_POSITION;
+&#160;&#160;&#160;&#160;float4 TexCoord0  : TEXCOORD0;
+};
+VsOutputRenderHudVS(float4 pos : POSITION,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float2 texCoord0 : TEXCOORD)
+{
+VsOutput Out;
+Out.Position = mul(pos, gMatHudWVP);
+&#160;&#160;&#160;&#160;Out.TexCoord0 = texCoord0;
+return Out;
+}</pre></blockquote><p>In this method, you would first pipe down an additional constant, then modify the final position by this coordinate. This is shown in the following code snippet:</p><blockquote><pre class="prettyprint">float4x4gMatHudWVP; 
+floatgApparentDepth;   // Depth at which to render the object
+
+structVsOutput
+{
+float4 Position   : SV_POSITION;
+&#160;&#160;&#160;&#160;float4 TexCoord0  : TEXCOORD0;
+};
+VsOutputRenderHudVS(float4 pos : POSITION,
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;float2 texCoord0 : TEXCOORD)
+{
+VsOutput Out;
+
+Out.Position = mul(pos, gMatHudWVP);
+&#160;&#160;&#160;&#160;Out.TexCoord0 = texCoord0;
+if (Out.Position.w != 0.0f &amp;&amp;gApparentDepth&gt; 0.0f) {
+Out.Position *= (gApparentDepth / Out.Position.w);
+&#160;&#160;&#160;&#160;}
+
+return Out;
+}</pre></blockquote><h5>Modify the Input Coordinate</h5><p>Another approach to this problem, if your application is passing down a 4-component coordinate, is to scale the entire input coordinate by the desired depth. For example, if you were going to render a vertex at (1,2,3,1), you but you wanted it to render at an apparent eye-depth of 20, you could instead render at the position (20,40,60,20). This would produce the exact same screen space position, but would yield correct apparent depth in stereo.</p><h5>Modify the Transform</h5><p>The final approach to specify an apparent depth to the vertex shader is to modify the transform appropriately. As with modifying the input coordinate (as described in Modify the Input Coordinate on page 18), a scaling is all that is necessary. Apply a final scaling transform to your matrix that scales <b>X</b>, <b>Y</b>, <b>Z</b> and <b>W</b> by the desired apparent depth.</p><p>After the perspective divide, you will get the same rasterized position and the same value in the Z-buffer, but with a different amount of stereoscopic offsetting.</p><h5>HUD in the World</h5><p>A common effect in games is to render HUD elements in the world. Some examples of this are:</p><ul><li value="1">Floating Character Names</li><li value="2">Waypoint Markers</li><li value="3">Targeting Reticules</li></ul><p>In all of these cases, stereoscopic can provide additional information to your user over normal HUD layouts. Specifically, the depth cues given by stereoscopic can indicate whether the object being rendered is in front of or behind potential obstructions.</p><h5>Consider Drawing at Apparent Depth</h5><p>While these objects are technically part of the HUD, they will feel more connected to the object or location they represent in the world if they have a matching amount of separation. The solution to this is to draw the element at an apparent depth value using one of the methods described in <a href="#Specifying_Depth_for_Stereoization">Specifying a Depth for Stereoization</a>.</p><p>Accurate screen depth can be computed using the following equation</p><blockquote><pre class="prettyprint">ScreenDepth=normalize(Camera<span style="vertical-align: sub;">Fwd</span>)∙(Object<span style="vertical-align: sub;">WorldPos</span>- Camera<span style="vertical-align: sub;">WorldPos</span>)</pre> <![CDATA[ ]]></blockquote><p>However, NVIDIA has found that this approximation works without causing eyestrain:</p><blockquote><pre class="prettyprint">ScreenDepth=length(Object<span style="vertical-align: sub;">WorldPos</span> - Camera<span style="vertical-align: sub;">WorldPos</span>)</pre> <![CDATA[ ]]></blockquote><p>Also note that for floating nameplates (for example), it's usually acceptable to draw the nameplate at the depth of the object to which the nameplate is logically attached.</p><h5><a name="Crosshairs"></a>Crosshairs</h5><p>Crosshairs fall into the category of objects described in <a href="nv3dva_best_practices.htm#Wrong">Wrong is Right</a>. They are actually a part of the HUD, but they just look wrong when drawn at screen depth.</p><p>Instead, NVIDIA recommends that you determine the depth of the object drawn under the hotspot of the crosshair, and draw at that apparent depth. NVIDIA refers to this type of crosshair as a <b>Laser Sight</b>.</p><p>Laser Sight Crosshairs appear to be on top of the object they're over, which is typically the desired effect. In general, bounding box depth is sufficient for specifying apparent depth. An application can perform a ray cast from the camera location through the crosshair, and compute the length of the returned vector. This length can be used as the apparent depth to render the crosshair at using any of the techniques covered in <a href="#Specifying_Depth_for_Stereoization">Specifying a Depth for Stereoization</a>.</p><h5>Mouse Cursor</h5><p>The mouse cursor can be thought of exactly like a crosshair that can move around the screen. The guidance for mouse cursors is unsurprisingly identical to that for crosshairs. See <a href="#Crosshairs">Crosshairs</a> for more information.</p><h4><a name="Post_Processing"></a>Post Processing</h4><p>A common case in post processing is to unproject from window space to world space, perform some calculations and write a value out.</p><p>This will pose a problem for stereoscopic rendering because of the hidden mono-to-stereoscopic clip space transformation. To fix this, the mono-to-stereoscopic transformation will also need to be inverted. A potential example of existing unprojection code written for a DirectX renderer might look like this:</p><blockquote><pre class="prettyprint"><span style="color: #0000ff;">float4x4</span>WVPInv; <span style="color: #228b22;">// World-View-Projection Inverse
+// Viewport Transform Inverse. Stored as
+// x = 1 / (ResolutionX / 2)
+// y = 1 / (ResolutionY / 2)
+// z = -offsetX (usually -1)
+// w = -offsetY (usually -1)</span> <span style="color: #0000ff;">float4</span>VportXformInv;
+
+<span style="color: #0000ff;">float4</span>ScreenToClip(<span style="color: #0000ff;">float2</span>ScreenPos, <span style="color: #0000ff;">float</span>EyeDepth) {
+<span style="color: #0000ff;">float4</span>ClipPos = <span style="color: #0000ff;">float4</span>(ScreenPos.xy * VportXformInv.xy
++ VportXformInv.zw,
+0,
+EyeDepth);
+
+<span style="color: #228b22;">// Move the coordinates to the appropriate distance
+&#160;&#160;// for the depth specified.</span>
+ClipPos.xy *= EyeDepth; 
+
+<span style="color: #228b22;">// Screen and clip space are inverted in the Y direction
+&#160;&#160;// from each other.</span>
+ClipPos.y = -ClipPos.y;
+
+returnClipPos;
+}
+
+<span style="color: #0000ff;">float4</span>ScreenToWorld(<span style="color: #0000ff;">float</span>2ScreenPos, <span style="color: #0000ff;">float</span>EyeDepth) {
+<span style="color: #0000ff;">float4</span>ClipPos = ScreenToClip(ScreenPos, EyeDepth);
+returnfloat4(mul(WVPInv,ClipPos).xyz, 1.0f);
+}</pre></blockquote><p>The usual method of fixing this is to use a specially crafted stereoscopic texture, which has eye-specific parameters, and use these results to invert the stereoscopic transform. For example:</p><blockquote><pre class="prettyprint"><span style="color: #0000ff;">float4x4</span>WVPInv; <span style="color: #228b22;">// World-View-Projection Inverse</span> <span style="color: #228b22;">
+// Viewport Transform Inverse. Stored as
+// x = 1 / (ResolutionX / 2)
+// y = 1 / (ResolutionY / 2)
+// z = -offsetX (usually -1)
+// w = -offsetY (usually -1)
+</span><span style="color: #0000ff;">float4</span>VportXformInv;
+<span style="color: #228b22;">
+// pixel(0.0).x = finalSeparation
+// pixel(0,0).y = convergence</span>
+Texture2d StereoParmsTexture;
+
+<span style="color: #0000ff;">float4</span>StereoToMonoClipSpace(float4 StereoClipPos)
+{
+<span style="color: #0000ff;">float4</span>MonoClipPos = StereoClipPos;
+<span style="color: #0000ff;">float2</span>StereoParms = tex2D(StereoParmsTexture, 0.0625).xy;
+MonoClipPos.x -= StereoParms.x * (MonoClipPos.w – StereoParms.y);
+
+returnMonoClipPos;
+}
+
+<span style="color: #0000ff;">float4</span>ScreenToClip(<span style="color: #0000ff;">float2</span>ScreenPos, <span style="color: #0000ff;">float</span>EyeDepth) {
+<span style="color: #0000ff;">float4</span>ClipPos = <span style="color: #0000ff;">float4</span>(ScreenPos.xy * VportXformInv.xy
++ VportXformInv.zw,
+0,
+EyeDepth);<span style="color: #228b22;">
+// Move the coordinates to the appropriate distance
+&#160;&#160;// for the depth specified.</span>
+ClipPos.xy *= EyeDepth;
+<span style="color: #228b22;">
+// Screen and clip space are inverted in the Y direction
+&#160;&#160;// from each other.</span>
+ClipPos.y = -ClipPos.y;
+
+returnClipPos;
+}
+
+<span style="color: #0000ff;">float4</span>ScreenToWorld(<span style="color: #0000ff;">float2</span>ScreenPos, <span style="color: #0000ff;">float</span>EyeDepth) {
+<span style="color: #0000ff;">float4</span>StereoClipPos = ScreenToClip(ScreenPos, EyeDepth);
+<span style="color: #0000ff;">float4</span>MonoClipPos = StereoToMonoClipSpace(StereoClipPos);
+returnfloat4(mul(WVPInv,MonoClipPos).xyz, 1.0f);
+}</pre></blockquote><p>The specifics of how to build the <code>StereoParmsTexture </code>are available in the <code>nvstereo.h</code> header file, described in <a href="nv3dva_using_nvstereoh.htm">Using nvstereo.h</a>.</p><p>Note that this solution can utilize the same code path for both stereoscopic and non-stereoscopic cases—by specifying a 0 value for convergence and separation, the result of the computation will match the inputs. This is useful in reducing the code complexity of dealing with stereoscopic being disabled or enabled, and for whether the underlying hardware does or does not support stereo.</p><p>One additional difficulty in post processing comes from correctly determining the screen position in the first place. Often, games will perform the complete transform into screen space directly into the vertex shader, storing the results in the output vertex (typically in a texture coordinate). Unfortunately, this also misses the stereo transform, resulting in an incorrect position. This can be easily rectified by using the VPOS (<code>SV_Position</code> in Direct3D10 and higher) built-in attribute in the pixel shader to lookup the current pixel’s screen position. The other alternative would be to perform the stereo transform manually in the vertex shader, before storing the output screen position.</p><p>Alternatively, you can make use of the freely available nvstereo.h header to handle building and updating this texture for you in a performance friendly manner. See <a href="nv3dva_using_nvstereoh.htm">Using nvstereo.h</a> for more details.</p><table><col /><col /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;vertical-align: top;"><b>Note</b>: On Tegra powered devices, post-process fragment shaders should not have any position dependencies when running in stereo mode (e.g., <code>gl_FragCoord</code> should not be used in stereo mode.)
+                    </td></tr></tbody></table><h4>Deferred Renderers</h4><p>Deferred Renderers under DirectX suffer the unprojection problem described in Post Processing, but to a more extreme degree because unprojection is even more common in deferred renderers.</p><p>There are two main approaches to fixing this problem. The first solution is exactly the same as described in <a href="#Post_Processing">Post Processing</a>.</p><p>The second solution is to simply skip unprojection altogether by storing the world-space position directly in the G-buffer. This solution, while trivial, is not usually practical due to space and bandwidth constraints.</p><h4>Scissor Clipping</h4><p>Special care should be taken when using the scissor rectangle for anything that may be stereoized. Currently there is no way to indicate a scissor rectangle for each eye. As a result, objects drawn with a scissor rectangle will likely be clipped incorrectly for both eyes. There is currently no workaround for this issue.</p><p>&#160;</p><p>&#160;</p><p>&#160;</p><hr style="height: 1px;" width="100%" size="0" align="center" /><script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true"></script><p>&#160;</p><div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;"><div class="button-group-container-left"><button class="button needs-pie previous-topic-button" type="button" title="Navigate previous"><img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" /></button><div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div><button class="button needs-pie next-topic-button" type="button" title="Navigate next"><img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" /></button></div></div><p> </p><p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span></p></body>
+</html>

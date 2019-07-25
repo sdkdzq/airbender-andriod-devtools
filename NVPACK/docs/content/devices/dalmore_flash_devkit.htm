@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Devices|Developer Kits|Tegra &quot;Dalmore&quot; Development Kit (T4)">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Flashing the Devkit</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../index.html#devices/dalmore_flash_devkit.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="devices.htm">Mobile Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="devkit_devices.htm">Developer Kits</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="dalmore_devkit_main.htm">Tegra "Dalmore" Development Kit (T4)</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Flashing the Devkit</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor141"></a>
+        <h1><span class="SystemTitle">Flashing the Devkit</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h3>Powering Up the Devkit in Flashing (Forced Recovery)&#160;Mode</h3>
+        <p>The controls to be used in this section are available on the debug board or on the main board (when exposed) and are noted below.  Either method can be used; the steps are the same in either case, with the only difference being the location of the buttons used.</p>
+        <h4>Main Board Buttons</h4>
+        <p>If the expansion board has not been connected, the buttons are still available on the edge of the main board.  The locations of the three buttons of interest are indicated below:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/dalmore_devkit_main_board_buttons.001.png"><img class="MCPopupThumbnail img" data-mc-width="730" data-mc-height="457" src="images/dalmore_devkit_main_board_buttons.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <h4>Debug Board Buttons</h4>
+        <p>If you have chosen to connect the debug board, the switches required for flashing the device are all available on this board.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/dalmore_devkit_debug_board_buttons.001.png"><img class="MCPopupThumbnail img" data-mc-width="687" data-mc-height="627" src="images/dalmore_devkit_debug_board_buttons.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <h3>Steps for Placing the Devkit in Recovery Mode</h3>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                       Note: Unlike previous-generation Tegra devkits, the screen on the Dalmore devkit remains black when the devkit is booted to recovery mode.  The existence of the recovery device in the Device Manager is the only indication of the device being in recovery mode.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol>
+            <li value="1">Apply power to the device by plugging it in (if not already done).</li>
+            <li value="2">Turn on the device with the power button.  The power lights should illuminate green.</li>
+            <li value="3">Hold the forced recovery button down.</li>
+            <li value="4">Press the reset button, hold for a second, then release it.</li>
+            <li value="5">Wait two more seconds and release the forced recovery button.</li>
+        </ol>
+        <p>At this point, the development PC should recognize the device.  If the device driver is not already installed, the system should ask for it.  Inside of the installed OS image tree, there should be a <code>usbpcdriver</code> subdirectory.  Point the OS to this directory to install the recovery mode flashing driver.  On success, the Device Manager should show the device (NVIDIA USB Boot-recovery driver for Mobile devices):</p>
+        <p><a class="MCPopupThumbnailLink" href="images/dalmore_driver_device_manager.001.png"><img class="MCPopupThumbnail img" data-mc-width="795" data-mc-height="579" src="images/dalmore_driver_device_manager.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <p>If the driver is not installed initially, you may see the following in the Device Manager:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/dalmore_driver_device_manager_unknown.001.png"><img class="MCPopupThumbnail img" data-mc-width="795" data-mc-height="579" src="images/dalmore_driver_device_manager_unknown.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <p>Right-click the device and select <b>Update Driver Software…</b>, and navigate to the <code>usbpcdriver</code> subdirectory of the OS pack.  You may receive a dialog:</p>
+        <blockquote>
+            <p>
+                <img src="images/dalmore_driver_install_anyway.001.png" />
+            </p>
+        </blockquote>
+        <p>Select <b>Install this driver software anyway</b>.</p>
+        <h3>Flashing the Devkit </h3>
+        <table>
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                       Note: Unlike previous-generation Tegra devkits, the screen on the Dalmore devkit might remain black when the devkit is being flashed, depending on the version of the OS image being flashed. In this case, the PC prompt is the only indication of flashing progress.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>After having placed the Dalmore into recovery mode, return to the dialog that is shown on the PC in the TDK installer:</p>
+        <blockquote>
+            <p>
+                <img src="images/dalmore_devkit_boot_recovery_mode.001.png" />
+            </p>
+        </blockquote>
+        <ol>
+            <li value="1">Click <b>OK</b> to begin the flashing process.</li>
+            <li value="2">On the Ready to Flash dialog, click <b>Next</b>. <br /><br /><img src="images/dalmore_devkit_install_ready_to_flash.001.png" /></li>
+            <li value="3">The installer will flash the Dalmore.</li>
+            <li value="4">Step through the final dialogs in the installer (Installed Components, Installation Complete) to complete the install.</li>
+            <li value="5">Review the <code>readme</code> as shown in the final step</li>
+            <li value="6">The Dalmore should now boot to the Android first-boot screen.<br /><br /><img src="images/dalmore_android_screen.001.png" /></li>
+            <li value="7">After booting, it is recommended that you go to <b>Settings</b> &gt; <b>Developer Options</b> and enable <b>Stay awake</b> in order to avoid the devkit turning itself off after some period of inactivity. Similarly, it is also recommended that you go to <b>Settings</b> &gt; <b>Display</b> and change the <b>Sleep</b> time to 30 minutes.</li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

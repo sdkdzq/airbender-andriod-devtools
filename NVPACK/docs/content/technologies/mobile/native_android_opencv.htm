@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Native Development on NVIDIA&#160;Android Devices">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>OpenCV on Tegra</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/native_android_opencv.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="native_android_development.htm">Native Development on NVIDIA&#160;Android Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">OpenCV on Tegra</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">OpenCV on Tegra</span>
+        </h1><a name="kanchor126"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>In this tutorial, we show how to implement image processing and computer vision algorithms in Android using the OpenCV library. We show how to load an input image from an SD card, and also how to grab video frames from the Android camera by only using OpenCV native C++ code. We then apply a simple feature detector for each input frame, and display the results on the screen using both OpenCV and OpenGL ES for rendering lines and text.</p>
+        <h3><a name="Creating_native_opencv_sample_project"></a>Creating a Native (C/C++) OpenCV Sample Project</h3>
+        <p>This example, called SimpleImageOpenCV, is based on the <a href="native_android_opengles.htm">OpenGL ES example</a>  previously presented. The complete project can be found in <code>/tutorials/SimpleImageOpenCV_Complete/</code>.</p>
+        <p>The basic functionalities of the example include:</p>
+        <ul>
+            <li value="1">loading an image from an SD card using OpenCV's <code>highgui</code> functions,</li>
+            <li value="2">capturing video frames from a camera using OpenCV's <code>cv::VideoCapture</code> class, and</li>
+            <li value="3">applying feature detection to the image and video frames using <code>cv::FastFeatureDetector</code> class.</li>
+        </ul>
+        <p>We start by explaining how to set up the OpenCV library, then show how to implement an image processing program using OpenCV step by step. To start from the OpenGL ES example, follow the instructions for <a href="native_android_opengles.htm#Importing_existing_project">importing a project into Eclipse</a> to import the starting point for this example (<code>/tutorials/SimpleImageOpenCV</code>), which is identical to the OpenGL ES example <code>SimpleImageDisplayGL</code>.</p>
+        <h6>1. &#160;Set up OpenCV:&#160; </h6>
+        <ul>
+            <li value="1">Open <code>Android.mk</code> and add the highlighted lines: </li>
+        </ul>
+        <blockquote><pre class="prettyprint" xml:space="preserve">LOCAL_PATH := $(call my-dir)<br />include $(CLEAR_VARS)<br /><br /><span style="background-color: #ffffe0;">OPENCV_CAMERA_MODULES  := on</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_INSTALL_MODULES := on</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">OPENCV_LIB_TYPE        := STATIC</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;"># Generic OpenCV.mk</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">#include $(NVPACK_PATH)/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/jni/OpenCV.mk</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;"># Tegra optimized OpenCV.mk</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">include $(NVPACK_PATH)/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/jni/OpenCV-tegra3.mk</span></pre>
+        </blockquote>
+        <p>The <code>OPENCV_CAMERA_MODULES</code> adds the camera libraries to the build process; if you don't need to use the camera you can set this option to <i>off</i>. <code>OPENCV_LIB_TYPE</code> allows us to choose between static and shared libraries.  For now, we use static linkage. We finally include <code>OpenCV-tegra3.mk</code> which defines the flags, paths and libraries that are needed to build an application with OpenCV optimized for Tegra 3. For other devices, you can use <code>OpenCV.mk</code> instead.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> It is possible to link OpenCV either as a shared or a statically linked library. Here we use static linking as that is easier for a fully native (C++) project.</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li value="1">Specify the name of this module :</li>
+        </ul>
+        <blockquote><pre class="prettyprint">LOCAL_MODULE := SimpleImageOpenCV</pre>
+        </blockquote>
+        <blockquote>
+            <p>The <code>OpenCV*.mk</code> file will initialize LOCAL_LDLIBS and LOCAL_STATITC_LIBRARIES, for this reason we need to append to these variables using the <code>+=</code> operator instead of redefining them with the <code>:=</code> notation. Modify the following lines, replacing the <code>:=</code> with the <code>+=</code> operator:</p>
+        </blockquote>
+        <blockquote><pre class="prettyprint">LOCAL_LDLIBS           += -lc -lm -llog -landroid -ldl -lGLESv2 -lEGL<br />LOCAL_STATIC_LIBRARIES += nv_and_util nv_egl_util nv_bitfont nv_math nv_glesutil nv_hhdds nv_log nv_shader nv_file nv_thread</pre>
+        </blockquote>
+        <p>You can find more details at <a href="http://opencv.willowgarage.com/wiki/OpenCVAndroidBinariesBuild#How_to_build_an_Android_application.2C_which_uses_OpenCV">How to build an Android application, which uses OpenCV</a>.</p>
+        <h6>2. &#160;Modify the Manifest file:</h6>
+        <p>Open the <code>AndroidManifest.xml</code> file by clicking <code>AndroidManifest.xml</code> in Project Explorer. Choose an <code>AndroidManifest.xml</code> XML tab, if the XML is not shown. Then, we add the followings (highlights).</p>
+        <blockquote><pre class="prettyprint">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"<br />package="com.nvidia.tutorial"<br />android:versionCode="1"<br />android:versionName="1.0"&gt;<br /><br />&lt;uses-sdk android:minSdkVersion="14" android:targetSdkVersion="15" /&gt;<br /><br /><span style="background-color: #ffffe0;">&lt;uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">&lt;uses-permission android:name="android.permission.CAMERA" /&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">&lt;uses-feature android:name="android.hardware.camera" /&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">&lt;uses-feature android:name="android.hardware.camera.autofocus" /&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">&lt;uses-feature android:name="android.hardware.camera.front" android:required="false"/&gt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">&lt;uses-feature android:name="android.hardware.camera.front.autofocus" android:required="false"/&gt;</span><br /><br />&lt;!-- We do not have Java code. Therefore android:hasCode is set to false. --&gt;<br />&lt;application android:label="@string/app_name" android:hasCode="false"&gt;<br />    &lt;!-- Our activity is the built-in NativeActivity framework class.<br />	 This will take care of integrating with our NDK code. --&gt;<br />    &lt;activity android:name="android.app.NativeActivity"<br />		android:label="@string/app_name"<br />		android:configChanges="orientation|keyboard|keyboardHidden"<br />		android:theme="@android:style/Theme.NoTitleBar.Fullscreen"&gt;<br />	&lt;!-- Tell NativeActivity the name of or .so --&gt;<br />	&lt;meta-data android:name="android.app.lib_name"<br /> <span style="background-color: #ffffe0;">	android:value="SimpleImageOpenCV" /&gt;</span><br />	&lt;intent-filter&gt;<br />	    &lt;action   android:name="android.intent.action.MAIN" /&gt;<br />	    &lt;category android:name="android.intent.category.LAUNCHER" /&gt;<br />	&lt;/intent-filter&gt;<br />      &lt;/activity&gt;<br />    &lt;/application&gt;<br /><br />&lt;/manifest&gt;</pre>
+        </blockquote>
+        <p>We first add a permission to access an SD card to load and save images. We also add a permission to access cameras, and declare several camera features that we plan to use.  Notice that we also changed <code>android.app.lib_name</code> from <code>SimpleImageDisplay</code> to <code>SimpleImageOpenCV</code> because we changed the library name in <code>Android.mk</code> in the previous step.</p>
+        <h6>3. &#160;Make an OpenCV example source file:</h6>
+        <p>Create new source and header files <code>jni/OpenCV_native.cpp</code> and <code>jni/OpenCV_native.h</code>, which we will use to implement our image processing with OpenCV. You can make them either by (1) directly creating empty files in the <code>jni</code> directory, or you can (2) <b>Right-click the project &gt; New &gt; Source File (or Header file)</b>, and specify the name of files under the <code>jni</code> directory.</p>
+        <p>Then, let's add some placeholders which we will soon fill in <code>OpenCV_native.h</code>: </p>
+        <blockquote><pre class="prettyprint">#ifndef OPENCV_NATIVE_H_<br />#define OPENCV_NATIVE_H_<br /><br />#include &lt;jni.h&gt;<br />#include &lt;opencv2/core/core.hpp&gt;<br />#include &lt;opencv2/highgui/highgui.hpp&gt;<br />#include &lt;opencv2/imgproc/imgproc.hpp&gt;<br />#include &lt;opencv2/features2d/features2d.hpp&gt;<br />#include &lt;opencv2/video/video.hpp&gt;<br /><br />#include &lt;vector&gt;<br /><br />class COpenCVSample<br />{<br />public:<br />    COpenCVSample()<br />    {<br />    }<br />    ~COpenCVSample()<br />    {<br />    }<br /> <br />    // Load an image and apply any algorithm on the image and return the result image<br /><span style="background-color: #ffffe0;">    cv::Mat runLoadCVImg();</span><br />    // Apply an algorithm on an input cv::Mat image<br /><span style="background-color: #ffffe0;">    cv::Mat runOpenCVFeatureDetector( cv::Mat img );</span><br />    // Return the blank opencv image with error msg<br /> <span style="background-color: #ffffe0;">   cv::Mat errorImage( std::string errmsg );</span><br />};<br /><br />#endif /* OPENCV_NATIVE_H_ */</pre>
+        </blockquote>
+        <p><code>OpenCV_native.cpp</code> <![CDATA[ ]]></p>
+        <blockquote><pre class="prettyprint">#include "OpenCV_native.h"<br /><br /><span style="background-color: #ffffe0;">cv::Mat COpenCVSample::runLoadCVImg()</span><br />{<br />     cv::Mat img;<br /><br />    // Do something to load an image and return it<br /><br />    return img;<br />}<br /><br /><span style="background-color: #ffffe0;">cv::Mat COpenCVSample::runOpenCVFeatureDetector( cv::Mat img )</span><br />{<br /><br />    // Do something to detect features<br /><br />    return img;<br />}<br /><br /><span style="background-color: #ffffe0;">cv::Mat COpenCVSample::errorImage( std::string errmsg )</span><br />{<br />    cv::Mat img;<br /><br />    // Do something to draw an error message on an image and return it<br /><br />    return img;<br />}</pre>
+        </blockquote>
+        <p>We will call the above functions from <code>Engine.cpp</code> later on, and the texture for the display will be updated from <code>cv::Mat</code> images that are returned by these functions.</p>
+        <p>As <code>Android.mk</code> uses wildcards for the source files, we don't need to add these files to the makefile.</p>
+        <h6>4. &#160;Initialize the UI for the example:</h6>
+        <p>In <code>Engine::initUI()</code> within <code>Engine.cpp</code>, we modify the highlighted lines to change the text on the buttons.  The buttons will be used for calling functions to either grab video frames from the camera or load an image from SD card.</p>
+        <blockquote><pre class="prettyprint">bool Engine::initUI()<br />{<br />    // The UI might have been initialized already<br />    if( mUiInitialized ) { return true; }<br /><br />    [...]<br /><br />    // UI Buttons<br />    mUiButton[0] = NVBFTextAlloc();<br />    NVBFTextSetFont( mUiButton[0], 2 ); // should look up by font file name.<br />    NVBFTextSetSize( mUiButton[0], 48 );<br />    NVBFTextSetColor( mUiButton[0], NV_PC_PREDEF_WHITE );<br />    NVBFTextSetShadow( mUiButton[0], 5, NV_PC_PREDEF_BLACK );<br /><span style="background-color: #ffffe0;">    NVBFTextSetString( mUiButton[0], NVBF_STYLESTR_BOLD "CAM" );</span><br />    mUiButton[1] = NVBFTextAlloc();<br />    NVBFTextSetFont( mUiButton[1], 2 ); // should look up by font file name.<br />    NVBFTextSetSize( mUiButton[1], 48 );<br />    NVBFTextSetColor( mUiButton[1], NV_PC_PREDEF_WHITE );<br />    NVBFTextSetShadow( mUiButton[1], 5, NV_PC_PREDEF_BLACK );<br /><span style="background-color: #ffffe0;">    NVBFTextSetString( mUiButton[1], NVBF_STYLESTR_BOLD "IMAGE" );</span><br />    [...]<br /><br />    mUiInitialized = true;<br /><br />    return true;<br />}</pre>
+        </blockquote>
+        <h6>5. &#160;Build and run the project:</h6>
+        <ul>
+            <li value="1">Clean the project by <b>Project &gt; Clean</b>, then build the project.</li>
+            <li value="2">Once you run the project, you will see the NVIDIA logo and the new buttons on the screen.</li>
+        </ul>
+        <p style="text-align: center;">
+            <img src="images/opencv-run-example6-nvidia.png" />
+        </p>
+        <h6>6.&#160; Add a function to display an error message using OpenCV:</h6>
+        <p>In <code>OpenCV_native.cpp</code>, add the following code to make an image with an error message using OpenCV highgui functions.</p>
+        <blockquote><pre class="prettyprint">// Return the blank opencv image with error msg <br /><span style="background-color: #ffffe0;">cv::Mat COpenCVSample::errorImage( std::string errmsg )</span><br />{<br />    // Make a black background image<br />    cv::Mat img = cv::Mat::zeros( 720, 1280, CV_8UC3 );<br /><br />    // Add message with cv::putText<br /><span style="background-color: #ffffe0;">    std::stringstream sterr;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    sterr &lt;&lt; "Loading image failed. Please check out the path";</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    cv::putText( img, sterr.str(), cv::Point( img.cols / 2 - 200, img.rows / 2 ),</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    		 cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar( 0, 255, 0 ) );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    // OpenCV uses BGR, but OpenGL ES uses RGB</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    cv::Mat rgb_img( img );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    cv::cvtColor( img, rgb_img, CV_BGR2RGB );</span><br />    return rgb_img;<br />}</pre>
+        </blockquote>
+        <h6>7. &#160;Add functionality for loading an image from an SD card:</h6>
+        <ul>
+            <li value="1">Upload the <b>lena.jpg</b>  image to your device.  You can use <code>adb shell</code> to find the path to external storage (using <code>ls</code> and <code>cd</code> commands), and <code>adb push</code> to move the file over (e.g., <code>adb push lena.jpg /storage/sdcard0/DCIM</code>). You can also upload the image using File Explorer (In Eclipse, <b>Project &gt; Show View &gt; File Explorer</b>).</li>
+            <li value="2">In <code>COpenCVSample::runLoadCVImg()</code> in <code>OpenCV_native.cpp</code>, specify the path to the input image. We then load the image using <code>cv::imread()</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">cv::Mat COpenCVSample::runLoadCVImg()<br />{<br />    // Specify a path for the test image<br />    std::stringstream path;<br /><span style="background-color: #ffffe0;">    path &lt;&lt; "/storage/sdcard0/DCIM/lena.jpg";  // you may have to modify this path!</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    cv::Mat img = cv::imread( path.str() );</span><br /><br />    if( img.rows == 0 )<br />    {<br />	// If the path was wrong, draw in error message into cv::Mat<br /><span style="background-color: #ffffe0;">	return errorImage( "Wrong image path!" );</span><br />    }<br /><br />    // Convert to RGB for OpenGL ES<br />    cv::Mat rgb_img( img );<br />    cv::cvtColor( img, rgb_img, CV_BGR2RGB );<br /><br />    return rgb_img;<br />}</pre>
+        </blockquote>
+        <p>Because OpenCV uses BGR, while OpenGL ES uses RGB format, we have to convert the color space with ``cv::cvtColor()``. Then, return the converted image buffer.</p>
+        <h6>8.&#160; Display the loaded image:</h6>
+        <p>Now we show how to call the functions in <code>OpenCV_native.cpp</code>, and to update a texture with the image returned by these functions.</p>
+        <p>First include <code>OpenCV_native.h</code> in <code>Engine.h</code>, and add an instance of <code>COpenCVSample</code> class. We then also add a function to update an OpenGL texture (highlights).</p>
+        <blockquote><pre class="prettyprint">// Includes for the NVIDIA helper libraries<br />#include &lt;nv_and_util/nv_native_app_glue.h&gt;<br />#include &lt;nv_egl_util/nv_egl_util.h&gt;<br />#include &lt;nv_ui/nv_ui_rect.h&gt;
+<br />// Includes OpenCV codes<br /><span style="background-color: #ffffe0;">#include "OpenCV_native.h"</span><br style="background-color: #ffffe0;" /><br />    [...]
+<br />    class Engine<br />    {<br />    private:<br />	static const int FRAMES_TO_RENDER = 4;<br /><br />    public:<br />	/**<br />	* The constructor saves a pointer to the engine and to the callback<br />	* functions in the Android app. It also initializes the nv_shader library.<br />	*/<br />	Engine( NvEGLUtil &amp;egl, struct android_app *app );<br /><br />	[...]<br /><br />    protected:<br /><br />	[...]<br /><br />	// Function for updating textures<br /><span style="background-color: #ffffe0;">	void updateCVTexture( GLuint imgTexture, cv::Mat img );</span><br />	[...]<br /><br />	// Variables for the UI<br />	NvUIRect mUiButtonZone[2];<br />	void    *mClockText;<br />	void    *mUiPauseText;<br />	void    *mUiButton[2];<br />	int      mHitButton;      // Stores which of the two buttons is currently active<br /><br />	// Variables for OpenCV<br /><span style="background-color: #ffffe0;">	COpenCVSample mCV;</span><br />    };</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Implement <code>updateCVTexture( GLuint imgTexture, cv::Mat img )</code> in <code>Engine.cpp</code>.  In addition to updating the texture, we call into the shader to update the image size and keep the aspect ratio.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">// Update a texture with OpenCV image (Mat)<br />void Engine::updateCVTexture( GLuint imgTexture, cv::Mat img )<br />{<br />    // The images we get from the camera or read from opencv are byte aligned.<br />    glPixelStorei( GL_UNPACK_ALIGNMENT, 1);<br /><br />    // Update the texture<br />    glBindTexture( GL_TEXTURE_2D, imgTexture );<br />    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, img.cols, img.rows, 0, GL_RGB, GL_UNSIGNED_BYTE, img.data );<br />    glBindTexture( GL_TEXTURE_2D, 0 );<br /><br />    // Update the shader<br />    mRectShader[1]-&gt;setImageSize( img.cols, img.rows,<br />	RectShader::STORAGE_TOP_FIRST, RectShader::ASPECT_RATIO_KEEP);<br />}</pre>
+        </blockquote>
+        <p>In <code>glTexImage2D</code>, we set the image buffer as <code>GL_RGB</code>, and the type of the data as <code>GL_UNSIGNED_BYTE</code>. See the <a href="http://www.khronos.org/opengles/sdk/docs/man/xhtml/glTexImage2D.xml">glTexImage2D reference</a> for details on <code>glPixelStorei</code> and <code>glTexImage2D</code>.</p>
+        <ul>
+            <li value="1">Modify the message handling function to add a call to <code>COpenCVSample::runLoadCVImg()</code> if the <b>IMAGE</b> button was pressed.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">int Engine::handleInput( AInputEvent * event )<br />{<br />    // We only handle motion events (touchscreen) and key (button/key) events<br />    int32_t eventType = AInputEvent_getType( event );<br /><br />    if( eventType == AINPUT_EVENT_TYPE_MOTION )<br />    {<br />	[...]<br /><br /><span style="background-color: #ffffe0;">	if( isActiveMode() )</span><br />	{<br />	    if( mUiButtonZone[0].inside( mx, my ) )<br />	    {<br />		mHitButton = 0;<br /><br />		// ``CAM`` button calls a camera capture function here<br />	    }<br /><span style="background-color: #ffffe0;">	    else if( mUiButtonZone[1].inside( mx, my ) )</span><br />	    {<br />		mHitButton = 1;<br /><br />		// ``IMAGE`` button calls a load image function, and<br />		// a function to update a texture here.<br /><span style="background-color: #ffffe0;">		updateCVTexture( mImgTexture, mCV.runLoadCVImg() );</span><br />	    }<br />	}<br /><br />	[...]<br /><br />	return 1;<br />    }<br /><br />    [...]<br /><br />    return 0;<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Finally, as we are going to use only a default shader (<code>mRectShader[1]</code>) for displaying image, change the highlighted line.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">bool Engine::renderFrame( bool allocateIfNeeded )<br />{<br />    [...]<br /><br />    // Set up viewport<br />    glViewport( ( GLint )0, ( GLint )0,<br />		( GLsizei )( mEgl.getWidth() ), ( GLsizei )( mEgl.getHeight() ) );<br /><br />    // Clear buffers as necessary<br />    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );<br /><br />    /* Do some rendering here */<br /><br />    // Based on the button that is selected choose the shader that should be used...<br /><span style="background-color: #ffffe0;">    mDrawRect-&gt;setShader( mRectShader[1].get() );</span><br />    // ... and pass the texture to the shader.<br />    mDrawRect-&gt;draw( mImgTexture );<br /><br />    // Render the rendering bitfont text overlaid here.<br />    NVBFTextRenderPrep();<br /><br />    [...]<br /><br />    // Swap the buffers, which indicates we're done with rendering this frame<br />    mEgl.swap();<br /><br />    return true;<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Now, let's build the project and run the application. When you click the <b>IMAGE</b> button, the following image should be shown:</li>
+        </ul>
+        <p style="text-align: center;">
+            <img src="images/opencv-opengl-load-image.png" />
+        </p>
+        <p>If the image was not loaded correctly you get an error message instead:</p>
+        <p style="text-align: center;">
+            <img src="images/opencv-run-example6-error.png" />
+        </p>
+        <p>If the error message is shown, please make sure you've uploaded the image to the device, and that the path specified in the previous step (in <code>COpenCVSample::runLoadCVImg()</code>) is correct.</p>
+        <h6>9. &#160;Add functionality to capture a video frame from the camera.</h6>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> The camera control from OpenCV is not fully supported on all devices. As of 06/10/2013, all Tegra 3 and Tegra 4 devices are supported (whether they are production devices or dev boards, such as Cardhu),  with the exception of some devices based on Android 4.0.x, such as the HTC One X before upgrade to Android 4.1.x. <br /><br />To date, the native OpenCV camera does not work on: <br /><ul><li value="1">TI-based devices (such as LG and Motorola devices), with Android 2.x</li><li value="2">Several MTK-based Chinese Android devices, such as Zopo or Huawey </li></ul><br />The recommended configuration to successfully complete the tutorial (as of 1/29/2014) includes a Tegra K1 device, Android 4.4.2 and OpenCV 2.4.8 (Tegra SDK version).</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li value="1">We first add an instance for the OpenCV video capturing class, <code>cv::VideoCapture</code>, and a flag for switching the display mode between video and the loaded image. In <code>Engine.h</code>, add the following lines:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">[...]
+<br />// Variables for OpenCV<br />COpenCVSample mCV;        // Class instance for OpenCV tutorial
+<br />// OpenCV native camera<br /><span style="background-color: #ffffe0;">cv::VideoCapture mCapture;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">bool             mUseCVCam;</span><br />[...]</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Initialize and set up the <code>cv::VideoCapture</code> class in <code>Engine::initUI()</code> in <code>Engine.cpp</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">bool Engine::initUI()<br />{<br />    if( mUiInitialized ) { return true; }<br /><br />    LOGD( "Initializing UI" );<br /><br />    [...]<br /><br />    mUiInitialized = true;<br /><br /><span style="background-color: #ffffe0;">    mUseCVCam = false;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    // Open the OpenCV camera  0 for frontal and 1 for backward camera</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mCapture.open( CV_CAP_ANDROID + 0 );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    if( !mCapture.isOpened() )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	LOGI( "CV: OpenCV camera was not opened correctly" );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    else</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	LOGI( "CV: OpenCV camera was opened correctly" );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }
+</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    // set the properties of the OpenCV camera</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mCapture.set( CV_CAP_PROP_AUTOGRAB, 1 );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mCapture.set( CV_CAP_PROP_FRAME_WIDTH, 640 );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mCapture.set( CV_CAP_PROP_FRAME_HEIGHT, 480 );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    LOGI( "CV: OpenCV camera setup done" );</span><br />    return true;<br />}</pre>
+        </blockquote>
+        <p>We chose the frontal camera, and set the frame resolution to <code>640 x 480</code>.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> On some devices, it could be necessary to set the frame resolution to the native camera resolution.</td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li value="1">Now, let's write code for getting video frames, and update the texture to display them.</li>
+        </ul>
+        <blockquote><pre class="prettyprint"><span style="background-color: #ffffe0;">bool Engine::renderFrame( bool allocateIfNeeded )</span><br />{<br />    if( !mEgl.isReadyToRender( allocateIfNeeded ) )<br />    {<br />	return false;<br />    }<br /><br />    [...]<br /><br />    // set up viewport<br />    glViewport( ( GLint ) 0, ( GLint ) 0, ( GLsizei )( mEgl.getWidth() ), ( GLsizei )( mEgl.getHeight() ) );<br /><br />    // clear buffers as necessary<br />    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );<br /><br />    // Based on the button that is selected choose the shader that should be used...<br />    mDrawRect-&gt;setShader( mRectShader[1].get() );<br />    // ... and pass the texture to the shader.<br />    mDrawRect-&gt;draw( mImgTexture );<br /><br />    // OpenCV Camera<br /><span style="background-color: #ffffe0;">    if( mUseCVCam )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	// grab the openCV camera:</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	if( !mCapture.grab() )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	{</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	    LOGI( "CV: cannot grab frame" );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	    mUseCVCam = false;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	}</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	// retrieve the frame from the openCV camera:</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	cv::Mat frameimg;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	if( !mCapture.retrieve( frameimg, CV_CAP_ANDROID_COLOR_FRAME_RGB ) )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	{</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	    LOGI( "CV:: cannot retrieve frame -- break" );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	    mUseCVCam = false;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	}</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	// Bind the texture with the frameimg.</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	updateCVTexture( mImgTexture, frameimg );</span><br style="background-color: #ffffe0;" /><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	frameimg.release();</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }</span><br />    [...]<br /><br />    // done rendering overlaid text.<br />    NVBFTextRenderDone(); <br /><br />    if( mForceRender &gt; 0 ) { mForceRender--; }<br /><br />    mEgl.swap();<br /><br />    return true;<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Then, we set the flag <code>mUseCVCam</code> to <code>true</code> in the message handling function (for the <b>CAM</b> button), and set the flag to <code>false</code> when another button (<b>IMAGE</b>) is clicked.</li>
+        </ul>
+        <blockquote><pre class="prettyprint"><span style="background-color: #ffffe0;">int Engine::handleInput( AInputEvent *event )</span><br />{<br />    // We only handle motion events (touchscreen) and key (button/key) events<br />    int32_t eventType = AInputEvent_getType( event );<br /><br />    if( eventType == AINPUT_EVENT_TYPE_MOTION )<br />    {<br />	[...]<br /><br />	if( isActiveMode() )<br />	{<br />	    if( mUiButtonZone[0].inside( mx, my ) )<br />	    {<br />	    mHitButton = 0;<br /><br />	    // ``CAM`` button calls a camera capture function here<br /><span style="background-color: #ffffe0;">	    mUseCVCam = true;</span><br /><br />	    }<br />	    else if( mUiButtonZone[1].inside( mx, my ) )<br />	    {<br />	    	mHitButton = 1;<br /><span style="background-color: #ffffe0;">	   	mUseCVCam = false;</span><br />	    	// ``IMAGE`` button calls a load image function, and<br />	    	// a function to update a texture here.<br />	    	updateCVTexture( mImgTexture, mCV.runLoadCVImg() );<br /><br />	    }<br />	}<br />	[...]<br />    }<br />    [...]<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Finally, release the capture device, <code>cv::VideoCapture mCapture</code>, in the destructor of the <code>Engine</code> class.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">Engine::~Engine()<br />{<br />    // Free the allocated BitFonts<br />    NVBFTextFree( mUiButton[0] );<br />    NVBFTextFree( mUiButton[1] );<br />    NVBFTextFree( mUiPauseText );<br />    NVBFTextFree( mClockText );<br />    NVBFCleanup();<br /><br />    // Delete the texture<br />    glDeleteTextures( 1, &amp;mImgTexture );
+<br />    // release capture device<br /><span style="background-color: #ffffe0;">   mCapture.release();</span><br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">Build the project again, and click the <b>CAM</b> button. Now the video frames captured from your device will be shown.</li>
+        </ul>
+        <p style="text-align: center;">
+            <img src="images/opencv-opengl-cam-image.png" />
+        </p>
+        <h6>10. &#160;Apply a feature detector onto loaded image and video frames using OpenCV:</h6>
+        <ul>
+            <li value="1">We now get back to <code>OpenCV_native.cpp</code> to fill the <code>runOpenCVFeatureDetector(cv::Mat img)</code> function.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">cv::Mat COpenCVSample::runOpenCVFeatureDetector( cv::Mat img )<br />{<br />    cv::Mat g_img( img.rows, img.cols, CV_8UC1 );<br /><br />    // convert BGR to Gray<br />    cv::cvtColor( img, g_img, CV_BGR2GRAY );<br /><br />    // detect FAST features<br />    std::vector&lt;cv::KeyPoint&gt; v;<br />    cv::FastFeatureDetector detector( 50 );<br />    detector.detect( g_img, v );<br /><br />    // Draw results<br />    for( size_t i = 0; i &lt; v.size(); i++ )<br />    {<br />	cv::circle( img, cv::Point( v[i].pt.x, v[i].pt.y ), 10, cv::Scalar( 0, 0, 255, 255 ) );<br />    }<br /><br />    // Draw texts in opencv<br />    std::stringstream st1;<br />    st1 &lt;&lt; "Number of features : " &lt;&lt; v.size();<br />    cv::putText( img, st1.str(), cv::Point( 10, 50 ), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar( 0, 255, 0 ) );<br />    st1.str( std::string() );<br />    st1 &lt;&lt; "This text is drawn from OpenCV";<br />    cv::putText( img, st1.str(), cv::Point( 10, 80 ), cv::FONT_HERSHEY_PLAIN, 1, cv::Scalar( 0, 255, 0 ) );<br /><br />    return img;<br />}</pre>
+        </blockquote>
+        <p>We first convert the input RGB file to a gray scale image to detect features. We then extract FAST features, and draw the features with <code>cv::circle()</code>. Then we also add some text using <code>cv::putText()</code>.</p>
+        <ul>
+            <li value="1">We then add a line of code to apply feature detector to a loaded image.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">cv::Mat COpenCVSample::runLoadCVImg()<br />{<br />    // specifying a path for a testing image<br />    std::stringstream path;<br />    path &lt;&lt; "/storage/sdcard0/DCIM/lena.jpg";<br /><br />    cv::Mat img = cv::imread( path.str() );<br /><br />    if( img.rows == 0 )<br />    {<br />	// If the path was wrong, display error message as a form of cv::Mat<br />	return ErrorImage( "Wrong image path!" );<br />    }<br /><br /><span style="background-color: #ffffe0;">    cv::Mat temp(img);</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    img = runOpenCVFeatureDetector(temp);</span><br />    // Since opencv uses BGR, we have to convert it to RGB for opengl side<br />    cv::Mat rgb_img( img );<br />    cv::cvtColor( img, rgb_img, CV_BGR2RGB );<br /><br />    return rgb_img;<br />}</pre>
+        </blockquote>
+        <ul>
+            <li value="1">To apply the detector to video frames from the camera, we change the code in <code>Engine::renderFrame(...)</code> function in <code>Engine.cpp</code>.</li>
+        </ul>
+        <blockquote><pre class="prettyprint">bool Engine::renderFrame( bool allocateIfNeeded )<br />{<br />    [...]<br /><br />    // OpenCV Camera<br />    if( mUseCVCam )<br />    {<br />	// grab the openCV camera:<br />	if( !mCapture.grab() )<br />	{<br />	    LOGI( "CV: cannot grab frame" );<br />	    mUseCVCam = false;<br />	}<br />	// retrieve the frame from the openCV camera:<br />	cv::Mat frameimg;<br />	if( !mCapture.retrieve( frameimg, CV_CAP_ANDROID_COLOR_FRAME_RGB ) )<br />	{<br />	     LOGI( "CV:: cannot retrieve frame -- break" );<br />	     mUseCVCam = false;<br />	}<br />	// Bind the texture with the frameimg.<br /><span style="background-color: #ffffe0;">	updateCVTexture( mImgTexture, mCV.runOpenCVFeatureDetector(frameimg) );</span><br /><br />	frameimg.release();<br />    }<br /><br />    [...]<br /><br />    return true;<br />}</pre>
+        </blockquote>
+        <p>We now build the project again, and run the application. By clicking the <b>IMAGE</b> and <b>CAM</b> buttons, you will see the following results.</p>
+        <p style="text-align: center;">
+            <img src="images/opencv-run-example6.png" />
+        </p>
+        <p style="text-align: center;">
+            <img src="images/opencv-run-example6-camera.png" />
+        </p>
+        <h3><a name="Display_results_using_opengl"></a>Display Results using OpenGL</h3>
+        <p>In the previous section, we have drawn the feature points with OpenCV highgui functions, and updated the texture with the resulting image.  Because we drew the result into the image rather than on the display, the visual quality of the drawings varies depending on the resolution ratios of the image and display.  We now show how to draw line primitives with OpenGL.  The primitives will be overlaid on top of the resulting (or input) image/frame at the display resolution.</p>
+        <p>This example, called <code>SimpleImageOpenCV_GL</code>, is based on <a href="#Creating_native_opencv_sample_project">OpenCV example</a> (<code>SimpleImageOpenCV</code>) shown in the previous section. The complete project can be found in a directory, <code>/tutorials/SimpleImageOpenCV_GL_Complete/</code>.</p>
+        <ol>
+            <li value="1">Continue from the previous project, or import the <code>SimpleImageOpenCV_GL</code> sample project. In the beginning, the content of the project is identical to the <code>SimpleImageOpenCV_GL_Complete</code> sample.<br /><br />The basic steps are the same as in the <a href="native_android_opengles.htm#Importing_existing_project">previous tutorial</a>: <b>Open Eclipse &gt; Choose a workspace location &gt; File &gt; Import &gt; Android &gt; Existing Android Code Into Workspace &gt; Browse a Root Directory</b> <code>/tutorials/SimpleImageOpenCV_GL</code>. Then, convert the project to CDT.</li>
+            <li value="2">Add a shader for displaying results from OpenCV.<ul><li value="1">Create the following fragment (<code>line.frag</code>) and vertex (<code>line.vert</code>) shaders in <code>assets</code> directory. The vertex shader will take vertices in image normalized coordinates and output clip coordinates, mapped to the same region of the clip space as the image.</li></ul></li>
+        </ol>
+        <blockquote><pre class="prettyprint">// Vertex Shader : line.vert<br /><br />attribute vec2 aPos;      // Position, in screen coordinates, passed as an attribute.<br />uniform   vec2 uViewMin;  // Min x,y viewport values (bottom left viewport coordinates)<br />uniform   vec2 uViewDim;  // x,y viewport dimensions<br />uniform   vec3 uColor;    // Line color<br />varying   vec3 vColor;    // Output color<br /><br />/*<br /> * This vertex shader maps the vertex coordinates to viewport coordinates in the<br /> * range specified by uViewMin and uViewDim<br /> */<br />void main()<br />{<br />     // Convert to clip coordinates.<br />     gl_Position = vec4( uViewMin.x + aPos.x * uViewDim.x, uViewMin.y + aPos.y * uViewDim.y, 0.0, 1.0 );<br /><br />    // Pass the color<br />    vColor = uColor;<br />}</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint">// Fragment Shader : line.frag<br />precision mediump float;<br />varying vec3 vColor;<br /><br />void main()<br />{<br />    gl_FragColor = vec4( vColor, 1.0 );<br />}</pre>
+        </blockquote>
+        <blockquote>
+            <ul>
+                <li value="1">Declare a shader for lines in <code>Engine.h</code>.</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">// Variables for OpenCV<br />COpenCVSample mCV;        // Class instance for OpenCV tutorial<br />// OpenCV native camera<br />cv::VideoCapture mCapture;<br />bool             mUseCVCam;<br /><br /><span style="background-color: #ffffe0;">// OpenGL for OpenCV</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">GLint mCVlineShader;</span></pre>
+        </blockquote>
+        <blockquote>
+            <ul>
+                <li value="1"> Load the shader at the end of <code>initUI()</code> in <code>Engine.cpp</code>.</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">bool Engine::initUI()<br />{<br />    [...]<br /><br />    LOGI( "CV: OpenCV camera setup done" );<br /><br />    // Load shader<br /><span style="background-color: #ffffe0;">    mCVlineShader = nv_load_program( "line" );</span><br />    return true;<br />}</pre>
+        </blockquote>
+        <ol start="3">
+            <li value="3">Add rendering functions for the shader.</li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li value="1">Declare rendering functions in <code>Engine.h</code>.</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">[...]<br /><br />// Function for updating textures<br />void updateCVTexture( GLuint imgTexture, cv::Mat img );<br /><br /><span style="background-color: #ffffe0;">// Rendering results from OpenCV</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">void renderOpenCVResults( int shader, std::vector&lt;cv::Point2f&gt; pts, cv::Size imgsize );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">// Draw a line primitive</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">void drawLine2D( int shaderLine, GLfloat st[], GLfloat dt[], GLfloat color[] );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">// Draw a square using line primitives</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">void draw2DSquare( int shaderLine, GLfloat center[], GLfloat color[], GLfloat size, GLfloat aspectf );</span><br />[...]</pre>
+        </blockquote>
+        <ol start="4">
+            <li value="4">Modify <code>OpenCV_native.h</code> and <code>OpenCV_native.cpp</code>.</li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li value="1">Add member variables for the locations of detected features and input image size in <code>OpenCV_native.h</code>.</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">class COpenCVSample<br />{<br />public:<br />    COpenCVSample()<br />    {<br />    }<br />    ~COpenCVSample()<br />    {<br />    }<br /><br /><span style="background-color: #ffffe0;">    // Variables for OpenGL display</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    std::vector&lt;cv::Point2f&gt; mFeature;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    cv::Size                 mImgSize;</span><br />    [...]<br />};</pre>
+        </blockquote>
+        <blockquote>
+            <ul>
+                <li value="1">Store the features in the detector for later rendering in <code>OpenCV_native.cpp</code>.</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">cv::Mat COpenCVSample::runOpenCVFeatureDetector( cv::Mat img )<br />{<br />    cv::Mat g_img( img.rows, img.cols, CV_8UC1 );<br /><br />    // convert BGR to Gray<br />    cv::cvtColor( img, g_img, CV_BGR2GRAY );<br /><br />    // detect FAST features<br />    std::vector&lt;cv::KeyPoint&gt; v;<br />    cv::FastFeatureDetector detector( 50 );<br />    detector.detect( g_img, v );<br /><br />    // Draw results (using OpenCV)<br />    /*<br />    for( size_t i = 0; i &lt; v.size(); i++ )<br />    {<br />	cv::circle( img, cv::Point( v[i].pt.x, v[i].pt.y ), 10, cv::Scalar( 0, 0, 255, 255 ) );<br />    }<br />    */<br /><span style="background-color: #ffffe0;">    // set member variables of detected featureS for OpenGL draw</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mFeature.clear();</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mFeature.resize( v.size() );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mImgSize.width  = img.cols;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    mImgSize.height = img.rows;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    for( size_t i = 0; i &lt; v.size(); i++ )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	cv::Point2f pt;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	pt.x = v[i].pt.x;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	pt.y = v[i].pt.y;</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	mFeature.push_back( pt );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">     }</span><br />    [...]<br /><br />    return img;<br />}</pre>
+        </blockquote>
+        <ol start="5">
+            <li value="5">Render the feature data received from <code>OpenCV_native.cpp</code> in <code>Engine.cpp</code>.<ul><li value="1">Here is a new rendering function that binds a shader and draws features from OpenCV. To render the features at the corresponding image locations, we copy the uniforms from the rectangle vertex shader into the line vertex shader. We then convert each feature's coordinates to normalized image coordinates in the range [0,1] and call <code>draw2DSquare</code> to draw a square around it. Let's add the implementation of <code>Engine::renderOpenCVResults</code> in the file <code>Engine.cpp</code>.</li></ul></li>
+        </ol>
+        <blockquote><pre class="prettyprint">void Engine::renderOpenCVResults( int shader, std::vector&lt;cv::Point2f&gt; pts, cv::Size imgsize )<br />{<br />    GLfloat origin[2], dim[2], sign;<br /><br />    glLineWidth( 1.0f );<br />    glUseProgram( shader );<br /><br />    mRectShader[1]-&gt;getOrigUniform( origin );<br />    mRectShader[1]-&gt;getDimUniform( dim );<br /><br />    // Set up the uniforms. Flip the vertical axis if the image row 0 is the top row.<br />    glUniform2f( glGetUniformLocation( shader, "uViewMin"), origin[0], origin[1] );<br />    glUniform2f( glGetUniformLocation( shader, "uViewDim"), dim[0], dim[1] );<br /><br />    // set color for the line primitive<br />    GLfloat colorc[3] = { 0.0, 1.0, 0.0 };<br /><br />    GLfloat fpts[2];<br />    for( int i = 0; i &lt; pts.size(); i++ )<br />    {<br />	fpts[0] = pts[i].x / imgsize.width;<br />	fpts[1] = pts[i].y / imgsize.height;<br />	draw2DSquare( shader, fpts, colorc, 4.0 / imgsize.width , 1.0f );<br />    }<br />}</pre>
+        </blockquote>
+        <blockquote>
+            <ul>
+                <li value="1">The following functions are used to draw features by overlaying squares on top of video frames, and their implementation should be added to Engine.cpp:</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">void Engine::draw2DSquare( int shaderLine, GLfloat center[], GLfloat color[], GLfloat size, GLfloat aspectf )<br />{<br />    GLfloat st[2], dt[2];<br />    GLfloat half_w = size * 0.5f;<br />    GLfloat half_h = size * 0.5f * aspectf;
+<br />    st[0] = center[0] - half_w;<br />    st[1] = center[1] - half_h;<br />    dt[0] = center[0] + half_w;<br />    dt[1] = center[1] - half_h;
+<br />    drawLine2D( shaderLine, st, dt, color );
+<br />    st[0] = center[0] + half_w;<br />    st[1] = center[1] - half_h;<br />    dt[0] = center[0] + half_w;<br />    dt[1] = center[1] + half_h;
+<br />    drawLine2D( shaderLine, st, dt, color );
+<br />    st[0] = center[0] + half_w;<br />    st[1] = center[1] + half_h;<br />    dt[0] = center[0] - half_w;<br />    dt[1] = center[1] + half_h;
+<br />    drawLine2D( shaderLine, st, dt, color );
+<br />    st[0] = center[0] - half_w;<br />    st[1] = center[1] + half_h;<br />    dt[0] = center[0] - half_w;<br />    dt[1] = center[1] - half_h;
+<br />    drawLine2D( shaderLine, st, dt, color );<br />}</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint">void Engine::drawLine2D( int shaderLine, GLfloat st[], GLfloat dt[], GLfloat color[] )<br />{<br />    GLfloat lineVertices[2 * 2];<br /><br />    lineVertices[0] = st[0];<br />    lineVertices[1] = st[1];<br /><br />    lineVertices[2] = dt[0];<br />    lineVertices[3] = dt[1];<br /><br />    glVertexAttribPointer( glGetAttribLocation( shaderLine, "aPos" ),<br />			2, // each vertex is two floats<br />			GL_FLOAT, GL_FALSE, 0, lineVertices );<br />    glEnableVertexAttribArray( glGetAttribLocation( shaderLine, "aPos" ) );<br />    glUniform3f( glGetUniformLocation( shaderLine, "uColor" ), color[0], color[1], color[2] );<br />    glDrawArrays( GL_LINE_STRIP, 0, 2 );<br />}</pre>
+        </blockquote>
+        <blockquote>
+            <ul>
+                <li value="1">Call the rendering functions in <code>Engine::renderFrame()</code> if any features are detected (<code>mCV.mFeature.size() &gt; 0</code>).</li>
+            </ul>
+        </blockquote>
+        <blockquote><pre class="prettyprint">bool Engine::renderFrame( bool allocateIfNeeded )<br />{<br />    if( !mEgl.isReadyToRender( allocateIfNeeded ) )<br />    {<br />	return false;<br />     }<br /><br />    [...]<br /><br />    // clear buffers as necessary<br />    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );<br /><br />    // Based on the button that is selected choose the shader that should be used...<br />    mDrawRect-&gt;setShader( mRectShader[1].get() );<br />    // ... and pass the texture to the shader.<br />    mDrawRect-&gt;draw( mImgTexture );<br /><br />    // OpenCV Camera<br />    if( mUseCVCam )<br />    {<br />	[...]<br />    }<br /><br /><span style="background-color: #ffffe0;">    // Render features with OpenGL</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    if ( mCV.mFeature.size() &gt; 0 )</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    {</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">	renderOpenCVResults( mCVlineShader, mCV.mFeature, mCV.mImgSize );</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">    }</span><br /><br />    [...]<br /><br />    mEgl.swap();<br /><br />    return true;<br />}</pre>
+        </blockquote>
+        <ol start="6">
+            <li value="6">Build the project, and run the application. Clicking <b>IMAGE</b> and <b>CAM</b> buttons will show the following results, which is drawn by a shader.<ul><li value="1">Click <b>IMAGE</b>. <br /><br /><img src="images/opencv-opengl-draw1.png" /><br /></li></ul><ul><li value="1">Click <b>CAM</b>. <br /><br /><img src="images/opencv-opengl-draw2.png" /></li></ul></li>
+        </ol>
+        <h3><a name="Debugging_native_opencv"></a>Debugging your OpenCV application</h3>
+        <p>We showed under <a href="#Debugging_native_opencv">Debugging Native OpenCV</a> that we can debug native applications by doing two steps: setting <code>NDK_DEBUG=1</code> as a build option, doing a clean build, and then selecting <b>Debug as &gt; Android Native Application</b> in Eclipse to launch the debug enabled application on the device. This should work fine with up-to-date tools.</p>
+        <p>If you are working with older versions of the ADT tools for Eclipse, while debugging <code>SimpleImageOpenCV_GL</code> you may get the following (or similar) error:</p>
+        <blockquote><pre class="prettyprint">[2012-11-28 12:06:57 - SimpleImageOpenCV_GL_Complete] Unknown Application ABI:<br />[2012-11-28 12:06:57 - SimpleImageOpenCV_GL_Complete] Android<br />[2012-11-28 12:06:57 - SimpleImageOpenCV_GL_Complete] Unknown Application ABI:<br />[2012-11-28 12:06:57 - SimpleImageOpenCV_GL_Complete] NDK:<br /><br />[...]<br /><br />[2012-11-28 12:06:57 - SimpleImageOpenCV_GL_Complete] Unable to detect application ABI's</pre>
+        </blockquote>
+        <p>This is a known issue with the Android ADT tools for Eclipse. The debug launch calls <code>make</code> with a <code>DUMP_</code> target that prints out the TARGET_ABI. The problem is, this launch ignores any environment variable previously set under <b>C++ &gt; Build &gt; Environment</b>. To work around this issue, edit <code>Android.mk</code> with a conditional around the include <code>OpenCV-tegra3.mk</code> and around any <code>$(call import-module, ...)</code>, as shown below. Your build will succeed and you will also be able to launch the debugger:</p>
+        <blockquote><pre class="prettyprint">LOCAL_PATH := $(call my-dir)<br />include $(CLEAR_VARS)
+<br />OPENCV_CAMERA_MODULES  := on<br />OPENCV_INSTALL_MODULES := on<br />OPENCV_LIB_TYPE        := STATIC
+<br /><span style="background-color: #ffffe0;">ifeq (,$(DUMP_VAR))</span><br style="background-color: #ffffe0;" />include $(NVPACK_PATH)/OpenCV-2.4.2-Tegra-sdk/sdk/native/jni/OpenCV-tegra3.mk<br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">endif
+</span><br />LOCAL_MODULE := SimpleImageDisplayCVGL<br />MY_PREFIX           := $(LOCAL_PATH)<br />MY_SOURCES          := $(wildcard $(LOCAL_PATH)/*.cpp)<br />MY_SOURCES          += $(wildcard $(LOCAL_PATH)/*.c)<br />LOCAL_SRC_FILES     += $(MY_SOURCES:$(MY_PREFIX)%=%)<br /><br />LOCAL_LDLIBS    += -lc -lm -llog -landroid -ldl -lGLESv2 -lEGL<br />LOCAL_STATIC_LIBRARIES += nv_and_util nv_egl_util nv_bitfont nv_math nv_glesutil nv_hhdds nv_log nv_shader nv_file nv_thread<br />LOCAL_CFLAGS += -std=gnu++0x<br /><br />include $(BUILD_SHARED_LIBRARY)<br /><br /><span style="background-color: #ffffe0;">ifeq (,$(DUMP_VAR))</span><br /># Add the folder with the NVIDIA helper<br />$(call import-add-path, $(NVPACK_PATH)/TDK_Samples/tegra_android_native_samples_v10p10/libs/jni)<br /><br /># Import the modules from the NVIDIA helper<br />$(call import-module, nv_and_util)<br />$(call import-module, nv_egl_util)<br />$(call import-module, nv_bitfont)<br />$(call import-module, nv_math)<br />$(call import-module, nv_glesutil)<br />$(call import-module, nv_hhdds)<br />$(call import-module, nv_log)<br />$(call import-module, nv_shader)<br />$(call import-module, nv_file)<br />$(call import-module, nv_thread)<br /><br />endif</pre>
+        </blockquote>
+        <p>A different and sometimes easier solution is to add the following line in <code>Application.mk</code>.</p>
+        <blockquote><pre class="prettyprint">PP_ABI := armeabi-v7a<br />APP_STL := gnustl_static<br />APP_PLATFORM := android-14</pre>
+        </blockquote>
+        <p>In this case, the version of the Android platform has to be set coherently with the error message shown in the Eclipse console.</p>
+        <h3>Next steps</h3>
+        <p>In this section, we have provided information on OpenCV for Android/Tegra devices, and introduced some examples to build an OpenCV-based application on top of native OpenGLE ES example. Below are some additional pointers that include more OpenCV samples in OpenCV4Android (or OpenCV4Tegra), and other OpenCV/AndroidWorks documents.</p>
+        <ul>
+            <li value="1"><a href="http://docs.opencv.org/trunk/doc/tutorials/introduction/android_binary_package/O4A_SDK.html">OpenCV4Android SDK</a> describes more general information on OpenCV SDK for Android.</li>
+            <li value="2">OpenCV4Tegra SDK also provides several <a href="http://docs.opencv.org/trunk/doc/tutorials/introduction/android_binary_package/O4A_SDK.html#running-opencv-samples">sample codes</a> which can be found in <code>NVPACK_PATH/OpenCV-2.4.8-Tegra-sdk/samples/</code>.</li>
+            <li value="3">More details on OpenCV library can be found in the <a href="http://docs.opencv.org/">document page</a> in its <a href="http://www.opencv.org/">official site</a>.</li>
+            <li value="4">You can also check out <a href="http://www.cse.iitk.ac.in/users/vision/dipakmj/papers/OReilly Learning OpenCV.pdf">O'Reilly's OpenCV Book</a>.</li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

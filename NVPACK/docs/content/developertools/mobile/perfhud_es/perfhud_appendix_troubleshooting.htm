@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|Appendix">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Appendix B: Troubleshooting</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_appendix_troubleshooting.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Appendix B: Troubleshooting</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><a name="kanchor19"></a><span class="SystemTitle">Appendix B: Troubleshooting</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h5>My game runs fine, but PerfHUD doesn’t connect and the performance graphs are all empty.</h5>
+        <ul>
+            <li value="1">Make sure that the target device is using a special PerfHUD-enabled driver.</li>
+            <li value="2">Make sure you are running an OpenGL ES 2.0 based application on target device.</li>
+            <li value="3">Make sure ActiveSync is connected to target.</li>
+            <li value="4">If you’re using a TCP/IP connection, make sure that your firewall is making an exception for the PerfHUD port (typically 7876).</li>
+        </ul>
+        <h5>I can connect to my device and look at performance statistics, but I don’t see the speed bar.</h5>
+        <p>The speed bar is visible only if your application uses the <code>EGL_NV_system_time</code> extension (<a href="perfhud_appendix_egl_extensions.htm">Appendix A</a>).</p>
+        <h5>I don’t see a button in my mode bar for Frame Profiler.</h5>
+        <p>Not all devices support Frame Profiling.  And the Frame Profiler is not available if the target application does not use <code>eglGetSystemTimeNV</code> for its animation.</p>
+        <h5>My status bar says: “ERROR: target uses protocol x.x but host uses protocol x.x”</h5>
+        <p>You have a version mismatch between the driver and the PerfHUD host.  Always update your driver and PerfHUD host in tandem.</p>
+        <h5>When using PerfHUD ES enabled driver, invoking GL functions before eglInitialize() will cause application crash.</h5>
+        <p>In PerfHUD ES enabled driver, some other prologue and epilogue functions will also be invoked besides the original GL functions. And these additional functions have to be initialized before any GL functions being invoked. Make sure <code>eglInitialize()</code> is invoked before any GL functions in your applications.</p>
+        <h5>When connected to an application with many draw calls in frame debugger mode, memory footprint of host side got larger and larger and host finally crashed.</h5>
+        <p>This will happen only when there is not enough memory for your system and host will fail when allocating a piece of memory. The memory footprint of host side for frame debugger mode is proportional to target frame size. </p>
+        <p>Make sure your system has enough memory or chose proper resolution when you need to use PerfHUD ES frame debugger for a frame with a large number of draw calls.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

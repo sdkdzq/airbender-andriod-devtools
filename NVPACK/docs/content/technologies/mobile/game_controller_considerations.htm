@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Important Controller Considerations</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_considerations.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Important Controller Considerations</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor110"></a>
+        <h1><span class="SystemTitle">Important Controller Considerations</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>Our Recommendations </h4>
+        <ol>
+            <li value="1">Always allow users the option of using a game controller instead of touch. </li>
+            <li value="2">When using SHIELD, use it as a proxy for an Android set-top box with a game controller. </li>
+            <li value="3">Auto-detect the presence of controllers, and when present, default to them. (If they are using a game controller, they could be nine feet from a screen that doesn’t have touch.) </li>
+            <li value="4">When using controllers, hide any on-screen “virtual controls." </li>
+            <li value="5">Provide on-screen guidance regarding which buttons do what. Compliant controllers all have the buttons that are outlined in <a href="game_controller_quickdoc_amalgamated_gamepad.htm">The Amalgamated Gamepad</a>. (A, B, X, Y, etc. are all expected.) <br />As an example, a good game to reference is Quell Reflect from Fallen Tree Games. </li>
+            <li value="6">Expect that multiple controllers are possible, and that a user may decide not to use the first enumerated controller (just like on PlayStation). </li>
+            <li value="7">Do not specifically support one brand or Product ID controller. Tell the user that your game supports <b>Built for NVIDIA Tegra</b> (and other Android HID-compliant) controllers. </li>
+            <li value="8">Your Android Manifest must include the following:&#160;<br /><pre class="prettyprint">&lt;uses-feature android:name="android.hardware.touchscreen" android:required="false"/&gt; </pre><br />The importance of this cannot be over-stated. If this code is not in your Android Manifest, then Google Play will hide your games from the tens of millions micro-console and set-top box style devices that will begin shipping in the next few months.</li>
+        </ol>
+        <h4>Controllers in the NDK</h4>
+        <p>This section is currently in development.</p>
+        <p>In the <a href="https://developer.nvidia.com/tegra-android-development-pack">Tegra Android Development Pack</a>, there is a sample (<code>native_gamepad</code>) showing controller support in native code.</p>
+        <p>The native game controller sample shows how to discover (at the Java level) the available game controllers, buttons and axes, and how to handle gamepad buttons and axes in native code.  The NVIDIA support library, <code>nv_input</code> is used to query a non-NDK Android function to add native support for analog joystick axes.</p>
+        <h4>Backward Compatibility </h4>
+        <p>Honeycomb 3.1 (API 12) is where game controllers really became available to Android developers.  The goal of this document is to show how to easy it is to add game controller support which requires the use of API 12 or better.</p>
+        <p>We realize that some older applications are not developed with Honeycomb 3.1+ in mind.  Since we want to have the ability to use the latest that 3.1 has to offer but still be able to run on a breadth of older Android devices, we need some forethought before designing our control system.  At a high level, this means having touch controls for pre-3.1 devices and game controller controls for 3.1+ devices.</p>
+        <p>One simple way is to create two separate applications: one for pre-3.1 and one for 3.1 and above.  A common split uses higher definition graphics on the 3.1+ version since most devices running 3.1+ are more powerful and the "normal" graphics on the pre-3.1 version.</p>
+        <p>Another way is to use the "Multiple APK" support in Android.  In short, this allows you to use multiple APKs for different APK levels, in turn allowing your application to be under one entry in Google Play.  An excellent guide is here:</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/training/multiple-apks/api.html" target="_blank">http://developer.android.com/training/multiple-apks/api.html</a>
+            </p>
+        </blockquote>
+        <p>The above methods may not be desirable, especially when retro-fitting older applications with controller support.</p>
+        <p>The presumption, going forward, is we’d like touch controls on pre-3.1 devices but still be able to use all that 3.1+ provides like controller support in a single APK.  Honeycomb 3.1+ allows for both USB Controllers and Bluetooth HID Controllers.  Fortunately, the code path for both is the same.  Android takes care of how a controller is connected for you.</p>
+        <p>In order for this approach to work with devices from API 12+ to API 1, a game would need to compile under API 12+ even though its manifest claims an earlier API.  This is perfectly valid as long as care is taken in calling only APIs that are available, given the OS.  Part of the page below discusses checking the Android Build Version at runtime:</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/training/search/backward-compat.html" target="_blank">http://developer.android.com/training/search/backward-compat.html</a>
+            </p>
+        </blockquote>
+        <p>For instance, a game running on pre-3.1 would not want to react to anything but touch type events.  A check during initialization for what API level the OS is would be helpful.  Then appropriate action could be taken when the game’s input system is run.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

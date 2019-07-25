@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Signing Applications</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_sign_app.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Signing Applications</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor32"></a>
+        <h1><span class="SystemTitle">Signing Applications</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p><a name="Signing_applications"></a>Android applications must be digitally signed in order to install on a device (see <a href="http://developer.android.com/guide/publishing/app-signing.html" target="_blank">Signing Your Application</a> in the Android SDK). </p>
+        <p><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> only performs signing when the <b>Configuration Type</b> property is set to either <code>Application (.so -&gt; .apk)</code> or <code>Make Application (ndk build -&gt; .apk|.so|.a)</code>. Other configuration types do not produce <code>.apk</code> files to sign. To change this property, right-click on your project and select <b>Properties</b>. Then set the property on the <b>General</b> tab. </p>
+        <p>
+            <img src="images/nsight_tegra_android_properties_configtype.003.png" />
+        </p>
+        <p>There are two ways to sign your application:&#160;in <b>debug</b> mode and in <b>release</b> mode. By default, release signing is applied in the Release project configuration, and debug signing is used in all other configurations. </p>
+        <p>If you already have a key store with your private keys and wish to use them to sign an application, see the <a href="#Release_Signing">Release Signing</a> section below. </p>
+        <h5>Debug Signing </h5>
+        <p><b>Debug signing</b> is used by default in the Debug configuration by the <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> building process, in order to automatically sign the application with a debug key. This kind of signing is used when running and debugging an application on an Android device. (If you need to distribute or publish your app, see <a href="#Release_Signing">Release Signing</a>.) </p>
+        <p>Android debug builds (in which <b>Ant Build Type</b> is set to <code>Debug</code>) are automatically signed with a <b>Debug</b> key, so no further steps are required. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_ant_build_general.001.png"><img class="MCPopupThumbnail img" data-mc-width="839" data-mc-height="591" src="images/nsight_tegra_ant_build_general.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 600px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>Debug signing uses the following parameters:&#160;</p>
+        <ul>
+            <li value="1">Keystore name:&#160;<code>debug.keystore</code></li>
+            <li value="2">Keystore password:&#160;<code>android</code></li>
+            <li value="3">Key alias:&#160;<code>androiddebugkey</code></li>
+            <li value="4">Key password:&#160;<code>android</code></li>
+            <li value="5">Common name:&#160;<code>Android Debug</code></li>
+            <li value="6">Organization:&#160;<code>Android</code></li>
+            <li value="7">Country:&#160;<code>US</code></li>
+        </ul>
+        <h5><a name="Release_Signing"></a>Release Signing </h5>
+        <p>Release signing is used to produce a <code>.apk</code> file suitable for publishing on an application marketplace. To sign your application with a real certificate set the <b>AntBuildType</b> property to <b>Release</b>. </p>
+        <p>If you already have a key store file with your private keys, you can use it to sign applications. If you already have a key store file with your private keys, you can use it to sign applications via the <a href="#Signing_App_Wizard">Signing Application wizard</a>. </p>
+        <p>Make sure to back up your key store before using it in command line tools, or in <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>. </p>
+        <table>
+            <col>
+            </col>
+            <col style="width: 660px;">
+            </col>
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/warningbox.png">
+                        </img>
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p><b>Security Warning:</b> Although <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> makes it possible to sign the application in a way that is suitable for an application marketplace (such as Google Play), you should be aware about the security issues of this approach. If you fill in the <code>Key Password</code> field and save the project file, your password will be written in clear text on your hard drive. The real private keys used to sign release applications should be kept in secret. For more information, read <a href="http://developer.android.com/tools/publishing/app-signing.html#secure-key" target="_blank">Securing Your Private Key</a>. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>If <b>Ant Build Type</b> is set to <b>Debug</b>, then the <code>.apk</code> will be signed with the automatically generated debug key. If the <b>Secure Properties Location</b> option is provided in the Debug mode, it will be ignored and a warning will be shown. </p>
+        <p>If <b>Ant Build Type</b> is set to <b>Release</b>, then the <code>.apk</code> will be signed with the key, which is described by a secure properties file. If the <b>Secure Properties Location</b> is empty in the Release mode, a warning will be shown that notifies the user that the app will not be signed. Therefore, in order to have no signing warnings, the user must provide a <b>Secure Properties Location</b> in Release and must not provide it in Debug.</p>
+        <p>To sign a project, select the   <img src="images/nsight_tegra_signing_wizard_key_icon.001.png"></img><b>Signing Options…</b> project’s context menu item. The signing wizard will show up. Completing the wizard will fill in the project’s <b>Secure Properties Location</b>. Cancelling it will not do anything.</p>
+        <h3><a name="Signing_App_Wizard"></a>Signing Application Wizard </h3>
+        <p>With <span class="MyVariablesNsightTegraFULL">Nsight Tegra, Visual Studio Edition</span> <span class="MyVariablesNsightTegraVersion">3.1</span>, there is now a signing application wizard to simplify the process of creating a signed application. </p>
+        <p>There are two project properties related to signing applications. Under the <b>Ant Build</b> -&gt; <b>General</b> properties section, they are the <b>Secure Properties Location</b> and the <b>Ant Build Type</b>.</p>
+        <p>The signing wizard allows creating and reusing keystores, keys, and secure properties. To create a new keystore, select <b>Create new keystore</b>. (To use an existing keystore, <a href="#use_existing_keystore">see below</a>.)&#160;</p>
+        <p>
+            <img src="images/nsight_tegra_keystore_signing_wizard.001.png">
+            </img>
+        </p>
+        <p>The signing wizard validates the user input and does not allow you to continue until all the conditions are satisfied. The wizard does not allow overwriting the keystore files, in order to avoid accidental key data loss, which could be fatal if the user does not have a backup copy.</p>
+        <p><a name="Signing_wizard_key_creation"></a>
+            <img src="images/nsight_tegra_key_creation_signing_wizard.001.png">
+            </img>
+        </p>
+        <p><b>Alias</b>, <b>Password</b>, <b>Validity</b> and at least one of the description fields must be filled. <b>Password</b> requirements are the same as for keystore passwords (a minimum of 6 characters in both cases). <b>Validity</b> must be between 1 and 1000 years; twenty-five or more is recommended (the wizard will display a warning if the value is between 0 and 25, but you will still be allowed to proceed). </p>
+        <p>
+            <img src="images/nsight_tegra_signing_wizard_secure_properties.001.png">
+            </img>
+        </p>
+        <p>The wizard will automatically set the default value for the <b>Secure Properties Location</b>. The default filename is <code>secure_properties.xml</code>, and it is located in the same folder as the corresponding keystore. Pressing <b>Finish</b> on this page will complete the wizard and fill in the <b>Secure Properties Location</b> in the project properties.</p>
+        <p><a name="use_existing_keystore"></a>If you wish to use an existing keystore, select the <b>Use an existing keystore</b> option from the first page of the signing wizard and click <b>Next</b>. </p>
+        <p>
+            <img src="images/nsight_tegra_signing_wizard_key_alias.001.png">
+            </img>
+        </p>
+        <p>Choosing the <b>Create new key</b> option will lead to the <a href="#Signing_wizard_key_creation">Key Creation page</a>. The new key will be added to the selected keystore.</p>
+        <p>If <b>Use existing key</b> was selected instead, then the alias must be selected from the <b>Alias</b> combo box that is filled with aliases from the selected keystore. After that, the last page with the secure properties location selection will be shown.</p>
+        <p>Note that the passwords are checked only when going to the next page. If they do not match, the existing keystore/key passwords, a message box with the error message will show up and the user will not be allowed to proceed.</p>
+        <h5>Notes on the Signing Wizard </h5>
+        <p>Switching to the new signing mechanism applies only to people who have projects made with <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> 1.2 and earlier. To switch from the old signing options mechanism to the one described in this section, the user must do the following:</p>
+        <ul>
+            <li value="1">Manually remove the sensitive info from the ant.properties file.</li>
+            <li value="2">Start the signing application wizard to sign the app. <ul style="list-style-type: circle;"><li value="1">Despite the naming, the secure properties file is the Ant rules file (<code>.xml</code>), not the Ant properties file (<code>.properties</code>).</li><li value="2"><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> will reference the secure properties file via a proxy rules file named <code>nsight_tegra.xml</code> (located in the same folder as <code>build.xml</code>). This file is recreated on every build, and is referenced from the main <code>build.xml</code> file. The secure properties rules file is imported as "optional," which will make the build succeed, even if this file was not found. In that case the <code>.apk</code> will be left unsigned.</li></ul></li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

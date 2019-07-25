@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Native Development on NVIDIA&#160;Android Devices">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Development Tools</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/native_android_devtools.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="native_android_development.htm">Native Development on NVIDIA&#160;Android Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Development Tools</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Development Tools</span>
+        </h1><a name="kanchor123"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>To develop Android applications you need many tools, such as the Android SDK, the Android NDK, Java, the Eclipse IDE, the Android Development Tools (ADT), and command line (bash on Mac or Linux, Cygwin on Windows). To simplify installation, NVIDIA has created AndroidWorks, a single file that installs everything you need.</p>
+        <h3>Install AndroidWorks</h3>
+        <p>To download AndroidWorks, you will need to to become a member of the <b>NVIDIA GameWorks Registered Developer Program</b>. Please visit the <a href="http://developer.nvidia.com/gameworksdownload">NVIDIA GameWorks Download Center</a>, create an account (it is free and easy) and then apply for membership to the <b>NVIDIA GameWorks Registered Developer Program</b>.</p>
+        <p>Then:</p>
+        <ol>
+            <li value="1">Download the latest AndroidWorks.</li>
+            <li value="2">Run the installer. </li>
+            <li value="3">Set the executable attribute on the downloaded file:
+			<pre>$ chmod a+x tegra-devpack-20-linux-x64-2013-05-09-15755747.run</pre><p>The installer requires a Java runtime installed. If you get a message that Java is missing, install <code>openjdk jre</code>.</p><pre>$ sudo apt-get install openjdk-7-jre</pre></li>
+            <li value="4">Please refer to <a href="../../developertools/mobile/androidworks/androidworks_install.htm">Download and Install AndroidWorks</a> for details on installing AndroidWorks. <br /></li>
+        </ol>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note for Windows users:</b> The Windows installer has the option to install <a href="../../developertools/mobile/nsight_tegra_main.htm">Nsight Tegra</a> development. Note that this requires Visual Studio, and will fail to install if Visual Studio is not present. If this is the case, just ignore the message and continue with the installation.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>From now on we refer to the NVPACK installation directory as <code>$NVPACK_PATH</code>, you should create such an environment variable.  If the environment variables are not visible to Eclipse (e.g., on Mac if you launch Eclipse via Spotlight), you need to define it inside Eclipse. In this case, launch Eclipse, go to <b>Window &gt; Preferences &gt; C/C++ &gt; Build &gt; Environment</b> and <b>Add</b> variable <b>NVPACK_PATH</b> and give it the correct value (such as <code>C:\NVPACK</code> or wherever you installed NVPACK).</p>
+        <h3>Configure Eclipse for this tutorial</h3>
+        <p>Launch Eclipse (it's installed in the eclipse folder under NVPACK); when prompted for a workspace, use the one that came with TADP: <code>$NVPACK_PATH/nvsample_workspace</code>.</p>
+        <p>
+            <img src="images/native_android_eclipse_workspace_selection.png" />
+        </p>
+        <h4>Upgrade the Android SDK</h4>
+        <p>The Android Eclipse plugins require a matching version of the Android SDK Tools. Go to <b>Windows &gt; Android SDK Manager</b> to update your SDK tools:</p>
+        <p>.<img src="images/eclipse_android_sdk_manager_run2.png" /></p>
+        <p>Check the Android SDK Tools and the Android SDK Platform-Tools; if an update is available, apply the update. Click on <b>Install n packages</b>. You may need to select each update separately and agree for the license. After the update finishes, you may be prompted to check for updates of the Eclipse Plugin. Check for Eclipse Plugin updates, and install only those plugins that relate to Android.</p>
+        <h4>Upgrade Android NDK</h4>
+        <p>The Android NDK provides the compiler toolchain to build C and C++ code into native binaries. Native modules are usually used to write optimized code or port existing C/C++ code into Android. In addition, such modules are built and debugged separately from Java code, because there is no Java VM involved. The TADP installs the Android NDK.</p>
+        <p>Although most recent releases of the Android NDK could be available, for this tutorial we will use the Android NDK r9c. Go to the <a href="http://developer.android.com/tools/sdk/ndk/index.html">Android NDK</a>  web site, download the package for your OS, and unpack it.</p>
+        <p>Copy the <code>android-ndk-<i>[version]</i> folder</code> to the <code>$NVPACK_PATH</code> folder.</p>
+        <h4>Set the Android Preferences in Eclipse</h4>
+        <p>To set up the Android Preferences in Eclipse, go to <b>Window &gt; Preferences &gt; Android</b> (on Mac: <b>Eclipse &gt; Preferences &gt; Android</b>).</p>
+        <p>You will see a list of installed SDK.</p>
+        <p>
+            <img src="images/eclipse_android_preferences.png" />
+        </p>
+        <p>Look for the <b>SDK Location</b>, it should point to the root of your SDK directory (TADP sets this up for you).</p>
+        <p>Change the NDK path under <b>Preferences &gt; Android &gt; NDK</b>. Set the path to point to the Android NDK r9c release of the Android NDK.</p>
+        <p>
+            <img src="images/eclipse_android_preferences_ndk.png" />
+        </p>
+        <p>After making your changes, click <b>OK</b> to close the window.</p>
+        <p>If you plan to do any command-line compilations, also check the environment variables that TADP installed set for you. For example, on Mac the installer adds lines to <code>~/.bash_profile</code>, which create <code>NDKROOT</code>; you should modify that to reflect the latest NDK you just installed.</p>
+        <h3>What is inside the Android SDK</h3>
+        <p>The Android SDK is maintained by Google and is updated frequently. The SDK consists of:</p>
+        <p><b>SDK Tools</b>: Basic set of development and debugging tools. Includes the <i>Android SDK Manager</i>, the <i>Android Emulator</i>, and other tools required to build your applications.</p>
+        <p><b>SDK Platform Tools</b>: The most important of the platform tools is the <i>Android Debug Bridge (adb)</i>, which allows you to connect to your device, install and uninstall applications, view logs, and run shell commands.</p>
+        <p><b>SDK Platform</b>: For every Android API that has been released, there is a corresponding Android Platform SDK. Each new <i>Platform SDK</i> adds new APIs and maintains backward compatibility with previous ones. If you use the smallest API level that includes the APIs that you need, your application runs on more systems than if you require a newer API.</p>
+        <p><b>Vendor APIs</b>: In addition, hardware vendors can release their own SDKs to work with additional features available on their devices.</p>
+        <table>
+            <col style="width: 35px;" />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>See also:</b> Google's official instructions for <a href="http://developer.android.com/sdk/installing/index.html">Installing the SDK.</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Configure your device for development</h3>
+        <h4><a name="Flashing_your_nvidia_android_devkit"></a>Flashing your NVIDIA Android Devkit</h4>
+        <p>Unlike regular Android devices, Cardhu and other NVIDIA developer kits must be updated manually. If you are using one for this tutorial, please make sure it is running the latest. This not only gives you the benefit from the latest Android system, but also ensure new OpenCV and FCam are pushed to the device. If you are not using Cardhu, simply skip this section and go to the next step.</p>
+        <p>Flashing your Cardhu is easy. First, you need to download the latest OS image. This can be done by following the same procedure of installing AndroidWorks. If you select Custom and drag down the menu, OS image option is at the bottom.</p>
+        <p>
+            <img src="images/native_android_flash_select_os.png" />
+        </p>
+        <p>Once the image is downloaded, it will prompt you an option to flash the device.</p>
+        <p>
+            <img src="images/native_android_flash_flash_devkit.png" />
+        </p>
+        <p>Following the manual to connect the debug board to the devkit, before hitting OK.</p>
+        <p>
+            <img src="images/native_android_flash_prepare_cardhu.png" />
+        </p>
+        <p>After a while, Cardhu will reboot itself, and you are ready to go!</p>
+        <h4>Device configuration</h4>
+        <p>In order to install and debug applications on the device through the USB connection, you have to enable USB debugging. On the tablet, tap on <b>Settings &gt; System &gt; Developer options</b> and check <b>USB debugging</b>.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tablet_settings_usbdebugging.png"><img class="MCPopupThumbnail img" data-mc-width="1366" data-mc-height="768" src="images/tablet_settings_usbdebugging_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 600px;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+        </p>
+        <p>This will enable you to connect to the device from the host computer using adb. To verify your device is ready for development run <b>adb devices</b> to see a list of attached devices:</p>
+        <p>
+            <img src="images/native_android_adbdevices.png" />
+        </p>
+        <p>You will also see the device in Eclipse in the <b>Devices</b> tab. If the tab is not visible, you can open the tab from <b>Window &gt; Show View &gt; Other... &gt; Android &gt; Devices</b>.</p>
+        <p>
+            <img src="images/native_android_devicestab.png" />
+        </p>
+        <h5>Configuring the Sony Xperia Tablet S (and possibly other tablets)</h5>
+        <p>If you develop on Linux you should be fine, but if you develop under Windows, you might see that when you enable USB debugging mode on the Sony Xperia tablet, Windows won't be able to install the drivers correctly, and you won't be able to <b>adb</b> to the device. For example, if you type <code>adb devices</code> in a shell, you may not be able to see your tablet listed there.</p>
+        <p>Essentially, we need to make Windows see the tablet as a compatible device. On your Windows machine, go to <b>Control Panel &gt; System and Security &gt; System &gt; Device Manager</b>. The tablet may or may not show as correctly installed. If Windows thinks it failed installing the device, you'll see an icon with an exclamation mark in the <b>Device Manager</b>; if not, you should find the device under <b>Portable devices &gt; SGPT12</b>:</p>
+        <p>
+            <img src="images/xperia_devicemanager.png" />
+        </p>
+        <p>Right-click on it, select <b>Properties</b> and go to the tab <b>Details</b>. From the <b>Property</b> menu, select <b>Hardware Ids</b>. Now right-click and copy the second ID, the one NOT ending in <code>&amp;REV_9999</code>:</p>
+        <p>
+            <img src="images/xperia_ids.png" />
+        </p>
+        <p>Leave this window open and open the file <code>android_winusb.inf</code> located under your NVPACK installation directory, <code>../NVPACK/android-sdk-windows/google-usb_driver</code>.</p>
+        <p>We need to add a few lines under the tags <b>[Google.NTx86]</b> and <b>[Google.NTamd64]</b>:</p>
+        <blockquote><pre class="prettyprint">[Google.NTx86]<br />;NVIDIA Tegra<br />%SingleAdbInterface%        = USB_Install, USB\VID_0955&amp;PID_7000<br />%CompositeAdbInterface%     = USB_Install, USB\VID_0955&amp;PID_7100&amp;MI_01<br /><span style="background-color: #ffffe0;">%SingleAdbInterface%        = USB_Install, USB\VID_054C&amp;PID_06AD</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">%CompositeAdbInterface%     = USB_Install, USB\VID_054C&amp;PID_06AD&amp;MI_01</span><br /><br />[....]<br /><br />[Google.NTamd64]<br />;NVIDIA Tegra<br />%SingleAdbInterface%        = USB_Install, USB\VID_0955&amp;PID_7000<br />%CompositeAdbInterface%     = USB_Install, USB\VID_0955&amp;PID_7100&amp;MI_01<br /><span style="background-color: #ffffe0;">%SingleAdbInterface%        = USB_Install, USB\VID_054C&amp;PID_06AD</span><br style="background-color: #ffffe0;" /><span style="background-color: #ffffe0;">%CompositeAdbInterface%     = USB_Install, USB\VID_054C&amp;PID_06AD&amp;MI_01</span></pre>
+        </blockquote>
+        <p>Here, you can replace the <code>USB\VID_054C&amp;PID_06AD</code> part with whatever you copied from the Device Manager.</p>
+        <p>Now go to the <b>Driver</b> tab in the <b>Properties</b> screen:</p>
+        <p>
+            <img src="images/xperia_updatedrivers.png" />
+        </p>
+        <p>Click <b>Update Driver...</b>, in the new window select <i>Browse my computer for driver software</i>, and then make Windows look in the folder where you found the <code>.inf</code> file before (<code>../NVPACK/android-sdk-windows/google-usb_driver/</code>). Follow the on-screen instructions, and everything should run smoothly. Typing <code>adb devices</code> in a shell again should let you to see your tablet listed.</p>
+        <h3>Tutorial sample codes</h3>
+        <p>We have provided some sample codes as part of the tutorial <a href="https://developer.nvidia.com/content/native-android-development-tutorial">here</a>. Unzip the file to a directory. We will refer to it as the <code>/tutorial</code> folder from this point onward.</p>
+        <p>You are now ready to create your first Eclipse project.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

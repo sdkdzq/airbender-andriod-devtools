@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop Apps Using Android Application Lifecycle|Android Lifecycle Basics in Practice">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>User Actions and Callback Sequences</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/lifecycle_user_actions_callback_seq.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">User Actions and Callback Sequences</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor92"></a>
+        <h2><span class="SystemTitle">User Actions and Callback Sequences</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>The most common callback sequences for common user actions are listed in the following sub-sections.</p>
+        <h4>Sequencing Differences</h4>
+        <p>As noted previously, while <code style="font-weight: bold;">onCreate</code>, <code style="font-weight: bold;">onStart</code>, and <code style="font-weight: bold;">onResume</code> (and their matching "downward" callbacks <code style="font-weight: bold;">onDestroy</code>, <code style="font-weight: bold;">onStop</code> and <code style="font-weight: bold;">onPause</code>) are defined by specification to happen in a nested ordering, focus events, and window created/update/destroy events are not specified to fall in definite locations in these sequences.  You should be prepared to see such differences as:</p>
+        <ul>
+            <li value="1">The window can gain focus before or after the surface is created.</li>
+            <li value="2">The window can lose focus before or after the surface is destroyed.</li>
+            <li value="3">These cases do not imply each other (i.e., all four possible outcomes have been seen in practice).</li>
+        </ul>
+        <p>Thus, it is important to flag all of these changes and have an update function that is called on each change to check the current state flags and act when the combinations of important state are entered.<br /></p>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;">
+                        Note: these are merely common examples. Some devices may produce slightly different results, as we will document in the section <a href="lifecycle_surprise_app_events.htm">Surprising Application Lifecycle Events and how to Handle Them</a>.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Launching a New Application</h4>
+        <p>When a new instance of an application is launched, the Java class for the Activity is created (the process itself may actually have still be resident from an earlier run of the app), and the full system is brought up, including a valid, visible, focused window.</p>
+        <blockquote><pre class="prettyprint">+-onCreate <br />+-onStart<br />+-onResume<br />+-surfaceCreated<br />+-surfaceChanged: 1366, 695<br />+-onWindowFocusChanged (TRUE)</pre>
+        </blockquote>
+        <p>At this point, the application should be rendering, playing its sounds, and accepting input.<br /></p>
+        <h4>Pressing the Back Button</h4>
+        <p>An application receives the back button event and has two choices. It can either:</p>
+        <ol>
+            <li value="1">"Eat" the event, handling it internally by stepping backwards in its UI structure.  It then does not pass the event to the super-class’s <code style="font-weight: bold;">onKeyDown</code>, and returns true ("handled") from its own <code>onKeyDown</code>.  The handling of the event is complete</li>
+            <li value="2">Allow Android to process the event, in which case it will pop the application off the UI stack and destroy the application’s Activity, essentially quitting the application (although the app’s process will likely keep running).</li>
+        </ol>
+        <blockquote><pre class="prettyprint">+-onPause<br style="mc-tag-and-class: code;" />+-onWindowFocusChanged (FALSE)<br style="mc-tag-and-class: code;" />+-surfaceDestroyed<br style="mc-tag-and-class: code;" />+-onStop<br style="mc-tag-and-class: code;" />+-onDestroy<br /></pre>
+        </blockquote>
+        <p>This is quite a heavyweight case.  For this reason, most applications will "eat" the Back event internally, and provide dialogs for the user to confirm before quitting actually happens.<br /><br /></p>
+        <h4>Pressing the Home Button</h4>
+        <p>The Home button sends the app down in the UI stack.  The application’s Activity still exists, but is completely hidden and may be killed at any time.  Additionally, it loses its rendering surface (which is not an issue, since it is not visible in any case).</p>
+        <blockquote><pre class="prettyprint">+-onPause<br />+-onWindowFocusChanged (FALSE)<br />+-surfaceDestroyed<br />+-onStop</pre>
+        </blockquote>
+        <p>While the application is stopped, it may be resumed at any time by selecting the app from the list of resident applications.<br /></p>
+        <h4>Resuming a "Home’d" Application</h4>
+        <p>If an application sent further down the UI stack by a Home event is selected from the list of running applications before Android chooses to kill it, the app is "restarted," which calls not only start but also a special <code>onRestart</code> callback that differentiates between a newly-launched instance and a resumed one.</p>
+        <blockquote><pre class="prettyprint">+-onRestart<br />+-onStart<br />+-onResume<br />+-surfaceCreated<br />+-surfaceChanged: 1366, 695<br />+-onWindowFocusChanged (TRUE)</pre>
+        </blockquote>
+        <p>The application is once again ready for rendering, sound, and interaction.<br /></p>
+        <h4>Opening a Status Icon Pop-up</h4>
+        <p>Pulling down a pull-down status bar or tapping on a status icon causes some UI items to be composited on top of the application.  These include:</p>
+        <ul>
+            <li value="1">Pulling down a pull-down status bar</li>
+            <li value="2">Tapping on a status icon</li>
+            <li value="3">Showing the task-switch interface in Honeycomb or Ice Cream Sandwich</li>
+            <li value="4">Alarm indications</li>
+        </ul>
+        <p>In these cases, the application is visible and can render, but is not focused and cannot receive input.</p>
+        <blockquote><pre class="prettyprint">+-onWindowFocusChanged (FALSE)</pre>
+        </blockquote>
+        <p>This is the lightest-weight version of being down-shifted.<br /><br /></p>
+        <h4>Closing a Status Icon Pop-up</h4>
+        <p>When a pending partial-screen UI element on top of your app is dismissed, focus is regained.</p>
+        <blockquote><pre class="prettyprint">+-onWindowFocusChanged (TRUE)<br /></pre>
+        </blockquote>
+        <h4>Suspend/Resume</h4>
+        <p>Suspend and resume happen in a three-step sequence, and thus are best discussed together. </p>
+        <p>When the device is suspended with the power button or the screen-saver timeout expires, the device suspends.  If the power button is pressed again, it resumes to the lock-screen.  At this point, if the user unlocks the device, the application is resumed.  If the user waits several seconds without unlocking the lock screen, the device will suspend again.</p>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;">
+                        Note:  Suspend/Resume is the most variable of all of the cases.  See the later section <a href="lifecycle_surprise_app_events.htm">Surprising Application Lifecycle Events and How to Handle Them</a> for practical details on handling this case.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h6>Suspending the Device</h6>
+        <p>Most commonly, when suspended, the application will be paused and will lose focus.</p>
+        <blockquote><pre class="prettyprint">+-onPause<br />+-onWindowFocusChanged (FALSE)</pre>
+        </blockquote>
+        <p>Since this is explicitly a low-power state, the application should have stopped all rendering and sound, and likely any background processing that isn’t 100% required to keep the app alive.<br /><br /></p>
+        <h6>Resuming the Device</h6>
+        <p>When the device is resumed with the power button, the application is also resumed.  However, the lock screen covers the application’s window.  No focus change is returned to the application.  The application should not play sound or render at this point.  Within a few seconds, it may be paused again if the lock screen times out.</p>
+        <blockquote><pre class="prettyprint">+-onResume</pre>
+        </blockquote>
+        <h6>Unlocking the Lock Screen</h6>
+        <p>Once the lock screen is unlocked, the application is focused again.  Since it is now resumed and focused, the application should consider itself signaled to begin rendering, playing sound and accepting input.</p>
+        <blockquote><pre class="prettyprint">+-onWindowFocusChanged (TRUE)</pre>
+        </blockquote>
+        <h4>Alternative Sequence</h4>
+        <p>Note that in some cases, only the <code>onPause</code> is received on suspend, in which case, the focus lost callback actually comes when the device is resumed to the lock screen.   In other words, resuming sends an indication that you have been resumed (<code>onResume</code>) and then an indication that you are hidden (focus lost).  And the unlock case remains unchanged (focus regained).</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

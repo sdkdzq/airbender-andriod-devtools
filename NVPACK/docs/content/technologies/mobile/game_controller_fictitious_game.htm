@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Support Android Game Controllers">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>The Fictitious Game</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_fictitious_game.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">The Fictitious Game</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor107"></a>
+        <h1><span class="SystemTitle">The Fictitious Game</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>To provide some context throughout this document, we'll assume that we're upgrading a game to add controller support.  This game will be two-player capable, as we want to show the ability to support more than one controller.  It will be able to handle wired controllers, Bluetooth controllers, and keyboards.</p>
+        <p>This game's controller system will be somewhat modeled after the Android SDK’s APIDemos sample (original source used from the API 12 Samples).  This particular game's control system itself is not what is being explored here; it is merely one example of a system, and a means to explore controller use and device input.  For clarity, we will use a mix of pseudo-code and Java.  Java will always be used when doing anything critical to game controller API interaction.</p>
+        <p>There will be no specific discussion about controllers and the Android Native Development Kit (NDK)&#160;in the Fictitious Game.  In fact, it bears mentioning that many of these new interfaces – specifically joystick support – are not officially available in the NDK.  Controller events can be passed to the application's native code if desired.   However, officially, this must be accomplished via game-specific JNI code. Passing event data using JNI&#160;code will not be discussed in this document.</p>
+        <table>
+            <col />
+            <col style="width: 509px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> If interested in device input and the NDK, see the Introduction and <a href="game_controller_supporting_android_game_controllers.htm#top">Important Use Notes</a>.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Thankfully, implementing controllers in Android is fairly simple.  Throughout this document we will primarily focus on a mere handful of classes/APIs.  While not immediately necessary to understand this document, we recommend looking at the documentation for further reading or reference.  As more and more advanced controller support is integrated, these links will become increasingly important.</p>
+        <p><b>InputDevice</b> class:  This describes the capabilities of a particular input device.</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/reference/android/view/InputDevice.html" target="_blank">http://developer.android.com/reference/android/view/InputDevice.html</a>
+            </p>
+        </blockquote>
+        <p><b>InputDevice.MotionRange</b> class:  This provides information about the range of values for a particular axis.  For instance, a joystick will typically have two axes, one for the up to down motion and another for the left to right motion.</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/reference/android/view/InputDevice.MotionRange.html" target="_blank">http://developer.android.com/reference/android/view/InputDevice.MotionRange.html</a>
+            </p>
+        </blockquote>
+        <p><b>MotionEvent</b> class:  This is used to report movement events (finger, pen, mouse, joystick, etc.).</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/reference/android/view/MotionEvent.html" target="_blank">http://developer.android.com/reference/android/view/MotionEvent.html</a>
+            </p>
+        </blockquote>
+        <p><b>KeyEvent</b> class:  This is used to report key and button events.</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/reference/android/view/KeyEvent.html" target="_blank">http://developer.android.com/reference/android/view/KeyEvent.html</a>
+            </p>
+        </blockquote>
+        <p><b>Activity</b> class:  This is the high level class that receives <code>MotionEvents</code> and <code>KeyEvents</code>.  It is usually where much of your game's lifecycle processing is handled.</p>
+        <blockquote>
+            <p><a href="http://developer.android.com/reference/android/app/Activity.html" target="_blank">http://developer.android.com/reference/android/app/Activity.html</a>
+            </p>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

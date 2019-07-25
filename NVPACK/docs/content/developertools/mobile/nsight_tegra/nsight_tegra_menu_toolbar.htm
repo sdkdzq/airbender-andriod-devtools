@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Menu and Toolbar</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_menu_toolbar.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Menu and Toolbar</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Menu and Toolbar</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>The <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> functionality can be accessed through the Tegra menu.</p>
+        <p>
+            <img src="images/nsight_tegra_visual_studio_menu.002.png" />
+        </p>
+        <ul>
+            <li value="1">Device — See <a href="#Device_submenu">below</a>.</li>
+            <li value="2">Windows — See <a href="#Windows_menu">below</a>.</li>
+            <li value="3">Signing Options... — Select from a list of the projects in the solution to set up its signing options.</li>
+            <li value="4">Signals and Exceptions... — Shows the standard Exceptions dialog. Android signals and exceptions can be found under the “Android Exceptions” section.</li>
+            <li value="5">Options... — Open <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> <a href="nsight_tegra_options.htm">Options</a> (also accessible via Tools &gt; Options &gt; Android).</li>
+            <li value="6"><span class="MyVariablesNsightTegraFULL">Nsight Tegra, Visual Studio Edition</span> Help — Opens the help page in the default browser.</li>
+        </ul>
+        <h3><a name="Device_submenu"></a>Device Submenu</h3>
+        <p>
+            <img src="images/nsight_tegra_device_submenu.002.png" />
+        </p>
+        <ul>
+            <li value="1"><b>Select</b> — Allows to select the device from the list of attached devices. Currently selected device is marked by a tick.</li>
+            <li value="2"><b>Device Information</b> — Opens a dialog that displays information for the selected device.
+				<p><blockquote><img src="images/nsight_tegra_device_info.001.png" /></blockquote><p>The dialog displays properties found in the <code>/system/build.prop</code> file. The dialog also displays a name for the device along with the serial number. <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> generated a name by default based on some of the properties from this list, but you can change this to help you better identify the device.</p></p></li>
+            <li value="3"><b>Reboot Device</b> — Prompts to reboot the selected device.</li>
+        </ul>
+        <h3><a name="Windows_menu"></a>Windows Submenu</h3>
+        <p>
+            <img src="images/nsight_tegra_windows_submenu.001.png" />
+        </p>
+        <ul>
+            <li value="1"><b>GDB Console</b> — Shows a GDB/MI console, which can be used to send arbitrary MI commands to the GDB during the debugging session.<br /><br /><img src="images/nsight_tegra_gdb_console.001.png" /></li>
+            <p>This feature should be used with care, as <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> does not control which commands are issued, and it is possible to corrupt the debugging state as perceived by Visual Studio. In such a case, restart the debug session to reset the state.</p>
+            <li value="2"><b>Android Log (logcat)</b> — Shows an Android Log pane to display log messages from the currently selected device (see Device Logging).</li>
+        </ul>
+        <h3>NVIDIA Tegra Device Toolbar</h3>
+        <p>Android devices can be controlled using the <b>NVIDIA Tegra Device Toolbar</b>. The toolbar is displayed automatically after the extension is installed.</p>
+        <p>
+            <img src="images/nsight_tegra_device_toolbar_callouts.003.png" />
+        </p>
+        <p>All connected Android devices and emulators are displayed in the drop-down menu. The first available device will be selected by default. The toolbar will remember the device selected in a previous session.</p>
+        <p>If no devices are available, <b>&lt;No Device&gt;</b> will be displayed. Device selection is disabled when debugging.</p>
+        <p>The Device toolbar lets you select the Android device for the following:</p>
+        <ul>
+            <li value="1">Launching</li>
+            <li value="2">Logging</li>
+            <li value="3">Deployment of an application</li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

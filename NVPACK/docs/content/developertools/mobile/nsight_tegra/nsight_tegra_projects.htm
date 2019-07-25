@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Projects</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_projects.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Projects</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor30"></a>
+        <h1><span class="SystemTitle">Projects</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>A new Android project can be created using the <b>File</b> &gt; <b>New</b> &gt; <b>Project</b> menu.  Normal Visual C++ projects are created and set to use a custom Android platform.  Projects can be set to build in the Visual Studio environment or using external build files.</p>
+        <h2>Project Templates</h2>
+        <p>Nine project templates are available in the Android category. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_create_project.001.png"><img class="MCPopupThumbnail img" data-mc-width="1081" data-mc-height="744" src="images/nsight_tegra_create_project.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <h4>1. Android Application</h4>
+        <p>This template creates a basic Android application that contains only Java sources.  The project is created with one defined Activity.</p>
+        <p>
+            <img src="images/nsight_tegra_android_app_manifest.002.png" />
+        </p>
+        <ul>
+            <li value="1"><b>Package</b> — Sets the package name for the application.</li>
+            <li value="2"><b>Min Target</b> — Sets the minimum target API level for the application.  The application will not run on a device using a lower API.</li>
+            <li value="3"><b>Namespace</b> — Sets the namespace to use for the application.</li>
+        </ul>
+        <h4>2. Android Application with Native Library</h4>
+        <p>This template creates a basic Android project that includes a Native library.  The project includes both Java and native C sources.  One Activity is defined and includes a native JNI method that is implemented in the C source.</p>
+        <p>
+            <img src="images/nsight_tegra_android_app_nativelib_manifest.002.png" />
+        </p>
+        <ul>
+            <li value="1"><b>Package</b> — Sets the package name for the application.</li>
+            <li value="2"><b>Min Target</b> — Sets the minimum target API level for the application.  The application will not run on a device using a lower API.</li>
+            <li value="3"><b>Namespace</b> –— Sets the namespace to use for the application.</li>
+        </ul>
+        <h4>3. Android Hello World Demo</h4>
+        <p>This project builds a sample “Hello World” application.  It includes both Java and native C sources.  The Java sources make JNI calls to the C sources to obtain text that is displayed on the screen.  This project will build in the Visual Studio environment.</p>
+        <h4>4. Android Native Application Project</h4>
+        <p>This template creates a native activity application.  The project does not contain Java sources and uses the NativeActivity class, <a href="http://developer.android.com/reference/android/app/NativeActivity.html" target="_blank">http://developer.android.com/reference/android/app/NativeActivity.html</a>.</p>
+        <p>
+            <img src="images/nsight_tegra_android_nativeactivity_manifest.002.png" />
+        </p>
+        <ul>
+            <li value="1"><b>Package</b> — Sets the package name for the application.</li>
+            <li value="2"><b>Min Target</b> — Sets the minimum target API level for the application.  The application will not run on a device using a lower API.<br /><br /><img src="images/nsight_tegra_android_nativeactivity_solexp.png" /><br /></li>
+        </ul>
+        <h4>5. Android Project (External Build System) </h4>
+        <p>This template creates a VC++ Makefile-like project to call external tools to build the Android project. This project allows debugging the built application as well as external APKs without the need to build them at all. It replaces the old "Debug Only" project type.</p>
+        <p>When you select this project type, you will be presented with the <b>External Build System Project Wizard</b>. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_external_build_wizard.001.png"><img class="MCPopupThumbnail img" data-mc-width="798" data-mc-height="598" src="images/nsight_tegra_external_build_wizard.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <p>This allows you to set many of the options that you will later find on the <a href="#Debugging_Properties">Debugging Properties</a> page. </p>
+        <ul>
+            <li value="1"><b>Attach</b> — Select whether you would like to attach to the process instead of launching it. </li>
+            <li value="2"><b>Working Directory</b> — Set the directory where the tool will search for important files, such as the source, manifest, etc. Other paths may be absolute or relative to the working directory. If other path properties are not overridden, they are typically assumed to match the standard Tegra-Android project output. </li>
+            <li value="3"><b>Path to APK</b> — <i>(optional)</i> Set the path to the APK that will be deployed to the target device, if debugging is launched instead of attached. </li>
+            <li value="4"><b>Path to gdb.setup</b> — <i>(optional)</i> Choose where to find the optional setup file that can be used to issue GDB commands. Your external build system might not produce a setup file. Overrides the default relative to working directory. </li>
+            <li value="5"><b>Symbols directories</b> — <i>(optional)</i> Select path(s)&#160;to directories where <code>.so</code> files reside with symbol information. Note that there are typically two copies of each <code>.so</code> file, so be sure to use the directory with the file that has not been stripped (typically the larger one). You can use Cygwin <code>nm.exe</code> to inspect the <code>.so</code> files. </li>
+            <li value="6"><b>Native source code directories</b> — <i>(optional)</i> Set extra paths where source code may be found, if the paths built into the symbols are insufficient for GDB to resolve the source. </li>
+            <li value="7"><b>Java class directories</b> — <i>(optional)</i> Select the paths to the compiled Java files, before they were converted to Android format. </li>
+            <li value="8"><b>Java source code directories</b> — <i>(optional)</i> Set the base paths to the Java source code. </li>
+        </ul>
+        <p>Note that this template is not called Makefile like Microsoft’s project type, to avoid confusion with makefiles used in other Android project types which utilize the NDK. Please see standard Microsoft VC++ Makefile help for more details.</p>
+        <h4>6. Dynamic Library for Android Application </h4>
+        <p>This template creates a basic dynamic native library for use in the Android applications. This project may contain only C/C++&#160;code. <br /></p>
+        <h4>7. Import Android Project</h4>
+        <p>This template creates a Visual Studio project for an existing Android SDK and/or NDK project.  The sources for the existing project are imported into the Visual Studio project.  The template includes a wizard to specify the location of the existing project and what files should be imported into the Visual Studio project.</p>
+        <p>
+            <img src="images/nsight_tegra_import_project.002.png" />
+        </p>
+        <p>The configuration type for this project will be set to <b>Make Application</b>.  It will build with ANT and the NDK tools <code>ndk-build.cmd</code> script.</p>
+        <p>
+            <img src="images/nsight_tegra_make_application.png" />
+        </p>
+        <h4>8. Import Android Project and Create JNI Library</h4>
+        <p>This template creates a Visual Studio project for an existing Android SDK project.  It is used when you want to add native C sources to an existing Android Java project.  It will add template JNI C source files and build a native library. </p>
+        <h4>9. Static Library for Android Application </h4>
+        <p>This template creates a basic static native library for use in the Android applications. This project may contain only C/C++&#160;code. </p>
+        <h2>Project Properties</h2>
+        <p>Project properties can be accessed through the normal means of right-clicking on the desired project and selecting the <b>Properties</b> menu.</p>
+        <h4>General Properties</h4>
+        <p>This page contains the general properties for the project.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_project_properties.005.png"><img class="MCPopupThumbnail img" data-mc-width="781" data-mc-height="572" src="images/nsight_tegra_project_properties.005_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <ul>
+            <li value="1"><b>Output Directory</b> — Sets the directory where native output files are created.  This setting is not available for Make Application projects.</li>
+            <li value="2"><b>Intermediate Directory</b> — Sets the directory where native intermediate files are created.  This setting is not available for Make Application projects.</li>
+            <li value="3"><b>Target Name</b> — Sets the name of the native library that is created.  This setting is not available for Make Application projects.<br /><br /><table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 0;margin-right: auto;caption-side: top;"><col /><col style="width: 660px;" /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;"><img src="../images/notebox.png" /></td><td style="background-color: #ffffe0;vertical-align: middle;"><p>	Note: If you are making an <code>.so</code> file, you must prefix the name with <code>lib</code>. However, when loading from Java <code>System.loadLibrary()</code>, then you pass in the name without the <code>lib</code> prefix.  This is the standard Android convention. </p></td></tr></tbody></table></li>
+            <li value="4"><b>Target Extension</b> — Sets the extension of the native library.  For Android platforms, this should be set to .so.  This setting is not available for Make Application projects.</li>
+            <li value="5"><b>Extensions to Delete on Clean</b> — Sets the extensions of files to delete when the project is cleaned.</li>
+            <li value="6"><b>Build Log File</b> — Sets the location of the log file that is created with build results.</li>
+            <li value="7"><a name="config_type"></a><b>Configuration Type</b> — Sets the type of build to perform. <br /><br /><img src="images/nsight_tegra_android_properties_configtype.004.png" /><br />The Configuration Type can be one of the following:<ul style="list-style-type: circle;"><li value="1"><b>Application</b> — Builds the native C/C++ sources into a shared library.  Java sources are built using the Android SDK ANT to produce the final application package (<code>.apk</code>) file.  For debug builds, a copy of <code>gdbserver</code> is included in the application and a GDB initialization file, <code>gdb.setup</code>, is created.</li><li value="2"><b>Make Application</b> — Builds the native C/C++ sources using external make files and the <code>ndk-build</code> script. Java sources are built using the Android SDK ANT to produce the final application package file.</li><li value="3"><b>Dynamic Library</b> — Builds C/C++ sources into a dynamic shared library.  No ANT build is performed and no application package file is produced.</li><li value="4"><b>Static Library</b> — Builds the C/C++ sources into a static library.  No ANT build is performed and no application package file is produced.</li><li value="5"><b>External Build System</b> — A VC++ Makefile-like project to run a different build system (such as Eclipse or Unreal Build Tools). Not all systems may work, but if compatible, then you should be able to sync, launch, and debug with <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>. This project can be also used for the debugging purposes exclusively. In that case, the user points the properties in the debug page at a <code>.apk</code> that is not built by this project. The <code>.apk</code> could be built by a different Nsight Tegra project or come from the other sources. This project type replaces "Debug Only" projects. </li></ul></li>
+            <li value="8"><b>Min Android API&#160;Level</b> — This is the minimum API&#160;level required for the application to run. The Android system will prevent the user from installing the application if the system's API level is lower than the value specified here. 
+            </li>
+            <li value="9"><b>Target Android API Level</b> — Sets the Android API level to use for the project.  The project output can only be installed to devices that support this level or higher.  For Make Application projects, this setting ensures that the correct toolset header files are found for Intellisense.</li>
+            <li value="10"><b>Max Android API&#160;Level</b> — If the application's <code>maxSdkVersion</code> attribute is lower than the API level used by the system itself, the system will not allow the application to be installed. Generally you should only set this attribute if you plan to make different versions of your app for different API&#160;ranges; otherwise, it's recommended to leave this setting blank, which provides no maximum limit. </li>
+            <li value="11"><b>Native Android API&#160;Level</b> — Sets the Android API level to use for building native code. It is recommended that Native Android API Level matches Min Android API Level.</li>
+            <li value="12"><b>Override Manifest API&#160;Levels</b> — Choose whether or not to override API&#160;levels that had their values set in <code>AndroidManifest.xml</code>. </li>
+            <li value="13"><b>Target Architecture</b> (only visible in the Tegra-Android platform) — Sets the target architecture for the project build.  For Make Application projects, this setting ensures that the correct toolset header files are found for IntelliSense.
+</li>
+            <li value="14"><b>Platforms to Package</b> (only visible if Target Architecture is Multiple)&#160;— Sets the platforms to package into the APK. Can be any combination of the following: ARM, AArch64, x86, x64, separated by semicolons. For example: <code>ARM;x86</code>.</li>
+            <li value="15"><b>Toolchain Version</b> — Sets the NSK toolchain version for the project. Some of the toolchains are not available in each of the supported NDKs, in such cases a build error message will be displayed.<![CDATA[         ]]></li>
+            <li value="16"><b>STL Type</b> — Sets the type of STL support for the project.  For Make Application projects, this setting ensures that the correct toolset header files are found for IntelliSense.</li>
+            <li value="17"><b>Strip Library</b> — Sets whether or not to strip the unneeded info from a shared library. This does not affect the debugging process, because the unstripped version is always preserved.</li>
+            <li value="18"><b>Force IncrediBuild Execution (Experimental)</b>&#160;— Sets whether or not to force tool execution when building with IncrediBuild. This may increase the building speed, but the tool output, errors and warnings will not be reported in Output window and Error List.<br /></li>
+        </ul>
+        <h4><a name="Debugging_Properties"></a>Debugging Properties</h4>
+        <p>This page selects the debugger and options. The <b><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> Debugger</b> is used to debug the projects. </p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_android_properties_debugmode.006.png"><img class="MCPopupThumbnail img" data-mc-width="675" data-mc-height="488" src="images/nsight_tegra_android_properties_debugmode.006_thumb_700_0.png" style="mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;mc-thumbnail: link;" tabindex="" /></a>
+        </p>
+        <ul>
+            <li value="1"><b>Attach</b> — Sets whether the debugger will install and run the project output or attach to an already running application on the Android device.</li>
+            <li value="2"><b>Debug Mode</b> — Sets the type of code to debug.   One of the following can be selected:<ul style="list-style-type: circle;"><li value="1">Java code — Only Java code will be debugged.  Any native breakpoints will not be set.</li><li value="2">Native code — Only Native C/C++ code will be debugged.  Any Java breakpoints will not be set.</li><li value="3">Java and Native code — Both Java code and Native C/C++ code will be debugged.  All breakpoints will be set.</li></ul></li>
+            <li value="3"><b>Launch Preparation Command Line</b> — Specifies a command line to be run on the host side before the process launch on the device side. </li>
+            <li value="4"><b>Override APK Path</b> — Sets the location of the <code>.apk</code> that will be debugged if you are using one that is not in <code>build.xml</code>. </li>
+            <li value="5"><b>Activity Name</b> — Sets the name of activity to start. Leave empty to use the main activity. </li>
+            <li value="6"><b>Intent Parameters</b> — Sets intent parameters in the same format as for the <code>am start</code> shell command.</li>
+            <li value="7"><b>Additional C/C++&#160;Source Directories</b> — Sets any source code directories that cannot be added automatically to the build system. This property is only used by non NDK-build projects. </li>
+            <li value="8"><b>Additional Library Symbols Directories</b> — Sets one or more directories which should be used to search for library debug symbols. </li>
+            <li value="9"><b>GDB&#160;Working Directory</b> — Sets the path to the working directory for the debugger. </li>
+            <li value="10"><b>gdb.setup File Folder</b> — Sets the path to the <code>gdb.setup</code> file folder. If one is not specified, the default path will be used. </li>
+            <li value="11"><b>Java Source Directories</b> — Sets the paths to the Java source code root folders. If empty, this will use the path from the <b>Ant Build</b> page. (If <b>Ant Build</b> is disabled, then the <code>src</code> relative to the working directory will be used.)&#160;</li>
+            <li value="12"><b>Java Classes Directories</b> — Sets the paths to the Java classes folders. If empty, then <code>bin\classes</code> relative to the working directory will be used. </li>
+        </ul>
+        <h4>Deployment</h4>
+        <p>This page allows you to edit the deploy options of the project. </p>
+        <p>
+            <img src="images/nsight_tegra_android_properties_deployment.003.png" />
+        </p>
+        <ul>
+            <li value="1"><a name="fast_deploy"></a><b>Fast Deploy</b> — Sets whether to allow faster deployment by replacing only the native libraries when possible. Default is <b>No</b> for External Build System projects, and <b>Yes</b> for all other projects. If the changes made to the native code are not visible in run-time (i.e. if it feels like a previous version of native code is running on the device), turn this feature off. Read more about setting up Fast Deploy in the <a href="nsight_tegra_known_issues.htm#fast_deploy">Release Notes</a>. </li>
+            <li value="2"><b>Libraries Override Folders</b> — Sets the folders with the native library overrides for fast deploy. </li>
+            <li value="3"><b>Libraries to Ignore</b> — Specifies which libraries to exclude from the list of Fast Deploy-able content.</li>
+            <li value="4"><b>Deploy after Build</b> — Sets whether the application is installed to the device and/or run after a successful build of the project.</li>
+            <li value="5"><b>Clear User Data</b> — Sets whether an application’s user data is deleted one the target when the application is launched.</li>
+            <li value="6"><b>SD Card Files Directory</b> — Sets the location of the SD Card files directory.</li>
+        </ul>
+        <h4>Android Directories </h4>
+        <p>This page allows you to edit the locations of the Android SDK, Android ANT, JDK, and Android NDK. </p>
+        <h4>C/C++ Properties</h4>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_c_properties.002.png"><img class="MCPopupThumbnail img" data-mc-width="720" data-mc-height="511" src="images/nsight_tegra_c_properties.002_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>This category contains pages for configuring C/C++ compiler options, such as additional include directories, or whether or not to generate debug info. </p>
+        <h4>Using Precompiled Headers </h4>
+        <p><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> supports the use of precompiled headers. </p>
+        <p>On the <b>Precompiled Header</b> tab, you can select whether to create or use a precompiled header during the build. </p>
+        <p>
+            <img src="images/nsight_tegra_precompiled_headers.001.png" />
+        </p>
+        <p>To use the precompiled header, first set <b>Precompiled Header</b> to <b>Use</b> on the project level, and create two files for the precompiled header: <code>stdafx.h</code> and <code>stdafx.cpp</code>. Names of the files without the extension must match the Precompiled Header File property. In <code>stdafx.cpp</code> add the only line: </p>
+        <blockquote><pre class="prettyprint">#include "stdafx.h"</pre>
+        </blockquote>
+        <p>Include any headers you want to precompile in the <code>stdafx.h</code>.</p>
+        <p><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> forces inclusion of the precompiled header into every file that has the Precompiled Header property set to Use. However, it is better to include it manually; otherwise, the Visual Studio Intellisense might not work as expected. Note that precompiled header files are not passed to the linker/librarian.</p>
+        <p>It is also possible to print the included headers in the Output window. To configure this, set <b>C/C++</b> &gt; <b>General</b> &gt; <b>Echo Included Headers</b> to <b>Yes</b>. This will make the compiler print the name of each header file used, indented with dots based on <code>#include</code> depth. If you are using GCC, precompiled headers will also be printed; invalid ones are printed with <code>x</code> and valid ones are printed with <code>!</code>. Clang does not print included precompiled headers at all.</p>
+        <p>On the <b>Language</b> tab, you can select the language standard that you want the compiler to use. </p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_c_language_properties.001.png">
+                </img>
+            </p>
+        </blockquote>
+        <p>This property dictates which rules the GCC or Clang compiler will use when processing the files. This affects what grammar is correct, and what language features are supported and recognized. </p>
+        <h4>Linker Properties</h4>
+        <p>
+            <img src="images/nsight_tegra_properties_linker.001.png" />
+        </p>
+        <p>This category contains pages for linker options.</p>
+        <h4><a name="Ant_Build_Properties"></a>Ant Build Properties</h4>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_ant_build_general.002.png"><img class="MCPopupThumbnail img" data-mc-width="720" data-mc-height="511" src="images/nsight_tegra_ant_build_general.002_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <p>This page contains options for the Android SDK ANT build.</p>
+        <ul>
+            <li value="1"><b>Skip Ant Step</b> — Sets whether or not to skip the Ant build step. The "If Dependencies Are Up-to-Date" option skips the Ant step when only the native code has changed. It is meant to be used with the <a href="#fast_deploy">Fast Deploy</a> feature. </li>
+            <li value="2"><b>Ant Build Root Path</b> — Sets the root directory for the ANT build.</li>
+            <li value="3"><b>Ant Build Target</b> — Sets the Ant build target: Debug, Release, or any other. Debug targets should end with "debug."&#160;Debug builds are signed with a debug key.</li>
+            <li value="4"><b>Copy Target APK</b> — The options here are:&#160;(a)&#160;copy the APK to the Output folder, (b)&#160;move the APK to the Output folder, (c)&#160;create a hard link to the APK, or (d)&#160;do nothing. </li>
+            <li value="5"><b>Android Manifest Location</b> — States the path to the Android manifest file. This should either be absolute or relative to the project directory. </li>
+            <li value="6"><b>Secure Properties Location</b> —  States the location of the secure properties file. Either use an existing one, or use the Signing Options context menu command to generate it and set this property automatically. </li>
+            <li value="7"><b>Debuggable</b> — States whether or not to allow debugging projects. This setting overrides the <code>android:debuggable</code> attribute in the manifest file. This does not affect ndk-build projects, as they're controlled by the <code>NDK_APP_DEBUGGABLE</code> variable in the <code>*.mk</code> file instead. </li>
+        </ul>
+        <p>
+            <img src="images/nsight_tegra_ant_build_java.001.png" />
+        </p>
+        <ul>
+            <li value="1"><b>Java Source Directory</b> — Sets the path to the Java source directory.</li>
+            <li value="2"><b>JVM Heap Initial Size (MB)</b> — Sets the VM initial heap size used for the build.</li>
+            <li value="3"><b>JVM Heap Maximum Size (MB)</b> — Sets the VM maximum heap sized used for the build.</li>
+            <li value="4"><b>Enable ProGuard</b> — Whether to use ProGuard to shrink, optimize and obfuscate the code by removing unused code and renaming classes, fields, and methods with semantically obscure names.</li>
+            <li value="5"><b>ProGuard Config File Location</b>  — Location of the ProGuard config file. Leave empty to use the default one.</li>
+        </ul>
+        <p>
+            <img src="images/nsight_tegra_ant_build_add_dependencies.001.png" />
+        </p>
+        <ul>
+            <li value="1"><b>JAR Directories</b> — Specifies directories to search for JAR libraries.</li>
+            <li value="2"><b>JAR Dependencies</b> — Specifies JAR dependencies.</li>
+            <li value="3"><b>Native Library Directories</b> — Specifies directories to search for <code>.so</code> libraries.</li>
+            <li value="4"><b>Native Library Dependencies</b> — Specifies <code>.so</code> dependencies.</li>
+            <li value="5"><b>Assets Directories</b> — Specifies assets directories to copy into the main assets folder before build.</li>
+        </ul>
+        <h4>NDK Build Properties</h4>
+        <p>This page displays properties for projects that build with <code>NDK-BUILD</code>.  It is only available when the configuration type is set to <a href="#config_type"><b>Make Application</b></a>.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/nsight_tegra_android_properties_ndkbuild.003.png"><img class="MCPopupThumbnail img" data-mc-width="730" data-mc-height="511" src="images/nsight_tegra_android_properties_ndkbuild.003_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <ul>
+            <li value="1"><b>Clean</b> — Sets the arguments that will be passed to <code>NDK-BUILD</code> when the project is cleaned.</li>
+            <li value="2"><b>Build</b> — Sets the arguments that will be passed to <code>NDK-BUILD</code> when the project is incrementally built.</li>
+            <li value="3"><b>Rebuild</b> — Sets the arguments that will be passed to <code>NDK-BUILD</code> when the project is rebuilt.</li>
+            <li value="4">
+                <p><b>Maximum Number of Parallel Build Processes</b> — Sets the maximum number of simultaneous processes that compile native source files.</p>
+            </li>
+            <li value="5">
+                <p><b>Build Verbosity</b> — Specifies whether the Build, Rebuild and Clean operations should be performed verbosely.</p>
+            </li>
+            <li value="6">
+                <p><b>NDK Project Path</b> — Specifies a folder in which ndk-build will be run.</p>
+            </li>
+        </ul>
+        <h2>Installing Applications </h2>
+        <p>There are two ways to install a project application on a device.  The project can be set to automatically install and run applications after a successful build.  This can be set in the project properties (see <a href="#Ant_Build_Properties">Ant Build Properties</a>).</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_deploy_to_device.001.png">
+                </img>
+            </p>
+        </blockquote>
+        <p>The project can also be launched using the Visual Studio <b>Start Debugging</b> button.  This will install the application on the currently selected device and start a debug session.</p>
+        <blockquote>
+            <p>
+                <img src="images/nsight_tegra_start_debugging.png" />
+            </p>
+        </blockquote>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Sample: Tegra Android Native Globe Application</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/globe_intro_main.htm">Open topic with navigation</a>
+        </p>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor166"></a>
+        <h1><span class="SystemTitle">Sample: Tegra Android Native Globe Application</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>The Globe (<code>sample_apps\native_globe</code>) application is a simple Android NDK NativeActivity-based application that demonstrates simple 3D rendering in native code using Android.  It also demonstrates reasonable reactions to common Android lifecycle events.  The Globe application is written using the NVIDIA-expanded version of <code>android_native_app_glue</code>, <code>nv_native_app_glue</code>, but the basic concepts of handling Android lifecycle events are applicable to Java/native and pure native NDK applications independent of the particular framework library.</p>
+        <h4>Highlights of the Application</h4>
+        <p>The highlights of the Globe application at the user level include:</p>
+        <ul style="list-style-type: square;">
+            <li value="1">Interactive 3D rendering of a shader-based “globe” object.</li>
+            <li value="2">Multiple OpenGL ES-rendered UI “dialogs” leading the user through the application’s responses to Android lifecycle events.  These are designed to simulate the in-game-engine rendered UIs common to most 3D games, rather than using Android’s Java-based UI rendering.</li>
+            <li value="3">Correct, responsive handling of in-application device orientation changes.</li>
+        </ul>
+        <h4>Highlights of the Application Code</h4>
+        <p>In terms of code-level inspection, the Globe application provides quite a few useful examples to developers, including:</p>
+        <ul style="list-style-type: square;">
+            <li value="1">Handling of major Android lifecycle events corresponding to common user actions, including:<ul><li value="1">Background’ing the application with the Home button.   </li><li value="2">Pressing the Back button.   </li><li value="3">Suspending and Resuming the device with the power button. </li><li value="4">Changing the device orientation at any time. </li></ul></li>
+            <li value="2">Touch-based user input. </li>
+            <li value="3">Sound play/pause. </li>
+            <li value="4">Examples of how to handle the Back button; the application chooses to “eat” the event internally or pass the event to Android, depending on the particular UI state.</li>
+            <li value="5">Use of the <code>nv_native_app_glue</code> example framework.</li>
+        </ul>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

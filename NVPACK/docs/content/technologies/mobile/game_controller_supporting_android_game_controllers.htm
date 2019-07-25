@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>How To: Support Android Game Controllers</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/game_controller_supporting_android_game_controllers.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">How To: Support Android Game Controllers</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor104"></a>
+        <h1><span class="SystemTitle">How To: Support Android Game Controllers</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4><a name="top"></a>Important Use Notes </h4>
+        <ul>
+            <li value="1">This document tends to stop its focus around API14. API functionality after API14 is not contained in this document. However, the basics of Device Input have not changed and all information contained below is relevant learning. A developer will gain a strong foundation on Android Device Input.
+            </li>
+            <li value="2">This document currently focuses on controllers in Android.  In the examples below the Android Java APIs are used extensively.  Even for developers that are not using the Java APIs, the concepts are important for someone unfamiliar with controller input on Android, and translate well to using the NDK. <br />As of this writing, using Java is the only officially supported method to get controller events.  However, there is a section under <a href="game_controller_considerations.htm">Important Controller Considerations</a> describing controller use and the NDK. </li>
+            <li value="3">Developers experienced in controller/device input may want to jump right to the <a href="game_controller_considerations.htm">Important Controller Considerations</a> chapter as this has practical and important information not covered in the Android documentation. This chapter is designed to be useful for all levels of developer.
+            </li>
+            <li value="4">Game controller support was added in Honeycomb 3.1, which is API Level 12.  This document relies on API Level 12.  If your title needs to be compatible with pre-API 12 games while supporting game controllers, please see the <a href="game_controller_considerations.htm">Important Controller Considerations</a> chapter.<br /></li>
+        </ul>
+        <h4>Introduction </h4>
+        <p>Mobile gaming applications that add support for alternate control methods like keyboard or joystick can transform the gaming experience from that of a basic tablet into a compelling, immersive gaming experience.  The intention of this document is to help Android game developers add support for such controllers.  The document will outline the process of coding for basic use of keyboard, wired controllers, and Bluetooth controllers in gaming applications.  We will use a fictitious 2-player game’s controller system as a guide for learning the new methods.  The idea is to focus on the parts of code related specifically to controller use.  Note that when we use the word “controllers,” we include keyboards along with the more obvious joysticks and gamepads.</p>
+        <p>First, we will review a class that saves the controller state.  This class can return data to the application such as whether the B button pressed or the current position of the joystick.  This provides a basic foundation for many controller concepts without clouding the discussion with the complexity of game logic.</p>
+        <p>Having reviewed the lower-level input device support code, we will discuss how the application receives and dispatches the events in the first place; the application’s Activity class.  This class is where all of our game logic exists, as well as where all the controller inputs are received and initially processed prior to passing to the processing functions.  The Activity is where the player’s input is translated to in-game actions on screen.</p>
+        <p>Now that we have a good foundation on device input, we will move on to exploring practical issues that a developer may run into. This final section called <a href="game_controller_considerations.htm">Important Controller Considerations</a> will contain common developer pain points, advanced topics, and other issues pertaining to device input. This chapter should not be skipped by any developer, advanced or otherwise. From version to version of this document, this will be the chapter that will change the most.</p>
+        <h4>Why add game controller support?</h4>
+        <p>A 2012 report by the market research firm, The NPD Group, has shown some massive growth in mobile gaming.  This report showed that close to 50% of gamers have opted to explore gaming apps exclusively deployed on mobile devices.  It also showed that 23% of gamers declared their intention to focus on mobile gaming.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/an_gc_mobile_gamer_share.png"><img class="MCPopupThumbnail img" data-mc-width="1210" data-mc-height="948" src="images/an_gc_mobile_gamer_share_thumb_500_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 500px;width: 424px;height: 332px;" tabindex="" /></a>
+        </p>
+        <p>It’s likely that console-style hardware will further accelerate hard-core gamers' shift to the mobile platform, a Credit Suisse report states.  Software is becoming, "less tethered to dedicated console hardware."</p>
+        <p>Now that we can see the tide of both casual and hard-core gaming coming toward the mobile platform, controller support can add real gaming differentiation.  In the near future, for higher-end gaming, controllers may be essential.</p>
+        <p>Consumers seem ready. On Kickstarter, a Bluetooth connectable gamepad called iMpulse reached its funding goals 25 days ahead of its deadline.  Further, in 2012, at least three major controller manufactures will be releasing gaming controllers specifically for the mobile market.  All of these manufactures have worked with NVIDIA and its "Built for Tegra" program to come up with a controller specification to ease development (see <a href="game_controller_considerations.htm">Important Controller Considerations</a>).</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

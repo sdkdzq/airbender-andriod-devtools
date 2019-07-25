@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Devices|NVIDIA&#160;SHIELD">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Flashing the SHIELD Device</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../index.html#devices/shield_flashing_from_image.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="devices.htm">Mobile Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="shield_device_main.htm">NVIDIA&#160;SHIELD</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Flashing the SHIELD Device</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Flashing the SHIELD Device</span>
+        </h1><a name="kanchor134"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>In order to update the Shield OS, the user must have an existing copy of the Android SDK installed.  This provides the commands <code>adb</code> and <code>fastboot</code>, which are used in the following tutorial. </p>
+        <p>Also, the user must have the <b>Android Composite ADB Interface</b> already installed before proceeding with the <code>fastboot</code> flashing instructions. This is because the <code>adb</code> command is used to switch the device into <code>fastboot</code> mode.</p>
+        <p>NVIDIA&#160;recommends obtaining the Android SDK through <a href="https://developer.nvidia.com/androidworks" target="_blank">NVIDIA AndroidWorks</a>, which provides users with a hassle-free download, and installs a wide range of important SDKs and other tools that are recommended for a SHIELD&#160;developer. <br /></p>
+        <h5>To flash your SHIELD&#160;device, do the following:&#160;</h5>
+        <ol>
+            <li value="1">Download and unzip the image package on your host system. <br /><br /><table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 0;margin-right: auto;caption-side: top;"><col style="width: 36px;" /><col style="width: 660px;" /><tbody><tr><td style="background-color: #ffffe0;vertical-align: middle;padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;vertical-align: middle;padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;"><b>NOTE:</b> The image is not automatically downloaded by the AndroidWorks installer, but can be obtained at  <a href="http://developer.nvidia.com/gameworksdownload" target="_blank">http://developer.nvidia.com/gameworksdownload</a>.</td></tr></tbody></table></li>
+            <li value="2">Turn on your NVIDIA&#160;SHIELD&#160;device and boot it to the Android home screen. </li>
+            <li value="3">Connect the device to your host system with the provided micro-USB cable. </li>
+            <li value="4">From a command prompt, type: <br /><pre class="prettyprint">adb reboot bootloader</pre>Here you will see a list of options starting with <b>Continue</b>. At this point you should not do anything, as you have reached <code>fastboot</code> mode.</li>
+            <li value="5">Check that you have the drivers installed for <code>fastboot bootloader</code> mode.  You can do this simply by checking that your device appears in the device list.  From the command line, type: <br /><pre class="prettyprint">fastboot devices</pre></li>
+            <li value="6">At this point, if you see your device, you can skip this step. However, if you do not see your device:<ol style="list-style-type: lower-alpha;"><li value="1">Go to your Control Panel &gt;&#160;<b>Device Manager</b>.</li><li value="2">As the device should have changed from SHIELD&#160;to <code>fastboot</code>, click <b>Rescan</b>.</li><li value="3">Right-click and select to update the driver.</li><li value="4">Select <b>Browse my computer for driver software</b>.</li><li value="5">Select <b>Let me pick from a list of device drivers on my computer</b>.</li><li value="6">Select <b>Have Disk…</b>.</li><li value="7">Select <b>Browse</b> and navigate to the  <code>...\win_usb_driver</code> subfolder where the SHIELD&#160;OS&#160;image is located. </li><li value="8">Select <code>android_winusb.inf</code>.</li><li value="9">Select <b>Android Bootloader Interface</b>. </li><li value="10">Repeat step 2 to verify.  <br />If this does not work, we suggest that you uninstall the device, rescan, and try again. <br /></li></ol></li>
+            <li value="7">Your device may have shipped with a locked bootloader. The device must have an unlocked bootloader to flash the image. You can unlock the bootloader by doing the following steps:&#160;<ol style="list-style-type: lower-alpha;"><li value="1"><code>fastboot oem unlock</code> <![CDATA[ ]]></li><li value="2">Press the <b>Home</b> button on the device to highlight <b>Unlock</b>. </li><li value="3">Press the <b>SHIELD</b> button to confirm the unlock. </li></ol><p>Your device's bootloader is now unlocked. </p></li>
+            <li value="8"> Flash with the following commands, in sequence, from the directory where files were unzipped:&#160;<br /><pre class="prettyprint" xml:space="preserve">fastboot flash recovery recovery.img<br />fastboot flash boot boot.img<br />fastboot flash system system.img<br />fastboot flash userdata userdata.img<br />fastboot flash staging blob<br />fastboot flash dtb tegra&lt;version&gt;.dtb</pre></li>
+            <li value="9">Reboot your device by using one of the two following methods:<ol style="list-style-type: lower-alpha;"><li value="1"><code>fastboot reboot</code> <![CDATA[ ]]></li><li value="2">Hold the <b>SHIELD</b> button down until the device turns off. Once it is powered down, release the <b>SHIELD</b> button, then press and hold for a few seconds to power it back up again.</li></ol></li>
+            <li value="10">When your device boots, you should now activate Developer Mode.<ol style="list-style-type: lower-alpha;"><li value="1">Select the <b>Settings</b> icon on the home page.</li><li value="2">Scroll to the bottom and select <b>About SHIELD</b>.</li><li value="3">Scroll to the bottom and tap the row labeled <b>Build number</b> at least seven times.</li><li value="4">Press the <b>Back</b> button, and near the <b>About SHIELD</b> setting, enter <b>Developer options</b>.  It should already be enabled at the top.</li><li value="5">We recommend you select the <b>Stay awake</b> setting. </li><li value="6">Select <b>USB debugging</b>.<br /></li></ol></li>
+        </ol>
+        <p>Congratulations, you are ready to use NVIDIA&#160;Developer Tools.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Nsight Tegra, Visual Studio Edition|Nsight Tegra 3.1, Visual Studio Edition">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Release Notes</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_known_issues.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_aw.htm">Nsight Tegra, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nsight_tegra_v3_1.htm">Nsight Tegra 3.1, Visual Studio Edition</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Release Notes</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Release Notes</span>
+        </h1><a name="kanchor28"></a>
+        <hr width="100%" size="0" align="center" />
+        <h2><span class="MyVariablesNsightTegraFULL">Nsight Tegra, Visual Studio Edition</span>, version 3.1</h2>
+        <h3>New Features:&#160;</h3>
+        <ul>
+            <li value="1">Improved the Fast Deploy mechanism that only updates the native libraries on the device. This makes the modify-build-debug cycle shorter, since building and installing an APK is no longer needed if non-native parts of the application have not been changed. See <a href="#fast_deploy">Fast Deploy</a> for details. <span style="color: #808080;">(37309, 37310, 37951, 37952, 37953, 38550, 38581, 38817, 38832)</span><![CDATA[
+            ]]></li>
+            <li value="2">Added support for specifying an activity name and intent parameters for the debug session. <span style="color: #808080;">(25835)</span> <![CDATA[ ]]></li>
+            <li value="3">Added support for executing custom Windows batch script before launching debug session. <span style="color: #808080;">(38620)</span><![CDATA[
+            ]]></li>
+            <li value="4">Added Gradle script customization support in the same manner as Ant rules file customization. <span style="color: #808080;">(38307)</span><![CDATA[
+            ]]></li>
+            <li value="5">Added support for rooted devices with non-working run-as command. <span style="color: #808080;">(38308)</span><![CDATA[
+            ]]></li>
+            <li value="6">Added a button to clear logcat on the device. <span style="color: #808080;">(33530)</span><![CDATA[
+            ]]></li>
+            <li value="7">Added logcat filtering by debugged app during debug session. Enabled by default, can be turned off. <span style="color: #808080;">(21481)
+</span><![CDATA[            ]]></li>
+            <li value="8">Added Build APK and Deploy APK commands to the project context menu. <span style="color: #808080;">(32672, 36465)
+</span><![CDATA[            ]]></li>
+        </ul>
+        <h3>Fixed Issues:&#160;</h3>
+        <ul>
+            <li value="1">VS&#160;will now stay responsive when GDB hangs. <span style="color: #808080;">(37800)</span>&#160;</li>
+            <li value="2">Improved debug session stopping, which sometimes took a long time to finish or caused VS to hang. <span style="color: #808080;">(38502)&#160;</span></li>
+            <li value="3">Added GDB stack frames limit option (default is 64). This works around the issue when GDB encounters a stack it cannot unwind and hangs in an endless loop. <span style="color: #808080;">(38359)</span>&#160;</li>
+            <li value="4">Referencing static libraries will now work correctly with multi-architecture APK projects. <span style="color: #808080;">(38750)</span> <![CDATA[ ]]></li>
+            <li value="5">Fixed the Gradle build issue that resulted in a message saying, “failed to find Build Tools revision 21.1.2.” <span style="color: #808080;">(38507)</span></li>
+            <li value="6">Non-rooted devices with not working run-as shell command will be reported during debug session startup. Previously such devices failed at some point further in the process with unclear error messages. <span style="color: #808080;">(35536)</span></li>
+            <li value="7">Fixed issue with debugging ndk-build projects built for several device architectures. <span style="color: #808080;">(37835, 38014)</span></li>
+            <li value="8">Fixed issue with vcxproj files that have incorrect element order. Previously, such projects couldn’t be debugged or didn’t show default property values in the project properties window. <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> will now automatically sort elements in all old vcxproj files as a part of project upgrade process. <span style="color: #808080;">(36394)</span> <![CDATA[ ]]></li>
+            <li value="9">Set ProGuard to <b>No</b> by default in the Release configuration since it was causing issues with building in some projects.  <span style="color: #808080;">(38140)</span></li>
+            <li value="10">Release builds will be signed with the debug key if a signing key was not specified explicitly. Added the Shipping configuration that matches Release, but does not have the default debug signing.<span style="color: #808080;"> (38147)
+</span></li>
+            <li value="11">Selected logcat line will now be scrolled into view when filters change. <span style="color: #808080;">(35295)</span></li>
+            <li value="12">Attaching to the running process with an External Build System project does not require specifying the Override APK Path anymore. <span style="color: #808080;">(35958)</span></li>
+            <li value="13">Spaces are now allowed in the Override APK Path property value. <span style="color: #808080;">(38511)</span></li>
+            <li value="14">Many various GUI fixes and improvements. </li>
+        </ul>
+        <h4>Other Changes</h4>
+        <ul>
+            <li value="1">Toast notifications won’t be shown during debug sessions anymore. All the info from the toasts will now be added to the Debug pane of the Output window. <span style="color: #808080;">(37718)</span></li>
+            <li value="2">Removed Debugging &gt; Suspend on Launch property. The app will now always wait for the debugger to attach. <span style="color: #808080;">(38693)</span></li>
+            <li value="3">Removed Tegra &gt; Device &gt; Deploy APK on Debug menu item. APK deployment cannot be disabled anymore. APKs are being checked against installed APKs cache and the deployment is skipped automatically if the APK is unchanged (or if Fast Deploy mode is on and only native code has changed). <span style="color: #808080;">(38693)</span></li>
+            <li value="4">Ant Build &gt; Additional Dependencies &gt; Native Library Dependencies will now only accept libraries specified without the “lib” prefix and extension, to match linker dependencies and other dependency resolvers in <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>.<span style="color: #808080;"> (38781)</span></li>
+        </ul>
+        <h4><a name="fast_deploy"></a>Fast Deploy</h4>
+        <p><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> Fast Deploy mechanism allows faster development by only updating native libraries on the device and not rebuilding the APK when nothing except the native code has changed. <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> now modifies built APKs to enable Fast Deploy on the device side, which allows using Fast Deploy with APKs built with other build systems. APK hashing speed in Fast deploy mode has been greatly improved compared to earlier versions of <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>.</p>
+        <p>To set up Fast Deploy properly, add folders with built native libraries (preferably stripped) to the  <b>Deployment</b> &gt; <b>Library Override Folders</b> project property. If some of the libraries never change during the development process, it’s possible to make Fast Deploy ignore them by adding their names (including the <code>lib</code> prefix and extension) to the <b>Deployment</b> &gt; <b>Libraries to Ignore</b> project property.</p>
+        <p>Fast Deploy mechanism looks for the libraries in the <b>Deployment</b> &gt; <b>Library Override Folders</b> and in the subfolders that have names based on the architecture of the device selected for debugging. This makes it possible to specify Ant or Gradle build’s native library root folder (that contains architecture-based subfolders) as Fast Deploy library override folder, and the libraries from the correct subfolder will be used during the deployment step. <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> automatically supplies that folder for projects built with <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> build systems (both MSBuild and ndk-build based). When searching for library named <code>libLibrary.so</code>, Fast Deploy also accepts and prefers file named <code>stripped_libLibrary.so</code> if it finds it.</p>
+        <p>Fast Deploy doesn’t currently work for 64-bit apps, but works for both x86 and ARM apps, even when run on a 64-bit device. <b>Deployment</b> &gt; <b>Fast Deploy is Default</b> by default, which in this version of <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> means <b>No</b> for External Build System projects and <b>Yes</b> for all the other ones. However, it is possible to manually configure External Build System projects to work with Fast Deploy.</p>
+        <h3>Known Issues:&#160;</h3>
+        <h5>Java Out of Memory</h5>
+        <p>On some systems, ANT will report a memory error when building inside of Visual Studio. You may encounter the following error:&#160;</p>
+        <blockquote><pre class="prettyprint">Could not create the Java virtual machine.<br />Error occurred during initialization of VM<br />Could not reserve enough space for object heap</pre>
+        </blockquote>
+        <p>In this case, try restarting your web browser; it has been known to help in some cases. </p>
+        <h5>Other Known Issues:&#160;</h5>
+        <ul>
+            <li value="1">For very large libraries, timeouts may start to occur; if you encounter this, try adjusting your global timeout options.  This is accessed via the NVIDIA logo icon on the <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> toolbar, or through the menu <b>Tools</b> &gt; <b>Options</b>.      We are striving to continue to reduce the need to adjust these values.
+            </li>
+            <li value="2">Inserting breakpoints in a header file may result in long delays because a breakpoint may be inserted into each object file section within the library and could easily results in hundreds or thousands of actual breakpoints.
+            </li>
+            <li value="3">For new projects, the NDK Target API Level will now be set to the Java Minimum API Level. This is because users who have their Java Target API Level set to 21 (Android 5.0) — to match Google’s compatibility guarantee — are finding that their apps will not function properly on Android 4.x, due to library incompatibilities.  This will only affect new projects, as we have also introduced an NDK target API level override property, to guarantee the same behavior for upgraded projects.
+            </li>
+            <li value="4">If a file does not affect the project up-to-dateness, open its Property Pages, go to the General section and set the <b>Item Type</b> to <b>Android Build System</b>. Alternatively, if you are using a project generator (such as CMake), make it generate items in an <code>AndroidBuild</code> tag instead of <b>None</b>, for example:&#160; 
+				<br /><code>&lt;AndroidBuild Include="res\values\strings.xml" /&gt;</code><![CDATA[
+            ]]><br />instead of
+<br /><code>&lt;None Include="res\values\strings.xml" /&gt;</code><![CDATA[
+]]></li>
+            <li value="5">Projects compiled with GCC that use PCH files great than 150MB may fail to build.  This is a known GCC issue.
+            </li>
+            <li value="6">Debugging doesn't work if External Build System project type (Tegra-Android platform) is added to VC++ Makefile project (Win32 platform). Closing and reopening the solution fixes this issue. <span style="color: #808080;">(27747)</span></li>
+            <li value="7">There is a project property <b>General</b> &gt; <b>Toolchain Version</b>, which allows the user to select the toolchain with which to build the project. Ideally, values in the dropdown list should be shown for the currently selected NDK only; however, toolchains for NDKs r9b - r10e are currently displayed, regardless of the actual NDK. If the selected toolchain is missing from the selected NDK, then an error message will be displayed during the build stage.
+<span style="color: #808080;">(26298)</span></li>
+            <li value="8">If you are using a library compiled with thumb and receive a SIGSEGV fault, it may be due to a bug in GDB when handling the transitions between arm and thumb modes. To work around this issue, compile in thumb mode. <span style="color: #808080;">(23930) </span></li>
+            <li value="9">Projects upgraded by the <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> project upgrader sometimes won’t load due to internal caching in Visual Studio. Restarting Visual Studio will fix this problem.
+            </li>
+            <li value="10">If you are seeing compiler error messages that seem to imply the properties do not match the ones that you have set, be sure that if you were using <code>.prop</code> files, that those values are up to date.  For instance, in later releases of <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>. we have removed support for certain SDKs and NDKs that were previously supported.
+            </li>
+            <li value="11"><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> does not assist in <code>gdb.setup</code> directory command generation when the project is built using an <code>*.mk</code> file. You must modify the <code>*.mk</code> file manually to establish the correct directory command arguments. Please consult the Google NDK documentation at <code>&lt;ndk-path&gt;/docs/ANDROID-MK.HTML</code> or <code>APPLICATION-MK.HTML</code> for more assistance. <span style="color: #808080;">(19518)</span> <![CDATA[ ]]></li>
+            <li value="12">Under <b>Project Properties</b> &gt;&#160;<b>Debugging</b>, there may be incorrect "Browse..."&#160;dialogs. For example, the <b>Override APK</b> dialog may accept <code>*.exe</code> files rather than <code>*.apk</code> files. <span style="color: #808080;">(19867)</span><p>Note that this issue only occurs in Visual Studio 2010, it does not occur in Visual Studio 2012. </p></li>
+            <li value="13">A&#160;project that is imported with a Java code source path that is different than the path to <code>src</code> will not build. To work around this, you can modify the <b>Java Source Directory</b> property in the <b>Ant Build</b> section. <span style="color: #808080;">(19489)</span>&#160;</li>
+            <li value="14">Using the Threads window, the <b>Step Over</b>&#160;function may not work. <span style="color: #808080;">(18786)</span></li>
+            <li value="15">If you are using <code>ndk-build.cmd</code>, there is an extra "/" in the command line which is sent to the compiler and prevents breakpoints from being hit. To work around this issue, modify your <code>Android.mk</code> file from:&#160;<br /><code>LOCAL_PATH := $(call my-dir)</code><br />to:&#160;<br /><code>LOCAL_PATH := $(subst //,/,$(call my-dir)</code></li>
+        </ul>
+        <h4>FAQ:&#160;Correcting a broken Ant build&#160;</h4>
+        <p>Recent releases of <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> have made the following changes:&#160;</p>
+        <ul>
+            <li value="1"><![CDATA[	]]><code>build.xml</code> and <code>*.properties</code> files are no longer required for a project to build. These files can be safely removed if their customization is not needed.</li>
+            <li value="2">Existing <code>*.properties</code>, <code>AndroidManifest.xml</code>, or <code>build.xml</code> are no longer modified.  This is because it was a frequent issue for people using source control systems.  </li>
+            <li value="3">Support for different ANT setup files based on configuration (debug/release) has been added. </li>
+            <li value="4">In addition, support for proper output directories based on configuration (debug/release), just as one would normally have with a regular win32/64 project, has been added. This means that the output now goes to <code>Tegra-Android\&lt;config&gt;</code>.</li>
+        </ul>
+        <p><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> has its own proprietary <code>build.xml</code> — named <code>nsight_tegra_build.xml</code> — that runs before the <code>build.xml</code>, and sets properties from within Visual Studio’s project properties.  There are two reasons for doing this:&#160;</p>
+        <ol>
+            <li value="1">With ANT, the first variable set is the one that is used in both <code>.properties</code> and <code>build.xml</code> files.</li>
+            <li value="2">Most users' default files come from samples, and already have set properties. This works around options the user may have changed. </li>
+        </ol>
+        <p>To work around this issue and get your forced overrides back in,  you would take advantage of these lines that we auto-generate:&#160;</p><pre class="prettyprint">&lt;import file="&lt;path&gt;\nsight_tegra_build_overrides_&lt;config&gt;.xml" optional="true" /&gt;<br />&lt;import file="&lt;path&gt;\nsight_tegra_build_overrides.xml" optional="true" /&gt;</pre>
+        <p>The first line allows you to do config-specific overrides; the second line contains shared overrides.</p>
+        <p>From here, you would set your properties, making sure to get the paths you set up in Visual Studio. </p>
+        <ul>
+            <li value="1">You would copy your <code>manifest.xml</code>, making a minor edit to fix the SDK target/min/max numbers.</li>
+            <li value="2">You would then update all of the output paths, so that an APK per config can be made. </li>
+            <li value="3">Finally, your normal <code>build.xml</code> will be imported to pick up the rest.</li>
+        </ul>
+        <p>For reference, here is a snip of the actual properties that are overridden. </p><pre class="prettyprint">REGION-BEGIN: The following properties prevent Nsight Tegra from needing to modify user property files. <br />Setting them here will ensure they always match Visual Studio and allows users to build without needing to check out version controlled files.--&gt;<br />&lt;property name="sdk.dir" value="C:\NVPACK\android-sdk-windows" /&gt;<br />&lt;property name="target" value="android-15" /&gt;<br />&lt;property name="source.dir" value="src" /&gt;<br />&lt;!--REGION-END--&gt;<br />&lt;!--<br />REGION-BEGIN: The following properties prevent Nsight Tegra from needing to modify user manifest files.<br />Setting them here will ensure they always match Visual Studio and allows users to build without needing to check out version controlled files.--&gt;<br />&lt;property name="manifest.file" value="C:\<i>&lt;path&gt;</i>\nsight_tegra_manifest.xml" /&gt;<br />&lt;property name="manifest.abs.file" value="C:\<i>&lt;path&gt;</i>\nsight_tegra_manifest.xml" /&gt;<br />&lt;!--REGION-END--&gt;<br />&lt;!--<br />REGION-BEGIN: The following properties allow Nsight Tegra to maintain build results per-configuration (debug, release, etc).--&gt;<br />&lt;property name="gen.absolute.dir" value="C:\<i>&lt;path&gt;</i>\Tegra-Android\Debug\gen" /&gt;<br />&lt;property name="out.dir" value="C:\<i>&lt;path&gt;</i>\Tegra-Android\Debug\bin" /&gt;<br />&lt;property name="jar.libs.dir" value="C:\<i>&lt;path&gt;</i>\Tegra-Android\Debug\libs" /&gt;<br />&lt;property name="native.libs.absolute.dir" value="C:\<i>&lt;path&gt;</i>\Tegra-Android\Debug\libs" /&gt;<br />&lt;target name="-pre-compile"&gt;<br />&lt;path id="project.all.jars.path"&gt;<br />&lt;path path="${toString:project.all.jars.path}"&gt;<br />&lt;fileset dir="${jar.libs.dir}"&gt;<br />&lt;include name="*.jar" /&gt;<br />&lt;/fileset&gt;<br />&lt;/path&gt;<br />&lt;/path&gt;<br />&lt;/target&gt;<br />&lt;!--REGION-END--&gt;<br />&lt;!--<br />Reference in original document.--&gt;<br />&lt;import file="C:\<i>&lt;path&gt;</i>\build.xml" /&gt; <br />&lt;/project&gt;</pre>
+        <p> <![CDATA[ ]]></p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

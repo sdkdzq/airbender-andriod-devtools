@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Menu Descriptions</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_menu_descriptions.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Menu Descriptions</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor10"></a>
+        <h1><span class="SystemTitle">Menu Descriptions</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>This chapter describes the options available in the PerfHUD menu bar. </p>
+        <p>
+            <img src="images/perfhud_menu_bar.001.png" />
+        </p>
+        <blockquote>
+            <h4>File</h4>
+        </blockquote>
+        <h6>Open Session</h6>
+        <p>Open a custom XML file.  Users rarely need to do this because the <code>default.xml</code>, or.<code>perfhudes.xml</code> in Linux, is automatically opened at startup.  For more information, see <a href="perfhud_session_file_xml.htm">Session File XML</a>. Ctrl+O for shortcut.</p>
+        <h6>Save Session</h6>
+        <p>Save the current settings to a custom XML file.  Users rarely need to do this because the <code>default.xml</code>, or.<code>perfhudes.xml</code> in Linux, is always automatically updated when closing the PerfHUD host. Ctrl+S for shortcut.</p>
+        <h6>ActiveSync</h6>
+        <p>Connect to a target device which is already available from ActiveSync. For example, AP15 with WinCE6 should use this one. ActiveSync and TCP/IP are two available connection types for Tegra. The system will use ActiveSync by default. When you didn’t have ActiveSync installed, you may see an error message box for initialization. If you only have TCP/IP connection, just click OK and use “IP Address” connection instead. Ctrl+A for shortcut. </p>
+        <h6>IP Address</h6>
+        <p>Connect to a target device over TCP/IP.  This could be used when a direct TCP/IP connection exists between host and target.  If you manually change the connection type to TCP/IP, you are not allowed to switch back to ActiveSync connection. Ctrl+I for shortcut.</p>
+        <h6>Reset Connection</h6>
+        <p>Manually reset the connection.  Users rarely need to do this because the host automatically “times out” when an error condition occurs. F5 for shortcut. </p>
+        <h6>Exit</h6>
+        <p>Closes the PerfHUD host.</p>
+        <blockquote>
+            <h4>View</h4>
+        </blockquote>
+        <h6>Mode Bar</h6>
+        <p>Toggle visibility of the vertical pane on the left.</p>
+        <h6>Status Bar</h6>
+        <p>Toggle visibility of the status pane on the bottom.</p>
+        <h6>Audio Notifications</h6>
+        <p>If desired, the resource upload lights can be accompanied by an audible clicking sound.</p>
+        <h6>Stepped Graphs</h6>
+        <p>This is an alternative style for line graphs that uses a “square wave” type of pattern.</p>
+        <h6>Smooth Scrolling</h6>
+        <p>If enabled, the heartbeat graphs lag slightly behind real time, but they scroll by in a more regular and smooth fashion.</p>
+        <h6>Device Info</h6>
+        <p>If connected to a device, this menu item brings up a dialog box that shows various information about the target device, e.g., the version of OpenGL ES and which extensions are supported.</p>
+        <blockquote>
+            <h4>Debug</h4>
+        </blockquote>
+        <h6>Scrub Mode</h6>
+        <p>Change the method used to render images in Frame Scrubber.</p>
+        <ul>
+            <li value="1">ES Emulation (not available on all target platforms): API calls are played back on the host to reproduce the original image.</li>
+            <li value="2">Framebuffer Capture: The target device uses <code>glReadPixels</code> to capture an actual bitmap of the frame buffer.  This method is slower than ES Emulation, but more accurate.</li>
+        </ul>
+        <h6>Break on GL Errors</h6>
+        <p>When enabled, the host automatically switches from Performance Dashboard to Frame Debugger when a GL error occurs.</p>
+        <h6>Break on Frame Number</h6>
+        <p>When enabled, the mode switches to Frame Debugger after a given number of frames (i.e., buffer swaps), where frame 1 is the first frame.  The user should set up this breakpoint before starting the target application.  The menu option is disabled while the host is connected to the target.  Frame counting begins as soon as target application starts running; it does NOT wait until the PerfHUD connection is established.  To disable the breakpoint, set the desired frame number to zero.</p>
+        <h6>Break on FPS</h6>
+        <p>When enabled, the mode switches to Frame Debugger when the frames-per-second is less than or equal to the given value.  Set the FPS value to zero to disable the breakpoint.</p>
+        <h6>Force Clear</h6>
+        <p>Force clear is used to enable a forced frame clear for color/stencil/depth buffers, before capturing inside the Frame Debugger. In many cases, the game developer will ensure every pixel is updated for each frame. This doesn't clear the frame to improve performance; instead, it focuses the current frame and omits the previous frame legend. </p>
+        <h6>Enable User Shaders</h6>
+        <p>If any user shaders have been created in the Shader Viewer, this setting forces them all to be used in place of the original shaders.</p>
+        <h6>Set Frame Delimiters</h6>
+        <p>This option brings up the Frame Delimiters dialog and allows the user to define which API call will be used to define the end of a "frame."</p>
+        <h6>Set Generic Counters</h6>
+        <p>This dialog is used to let user configure what generic driver time counters are counted. We have 4 generic driver time counters. The concept of generic driver time counter is similar to a slot. You can configure the slot to let it collect APIs you are interested in to count the final value. For example, you want to know how many time spent on all <code>glUseProgram</code> API, you can modify the generic counter 0~3 to include only one API <code>glUseProgram</code>. And the counter will be shown in the time graph.</p>
+        <h6><a name="Set_Profile_Graphs"></a>Set Profile Graphs</h6>
+        <p>In the frame profiler, we can define several graphs to display hardware counters from target side. You can configure the graph via this dialog. (See&#160;<a href="perfhud_appendix_perfmon_counters.htm">Appendix D</a> for explanations of the counters.)&#160;</p>
+        <h6>Change Tab Width</h6>
+        <p>Change the width of tabs in Shader Viewer.</p>
+        <h6>Show Line Numbers</h6>
+        <p>Show line numbers in Shader Viewer.</p>
+        <h6>Modify search paths</h6>
+        <p>Add or re-order the search path list used to look up high-level source.</p>
+        <h6>Load debugger frame</h6>
+        <p>Loads a debugging database from a PHF file and jumps to Frame Debugger.</p>
+        <p>A profile frame PHP file can be loaded after a debug frame PHF file and vice versa. Then the profiler and debugger frame can be switched to each other to help analysis the result. The PHF and PHP files are supposed to be captured at the same frame or very similar frame.</p>
+        <h6>Save debugger frame</h6>
+        <p>Save all current debugging information to a PHF file.  A saved debugger frame is useful for diagnosing a problem while being disconnected from the target device.</p>
+        <h6>Load profiler frame</h6>
+        <p>Loads a profiling database from a PHP file and jumps to Frame Profiler.</p>
+        <h6>Save profiler frame</h6>
+        <p>Save all current profiling information to a PHP file.  A saved profiler frame is useful for diagnosing a problem while being disconnected from the target device.</p>
+        <h6>Shortcut Mapping</h6>
+        <table cols="2">
+            <col style="width: 101px;" />
+            <col style="width: 230px;" />
+            <thead>
+                <tr>
+                    <th>Keys </th>
+                    <th>Function </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="text-align: center;">Ctrl + O </td>
+                    <td>Open a session</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Ctrl + S</td>
+                    <td>Save a session</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Ctrl +&#160;I</td>
+                    <td>IP&#160;Address</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">F5</td>
+                    <td>Reset connection</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Ctrl +&#160;P</td>
+                    <td>Performance Dashboard</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Ctrl +&#160;D</td>
+                    <td>Frame Debugger</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">F1 </td>
+                    <td>User manual</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">Ctrl +&#160;R</td>
+                    <td>Reset frame rate counter</td>
+                </tr>
+            </tbody>
+        </table>
+        <blockquote>
+            <h4>Help</h4>
+        </blockquote>
+        <h6>PerfHUD ES User Manual</h6>
+        <p>Use this to open the user manual in your system default PDF viewer. F1 for shortcut.</p>
+        <h6>About</h6>
+        <p>Use this to see the version number of PerfHUD ES.  A button is provided to copy this information to the clipboard, in case the user needs to pass this on for support.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop OpenGL ES 2.0 Applications for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Tegra OpenGL ES Limits</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles_limits.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Tegra OpenGL ES Limits</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor114"></a>
+        <h2><span class="SystemTitle">Tegra OpenGL ES Limits</span>
+        </h2>
+        <hr width="100%" size="0" align="center" />
+        <p>The following table lists the current limits of various OpenGL ES 2.0 values as returned by the driver.  Note that these are intended as guidelines; applications should always query important values from the particular driver being used. </p>
+        <table cols="2">
+            <col style="width: 278px;" />
+            <col style="width: 402px;" />
+            <tbody>
+                <tr>
+                    <td><code>GL_SUBPIXEL_BITS</code> <![CDATA[ ]]></td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td><code>GL_ALIASED_POINT_SIZE_RANGE</code> <![CDATA[ ]]></td>
+                    <td>(1,256)</td>
+                </tr>
+                <tr>
+                    <td><code>GL_ALIASED_LINE_WIDTH_RANGE</code> <![CDATA[ ]]></td>
+                    <td>(1,256)</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_ARRAY_TEXTURE_LAYERS_EXT</code> <![CDATA[ ]]></td>
+                    <td>2048</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_CUBE_MAP_TEXTURE_SIZE</code> <![CDATA[ ]]></td>
+                    <td>2048</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_TEXTURE_SIZE</code> <![CDATA[ ]]></td>
+                    <td>2048</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT</code> <![CDATA[ ]]></td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_VIEWPORT_DIMS</code> <![CDATA[ ]]></td>
+                    <td>(3839,3839)</td>
+                </tr>
+                <tr>
+                    <td><code>GL_NUM_COMPRESSED_TEXTURE_FORMATS</code> <![CDATA[ ]]></td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td><code>GL_NUM_SHADER_BINARY_FORMATS</code> <![CDATA[ ]]></td>
+                    <td>0 (may export 1, but use of binary shaders is not recommended)</td>
+                </tr>
+                <tr>
+                    <td><code>GL_SHADER_BINARY_FORMATS</code> <![CDATA[ ]]></td>
+                    <td>(may export GL_NV_platform_binary, but use of binary shaders is not recommended)&#160;</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_VERTEX_ATTRIBS</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_VERTEX_UNIFORM_VECTORS</code> <![CDATA[ ]]></td>
+                    <td>256</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS</code> <![CDATA[ ]]></td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_VARYING_VECTORS</code> <![CDATA[ ]]></td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_TEXTURE_IMAGE_UNITS</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_FRAGMENT_UNIFORM_VECTORS</code> <![CDATA[ ]]></td>
+                    <td>1024</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_COLOR_ATTACHMENTS_NV</code> <![CDATA[ ]]></td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_RENDERBUFFER_SIZE</code> <![CDATA[ ]]></td>
+                    <td>3839</td>
+                </tr>
+                <tr>
+                    <td><code>GL_MAX_RENDERBUFFER_SIZE</code> <![CDATA[ ]]></td>
+                    <td>8</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

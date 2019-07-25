@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|OpenCV for Tegra|OpenCV for Tegra Examples">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>OpenCV Tutorial 2: Mixed Processing</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/opencv_tutorial_mixed_processing.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="opencv_main.htm">OpenCV for Tegra</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">OpenCV Tutorial 2: Mixed Processing</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor75"></a>
+        <h1><span class="SystemTitle">OpenCV Tutorial 2: Mixed Processing</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>This example shows how to pre-process the camera preview frames with both Java and C++ calls to OpenCV. It has a similar structure to <a href="opencv_tutorial_camera_preview.htm">Tutorial 1</a>, with the exception that it processes the input camera frame before displaying it as:</p>
+        <blockquote><pre class="prettyprint">public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+<br />&#160;&#160;&#160;&#160;&#160;final int viewMode = mViewMode;
+<br />&#160;&#160;&#160;&#160;&#160;switch (viewMode) {
+<br />&#160;&#160;&#160;&#160;&#160;case VIEW_MODE_GRAY:<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// input frame has gray scale format<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Imgproc.cvtColor( inputFrame.gray(), mRgba,<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Imgproc.COLOR_GRAY2RGBA, 4 );<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+<br />&#160;&#160;&#160;&#160;&#160;case VIEW_MODE_RGBA:<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// input frame has RBGA format<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mRgba = inputFrame.rgba();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;<br /><br />&#160;&#160;&#160;&#160;&#160;case VIEW_MODE_CANNY:<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// input frame has gray scale format<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mRgba = inputFrame.rgba();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Imgproc.Canny(inputFrame.gray(), mIntermediateMat, 80, 100);<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Imgproc.cvtColor( mIntermediateMat, mRgba,<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Imgproc.COLOR_GRAY2RGBA, 4 );<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;<br /><br />&#160;&#160;&#160;&#160;&#160;case VIEW_MODE_FEATURES:<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;// input frame has RGBA format<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mRgba = inputFrame.rgba();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mGray = inputFrame.gray();<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FindFeatures( mGray.getNativeObjAddr(),<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mRgba.getNativeObjAddr() );<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;
+<br />&#160;&#160;&#160;&#160;&#160;}
+<br />&#160;&#160;&#160;&#160;&#160;return mRgba;
+<br />}</pre>
+        </blockquote>
+        <p>Note that the <code>FindFeatures()</code> function is implemented at the native level in C++. Furthermore, it is declared in Java as a native method:</p>
+        <blockquote><pre class="prettyprint">public native void FindFeatures(long matAddrGr, long matAddrRgba);</pre>
+        </blockquote>
+        <p>The C/C++ code for this example resides in the <code>jni</code> directory of the project. The <code>Android.mk</code> and <code>Application.mk</code> makefiles in the <code>jni</code> directory are required by the Android NDK compiler to build the native library (<code>libnative_sample.so</code>) located at <code>libs/armeabi-v7a/</code>.</p>
+        <p>The native <code>FindFeatures</code> function is defined in the file <code>jni/jni_part.cpp</code>. Observe the following special features of the <code>jni_part.cpp</code> file that implement the <code>FindFeatures</code> function’s JNI interface.</p>
+        <blockquote><pre class="prettyprint">JNIEXPORT void JNICALL Java_org_opencv_samples_tutorial2_Tutorial2Activity_FindFeatures(<br />&#160;&#160;&#160;&#160;&#160;JNIEnv*, jobject, jlong addrGray, jlong addrRgba)<br />{<br />&#160;&#160;&#160;&#160;&#160;Mat&amp; mGr  = *(Mat*)addrGray;<br />&#160;&#160;&#160;&#160;&#160;Mat&amp; mRgb = *(Mat*)addrRgba;<br />&#160;&#160;&#160;&#160;&#160;vector&lt;KeyPoint&gt; v;&#160;
+<br />&#160;&#160;&#160;&#160;&#160;FastFeatureDetector detector(50);<br />&#160;&#160;&#160;&#160;&#160;detector.detect(mGr, v);<br />&#160;&#160;&#160;&#160;&#160;for( unsigned int i = 0; i &lt; v.size(); i++ )<br />&#160;&#160;&#160;&#160;&#160;{<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const KeyPoint&amp; kp = v[i];<br />&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;circle(mRgb, Point(kp.pt.x, kp.pt.y), 10, Scalar(255,0,0,255));<br />&#160;&#160;&#160;&#160;&#160;}<br />}</pre>
+        </blockquote>
+        <p>Note the include statement in the <code>jni/Android.mk</code> file:</p>
+        <blockquote><pre class="prettyprint">include ../../sdk/native/jni/OpenCV-tegra3.mk</pre>
+        </blockquote>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> If you wish to add and build a native library to your existing Eclipse Android Java projects that calls OpenCV native functions to your existing Eclipse Android Java projects, follow the steps below.</p>
+                        <ol>
+                            <li value="1">Add a <code>jni</code> source folder to your Eclipse Android project by right clicking on the project in <b>Project Explorer</b> &gt; <b>New</b> &gt; <b>Source Folder</b> &gt; <b>Folder name: <code>jni</code></b> &gt; <b>Finish</b>.</li>
+                            <li value="2">Add the native source <code>.cpp</code> and <code>.h</code> files containing the correctly defined native JNI functions to the <code>jni</code> folder. Right-click on the <code>jni</code> folder in <b>Project Explorer</b> &gt; <b>New</b> &gt; <b>Source File</b> or <b>Header File</b> &gt; <code>foo.cpp</code> or <code>foo.</code>h &gt; <b>Finish</b>.</li>
+                            <li value="3">Add appropriate <code>Android.mk</code> and <code>Application.mk</code> makefiles to the <code>jni</code> folders for building the native shared library. If native OpenCV functions are called in the native library, include the OpenCV libraries by adding the following line in the <code>Android.mk</code> file immediately after the <code>include $(CLEAR_VARS)</code> statement, as shown below:
+									<br /><pre class="prettyprint">include &lt;path to TADP directory&gt;/OpenCV-2.4.8.2-tegra-sdk/sdk/native/jni/OpenCV-tegra3.mk 
+#For Tegra 3, 4i, 4 and K1 devices 
+#OR
+include &lt;path to TADP directory&gt;/OpenCV-2.4.8.2-tegra-sdk/sdk/native/jni/OpenCV.mk
+#For Tegra 2 devices
+</pre><br />You can additionally add a flag just before this include statement to specify how the OpenCV libraries should be linked into your native code as the following:
+								<br /><pre class="prettyprint">OPENCV_LIB_TYPE:=SHARED #for dynamic linking, which is also the default behavior 
+#OR <br />OPENCV_LIB_TYPE:=STATIC #for static linking</pre><br />The <code>Android.mk</code> file usually has the following structure: <br /><pre class="prettyprint">LOCAL_PATH := $(call my-dir)				<br />include $(CLEAR_VARS)				<br />LOCAL_MODULE    := &lt;module_name&gt;			<br />LOCAL_SRC_FILES := &lt;list of .c and .cpp project files&gt;	<br />&lt;some variable name&gt; := &lt;some variable value&gt; ...		<br />&lt;some variable name&gt; := &lt;some variable value&gt;		<br />include $(BUILD_SHARED_LIBRARY)</pre><br />This is the minimal <code>Android.mk</code> file, which builds the native source files of an Android application. Note that the first two lines and the last line are mandatory for any <code>Android.mk</code> file.<br /><br />Usually the file <code>Application.mk</code> is optional, but in case a project uses OpenCV, STL and exceptions are used in C++ and the <code>Application.mk</code> should be written with the following statements: 
+								<br /><pre class="prettyprint">APP_STL := gnustl_static<br />APP_CPPFLAGS := -frtti -fexceptions<br />APP_ABI := armeabi-v7a</pre><br />See the <code>Android.mk</code> and <code>Application.mk</code> files for <b>OpenCV Tutorial 2</b> and <b>OpenCV Sample – face-detection</b> for more examples.<br /></li>
+                            <li value="4">Add a C/C++ nature to the native Android project. Right-click on the project in <b>Project Explorer</b> &gt; <b>New</b> &gt; <b>Other</b> &gt; <b>Convert to a C/C++ Project (Adds C/C++ nature)</b> &gt; <b>Next</b> &gt; Select your Android project from the list &gt; Select <b>Project Type: Makefile Project</b> and <b>Toolchain: (other)</b> &gt; <b>Finish</b>.
+                            </li>
+                            <li value="5">Add the folders <code>libs</code> and <code>obj</code> to your Android project by right-clicking on the project in <b>Project Explorer</b> &gt; <b>New</b> &gt; <b>Folder</b> &gt; <b>Folder name:</b> <code>libs</code> or <code>obj</code> &gt; <b>Finish</b>. <br />An <b>a</b> symbol should appear above these folders in the Project Explorer window, if Android ADT correctly recognizes them.
+                            </li>
+                            <li value="6">Make sure that the builders for the project are correct. Right-click on the project in <b>Project Explorer</b> &gt; <b>Properties</b> &gt; <b>Builders</b> &gt; verify that CDT builder is on top. <br />If an <b>Invalid External Tool Builder</b> with a cross symbol above it is present, remove it and click OK.
+                            </li>
+                            <li value="7">Configure the C/C++ builder by right-clicking on project in <b>Project Explorer</b> &gt; <b>Properties</b> &gt; <b>C/C++ Build</b> &gt; uncheck <b>Use default build command</b> and enter the following <b>Build Command:</b><br /><pre class="prettyprint">${CYGWIN_HOME}/bin/bash ${NDKROOT}/ndk-build NDK_DEBUG=1 V=1</pre><br />(Note that this command is valid for Windows, Ubuntu and OS X operating systems.)
+								<br /><br />Uncheck <b>Generate Makefiles Automatically</b> and enter the following Build directory:
+								<br /><pre class="prettyprint">${workspace_loc:/&lt;Eclipse project name&gt;} </pre><br />Then click <b>Apply</b> and <b>OK</b>.</li>
+                            <li value="8"> To build and run, right-click on the project in <b>Project Explorer</b> &gt; <b>Run as</b> &gt; <b>1 Android Application</b>. This should build the native library, which will be located in the folder <code>libs/armeabi-v7a</code>.</li>
+                        </ol>
+                        <p>For more details see: <a href="http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#native-c" target="_blank">http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/android_dev_intro.html#native-development-in-c</a></p>
+                        <p><a href="http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#native-c" target="_blank">http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#native-c</a>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

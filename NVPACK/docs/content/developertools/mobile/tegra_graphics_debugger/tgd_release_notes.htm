@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Release Notes</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_release_notes.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Release Notes</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <div id="pageheader">
+            <h1><span class="SystemTitle">Release Notes</span>
+            </h1><a name="kanchor40"></a>
+            <hr width="100%" size="0" align="center" />
+        </div>
+        <h3><span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> 2.0 </h3>
+        <h4>What's New:&#160;</h4>
+        <ul>
+            <li value="1">Support for OpenGL&#160;4.5. </li>
+            <li value="2">Support for <code>GL_ARB_buffer_storage</code> from OpenGL&#160;4.4. </li>
+            <li value="3">Support for serialized captures via source code generation. </li>
+            <li value="4">Added Shader Perf statistics in the Linked Programs view. </li>
+            <li value="5">Support for SHIELD&#160;Console. </li>
+            <li value="6"> Support for launching on all Tegra X1 and above devices. (Note that Nexus 9 will require an OS update.)&#160;</li>
+            <li value="7">Added support for scrubbing through the target view on the tablet and SHIELD Console. </li>
+        </ul>
+        <h4>Fixed Issues:&#160;</h4>
+        <ul>
+            <li value="1">Global Interposer has been removed. (Note that this does not apply to the Nexus 9.)&#160;</li>
+            <li value="2">Many bug fixes. </li>
+        </ul>
+        <h4>Known Issues:&#160;</h4>
+        <ul>
+            <li value="1">In order to see the buffer selected in the Current Target View also on device you must have the HUD enabled.  If you disable the HUD the rendering on target will revert to color target 0. <span style="color: #808080;">(37274)</span><![CDATA[ 
+            ]]></li>
+            <li value="2">If you switch between the original and edited shaders multiple times, it is possible for the Current Target View to be out of sync.  This will typically resolve of you switch back and forth again. <span style="color: #808080;">(36757)</span>&#160;
+            </li>
+            <li value="3">If your application uses binary programs, the resulting serialized capture is only compatible with the same target device and OS version.  The driver can embed information into the binary that locks it to the current system.  To work around this, delete any shader cache before running the tool if you want to serialize the capture. <span style="color: #808080;">(37163)</span><![CDATA[ 
+            ]]></li>
+            <li value="4">Applications that use <code>glDrawTransformFeedback</code> will not see correct profiling data for those calls.  Other draw calls in the frame should be correct. <span style="color: #808080;">(35563)</span> <![CDATA[ ]]></li>
+            <li value="5">If you are seeing periodic failures connecting to a launched application, it could be because of a conflicting version of adb running on your host system.  These can sometimes come from phone and tablet sync applets that run in the background, waking up periodically to check if a device is attached.  Since they have their own (potentially older) version of adb in the install package, it can conflict with a newer one running from the NDK, installed by TADP and <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>.  Uninstalling the sync app should fix the conflict.            </li>
+            <li value="6">If you encounter an issue where you are not able to capture, you should use the <code>adb logcat</code> command to see if there are any warning messages. The types of messages commonly seen are:&#160;<ol><li value="1">Unsupported functions (see <a href="tgd_supported_functions.htm">Supported OpenGL Functions</a> for a complete list). </li><li value="2">Use of OpenGL ES 1.0 (which is not supported).</li><li value="3">Out of memory issues. <span style="color: #808080;">(31527)</span>&#160;</li></ol></li>
+            <li value="7">The "Disable Vertical Sync" option in the directed tests panel was removed because it wasn't functioning properly.  This should return in a future version. <span style="color: #808080;">(31672)</span>&#160;
+            </li>
+            <li value="8">After docking the Profiler View, the "Weight by" combo box may not open properly.  If you change to a different graph, say the Counters List, and back to the Summary it should work correctly again.
+<span style="color: #808080;">(30254)</span> <![CDATA[ ]]></li>
+            <li value="9">If your application is exhibiting strange behavior or rendering, or even crashes when launched with <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>, you can try and fall back to the Global Interposer by clicking on the <b>Attach</b> tab in the Connect, and pressing the button in the upper right corner to enable the Global Interposer.  Then, launch the app from the device by tapping on it, refresh the list of applications to attach to, and double-click the correct one that comes up. <span style="color: #808080;">(31745)</span>&#160; </li>
+            <li value="10">When using a target running Linux that uses <code>ssh</code> instead of <code>adb</code>,  <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> is unable to connect to the target device as a "root" user. This is because <code>ssh config</code> has forbidden root password authentication. If you check the contents of the target root <code>fs /etc/ssh/sshd_config</code>, you will find the following line:&#160;
+				<pre>PermitRootLogin without-password </pre>
+			As a workaround, change the line to:&#160;
+				<pre>PermitRootLogin yes</pre>
+				Alternatively, you can log in with a different user account, and should not encounter this same error. <span style="color: #808080;">(33646)</span>&#160;</li>
+        </ul>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

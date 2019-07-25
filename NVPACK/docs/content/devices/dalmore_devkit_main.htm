@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Devices|Developer Kits">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Tegra "Dalmore" Development Kit (T4)</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../index.html#devices/dalmore_devkit_main.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="devices.htm">Mobile Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="devkit_devices.htm">Developer Kits</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Tegra "Dalmore" Development Kit (T4)</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor137"></a>
+        <h1><span class="SystemTitle">Tegra "Dalmore" Development Kit (T4)</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>This document describes the basic steps in setting up an NVIDIA Tegra 4 "Dalmore" development kit, installing a new Android OS image, and booting the OS for the first time.</p>
+        <p>As the NVIDIA Tegra 4 "Dalmore" developer kit hardware and OS images are early prototypes, there are numerous warnings and recommendations with respect to setup and use:</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;">
+                        <img src="images/warningbox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>IMPORTANT:</b> The display connector on Dalmore is extremely fragile.  Developers should adjust their devkit hinges as little as possible.  Do not force the hinge open or closed, and pay close attention to the display cable connecting the two halves of the devkit.  The kit should be set up with the hinge in the desired position and left as such, as much as possible.  In most cases, the display connector cannot be replaced in the field.  Damaged boards generally need to be returned to NVIDIA for repair. <b>Take extreme care when manipulating the hinge.</b></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+        </p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;">
+                        Note: The developer kit hardware and OS images are preliminary versions.  Performance of the initial developer kit may not reflect that of the final product or later devkit updates.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;">
+                        Note: Developers testing USB-based game controllers with their applications should note that when a game controller is connected to the development kit, the kit will not enter suspend mode properly.  Developers testing game controllers should likely use the settings panel’s <b>Display</b> and <b>Developer</b> options to set the screen timeout to maximum and enable "Stay Awake" while plugged into power.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Devkit Variants </h3>
+        <p>The Dalmore system is a folding kit with display and main board connected by a hinge.  There are two variants of the Dalmore kit; tablet, with a 10” screen, and phone, with a 5” screen.   There is no difference in the setup between the two.</p>
+        <h4>Dalmore Devkit with Tablet Screen </h4>
+        <p><a class="MCPopupThumbnailLink" href="images/dalmore_devkit.001.png"><img class="MCPopupThumbnail img" data-mc-width="842" data-mc-height="627" src="images/dalmore_devkit.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+            <br>
+            </br><b>Dalmore Development Kit</b>
+        </p>
+        <h4>Dalmore Development Kit with Phone Screen </h4>
+        <p><a class="MCPopupThumbnailLink" href="images/dalmore_phone_screen_board.001.png"><img class="MCPopupThumbnail img" data-mc-width="694" data-mc-height="392" src="images/dalmore_phone_screen_board.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+            <br>
+            </br><b>Dalmore Phone Screen Board (not attached to devkit) </b>
+        </p>
+        <h5>Attaching the Phone Screen</h5>
+        <p>To attach the screen to the Display Module connector:</p>
+        <ol>
+            <li value="1">If the small metal risers are not already attached, attach them.</li>
+            <li value="2">Take the screen and carefully slide the lower portion underneath the plastic guard. (Be careful not to break the small flex cable.) Carefully compress it down so it fits under the guard.</li>
+            <li value="3">Align the screen’s display connector with that on the main board.</li>
+            <li value="4">Gently push down in line with the connector until it seats. If correctly aligned, the connectors should fit together easily and without much pressure.<br /><br /><a class="MCPopupThumbnailLink" href="images/dalmore_attach_risers.001.png"><img class="MCPopupThumbnail img" data-mc-width="668" data-mc-height="367" src="images/dalmore_attach_risers.001_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a></li>
+        </ol>
+        <h3>Setup Steps </h3>
+        <p>At a high level, the basic steps towards getting your Dalmore devkit hardware assembled, configured, booted, and ready are as follows:</p>
+        <ol>
+            <li value="1">Start the install process of the NVIDIA&#160;AndroidWorks  software.</li>
+            <li value="2">Allow AndroidWorks to begin downloading the components it needs (this is automated, see <a href="../developertools/mobile/androidworks/androidworks_install.htm">Install AndroidWorks</a> for more information).</li>
+            <li value="3">While the downloads progress, unpack and assemble the Dalmore board.</li>
+            <li value="4">Connect the Dalmore to the development PC.</li>
+            <li value="5">Boot the Dalmore into "recovery mode" in preparation for updating the OS.</li>
+            <li value="6">Confirm to the AndroidWorks installer that you are ready to install the downloaded components.</li>
+            <li value="7">Allow the AndroidWorks installer to flash the new OS to the Dalmore.</li>
+            <li value="8">Boot the Dalmore.</li>
+            <li value="9">Read the samples documentation and experiment with the samples.</li>
+        </ol>
+        <p>The following sections will detail each of these steps.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

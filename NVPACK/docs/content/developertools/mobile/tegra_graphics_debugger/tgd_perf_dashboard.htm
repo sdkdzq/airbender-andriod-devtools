@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|Tegra Graphics Debugger">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Performance Dashboard</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_perf_dashboard.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="tegra_graphics_debugger_main.htm">Tegra Graphics Debugger</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Performance Dashboard</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <div id="pageheader">
+            <h1><span class="SystemTitle">Performance Dashboard</span>
+            </h1><a name="kanchor42"></a>
+            <hr width="100%" size="0" align="center" />
+        </div>
+        <p>The Performance Dashboard provides a view of application performance, in relation to CPU&#160;and GPU&#160;activity. </p>
+        <p>On the left side of the Performance Dashboard, you will see <b>Signal Graphs</b>, which are tool windows that allow you to view various counters given by <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>.  The graphs can all be customized to host any signal; the data is categorized as the following:&#160;</p>
+        <ul>
+            <li value="1"><b>API interception layers</b> — API call counts or primitive counts. </li>
+            <li value="2"><b>Driver</b> — Memory usage and driver time spent, as reported by the OpenGL driver. </li>
+            <li value="3"><b>CPU</b> — CPU&#160;utilization per core or average CPU&#160;utilization. </li>
+            <li value="4"><b>GPU</b> — Raw and ratio values&#160;for different units in the GPU. <ul style="list-style-type: circle;"><li value="1"><b>Units Busy</b> — How busy different units in the GPU&#160;are, such as the Geometry, ROP&#160;(or blending), and Texture units. </li><li value="2"><b>GPU&#160;Idle</b> — The percentage of time that the GPU&#160;is idle. </li></ul></li>
+        </ul>
+        <p><a class="MCPopupThumbnailLink" href="images/tgd_performance_dashboard.003.png"><img class="MCPopupThumbnail img" data-mc-width="1920" data-mc-height="1080" src="images/tgd_performance_dashboard.003_thumb_800_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 800px;" tabindex="" /></a>
+        </p>
+        <p>On the right side of the Performance Dashboard, you will see <b>Performance Tests</b>, which should be the first port of call when examining any application's performance. These tests facilitate a quick, high-level identification of performance issues, while the application is still running. </p>
+        <p>The following Performance Tests are available to use with <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>:</p>
+        <h3>General Performance Tests </h3>
+        <h5>Minimal&#160;Geometry </h5>
+        <blockquote>
+            <p>This test reduces the amount of geometry submitted to one triangle per draw call. If the frame rate does not go up significantly, the application is likely CPU-bound. </p>
+        </blockquote>
+        <h5>Disable Draw Calls</h5>
+        <blockquote>
+            <p>This will bypass every draw call at the API&#160;level and then return, resulting in no draws submitted to the driver. This should show significant performance improvement; if not, the application is CPU-bound.</p>
+        </blockquote>
+        <h5>Disable Vertical Sync</h5>
+        <blockquote>
+            <p>The application might use <code>eglSwapInterval</code> to eliminate flicker, which can cause the frame rate to snap to a certain frequency. Using this directed test enables the developer to observe the "true" graphics performance of the application.</p>
+            <p>Before experimenting with other directed tests, you should enable this option and ensure that enabling and disabling it does not impact timing.</p>
+        </blockquote>
+        <h3>Shaders and Texturing Tests </h3>
+        <h5>2x2 Textures</h5>
+        <blockquote>
+            <p>All 2D and Cubemap textures are instantly replaced with small 2x2 textures. If the frame rate goes up, then the texture unit is a likely bottleneck for the scene.</p>
+            <p>Significant response to this test usually indicates missing mipmaps, heavyweight texture formats, and/or expensive filter modes.</p>
+        </blockquote>
+        <h5>Null Fragment Shader</h5>
+        <blockquote>
+            <p>This test shows best-possible performance, if all fragment shaders are optimized to one cycle.</p>
+            <p>A large delta indicates that the application is fragment-bound; most Tegra applications will fall in this category.</p>
+            <p>Keep in mind that this test also neutralizes texture-fetch bandwidth. The 2x2 texture test can be used to help identify which factor is key, if there is any doubt which is the primary bottleneck.</p>
+        </blockquote>
+        <h5>Disable Texture Filtering</h5>
+        <blockquote>
+            <p>This test is used to forcibly disable texture filtering. For applications that use texture filtering extensively, this test will significantly improve performance.<br /></p>
+        </blockquote>
+        <h3>Bus Bandwidth Tests </h3>
+        <h5>Disable Buffer Uploads</h5>
+        <blockquote>
+            <p>This test shows if CPU-to-GPU buffer transfers (via <code>glMapBuffer</code> or <code>glBufferData</code>) are adversely affecting the application's performance.</p>
+        </blockquote>
+        <h5>Disable Texture Uploads </h5>
+        <blockquote>
+            <p>This test shows if CPU-to-GPU texture transfers (via the <code>glTexImage</code> family of functions) are adversely affecting the application's performance. GPU-to-CPU transfers and GPU-to-GPU transfers, such as those using <code>GL_PIXEL_UNPACK_BUFFER</code>, are not affected.</p>
+        </blockquote>
+        <h5>Disable Uniform Uploads </h5>
+        <blockquote>
+            <p>This test shows if CPU-to-GPU uploads of OpenGL uniform variables are adversely affecting the application's performance.</p>
+        </blockquote>
+        <h3>Fragment Bandwidth Tests </h3>
+        <h5>Disable Blending</h5>
+        <blockquote>
+            <p>This test shows if pixel overdraw is adversely affecting the application's performance. Using this, all drawing will be performed, but alpha blending modes will be disabled. </p>
+        </blockquote>
+        <h5>Disable Clear Calls</h5>
+        <blockquote>
+            <p>This test shows if clearing the frame buffer is causing a performance bottleneck. Using this, all drawing will be performed, but clear calls will be disabled.</p>
+        </blockquote>
+        <h5>Null Viewport</h5>
+        <blockquote>
+            <p>This test shows best-possible performance when no fragments are rendered. For example, when all geometry is processed (vertices are shaded, triangles are clipped).</p>
+            <p>If there is no performance improvement from this test, the application is likely vertex bound. </p>
+        </blockquote>
+        <h3>Linked Programs List </h3>
+        <p>Below the Performance Tests is the <b>Linked Programs List</b>.  This view lists all of the linked programs in the application, with their constituent shaders.  Note that if the program hasn’t been used by the application yet, it will show up as <b>Waiting…</b>, and if the program has been used but the statistics are being calculated, it will show up as <b>Calculating…</b>.  You can view the individual shaders by pressing the plus button the left of the program name you are interested in.  The list also contains a number of statistics:</p>
+        <p><a class="MCPopupThumbnailLink" href="images/tgd_linked_programs.001.png"><img class="MCPopupThumbnail img" data-mc-width="920" data-mc-height="726" src="images/tgd_linked_programs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+        </p>
+        <h5>Label</h5>
+        <blockquote>
+            <p>This is a field that can be attached to the program or shader using the <code>KHR_debug</code> extension, specifically the <code>glObjectLabel</code> call.</p>
+        </blockquote>
+        <h5>Cycles</h5>
+        <blockquote>
+            <p>This value is the absolute cost for a single primitive (vertex, tessellation control point, fragment, etc.) to execute through the shader.  The value takes into account latency for memory accesses, but it does not take branching or loops into account.  The values are summed up at the program level to show the absolute cycle count for a single fragment to be rendered on the screen.</p>
+        </blockquote>
+        <h5>Avg Cycles</h5>
+        <blockquote>
+            <p>Since primitives are submitted in large groups, this gives an average cycle cost for a single primitive, assuming it is submitted as a larger block of work (for instance, many fragments from the same object with the shame shader).  The values are summed up at the program level.</p>
+        </blockquote>
+        <h5>ALU/TEX Inst Ratio</h5>
+        <blockquote>
+            <p>This gives the ratio of ALU to texture instructions for the shader.  The values are averaged at the program level.</p>
+        </blockquote>
+        <h5>ALU/TEX Cycle Ratio</h5>
+        <blockquote>
+            <p>Since not all ALU calls are the same cost in terms of cycles, this value gives the ratio of cycles spent in ALU versus texture instructions. The values are averaged at the program level.</p>
+        </blockquote>
+        <h5>Regs</h5>
+        <blockquote>
+            <p>This column gives the number of registers used by the program.  Register count impacts occupancy/threads in flight so if the value gets too high you will get closer to the <b>Cycles</b> value than the <b>Avg Cycles</b> value.</p>
+        </blockquote>
+        <h5>LMem (Bytes)</h5>
+        <blockquote>
+            <p>This is the number of bytes of local memory used by the shader. Similar to registers, this can impact occupancy and contribute to a lower overall throughput of primitives running this shader.</p>
+        </blockquote>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

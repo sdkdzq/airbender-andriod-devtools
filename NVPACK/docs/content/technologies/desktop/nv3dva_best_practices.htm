@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Desktop Technologies|NVIDIA 3D Vision Automatic">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Best Practices</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/desktop/nv3dva_best_practices.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../desktop_technologies_aw.htm">Desktop Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nv3dva_main.htm">NVIDIA 3D Vision Automatic</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Best Practices</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Best Practices</span>
+        </h1><a name="kanchor57"></a>
+        <hr width="100%" size="0" align="center" />
+        <h4>The User Interface</h4>
+        <p>The User Interface provides the most latitude for polish with stereo. While the following are general rules of thumb, they are not hard and fast rules.</p>
+        <ul>
+            <li value="1">When rendering full screen menus (main menu, for example) or a pre-recorded, non-stereoized movie, render at Screen Depth.</li>
+            <li value="2">When rendering UI over the world, for example as part of a HUD or a popup menu, render at or just beyond Screen Depth.</li>
+            <li value="3">Ensure the mouse separation matches the separation of what's underneath it. This will cause the mouse to appear to render without separation, which is usually desired.</li>
+            <li value="4">Don't include stereoscopic options in-game. Users can use the NVIDIA interface controls to enable/disable stereo and control separation. For more details see <a href="nv3dva_stereoscopic_qa.htm#Separati">Separation Adjustment</a> in the <a href="nv3dva_stereoscopic_qa.htm">Stereoscopic QA</a> section. </li>
+            <li value="5">If your title has a very wide range of acceptable depth values, consider setting Convergence dynamically based on the depth of the scene. A common behavior for applications is to have one value of convergence per cutscene, and a different value for normal gameplay.</li>
+            <li value="6">If using NVAPI, the separation can be modified by the application, but this is generally considered a user setting and should be left alone.</li>
+        </ul>
+        <h4>Out of Screen Effects</h4>
+        <p>Out of screen effects are very cool, but they can also be very fatiguing to users. The brain does everything it can to reject the image being in front of the monitor. For that reason, NVIDIA recommends you use these effects very sparingly. Following these guidelines will also help:</p>
+        <ul>
+            <li value="1">Try to have objects move in depth from being in-screen to out-of-screen. This gives the brain time to adapt and accept the object.</li>
+            <li value="2">Avoid having out of screen objects clip with the edges of the screen.</li>
+            <li value="3">Avoid allowing user control of the camera during out-of-screen effects as much as possible.</li>
+        </ul>
+        <p>For these reasons, NVIDIA has found that out of screen effects work best during cut-scenes.</p>
+        <h4>Variable Graphical Settings on Tegra</h4>
+        <p>On Tegra powered devices, we encourage developers to verify performance when running with 3D Vision Automatic. The application should check performance by monitoring frame rate (or update rate), checking if 3D stereo is active, or a combination of these two checks. Where performance is lower than desired and depending on the developer’s preference, the application should either automatically adjust graphics settings or prompt the user to balance detail and performance settings.</p>
+        <h5>Detecting 3D Vision in Android</h5>
+        <p>Android applications can detect if 3D Vision is active by using the embedded NVIDIA <code>NvStereoUtils</code> library. Use the library as follows.</p>
+        <ul>
+            <li value="1">Add the<code> NvStereoUtils</code> library to the application’s <code>Manifest xml</code> file as follows:<br /><pre class="prettyprint">&lt;uses-library android:name="com.nvidia.nvstereoutils" android:required="false" /&gt;</pre><br />Note that the “android:required” field <b>must be set to false</b>. If it is missing or set to true, the application will not install on devices that are missing the library.</li>
+        </ul>
+        <ul>
+            <li value="1">Use reflection in your Java code to access the class:</li>
+        </ul>
+        <blockquote><pre class="prettyprint">boolean stereoEnabled = false;
+try
+{
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;Class c = Class.forName(“com.nvidia.nvstereoutils.NvStereoUtils”);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;Method meth = c.getMethod(“isStereoEnabled”);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;Object inst = c.newInstance();
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;stereoEnabled = (Boolean)meth.invoke(inst);
+}
+Catch(Exception e)
+{
+Log.e(“3D Detection”,”Failed to load com.nvidia.nvstereoutils”
+}</pre>
+        </blockquote>
+        <h5>Adjusting Effects</h5>
+        <p>There are a number of options a developer can choose to boost performance. Consider:</p>
+        <ul>
+            <li value="1">Toggling post-processing effects.</li>
+            <li value="2">Using lower precision shaders.</li>
+            <li value="3">Simplifying physics simulations and particle effects.</li>
+            <li value="4">Reducing rendering distances.</li>
+            <li value="5">Scaling the main render target.</li>
+        </ul>
+        <p>If you adjust the render target size for an Android application, you can use an in-built OS feature to complete the final screen scaling. The Android OS allows an OpenGL ES application to select a render target size that’s smaller than the screen size which the OS then stretches to match the device screen resolution.</p>
+        <table>
+            <col />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;"><b>Note:</b> Where the render target resolution is adjusted, it is important to maintain the aspect ratio and ensure that the UI components adjust accordingly. Please also read the section on <a href="nv3dva_stereoscopic_issues.htm#Post_Processing">Post Processing</a>.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Wrong"></a>Wrong is Right</h4>
+        <p>A subtle aspect of rendering in stereoscopic is that what is correct is not always right. Sometimes it is better to reduce eye strain than to be physically correct. This is particularly true for users that play with high values for separation.</p>
+        <p>One example of this is with very strong, very tight specular highlights. To be physically accurate, the application would need to be aware of the actual view vector for each eye, and then compute the specular highlights accordingly. In testing, NVIDIA has found that using a unified camera that matches the specular highlight in both eyes reduces eyestrain and feels better. As an added bonus, this method requires no additional effort on the part of the developer.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

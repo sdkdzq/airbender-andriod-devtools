@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Nsight Tegra 1.51, Visual Studio Edition</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/nsight_tegra/nsight_tegra_v1_5.htm">Open topic with navigation</a>
+        </p>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">Nsight Tegra 1.51, Visual Studio Edition</span>
+        </h1>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <h4>
+            <img src="images/nsight_tegra_logo.png" style="float: left;clear: both;vertical-align: top;padding-left: 4px;padding-right: 4px;padding-top: 4px;padding-bottom: 4px;" alt="nsight tegra visual studio edition" />Overview</h4>
+        <p>NVIDIA <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> is a full Android development environment that is integrated into Visual Studio.</p>
+        <p>This user guide covers the functions of <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> and outlines how you can use <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> to debug your Android applications. </p>
+        <h4>Getting Started </h4>
+        <h5>Installing <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> with TADP</h5>
+        <p>The Tegra Android Development Pack (TADP)&#160;is NVIDIA's simplified solution for Android developers, providing you with a single installer that manages the complex setup environment for you on Windows 7 (32/64-bit), Mac OS X, and Ubuntu Linux (32 bit/x64). <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> is included with TADP, to help you debug your Android applications.</p>
+        <p>Development tools installed include the following:&#160;Android SDK, Android NDK, JDK, Eclipse, CDT, ADT, Apache Ant and NVIDIA Debug Manager for Eclipse.</p>
+        <p>After you download and install TADP from <a href="http://developer.nvidia.com/develop4tegra" target="_blank">http://developer.nvidia.com/develop4tegra</a>, you should have a fully-configured Android development environment ready for development, as well as the additional Tegra specific tools required to do in-depth debugging and analysis on Tegra devices.</p>
+        <p>If you are developing on a Tegra Development Kit, please download the latest OS Image and flash the device. This will ensure you have the most up-to-date system with the latest optimizations. (For more specific information, see <a href="../tadp/tadp_install.htm">Getting Started with Tegra Android Development</a>.)&#160;</p>
+        <h5>Installing <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> without TADP </h5>
+        <p><span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> can also be run as a standalone application, without installing the entire TADP package. In order to do so, your machine needs to be running Visual Studio, and have the following environment variables set:&#160;</p>
+        <ul>
+            <li value="1"><code>ANDROID_SDK_ROOT</code>, <code>ANDROID_NDK_ROOT</code> <![CDATA[ ]]></li>
+            <li value="2"><code>JAVA_HOME</code> <![CDATA[ ]]></li>
+            <li value="3"><code>JAVA_HOME\bin</code> in path </li>
+            <li value="4"><code>ANT_HOME</code> <![CDATA[ ]]></li>
+        </ul>
+        <h5>Software Requirements</h5>
+        <p>The following components are automatically installed with the Tegra Android Development Pack. However, if you are running <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> without TADP, you'll need to verify that each of the items below has also been installed:</p>
+        <table cols="2">
+            <col style="width: 310px;">
+            </col>
+            <col style="width: 569px;">
+            </col>
+            <tbody>
+                <tr>
+                    <td>.NET&#160;Framework v4.5</td>
+                    <td><a href="http://www.microsoft.com/download/en/details.aspx?id=17851" target="_blank">http://www.microsoft.com/download/en/details.aspx?id=17851 </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>MS Visual Studio 2010 Professional, with Service Pack 1; MS&#160;Visual Studio 2012; or MS&#160;Visual Studio 2013                  </td>
+                    <td>Available via MSDN&#160;subscription downloads. <br></br></td>
+                </tr>
+                <tr>
+                    <td>Android SDK&#160;r21 or newer</td>
+                    <td><a href="http://developer.android.com/sdk/index.html" target="_blank">http://developer.android.com/sdk/index.html</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Android NDK r8e - r9d</td>
+                    <td><a href="http://developer.android.com/sdk/ndk/index.html" target="_blank">http://developer.android.com/sdk/ndk/index.html</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Latest JDK&#160;6 or 7 </td>
+                    <td><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Apache ANT&#160;1.9.1 or higher</td>
+                    <td><a href="http://ant.apache.org/bindownload.cgi" target="_blank">http://ant.apache.org/bindownload.cgi</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>First Use</h4>
+        <p>After installing both TADP and <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span>, open Visual Studio, and you will see that the NVIDIA&#160;Tegra Device Toolbar has been added. </p>
+        <p>
+            <img src="images/nsight_tegra_device_toolbar.001.png" alt="nsight tegra device toolbar">
+            </img>
+        </p>
+        <p> You can now begin using <span class="MyVariablesNsightTegraSHORT">Nsight Tegra</span> to debug your Android applications. </p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col>
+            </col>
+            <col style="width: 660px;">
+            </col>
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png">
+                        </img>
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                       Note: Do not untoggle the "Deploy APK&#160;on Debug"&#160;button on the right. For more information on the toolbar icons and what they mean, see <a href="nsight_tegra_projects.htm#NVIDIA_Tegra_Device_Toolbar">NVIDIA Tegra Device Toolbar</a>. 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p>  <![CDATA[ ]]></p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|PerfHUD Modes">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Frame Profiler</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_frame_profiler.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Frame Profiler</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor8"></a>
+        <h1><span class="SystemTitle">Frame Profiler</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>
+            <br />The <b>Frame Profiler</b> mode is one of PerfHUD’s most powerful features, and is not available on all target platforms.  When the user clicks the Frame Profiler button, PerfHUD will pause the application and perform automated performance analysis of the current frame.  Behind the scenes, PerfHUD is using the <code>EGL_NV_perfmon</code> extension, which allows it to access hardware-specific counters to determine unit utilization and bottleneck information for every draw call.  PerfHUD may cause the application to re-draw the frame multiple times so that it can gather all the necessary statistics.  After the analysis is complete, the user is presented with a highly detailed and interactive report.</p>
+        <h4>Frame Coherency</h4>
+        <p>To perform an experiment, PerfHUD causes the application to re-draw the same frame multiple times by overriding the value returned from the <code>EGL_NV_system_time</code> extension (<a href="perfhud_appendix_egl_extensions.htm">Appendix A</a>).  The application must perform absolutely no animation when delta-time is zero, otherwise the results of the experiment may be invalid.</p>
+        <h4>State Buckets </h4>
+        <p>Fundamental to the Frame Profiler is the concept of a state bucket.  State buckets are groups of draw calls that share portions of the render state.</p>
+        <p>State buckets are highly useful because a single optimization can apply to multiple draw calls.  They can also serve as a guide to developers who wish to increase their batch sizes, or minimize their state changes.</p>
+        <p>The user has control over the grouping heuristic that defines the state buckets.  This is done using the three checkboxes in the Bucket Definition pane (Figure 7). The text shown below the checkboxes is dynamic and changes according to the selection.</p>
+        <blockquote>
+            <p><a class="MCPopupThumbnailLink" href="images/perfhud_fig7_state_bucket.002.png"><img class="MCPopupThumbnail img" data-mc-width="1140" data-mc-height="345" src="images/perfhud_fig7_state_bucket.002_thumb_800_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 800px;" tabindex="" /></a>
+                <br />Figure 7. State Bucket screen.<br />The arrows show the flow of control. Changing the bucket definition (pane <span style="color: #ff0000;">1</span>) causes the bucket list to be repopulated (pane <span style="color: #ff0000;">2</span>); selecting a row in the bucket list causes the draw call list to be repopulated (pane <span style="color: #ff0000;">3</span>).  These panes are also tied to the graph tabs shown in Figure 8.<br /></p>
+        </blockquote>
+        <blockquote>
+            <p><a class="MCPopupThumbnailLink" href="images/perfhud_fig8_state_bucket_graph_tabs.001.png"><img class="MCPopupThumbnail img" data-mc-width="1245" data-mc-height="923" src="images/perfhud_fig8_state_bucket_graph_tabs.001_thumb_700_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 700px;" tabindex="" /></a>
+                <br />Figure 8. State Bucket screen with graph tabs. </p>
+        </blockquote>
+        <p>Each graph tab shows one combination of hardware counter results. The counter names are listed in the legends below the graph. The <b>Set Profile Graphs</b> dialog can be used to configure the graph type and units of the counters. (See <a href="perfhud_menu_descriptions.htm#Set_Profile_Graphs">Set Profile Graphs</a> for more information.)&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>
+            <br />
+        </p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

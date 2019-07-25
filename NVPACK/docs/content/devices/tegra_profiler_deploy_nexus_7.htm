@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Devices|Google Nexus 7 (1st Gen)">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Enable Tegra System Profiler on the Nexus 7</title>
+        <link href="../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../index.html#devices/tegra_profiler_deploy_nexus_7.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="devices.htm">Mobile Devices</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="nexus7_deployment.htm">Google Nexus 7 (1st Gen)</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Enable Tegra Profiler on the Nexus 7</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor146"></a>
+        <h2><span class="SystemTitle">Enable Tegra System Profiler on the Nexus 7</span>
+        </h2>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>To deploy and run Tegra System Profiler on a Nexus 7 device, use the following tutorial. </p>
+        <h4>System Requirements </h4>
+        <ul>
+            <li value="1">Nexus 7 device </li>
+            <li value="2">Build number <code>JDQ39</code> (<code>Android 4.2.2 kernel 3.1.10-g05b777c</code>) </li>
+        </ul>
+        <h4>Configuring the Nexus 7 Device </h4>
+        <ol>
+            <li value="1">Open the Nexus 7 distribution folder. </li>
+            <li value="2">Verify that <code>adb.exe</code> is in the PATH&#160;environment, and that the device has already been rooted. </li>
+            <li value="3">Connect one device to the PC&#160;and run <code>scanNdeploy.cmd</code>. <br /></li>
+            <table>
+                <col>
+                </col>
+                <col style="width: 660px;">
+                </col>
+                <tbody>
+                    <tr>
+                        <td style="background-color: #ffffe0;vertical-align: middle;">
+                            <img src="images/notebox.png">
+                            </img>
+                        </td>
+                        <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> Each time the device is restarted, the <code>scanNdeploy.cmd</code> script will need to be run in order to enable Tegra Profiler.  
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <li value="4">To remove the files from the device, run <code>clean.cmd</code>. <br /><br /><a class="MCPopupThumbnailLink" href="images/tegra_profiler_nexus7_scanndeploy.001.png"><img class="MCPopupThumbnail img" data-mc-width="992" data-mc-height="302" src="images/tegra_profiler_nexus7_scanndeploy.001_thumb_500_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 500px;" tabindex="" /></a><br /></li>
+        </ol>
+        <table>
+            <col>
+            </col>
+            <col style="width: 660px;">
+            </col>
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png">
+                        </img>
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;"><b>Note:</b> Only the JDQ39 firmware version is supported.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Running the Tegra System Profiler Application </h4>
+        <ol>
+            <li value="1">Open the <b>Tegra System Profiler</b> host application from the Start menu. <br /></li>
+            <li value="2">Press <b>CTRL+N</b> to display device information. <br /><br /><a class="MCPopupThumbnailLink" href="images/tegra_profiler_device_info.001.png"><img class="MCPopupThumbnail img" data-mc-width="793" data-mc-height="431" src="images/tegra_profiler_device_info.001_thumb_500_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 500px;mc-thumbnail-max-height: auto;" tabindex="" /></a></li>
+            <li value="3">Specify the application to be profiled, set the profiling options, and press <b>Begin</b>. <br /><br /><a class="MCPopupThumbnailLink" href="images/tegra_profiler_profiling_begin.001.png"><img class="MCPopupThumbnail img" data-mc-width="793" data-mc-height="431" src="images/tegra_profiler_profiling_begin.001_thumb_500_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 500px;mc-thumbnail-max-height: auto;" tabindex="" /></a><br /><br />You will see the profiling in progress. You also have the option to stop or exit the application being profiled. </li>
+            <li value="4">When the application has finished being profiled, you will see the Tegra System Profiler report window. <br /><br /><a class="MCPopupThumbnailLink" href="images/tegra_profiler_report_window.001.png"><img class="MCPopupThumbnail img" data-mc-width="795" data-mc-height="429" src="images/tegra_profiler_report_window.001_thumb_500_0.png" style="mc-thumbnail: link;mc-thumbnail-max-width: 500px;mc-thumbnail-max-height: auto;" tabindex="" /></a></li>
+        </ol>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

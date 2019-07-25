@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>How To: Use the Tegra Android Samples Pack</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/tegra_android_samples.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">How To: Use the Tegra Android Samples Pack</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">How To: Use the Tegra Android Samples Pack</span>
+        </h1> <a name="kanchor80"></a><hr width="100%" size="0" align="center" /><p>Android is a powerful game and application development platform.  Paired with the Android Native Development Kit (NDK) and Android OS versions Gingerbread, Honeycomb and Ice Cream Sandwich, it becomes possible to create top-quality 3D gaming experiences entirely (or almost entirely) from native C++ code.</p><p>However, many game developers find that taking their Android 3D game from a demo into a stable product can be a challenge.  The most common issues, questions and bugs tend to arise from:</p><ul><li value="1">Android Application Lifecycle (lock screen, task-switching, go-to-homescreen)</li><li value="2">Device orientation, especially with respect to sensor events like accelerometer</li><li value="3">Multitouch event handling</li><li value="4">Game controller support</li><li value="5">Media support (sound, video)</li><li value="6">Integration with Java-based Android features</li></ul><p>One particular set of sticking points and bugs are related to Android Lifecycle events, including:</p><ul><li value="1">Device suspend/resume</li><li value="2">Device orientation change</li><li value="3">Home-button support and resume from “homing”</li><li value="4">Back-button support</li><li value="5">Incoming calls</li><li value="6">Onscreen system notifications (alarms, critically low battery, etc)</li></ul><p>NVIDIA’s new samples pack provides several small applications that demonstrate the ways that many of these use cases can be handled robustly across multiple Android OS versions and devices.</p><h4>Important Use Notes</h4><table style="margin-left: 0;margin-right: auto;"><col /><col style="width: 632px;" /><tbody><tr><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><img src="images/warningbox.png" /></td><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><b>CAUTION:</b> This pack replaces and is incompatible with previous NVIDIA Tegra Samples Packs.  This includes the two most recent parallel samples packs as shipped in TADP r1.0r4/5, namely <code>Android_NVIDIA_samples_2_public</code> and <code>NVIDIA_Android_Lifecycle_samples_2_0_public</code>.<br />This Tegra Android Samples Pack should be treated as an independent, new system and should not be intermixed with previous samples packs.</td></tr></tbody></table><p>&#160;</p><table><col /><col style="width: 638px;" /><tbody><tr><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><img src="images/warningbox.png" /></td><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><b>CAUTION:</b> This is the initial general release of the new samples pack.  The set of applications, demos, libraries and documentation in this pack is expected to grow significantly over the coming updates.  The pack is designed to give Android developers examples of various Android native game development features as supported on Tegra.  Please report issues with this pack to <a href="mailto:tegradev@nvidia.com">tegradev@nvidia.com</a>.</td></tr></tbody></table><p>&#160;</p><table style="margin-left: 0;margin-right: auto;"><col /><col style="width: 638px;" /><tbody><tr><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><b>NOTE:</b> This samples pack focuses on development of applications using Android’s <code>NativeActivity</code> pure-native gaming feature.  This feature was added in Gingerbread, and thus these applications will run only on Android devices running Gingerbread (SDK10) or newer.  Currently, Froyo development is not supported by this pack.  Developers needing to include Froyo as a supported Android platform should refer to the previous Tegra Android Samples Packs, shipped in the TADP r1.0r4/5.</td></tr></tbody></table><p>&#160;</p><table style="margin-left: 0;margin-right: auto;"><col /><col style="width: 645px;" /><tbody><tr><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><img src="images/notebox.png" /></td><td style="background-color: #ffffe0;text-align: left;vertical-align: middle;"><b>NOTE:</b> The OpenMAX AL samples are no longer supported and have been removed from the samples pack.  Samples showing similar functionality using MediaCodec, Media Extractor, and MediaPlayer are under development for maximum compatibility.</td></tr></tbody></table><p>&#160;</p><p>&#160;</p><p>&#160;</p><hr style="height: 1px;" width="100%" size="0" align="center" /><script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true"></script><p>&#160;</p><div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;"><div class="button-group-container-left"><button class="button needs-pie previous-topic-button" type="button" title="Navigate previous"><img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" /></button><div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div><button class="button needs-pie next-topic-button" type="button" title="Navigate next"><img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" /></button></div></div><p> </p><p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span></p></body>
+</html>

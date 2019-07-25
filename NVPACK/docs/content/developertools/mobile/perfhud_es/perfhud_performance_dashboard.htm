@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Mobile Developer Tools|PerfHUD ES|PerfHUD ES 2.2|PerfHUD Modes">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Performance Dashboard</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/perfhud_es/perfhud_performance_dashboard.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../../mobile_devtools_aw.htm">Mobile Developer Tools</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhud_es_tadp.htm">PerfHUD ES</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="perfhudes_v2_2.htm">PerfHUD ES 2.2</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Performance Dashboard</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor7"></a>
+        <h1><span class="SystemTitle">Performance Dashboard</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>This is the initial mode after a new connection is established.  Multiple graphs are shown conveying GPU and driver performance statistics, as shown in Figure 3.  The user can also change the running application’s animation speed or perform simple experiments.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/perfhud_fig3_perf_dashboard.004.png"><img class="MCPopupThumbnail img" data-mc-width="1296" data-mc-height="839" src="images/perfhud_fig3_perf_dashboard.004_thumb_700_0.png" style="mc-thumbnail-max-width: 700px;mc-thumbnail: link;mc-thumbnail-max-height: auto;" tabindex="" /></a>
+            <br />Figure 3. Performance Dashboard. <br /></p>
+        <h4>Speed Bar</h4>
+        <p>The Speed Bar is a horizontal slider at the top that allows the user to set the application’s animation speed.</p>
+        <blockquote>
+            <p>
+                <img src="images/perfhud_fig4_speed_bar.002.png" />
+                <br />Figure 4. Speed Bar. <br /></p>
+        </blockquote>
+        <p>The slider is hidden if the application does not use the <code>eglGetSystemTimeNV</code> extension (see <a href="#How">How PerfHUD ES Controls Speed</a> below).<br /></p>
+        <h4><a name="How"></a>How PerfHUD&#160;ES&#160;Controls Speed</h4>
+        <p>In a given iteration of a game loop, the physics or animation is dependent upon the elapsed time since the previous iteration of the loop.  Games should use the system time extension (<a href="perfhud_appendix_egl_extensions.htm">Appendix A</a>) to determine elapsed time.  This allows PerfHUD to control the speed by modifying the returned time values.  For example, when the user moves the Speed Bar slider to ¼ speed, the values returned by <code>eglGetSystemTimeNV</code> are four times slower than the true time.</p>
+        <p>If the application does not use the system time extension, then PerfHUD cannot control speed, so the speed slider is not shown.  PerfHUD can still pause the application for the Frame Debugger and Profiler modes, but in those cases, the pause is achieved by simply blocking the call to the currently set frame delimiter (<code>eglSwapBuffers</code>by default). In this instance, the frame delimiter call does not return until the user switches back to Performance Dashboard mode.<br /></p>
+        <h4>Frame Delimiters </h4>
+        <p>The Frame Delimiter dialog can be displayed by selecting the <b>Set frame delimiters</b> option from the <b>Debug</b> menu. The dialog will appear as in Figure 5:</p>
+        <blockquote>
+            <p>
+                <img src="images/phes_set_frame_delimiters.001.png" />
+                <br />Figure 5. Frame Delimiter selection </p>
+        </blockquote>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        	Note: If PerfHUD ES is connected to a device running an older version than 2.26, the dialog box will appear differently, and may not contain all of the options displayed in Figure 5.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The Frame Delimiter dialog allows the user to define which API call represents the end of a given rendering frame. This value is used when collecting information for both the <b>Frame Debugger</b> and <b>Frame Profiler</b>. When the dialog is first loaded, the current delimiter will be in bold font (by default, this is <code>eglSwapBuffers</code>). </p>
+        <p>All API functions that have been detected in the target application will be colored green, while unused API functions will be red. Note that it is possible to select a red API call as the frame delimiter; however, the Frame Debugger and/or Frame Profiler information will not be valid until the selected API function is called in the target application.</p>
+        <p>The user can only select one GL/EGL API function as a frame delimiter. The spinbox in the dialog box defines the delimiter hit count for one frame – for example, how many current delimiters are in one frame.<br /></p>
+        <h5>Select Active Context</h5>
+        <p>The <b>Select Active Context</b> dialog can be displayed by selecting the <b>Select active context...</b> option from the <b>Debug</b> menu. The dialog will appear as in the below figure:</p>
+        <blockquote>
+            <p>
+                <img src="images/phes_active_context.001.png" />
+            </p>
+        </blockquote>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                       Note: If PerfHUD ES is connected to a device running an older version than 2.26, the <b>Select active context...</b> menu will always be disabled, and the dialog box will not be available.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The <b>Select Active Context</b> dialog allows the user to change active context. Most real applications contain multiple contexts. Different contexts have different roles in drawing the frame. This feature allows user to debug the performance data, frames, and profiling data of the interested context.</p>
+        <p>All contexts used in the application will be shown in the <b>Contexts</b> pane on the left side of the dialog box. A small black square indicates the active context. When a user clicks an item in the list, the context information will be updated in the property tree on the right pane of the dialog box. To change the active context, a user can simply double-click the item in the <b>Contexts</b> list, or click the <b>Select</b> button.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        Note: If you see  <b>Need to set correct delimiter</b> in red text at the bottom of the dialog, it means you selected a context with an inactive delimiter. You need to open the <b>Set Frame Delimiter</b> dialog and select an active delimiter (displayed in green),&#160;in order to make the debug and profiling data available.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Some contexts may be inactive. If an inactive context is selected, no data will be available in all modes. You must change to one of other active contexts.</p>
+        <h4>Directed Tests</h4>
+        <p>Game developers often perform simple experiments to find bottlenecks.  Without PerfHUD, experimentation can be an arduous process because developers must repeatedly modify their source, then recompile and rerun the application.  PerfHUD enables immediate experimentation without these steps, using the <b>Directed Tests</b> pane from the <b>Performance Dashboard</b>.  The Directed Tests are a set of checkboxes that can force the graphics pipeline into certain states.  This gives vital feedback in an interactive, real-time fashion.</p>
+        <p>The following experiments are available:</p>
+        <p>
+            <img src="images/perfhud_directed_tests.003.png" style="float: right;clear: none;vertical-align: middle;mc-thumbnail: none;" />
+        </p>
+        <ul>
+            <li value="1"><b>2x2 Textures</b>
+                <br />All 2D textures are instantly replaced with small 2x2 textures.  If the frame rate goes up, then the texture unit is a likely bottleneck for the scene.</li>
+            <li value="2"><b>Ignore Draw Calls</b>
+                <br />Approximates an infinitely fast GPU by ignoring all <code>DrawArrays</code> and <code>DrawElements</code> calls.  If the frame rate goes up, then the application is likely GPU bound, otherwise it is CPU bound either in the application or in the driver.</li>
+            <li value="3"><b>Disable VSync</b> <br />The application might use <code>eglSwapInterval</code> to eliminate flicker, which can cause the frame rate to snap to a certain frequency.  Using this directed test enables the developer to observe the “true” graphics performance of the application.</li>
+            <li value="4"><b>Null Fragment Shader</b> <br />All fragment shaders are replaced with a simple one-line shader that writes out a red color.  Using this test can determine if fragment shader complexity is causing a performance problem.</li>
+            <li value="5"><b>Null Viewport</b> <br />All drawing is performed, but the render target is simulated to be infinitely small.  If the frame rate increases dramatically when enabling this test, then performance is most likely limited by rasterization, fragment shading, blending, or frame buffer operations.</li>
+            <li value="6"><b>Disable Blending</b> <br />All drawing is performed, but alpha blending modes will be disabled.  This test can be used to determine if pixel overdraw is adversely affecting performance.</li>
+            <li value="7"><b>Disable Clears</b>
+                <br />All drawing is performed, but clear calls will be disabled.  This test can be used to determine if clearing the frame buffer is a performance bottleneck.</li>
+            <li value="8"><b>Disable Filtering</b>
+                <br />This test is used to forcibly disable texture filtering. For applications that use texture filtering extensively, this test will significantly improve performance. </li>
+            <li value="9"><b>Disable Texture Upload</b>
+                <br />This test will block all API calls that update texture data.  If the frame rate increases, then this test indicates that your application is texture-data bound.  <br /><b>NOTE:</b> Once this test is enabled, the original texture updates may not be recoverable, so you may need to restart the application.</li>
+            <li value="10"><b>Disable Buffer Data</b>
+                <br />All calls to <code>glBufferData</code> or <code>glBufferSubData</code> are ignored.  Similar to the <b>Disable Texture Upload</b> test, this test can indicate a problem with data loads.  <br /><b>NOTE:</b> Once this test is enabled, the original buffer data may not be recoverable, so you may need to restart the application.</li>
+            <li value="11"><b>Disable Uniform Upload</b>
+                <br />All calls to update uniform settings will be blocked.  Similar to <b>Disable Buffer Data</b>, this can help you determine whether or not data uploads are your bottleneck.</li>
+            <li value="12"><b>Disable Depth Test</b>
+                <br />         This test is used to forcibly disable the depth test, meaning that depth comparisons and the updates to the depth buffer will be ignored. For applications that use depth testing extensively, this test will significantly improve performance.
+            </li>
+            <li value="13"><b>Disable Stencil Test</b>
+                <br />         This test is used to forcibly disable the stencil test, meaning that stencil testing and the updates to stencil buffer are ignored. For applications that use stencil testing extensively, this test will significantly improve performance.
+</li>
+        </ul>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        Note: The number of directed tests available depends on the version of PerfHUD ES&#160;you are using. Some tests may not be available in older versions.                     </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Line Graphs</h4>
+        <p>The Performance Dashboard has several panes dedicated to “heart rate” style scrolling line graphs.  These include the Memory, Timing, and Draw Calls Graphs.  The Timing Graph has several data channels, where each channel corresponds to a counter object in the <code>EGL_NV_system_time</code> extension (<a href="perfhud_appendix_egl_extensions.htm">Appendix A</a>).  The graphs enable developers to view data produced from using the <code>EGL_NV_system_time</code> extension without modifying their application code.  The visibility of each counter can be toggled by clicking the legend buttons. </p>
+        <p> The list of counters may include the following:</p>
+        <ul>
+            <li value="1"><b>GPU Idle</b> <br />The total amount of time per frame that the GPU was idle.</li>
+            <li value="2"><b>Driver Time</b> <br />The total amount of time that the CPU spent within the driver, including time spent waiting for the GPU.</li>
+            <li value="3"><b>Frame Time</b> <br />Elapsed time from one frame to the next.  This is the inverse of the frames-per-second.<br /></li>
+        </ul>
+        <h4>Power Graph</h4>
+        <p>The <b>Power Graph</b> is only available when using PerfHUD&#160;ES&#160;with a SHIELD&#160;device. When a user connects PerfHUD&#160;ES to a SHIELD, the Power Graph will display as a tab next to the Memory graph. </p>
+        <blockquote>
+            <p>
+                <img src="images/perfhud_shield_power_graph.001.png" />
+            </p>
+        </blockquote>
+        <p>The Power Graph includes three counters:&#160;CPU, Core, and EMC. These display the three parts of the system's hardware power status. All units are displayed in milliwatts. <br /></p>
+        <h4>Batching Histogram</h4>
+        <p>The batching histogram gives a birds-eye view of how primitives in a particular frame are distributed.  A common performance problem occurs when an app uses too many calls to <code>DrawArrays</code> and <code>DrawElements</code> to draw a frame, and each call contains relatively few primitives.  Because of the inherent per-call overhead, it is much more efficient to make fewer calls to <code>DrawArrays</code>/<code>DrawElements</code>, and include a large number of primitives in each call.  The histogram is a quick way to gauge the efficiency of an application’s batch distribution.  Figure 4 is an example of a good distribution, because it has tall bars on the right and short bars on the left.</p>
+        <blockquote>
+            <p>
+                <img src="images/perfhud_fig6_batch_histogram.002.png" />
+                <br />Figure 6. Example of a good distribution in a batching histogram. <br /></p>
+        </blockquote>
+        <p>In this particular example, there is one draw call that contains between 5 and 19 triangles (inclusive), two draw calls that contain between 20 and 44 triangles, one draw call that contains between 80 and 124 triangles, and nine draw calls that contain over 245 triangles each.</p>
+        <p>The histogram is also interactive.  The user may click any of the columns to disable the draw calls that have primitive counts in that range.   If the frame rate increases dramatically, then the developer knows that the culled batch has a large impact on performance.  When a batch is culled, the bar is shown in light gray.  Clicking a culled batch restores it to normal.</p>
+        <h4>Status Bar:&#160;Texture Upload Notification </h4>
+        <p>This icon will blink when texture uploading APIs like <code>glTexImage*()</code> or <code>glTexSubImage*()</code>, or when compressed texture uploading APIs are called during current frame. When you have this notification, you should pay attention to your application. Texture uploading will significantly affect performance. In general, texture should be uploaded only once before rendering.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

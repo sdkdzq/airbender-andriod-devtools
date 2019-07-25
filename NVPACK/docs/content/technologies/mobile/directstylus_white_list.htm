@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|DirectStylus">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>DirectStylus White List</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/directstylus_white_list.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="directstylus_main.htm">DirectStylus</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">DirectStylus White List</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p>
+        <h1><span class="SystemTitle">DirectStylus White List</span>
+        </h1><a name="kanchor66"></a>
+        <div id="pageheader">
+            <hr style="height: 1px;" width="100%" size="0" align="center" />
+        </div>
+        <p>NVIDIA has included many DirectStylus optimizations in the Android framework to improve the user experience when using the stylus. These optimization and improvements range from stylus/eraser system cursors, to advanced heuristics to provide enhanced palm rejection.</p>
+        <p>There may be circumstances when these optimizations and improvements may produce unexpected or less-than-optimal results for applications which are not specifically optimized for stylus usage. To ensure that the overall system experience is great for both DirectStylus optimized and non-DirectStylus optimized applications, NVIDIA has provided a DirectStylus white list service. This service, available on all DirectStylus devices, selectively provides different levels of features, and touch event reporting, depending on whether the foreground application is on the white list or not.</p>
+        <p>The DirectStylus white list comes pre-populated on DirectStylus devices out of the factory. Those devices can communicate with NVIDIA servers on a regular basis to update the white list for the device.</p>
+        <p>This section describes the various white list scenarios you may want to consider for your application, as well as tips on developing white list candidate applications and how to request your application be added to the next white list update.</p>
+        <h4><a name="White_List_Scenarios"></a>White List Scenarios </h4>
+        <p>Not every application needs to be on the DirectStylus white list in order to function properly. The following table describes the white list scenarios and what they mean for the application.</p>
+        <blockquote>
+            <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;margin-left: 0;margin-right: auto;">
+                <col style="width: 185px;" />
+                <col style="width: 602px;" />
+                <thead>
+                    <tr>
+                        <th>Scenario</th>
+                        <th>What it means</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Not on white list </td>
+                        <td>All touch events are reported to the application as finger tool types. Touch width values are still reported through the API through <code>getPressure()</code>.
+
+<br /><br />If your application does not specifically handle the eraser tool type, and does not need to distinguish between the finger tool type and stylus tool type, you do not specifically need to have your application added to the white list.
+
+Many existing Android applications will continue to function properly without being on the white list. The stylus will still offer exceptional accuracy for your users.
+</td>
+                    </tr>
+                    <tr>
+                        <td>On white list </td>
+                        <td>Touch events are reported as their unique tool types (finger, stylus, or eraser). Touch widths are reported through the API through <code>getPressure()</code>.
+
+<br /><br />This allows your application to take full advantage of all features of DirectStylus.
+<br /><br />White list applications, such as Tegra Draw, are able to provide the user with the most differentiated stylus experience.
+</td>
+                    </tr>
+                    <tr>
+                        <td>Selective runtime white list</td>
+                        <td>The application is not on the DirectStylus white list. 
+<br /><br />Specific portions of the application may require the white list functionality to be selectively turned on for the best user experience.
+
+<br /><br />See the following section on <a href="#Selective_Runtime_White_Listing">Selective Runtime White Listing</a>  for information on how to dynamically and selectively add the application to the DirectStylus white list.
+</td>
+                    </tr>
+                </tbody>
+            </table>
+        </blockquote>
+        <h4><a name="Selective_Runtime_White_Listing"></a>Selective Runtime White Listing </h4>
+        <p>NVIDIA has modified the Android framework to allow applications to dynamically and selectively add or remove themselves from the DirectStylus white list. These runtime modifications are not persistent and may not be preserved across system restarts or application force stops. The recommended use for selective runtime white listing is to temporarily add or remove an application from the white list, for a specific section in the application. It is recommended that add/remove actions be applied in pairs.</p>
+        <p>To add itself to the DirectStylus white list temporarily, an application should broadcast the <code>com.nvidia.intent.action.ENABLE_STYLUS</code> intent with the data <code>package</code> set to a string that equals the full package name of the requesting application. When the section of the application needing temporary white list access has completed, the application should broadcast the <code>com.nvidia.intent.action.ENABLE_STYLUS</code> intent with the data <code>package</code> set to an empty string. Whenever the <code>onResume()</code> method of the application is called, it should rebroadcast the intent, as described above, if it still needs to be temporarily on the white list.</p>
+        <table style="margin-left: auto; margin-right: auto;">
+            <col style="width: 335px;" />
+            <col style="width: 246px;" />
+            <thead>
+                <tr>
+                    <th>Intent Name </th>
+                    <th>Extras </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>com.nvidia.intent.action.ENABLE_STYLUS</code> <![CDATA[ ]]></td>
+                    <td><code>package</code> (string) = full package name of the requesting application </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Testing White List Candidate Applications </h4>
+        <p>If you are developing an application which needs to be on the DirectStylus white list for production but is still in development, you can manually override the white list. This is a developer option located under the <b>Settings</b> &gt; <b>Developer options</b> menu. </p>
+        <p>If <b>Settings</b> &gt; <b>Developer options</b> is not available on your device, you will need to enter into developer mode by doing the following:</p>
+        <p>1) Go to <b>Settings</b> &gt; <b>About tablet</b>. </p>
+        <p>2) Tap on <b>Build number</b> at the bottom of the screen repeatedly until the toast at the bottom of the screen tells you that you are a <b>developer</b>.</p>
+        <p>To force the device into a mode where all applications are treated as white list applications, go to <b>Settings</b> &gt; <b>Developer options</b> and make sure <b>Override stylus white list</b> is checked.</p>
+        <p><a class="MCPopupThumbnailLink" href="images/directstylus_override_whitelist.png"><img class="MCPopupThumbnail img" data-mc-width="800" data-mc-height="1183" src="images/directstylus_override_whitelist_thumb_600_0.png" style="mc-thumbnail: link;mc-thumbnail-max-height: auto;mc-thumbnail-max-width: 600px;" tabindex="" /></a>
+        </p>
+        <p>Remember to uncheck this option after you are done developing your application, and want the device white list to function normally.</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Optimize OpenGL ES 2.0 Performance for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Memory Bandwidth</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles2_perf_mem_bandwidth.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Memory Bandwidth</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor120"></a>
+        <h1><span class="SystemTitle">Memory Bandwidth</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>High-Level Memory Bandwidth Overview</h4>
+        <p>On Tegra, with complex, blended, texture-heavy rendering, available memory bandwidth can become a performance bottleneck if care is not taken.  Understanding some rough guidelines can help the developer know when they may be bumping up against such limits.</p>
+        <p>The memory interface is designed to transfer 8 bytes per memory controller (MC) clock cycle. This is a total available memory bandwidth around 6GB/s for Cardhu with 750MHz memory clock.</p>
+        <h5>Memory Efficiency</h5>
+        <p>The efficiency of the memory system in real-life cases is affected by a number of factors:</p>
+        <ul>
+            <li value="1">How many memory clients are active simultaneously; fragment unit frame buffer write, fragment unit texture-fetch, vertex unit attribute-fetch are all GPU memory clients. Bear in mind that the Tegra memory architecture is unified, so non-GPU clients compete with the GPU for memory bandwidth.</li>
+            <li value="2">The frequency of "bus turns"; in other words, many memory read requests will be processed with greater efficiency than the same number of interspersed read/write requests.</li>
+            <li value="3">Disparate memory access patterns from a single client will expose the client heavily to "page miss" penalty, which will tend to dramatically reduce efficiency, and dominate performance.</li>
+        </ul>
+        <p>Based on experimental data it is safe to assume between 60-90% efficiency for fragment rendering. On Cardhu, at 6GB/s, that gives a lower bound around 3.5GB/s, and an upper bound around 5.4GB/s.  The following examples assume a somewhat pessimistic 66% efficiency, so the total available memory bandwidth is around 4GB/s.</p>
+        <h5>Display Scan Out Gobbles a Chunk</h5>
+        <p>We automatically lose a chunk of this to display scan out. At native Cardhu resolution 1366 x 768, with a 32bpp color buffer, running at 60Hz refresh (independent of application frame-rate):</p>
+        <blockquote><pre class="prettyprint">Scan Out Bandwidth = 240MB/s = 60Hz * 4bytes * 1366 * 768</pre>
+        </blockquote>
+        <h5>UI Composition Gobbles Another Chunk</h5>
+        <p>In many operating systems, applications draw to an intermediate render-target which is then compiled (with operating-system UI elements, for example) to a final surface. That final composite surface is what is then passed to the display hardware for scan out.</p>
+        <p>The process of composition is memory bandwidth intensive; it involves physically reading (some part of) each contributing surface from memory, and writing the generated resultant surface out to memory.</p>
+        <p>For a 32bit frame buffer, at native Cardhu resolution, at 30Hz, assuming two contributing surfaces with no blending (i.e., top of the final image from surface A, bottom from surface B), the minimum cost of composition is:</p>
+        <blockquote><pre class="prettyprint">Compositor Bandwidth = 240MB/s = 30Hz * (4bytes rd + 4 bytes wr) * 1366 * 768</pre>
+        </blockquote>
+        <p>So, the system immediately consumes more than 10% (480MB/s) of the 4.0GB/s available memory bandwidth for display and composition;  what’s left is around 3.5GB/s for all system activity.</p>
+        <h4>Examples Illustrating Memory Bandwidth Availability And Performance Impact</h4>
+        <p>Memory latency (for example, in texture-fetch) is well hidden on Tegra, which allows us to construct a simple model of memory performance based on transactions alone.</p>
+        <h5>Example 1 Geometry Drawn To Depth-Buffer Only (Depth Pre-Pass)</h5>
+        <p>Here we have the simplest possible use-case:</p>
+        <ul>
+            <li value="1">No fragment shader at all (fragment color write is disabled with <code>glColorMask</code>).</li>
+            <li value="2">The hardware can test and write fragment depth at 8 pixels per clock.</li>
+            <li value="3">Cardhu GPU speed is 520MHz.</li>
+            <li value="4">Cardhu depth buffer is 16bpp (2 bytes)</li>
+        </ul>
+        <h6>Depth Test: Reject</h6>
+        <p>In order to sustain the 8 pixels per clock peak rate for depth test and reject (i.e. all fragments fail the depth test), we need:</p>
+        <blockquote><pre class="prettyprint">Depth test transacted memory =  7.75GB/s = 8 * 2(bytes per pixel) * 520MHz</pre>
+        </blockquote>
+        <p>Plainly, the load this use-case places on the memory system is far in excess of available resources; 7.75GB/s required, but only (in the worst case) 3.5GB/s available.</p>
+        <p>Following this through, the ratio of required to available memory bandwidth is 0.45. So, according to this model, then:</p>
+        <blockquote><pre class="prettyprint">Sustainable depth-rejected ppc = 3.6 ppc  = 8ppc * (0.45)</pre>
+        </blockquote>
+        <p>In fact, this use-case performs better than the model on Cardhu; measured performance is around 5.1ppc (likely due to memory efficiency being considerable higher than the worst case figure used here).</p>
+        <h6>Depth Test: Accept</h6>
+        <p>Of course, some fragments will not be trivially rejected in a real depth pre-pass. To complete the picture, we need to account  for memory bandwidth in the case where fragments are written.</p>
+        <blockquote><pre class="prettyprint">Depth write transacted memory =  7.75GB/s = 8 * 2(bytes per pixel) * 520MHz</pre>
+        </blockquote>
+        <p>If all fragments pass the depth test, the same memory bandwidth is required to update the depth buffer content as was originally needed to perform the depth-test.</p>
+        <blockquote><pre class="prettyprint">Total depth accept transacted memory = 15.5GB/s = 7.75GB/s(test) + 7.75GB/s(write)</pre>
+        </blockquote>
+        <p>Of course, this isn’t possible, so practical depth accept performance will be massively attenuated from 8ppc, based on ratio of available to required memory bandwidth 0.22 (3.5/15.5), to somewhere  in the region of:</p>
+        <blockquote><pre class="prettyprint">Sustainable depth-accepted ppc = 1.8 ppc  = 8ppc * 0.22</pre>
+        </blockquote>
+        <p>Again, Cardhu actually performs slightly better than the model predicts; measured depth accept rate on Cardhu is around 2.3ppc, and again this is likely due to the pessimistic 3.5GB/s available figure used here.</p>
+        <h6>How Is This Useful</h6>
+        <p>Generally, it is useful to understand the impact the memory system has on systems because that understanding tends to steer towards bandwidth efficient solutions, which will typically work better (use less power for greater performance) in the mobile ecosystem.</p>
+        <p>Specifically, in this instance, it’s useful because the knowledge that:&#160;</p>
+        <ul>
+            <li value="1">Depth-tested fragments will be rejected at 3.6ppc (this rate is the same for ALL depth-rejection; fragment shader complexity is not a factor because the fragment shader is not executed), and</li>
+            <li value="2">Fragments cannot be accepted at better than 1.8ppc (Cardhu can actually shade fragments at this rate using a minimal 1 cycle shader)</li>
+        </ul>
+        <p>tends to lead obviously to the conclusion that:&#160;</p>
+        <ul>
+            <li value="1">In order to improve fragment throughput, we should try to bias the submission order of drawcalls so as to ensure that as many fragments as possible are rejected.</li>
+        </ul>
+        <p>The model above explains how memory bandwidth limitations directly impact depth-test for the depth pre-pass use case. Depth pre-pass is a technique used often on Cardhu to reduce the amount of fully shaded overdraw (typically it’s most valuable when fragment shader complexity is high, and vertex shader complexity is relatively low).</p>
+        <p>The practical conclusion to be drawn from the calculations above, is simply that a nearest first, depth-sorted, draw order could (depending on exactly how the ratio of rejected to accepted fragments improves) have substantial performance benefit to the depth pre-pass use-case.</p>
+        <h6>Example 2 Non-Depth-Tested, Alpha Blended, Textured Geometry</h6>
+        <p>This use case has no depth buffer traffic; it involves a single full-screen quad which blends between the current frame buffer and a texture provided source, driven by texture alpha.</p>
+        <ul>
+            <li value="1">Framebuffer format is 32bpp RGBA</li>
+            <li value="2">Blend equation is set to <code>GL_ADD</code></li>
+            <li value="3">Blend function is set to <code>GL_SRC_ALPHA</code>, <code>GL_SRC_ONE_MINUS_ALPHA</code>.</li>
+            <li value="4">Texture is RGBA 32bit, 1366 x 768 with min/max filter mode <code>GL_LINEAR</code> (i.e., no mipmap selection)</li>
+            <li value="5">The fragment shader used is this trivial 1-clock shader: <br /><pre class="prettyprint">uniform sampler2D tex0; <br />varying mediump vec2 texcoord0; <br />void main() <br />{<br />     gl_FragColor = texture2D(tex0, texcoord0);<br />}</pre></li>
+        </ul>
+        <p>A single full-screen quad at native Cardhu resolution is 1366 x 768 pixels. With a 1-cycle shader all fragments can be drawn in 1366 x 768 fragment shader cycles. Cardhu has two fragment units, so that cycle count can be halved. GPU-bound cycle count for this drawcall is:</p>
+        <blockquote><pre class="prettyprint">GPU clocks = 0.525 million cycles = 1366 * 768 / 2</pre>
+        </blockquote>
+        <p>Cardhu runs at 520Mhz, so time to process these fragments is:</p>
+        <blockquote><pre class="prettyprint">GPU time = ~1ms = 525,000 cycles / 520MHz.</pre>
+        </blockquote>
+        <p>However, memory bandwidth limitations change the picture substantially.</p>
+        <p>Each of these 1.05 million fragments transacts:</p>
+        <ul>
+            <li value="1">4 bytes to read the frame buffer</li>
+            <li value="2">4 bytes to write the frame buffer</li>
+        </ul>
+        <p>So 8 bytes per fragment, with 1.05 million fragments:</p>
+        <blockquote><pre class="prettyprint">Framebuffer memory transacted = 8.0MB</pre>
+        </blockquote>
+        <p>We assume that the texture is fetched precisely once; i.e. that the cache is perfect, which is extremely unlikely.</p>
+        <blockquote><pre class="prettyprint">Texture memory transacted = 4.0MB = (1366 * 768) *  4 bytes</pre>
+        </blockquote>
+        <p>So in a single millisecond of GPU time, the total requested memory is 12MB.</p>
+        <blockquote><pre class="prettyprint">Requested memory Bandwidth = 12GB/s = 12MB / 0.001s</pre>
+        </blockquote>
+        <p>Clearly, this is simply not possible; performance will be heavily bottlenecked due to limited available memory bandwidth, which is only 30% (3.5/12.0) of what’s required.</p>
+        <p>Absolute best run-time for this shader, on Cardhu, is:</p>
+        <blockquote><pre class="prettyprint">Minimum possible GPU time =  3.33ms = 1ms * (1.0/0.3)</pre>
+        </blockquote>
+        <p>A number of options are available to optimize this use-case further:</p>
+        <ul>
+            <li value="1">Use a compressed, 16bpp RGB, frame buffer format; reduces required frame buffer memory bandwidth by 50%, and total required memory bandwidth by 33%.</li>
+            <li value="2">Use a compressed texture format; converting to DXT1 reduces texture-fetch bandwidth by more than 80%, and total required memory bandwidth by more than 25%.</li>
+            <li value="3">Reduce the size of the texture;  a 75% reduction size (i.e., 50% on each axis) results in a 75% reduction in texture-fetch bandwidth, and a subsequent 25% reduction in total bandwidth.</li>
+        </ul>
+        <p>Obviously, as shader cycles increase, the required memory bandwidth tends to fall dramatically (the key issue is transacted memory per fragment cycle, if the average cycles per fragment increases, so the load on the memory system decreases).</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

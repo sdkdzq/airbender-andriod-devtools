@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|OpenCV for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Usage Models</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/opencv_usage_models.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="opencv_main.htm">OpenCV for Tegra</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Usage Models</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor72"></a>
+        <h1><span class="SystemTitle">Usage Models</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>Android supports two main methods for application development: in Java using the <a href="http://developer.android.com/sdk/index.html" target="_blank">Android SDK</a>, and in C/C++ using the <a href="http://developer.android.com/tools/sdk/ndk/index.html" target="_blank">Android Native Development Kit (NDK)</a>. It is also possible to combine these two modes in a single application. Analogously, there are two ways to access functions from the OpenCV for Tegra libraries in Android: through its native API and its Java API.</p>
+        <h3>Native</h3>
+        <p>Intrinsically, the OpenCV for Tegra libraries are compiled in <a href="http://docs.opencv.org/modules/refman.html" target="_blank">native form</a> (C/C++), which can be called in Android native applications/libraries. The native user libraries can, in turn, be accessed from Java through the Java Native Interface (JNI).</p>
+        <h3>Java</h3>
+        <p>The other method for accessing OpenCV for Tegra functions is through its <a href="http://docs.opencv.org/java/" target="_blank">Java API</a>. In addition to their C/C++ interface, there are Java wrappers for most of the OpenCV for Tegra functions. These can be accessed directly by Android applications in Java. </p>
+        <p>Note, however, that even for calls to OpenCV functions through their Java interface, all computations are internally performed at the native level. Hence the overhead of a call to an OpenCV for Tegra function through its Java interface is equal to the cost of one or several JNI calls.</p>
+        <p>The following illustration presents the software stacks for Android applications that use OpenCV for Tegra functions (a) directly in native code, and (b) in Java code via their Java wrapper interfaces.</p>
+        <p>
+            <img src="images/opencv_software_stacks.png" />
+        </p>
+        <p>There are pros and cons to both approaches of using OpenCV for Tegra in Android application. Using native calls can result in fewer overheads for JNI calls, but requires more programming effort. Conversely, using the Java interface requires less programming effort, but the overhead of JNI calls can quickly add up if many calls to individual OpenCV functions are made.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> If, in an application, you anticipate processing an image/video frame with a number of consecutive computer vision functions, it might be advantageous to write one native C/C++ library that calls all these functions. This native library can be accessed by the Android application via one JNI call per frame.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Interface</h3>
+        <h4>API</h4>
+        <p>OpenCV for Tegra has the same native (C/C++) and Java API as OpenCV, and OpenCV for Android.</p>
+        <p>For detailed documentation on the OpenCV native API, see the following site: <a href="http://docs.opencv.org/modules/refman.html" target="_blank">http://docs.opencv.org/modules/refman.html</a></p>
+        <p>For detailed documentation on the OpenCV Java interface, see the following site: <a href="http://docs.opencv.org/java/" target="_blank">http://docs.opencv.org/java/</a></p>
+        <p>For the OpenCV User Guide, see: <a href="http://docs.opencv.org/doc/user_guide/user_guide.html" target="_blank">http://docs.opencv.org/doc/user_guide/user_guide.html</a></p>
+        <p>For tutorials on OpenCV modules, see: <a href="http://docs.opencv.org/doc/tutorials/tutorials.html" target="_blank">http://docs.opencv.org/doc/tutorials/tutorials.html</a> <![CDATA[ ]]></p>
+        <h4>OpenCV Manager</h4>
+        <p>Android applications link OpenCV&#160;for Tegra (or OpenCV for Android) dynamically. Each application can maintain individual copies for the OpenCV shared libraries (<code>.so</code> files) inside their application packages or they can all use one copy of a shared library installed on the system. The latter strategy helps to keep end-user applications small and avoids duplication of the OpenCV libraries. However, in order for the latter to work correctly, the unique, device-specific OpenCV for Tegra libraries  must be available on the user’s device. This can be achieved via the OpenCV&#160;Manager. </p>
+        <p>The <a href="http://docs.opencv.org/android/service/doc/Intro.html" target="_blank">OpenCV Manager</a> Android service can be employed to asynchronously initialize OpenCV in applications at run-time. This service helps to dynamically manage OpenCV library binaries on end user devices. It provides a mechanism to check for the presence of and correctly initialize the unique platform-, operating system-, and version-specific OpenCV libraries that are required by an Android application. </p>
+        <p>The OpenCV Manager has the following advantages:</p>
+        <ul>
+            <li value="1">It results in a smaller application footprint. All applications use shared system OpenCV libraries and do not duplicate them.</li>
+            <li value="2">When installed via the Google Play store, it automatically provides the most optimized OpenCV library version for your supported platforms. </li>
+            <li value="3">It ensures the acquisition of OpenCV libraries from a trusted centralized source and their universal availability through the Google Play store.</li>
+            <li value="4">It enables the automatic incorporation of the regular updates and bug fixes into applications by simply updating their libraries.</li>
+        </ul>
+        <p>The OpenCV Manager service is packaged as an .apk file (<code>OpenCV_2.4.8.2_Manager_2.17_armv7a-neon.apk</code>), which can be downloaded, free of cost, from Google Play. It is also included in the TADP in the <code>OpenCV-2.4.8.2-Tegra-sdk/apk/</code> folder. It can be installed manually on to a Tegra device using the following command from a terminal window:</p>
+        <blockquote><pre class="prettyprint">$ adb install &lt;TADP DIR&gt;/apk/OpenCV_2.4.8.2_Manager_2.17_armv7a-neon.apk</pre>
+        </blockquote>
+        <p>In order for an application to use the OpenCV Manager, it must explicitly bind to its Service upon startup. This can be achieved by importing the necessary Java classes for the OpenCV Manager into your Android application and by modifying its code slightly as described <a href="http://docs.opencv.org/trunk/doc/tutorials/introduction/android_binary_package/dev_with_OCV_on_Android.html#application-development-with-async-initialization" target="_blank">here</a>. </p>
+        <p>The events that occur when a user runs an Android application with asynchronous initialization of OpenCV for Tegra with the OpenCV Manager are illustrated in the diagram below. </p>
+        <blockquote>
+            <p>
+                <br />
+                <img src="images/opencv_workflow.002.png" />
+                <br /><i>Image courtesy of OpenCV.org</i>
+            </p>
+        </blockquote>
+        <p>The Android application first attempts to bind to the OpenCV Manager service. If the OpenCV Manager is not already installed on the device, the binding is unsuccessful and the application attempts to download the OpenCV Manager service from Google Play. If Google Play is not accessible, the user must manually install the <code>.apk</code> package for the OpenCV Manager using <code>adb install</code> as described earlier. On the other hand, if Google Play is accessible, the OpenCV Manager is automatically downloaded from Google Play and installed. The service then determines if the specific OpenCV for Tegra libraries required by the application are available on the device. If they are available, they are correctly initialized and the application runs successfully by linking dynamically to them.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> This initialization happens on a device only once when an application requests the OpenCV Manager for the very first time. All subsequent applications successfully bind to OpenCV Manager in a single attempt.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>OpenCV for Tegra Library Package</h4>
+        <p>NVIDIA&#160;provides extended versions of the OpenCV for Android libraries that contain Tegra-specific optimizations. All libraries are provided in binary form and are packaged into the OpenCV Manager for ARM-v7a with NEON package (<code>OpenCV_2.4.8.2_Manager_2.17_armv7a-neon.apk</code>). This .apk can be downloaded, free of cost, from the Google Play store and is also included into the TADP package in the <code>OpenCV-2.4.8.2-Tegra-sdk/apk/</code> folder.</p>
+        <p>When installed on a non-Tegra device with an ARM-v7a CPU with NEON, the optimizations are not available and applications can use the non-optimized OpenCV for Android functions. However, on Tegra  devices, the optimized OpenCV functions are used by default instead of non-optimized ones.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/warningbox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p><b>Important Note for Tegra 2 Devices:</b> If you are developing on a Tegra 2 device, the <code>OpenCV_2.4.8.2_Manager_2.17_armv7a-neon.apk</code> does not work correctly. The <a href="https://play.google.com/store/apps/details?id=org.opencv.engine" target="_blank">Google Play store and the TADP package</a> provide OpenCV Manager and OpenCV for Tegra Library packages that are compatible with Tegra 2 devices. Please use the following two packages from the <code>&lt;path to TADP dir&gt;/OpenCV-2.4.8.2-Tegra-sdk/apk/</code> or from Google Play:</p>
+                        <ul>
+                            <li value="1"><code>OpenCV_2.4.8.2_Manager_2.17_armeabi.apk,</code> and</li>
+                            <li value="2"><code>OpenCV_2.4.8.2_binary_pack_armv7a.apk</code> <![CDATA[ ]]></li>
+                        </ul>
+                        <p>instead of the <code>OpenCV_2.4.8.2_Manager_2.17_armv7a-neon.apk</code> for Tegra 2 devices.</p>
+                        <p>You can obtain more information about the appropriate OpenCV <code>.apk</code> files to install on your specific device from <code>&lt;path to TADP dir&gt;/OpenCV-2.4.8.2-Tegra-sdk/apk/readme.txt</code>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>To determine whether the Tegra optimized functions are indeed being used in your application, check for the presence of the following message in the Android systems logs. You can use the <code>adb logcat</code> command to write out the system logs.</p>
+        <blockquote><pre class="prettyprint">E/OpenCV_for_Tegra(28465): Tegra platform detected, optimizations are switched ON!</pre>
+        </blockquote>
+        <p>Additionally, the OpenCV Manager installed on your device will display the information about your detected Tegra hardware as illustrated below.</p>
+        <p>
+            <img src="images/opencv_about_page.png" />
+        </p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

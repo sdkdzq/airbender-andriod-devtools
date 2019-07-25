@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Develop Apps Using Android Application Lifecycle">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Android Lifecycle Basics in Practice</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/lifecycle_basics_practice.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Android Lifecycle Basics in Practice</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor90"></a>
+        <h1><span class="SystemTitle">Android Lifecycle Basics in Practice</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h3>Top-Level Items</h3>
+        <p>Android applications must conform to the Android OS’s concepts of application lifecycle.  Applications failing to code for application lifecycle can be less responsive, less stable and less compatible across the range of Android devices than an app that even handles simple lifecycle events.  This whitepaper is designed to provide guidelines and tips for application developers with respect to handling common lifecycle events.</p>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;"><b>Note:</b>	 This document is not a replacement for a basic understanding of Android application development.  It is merely additional, practical documentation on Android application lifecycle behavior in real applications on commercial devices.  For Android application basics, visit <a href="http://developer.android.com/index.html" target="_blank">http://developer.android.com/index.html</a>. 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Android applications are based on several components, the most visible of which is the Activity class (“visible” is literal, because it implements all UI and views in an Android application).  Android specifies the lifecycle of each Activity in an application in detail, known as the Android Activity Lifecycle. </p>
+        <table>
+            <col style="width: 22px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;margin-top: 6px;margin-bottom: 6px;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;"><b>Note:</b>	 More and more developers are developing their applications as pure native apps, using <code>NativeActivity</code> and <code>native_app_glue</code> from the NDK.  Using these constructs does NOT automatically handle any additional Android lifecycle events for you.  This document is just as appropriate for developers of pure-native games as it is for explicitly Java/JNI-developed applications.  You will still need to code and test your application for Android lifecycle events.  For an introduction to <code>NativeActivity</code>, see: <a href="http://developer.android.com/reference/android/app/NativeActivity.html" target="_blank">http://developer.android.com/reference/android/app/NativeActivity.html</a>. <br /> <br />For documentation on <code>NativeActivity</code>, see the NDK’s <code>$NDKROOT/docs/NATIVE-ACTIVITY.HTML</code>.<br /> <br />In addition, see the samples in the Tegra Android Native Samples Pack.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Simple Android applications, especially 3D games that handle all user interfaces in the 3D engine tend to be single-Activity Android applications.  As a result, the concepts of "application lifecycle" and "Activity lifecycle" can be considered as one and the same.  We will do so for the purposes of this document.</p>
+        <p>The Android lifecycle is exposed to applications via a set of callback member functions in the application’s Java code.  At a top level, the basic sequence of Android lifecycle callbacks follow a sort of "stack," along with a set of additional callbacks that appear to happen outside of this strictly hierarchical sequence.  We note the items that should likely be handled in each.  This list is not exhaustive and covers mainly the common ones.</p>
+        <h3>NativeActivity and native_app_glue</h3>
+        <p>Applications using <code>NativeActivity</code> or <code>native_app_glue</code> must handle all of the Android Activity lifecycle cases as do Java apps.  These native constructs are not a free pass from lifecycle handling.  </p>
+        <p>While the core of this document describes the Android lifecycle in terms of the Android Java-level lifecycle callbacks, the NDK “pure native” frameworks <code>NativeActivity</code> and <code>native_app_glue</code> have messages/callbacks that match each of the important lifecycle callbacks.  To better understand how a native application can and should code for Android lifecycle, we recommend reading the document normally, then re-reading the section <a href="#Mapping_Lifecycle_to_Native_Code">Mapping Lifecycle to Native Code</a> to understand the specifics of lifecycle constructs and native coding.</p>
+        <p>In most cases, the following mappings are very direct:</p>
+        <ul>
+            <li value="1"> Activity methods such as <code>onStart</code>, <code>onStop</code>, etc., to </li>
+            <li value="2"><code>NativeActivity</code> callbacks such as <code>ANativeActivityCallbacks.onStart</code>, to </li>
+            <li value="3"><code>native_app_glue</code> event IDs such as <code>APP_CMD_START</code></li>
+        </ul>
+        <p>In fact, these are generally obvious 1-to-1 mappings.  Everything in this document relating to the Java-level Activity methods should apply.  The only changes tend to be basic syntax and tactics.  So the entire document applies to these cases as well.  Where possible, some specifics that differ between Java, <code>NativeActivity</code> and <code>native_app_glue</code> are discussed in-line in each section.</p>
+        <h3>The Lifecycle Hierarchy Events</h3>
+        <p>The following events follow a basic hierarchy as indicated by indentation.  They are all override-able members of Activity.</p>
+        <p><code style="font-weight: bold;">onCreate</code>: called to set up the Java class for the instance of the app</p>
+        <blockquote>
+            <p><code style="font-weight: bold;">onStart</code>: technically, called to initiate the "visible" lifespan of the app; at any time between <code>onStart</code> and <code>onStop</code>, the app may be visible.  We can either be <code>onResumed</code> or <code>onStopped</code> from this state.  Note that there is also an event for <code>onRestart</code>, which is called before <code>onStart</code> if the application is transitioning from <code>onStop</code> to <code>onStart</code> instead of being started from scratch.</p>
+        </blockquote>
+        <blockquote>
+            <blockquote>
+                <p><code style="font-weight: bold;">onResume</code>: technically, the start of the "foreground" lifespan of the app, but this does not mean that the app is fully visible and should be rendering (this will be discussed in more detail later in this document). </p>
+                <p><code style="font-weight: bold;">onPause</code>: the app is losing its foreground state; this is normally an indication that something is fully covering the app.  On versions of Android before Honeycomb, once we returned from this callback, we could be killed at any time with no further app code called.  We can either be <code>onResumed</code> or <code>onStopped</code> from this state.</p>
+            </blockquote>
+            <p><code style="font-weight: bold;">onStop</code>: the end of the current visible lifespan of the app – we may transition to <code>on(Re)Start</code> to become visible again, or to <code>onDestroy</code> if we are shutting down entirely.  Once we return from this callback, we can be killed at any time with no further app code called on any version of Android.</p>
+        </blockquote>
+        <p><code style="font-weight: bold;">onDestroy</code>: called when the Java class is about to be destroyed.  Once this function is called, there is only one option for transition (other than being killed): <code>onCreate</code>.</p>
+        <h3>The non-Hierarchy Events</h3>
+        <p>Another set of important events are not hierarchical; we have seen them come in various levels of the previously described hierarchy events.  These events cover two categories: window focus and surface status.</p>
+        <h5>Window Focus Callbacks</h5>
+        <p>Window focus generally indicates whether an application’s window is the top-most, visible and interact-able window in the system.  There are two functions that relate window focus, and they seem to be redundant for applications with a single major view: <code style="font-weight: bold;">Activity::onWindowFocusChanged</code> and <code style="font-weight: bold;">View::onWindowFocusChanged</code>.  Each of these functions is passed a Boolean that indicates whether the callback is denoting focus gained or lost.  </p>
+        <p>At <code>onCreate</code>, the application does not have focus; initially, any app-cached “focus” flag should be false.  Applications should be looking for an initial focus gained callback.  In practice, focus gain messages tend to come in a stricter range of lifecycle; they tend to come only between <code>onResume</code> and <code>onPause</code> callbacks.  In other words, most “focus gained” callbacks come after a launched application has already received <code>onCreate</code>, <code>onStart</code>, and <code>onResume</code>.</p>
+        <p>We might expect that this process is fully hierarchical; we might assume that since we generally receive “focus gained” callbacks when we are in the resumed state that perhaps we always receive “focus lost” callbacks while we are still resumed.  In other words, that the sequence would always be of the form <code>onResume,</code> focus gained, focus lost, <code>onPause</code>.  However, focus lost callbacks do not tend to fall tightly into the expected hierarchy.  As can be seen from callback sequences later in this document, an application may not receive a focus lost message before its <code>onPause</code> callback is called.  In fact, in cases of quick shutdown for configuration changes, the system may go from resumed and focused all the way to <code>onDestroy</code> without ever indicating focus lost.  So <code>onPause</code> and <code>onWindowFocusChanged</code> must be used in tandem to determine the visible and interact-able state of the app.  It is this lack of focus lost callbacks at expected times which places the window focus events in the “non-hierarchical” category.</p>
+        <h5>Surface Callbacks</h5>
+        <p>The other forms of non-hierarchical callbacks of great importance to 3D applications are the surface callbacks.  There are three of them, and they are associated with an application’s <code style="font-weight: bold;">SurfaceView(s)</code>.  Since most 3D games will use a single, full-screen <code style="font-weight: normal;">SurfaceView</code>, we will assume a singleton.  This singleton <code>SurfaceView</code> is the host of the application’s EGL Surface for rendering, and is thus pivotal to the app.</p>
+        <p>Note that some applications may choose to use <code>GLSurfaceView</code> to wrap their OpenGL ES rendering structure.  While we do not assume this use in the course of this document (we wish to handle the rendering more directly), the surface callbacks remain in place.</p>
+        <p>The three callbacks are: <code style="font-weight: bold;">surfaceCreated</code>, <code style="font-weight: bold;">surfaceChanged</code>, and <code style="font-weight: bold;">surfaceDestroyed</code>.  These three callbacks form a hierarchy within themselves, as you will always receive a <code>surfaceCreated</code> callback to indicate a surface is available for the <code>SurfaceView</code>, one or more <code>surfaceChanged</code> callbacks to indicate that format or (most commonly) width and/or height have changed, and then a <code>surfaceDestroyed</code> callback to indicate that the <code>SurfaceView</code> no longer makes a surface available.</p>
+        <p>These are pivotal to 3D applications because the application’s EGL Surface may only exist between the <code>surfaceCreated</code> and <code>surfaceDestroyed</code> callbacks.  Furthermore, since most Android EGL implementations require that you bind a non-NULL surface whenever you bind a non-NULL context, until you have a valid surface, you cannot bind a context and thus cannot load any 3D resources.</p>
+        <p>While these functions form their own hierarchy, they can interleave into the overall hierarchy of the lifecycle in rather complex ways.  Like window focus, we generally see windows initially created (<code>surfaceCreate</code>) by an app in the resumed state.  However, in practice, we see <code>surfaceDestroyed</code> callbacks after <code>onPause</code> or even after <code>onDestroy</code>.  As a result, applications may need to handle shutting down EGL before their surfaces are destroyed.</p>
+        <h3><a name="Mapping_Lifecycle_to_Native_Code"></a>Mapping Lifecycle to Native Code </h3>
+        <p>Developers writing “pure native” applications via <code>NativeActivity</code> and <code>native_app_glue</code> should not delude themselves; their applications are still based on a Java Android Activity that is built into the OS image.  As a result, the developer must still handle all of the aforementioned Android lifecycle cases.  Fortunately, all of the previously discussed Java application callbacks are directly represented in both <code>NativeActivity</code> and <code>native_app_glue</code>.  The following table lists the mappings:</p>
+        <table cols="3">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Java Activity member</th>
+                    <th>NativeActivity callback</th>
+                    <th>native_app_glue message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>onCreate</code>
+                    </td>
+                    <td><code>ANativeActivity_onCreate</code>
+                    </td>
+                    <td><code>android_main</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onStart</code>
+                    </td>
+                    <td><code>::onStart</code>
+                    </td>
+                    <td><code>APP_CMD_START</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onResume</code>
+                    </td>
+                    <td><code>::onResume</code>
+                    </td>
+                    <td><code>APP_CMD_RESUME</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onPause</code>
+                    </td>
+                    <td><code>::onPause</code>
+                    </td>
+                    <td><code>APP_CMD_PAUSE</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onStop</code>
+                    </td>
+                    <td><code>::onStop</code>
+                    </td>
+                    <td><code>APP_CMD_STOP</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onDestroy</code>
+                    </td>
+                    <td><code>::onDestroy</code>
+                    </td>
+                    <td><code>APP_CMD_DESTROY</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onWindowFocusChanged</code>
+                    </td>
+                    <td><code>::onWindowFocusChanged</code>
+                    </td>
+                    <td><code>APP_CMD_GAINED/LOST_FOCUS</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>surfaceCreated</code>
+                    </td>
+                    <td><code>::onNativeWindowCreated</code>
+                    </td>
+                    <td><code>APP_CMD_INIT_WINDOW</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>surfaceChanged</code>
+                    </td>
+                    <td><code>::onNativeWindowResized</code>
+                    </td>
+                    <td><code>APP_CMD_WINDOW_RESIZED</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>surfaceDestroyed</code>
+                    </td>
+                    <td><code>::onNativeWindowDestroyed</code>
+                    </td>
+                    <td><code>APP_CMD_TERM_WINDOW</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>onConfigurationChanged</code>
+                    </td>
+                    <td><code>::onConfigurationChanged</code>
+                    </td>
+                    <td><code>APP_CMD_CONFIG_CHANGED</code>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Native application developers can handle all lifecycle events in ways completely analogous to the Java-level discussions.  In fact, the availability of EGL in native code when using <code>NativeActivity</code> makes handling contexts and configs even easier than in the pre-GB JNI situation (where the EGL code had to be written in Java and called from native code via JNI).</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

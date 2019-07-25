@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Technologies|Mobile Technologies|Mobile How Tos|Optimize OpenGL ES 2.0 Performance for Tegra">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Fragment Performance</title>
+        <link href="../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../resources/stylesheets/style.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.button.previous-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-previous.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.button.current-topic-index-button
+{
+	-pie-background: linear-gradient(#ffffff, #ececec);
+}
+
+.button.next-topic-button
+{
+	-pie-background: url('../../../Skins/Default/Stylesheets/Images/navigate-next.png') no-repeat center center, linear-gradient(#ffffff, #ececec);
+}
+
+.needs-pie
+{
+	behavior: url('../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <script src="../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../Skins/Default/Scripts/Toolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../index.html#technologies/mobile/gles2_perf_fragment.htm">Open topic with navigation</a>
+        </p>
+        <div class="MCBreadcrumbsBox_style.css_0"><span class="MCBreadcrumbsPrefix">You are here: </span><a class="MCBreadcrumbsLink" href="../technologies_aw.htm">Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="../mobile_technologies.htm">Mobile Technologies</a><span class="MCBreadcrumbsDivider"> &gt; </span><a class="MCBreadcrumbsLink" href="how_to_header.htm">Mobile How Tos</a><span class="MCBreadcrumbsDivider"> &gt; </span><span class="MCBreadcrumbs">Fragment Performance</span>
+        </div>
+        <p style="font-size: 8pt;">To view the latest NVIDIA&#160;AndroidWorks documentation, visit <a href="http://docs.nvidia.com/gameworks/index.html" target="_blank">http://docs.nvidia.com/gameworks/index.html</a>. </p><a name="kanchor119"></a>
+        <h1><span class="SystemTitle">Fragment Performance</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <h4>High-Level Fragment Performance Guidelines</h4>
+        <p>The GPU clock in a Cardhu system operates at 520Mhz. Cardhu can shade (with the simplest possible fragment shader) at a rate of two pixels per GPU cycle, giving a final peak fragment throughput of 1G fr/s.</p>
+        <p>It is worth noting that early depth and stencil tests are performed before the fragment shader with a speed of 8 fragments per clock. This means that fragments can be culled by depth and stencil tests four times faster than they can be rendered.  Fragments can be culled at a rate of 4G fr/s (although the practical rate may be significantly lower than this, due to limited available memory bandwidth).</p>
+        <p>Using depth and/or stencil tests to limit fully shaded overdraw is strongly recommended for all applications with non-trivial depth complexity.</p>
+        <p>Note that <code>glClear</code> operates in a special optimized mode and can clear at higher than the peak 3D fragment rate. Always use <code>glClear</code>  for whole surface clears (in preference to clearing with 3D polygons).</p>
+        <h4>Data-Related Fragment Guidelines</h4>
+        <h5>Texturing</h5>
+        <h6>Texture Formats</h6>
+        <p>Use texture formats with the lowest number of bits per texel that will fulfill the needs of the source artwork and its use in the shader.  The following texture formats are supported by all current Tegra devices:</p>
+        <table cols="2">
+            <col style="width: 390px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Formats</th>
+                    <th>Bits per Texel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GL_COMPRESSED_RGB_S3TC_DXT1_EXT</code>
+                        <br style="mc-tag-and-class: code;" /><code>GL_COMPRESSED_RGBA_S3TC_DXT1_EXT</code>
+                        <br style="mc-tag-and-class: code;" /><code>GL_ETC1_RGB8_OES</code> <![CDATA[ ]]></td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td><code>GL_COMPRESSED_RGBA_S3TC_DXT3_EXT
+</code>
+                        <br style="mc-tag-and-class: code;" /><code>GL_COMPRESSED_RGBA_S3TC_DXT5_EXT</code> <![CDATA[ ]]></td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td><code>GL_LUMINANCE, GL_UNSIGNED_BYTE </code>
+                        <br style="mc-tag-and-class: code;" /><code>GL_ALPHA, GL_UNSIGNED_BYTE</code> <![CDATA[ ]]></td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td><code>GL_UNSIGNED_SHORT_4_4_4_4
+</code>
+                        <br style="mc-tag-and-class: code;" /><code>GL_UNSIGNED_SHORT_5_5_5_1</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_UNSIGNED_SHORT_5_6_5</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_LUMINANCE, GL_HALF_FLOAT_ARB</code> <![CDATA[ ]]></td>
+                    <td>16</td>
+                </tr>
+                <tr>
+                    <td><code>GL_RGB, GL_UNSIGNED_BYTE</code> <![CDATA[ ]]></td>
+                    <td>32 (see note)</td>
+                </tr>
+                <tr>
+                    <td><code>GL_RGBA, GL_UNSIGNED_BYTE</code> <![CDATA[ ]]></td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <td><code>GL_LUMINANCE_ALPHA, GL_HALF_FLOAT_ARB</code> <![CDATA[ ]]></td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <td><code>GL_RGB, GL_HALF_FLOAT_ARB</code> <![CDATA[ ]]></td>
+                    <td>48</td>
+                </tr>
+                <tr>
+                    <td><code>GL_RGBA, GL_HALF_FLOAT_ARB</code> <![CDATA[ ]]></td>
+                    <td>64</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>For each particular use case, you should choose the most compact texture format possible for the level of quality required. The inflated memory bandwidth requirement (and subsequent performance impact) of the fatter texture formats can be dramatic. For example, the difference in memory footprint between an RGBA texture stored as DXT1, versus RGBA half-float, is 16x.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;">
+                        <p> <b>Note:</b> Tegra does not directly support 24 bit per pixel RGB textures.  These are expanded by the driver at specification time to 32 bit per pixel RGBX textures.  No device memory is saved with these formats, and the reformatting process at specification time requires driver work on the CPU.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h6>Texture Filtering</h6>
+        <p>The Tegra fragment unit incorporates sophisticated hardware texture sampling features such as bilinear, trilinear and anisotropic filter modes. In some cases, using these features has a performance cost, and application developers should take care to understand the impact of their use.</p>
+        <ul>
+            <li value="1">Always generate mipmap chains, and enable an appropriate mipmap-selecting filter mode, for texture assets. Use of texture samplers without mipmapping tends to result in unpredictable memory access patterns, which defeat the texture cache, reduces memory efficiency, and increases memory bandwidth consumption, with a subsequent reduction in performance.</li>
+            <li value="2">"Bilinear" minification filter modes (i.e., those that sample from within a single mip-level only);  <code>GL_NEAREST_MIPMAP_NEAREST</code>  and <code>GL_LINEAR_MIPMAP_NEAREST</code>, are "free" and can be executed at 1 sample per clock, per fragment unit.</li>
+            <li value="3">"Trilinear" minification filter modes (i.e., those that sample from two distinct mip-levels);  <code>GL_LINEAR_MIPMAP_LINEAR</code>  and <code>GL_NEAREST_MIPMAP_LINEAR</code>,  incur an extra 1 cycle per-sample penalty.</li>
+            <li value="4">Avoid the use of anisotropic filtering (via <code>GL_TEXTURE_MAX_ANISOTROPY_EXT</code>) unless it’s absolutely necessary to prevent visual artifacts. Blanket use of high anisotropic filter settings will substantially reduce fragment throughput and increase memory bandwidth consumption.</li>
+        </ul>
+        <h5>Fragment Data Types</h5>
+        <p>The Tegra fragment unit supports two levels of fragment variable precision: fp20 (an s.6.13 floating-point format) and fx10 (two’s complement s.1.8 format). Tegra can efficiently store twice as many temporaries, varyings, and uniforms in fx10 format than in fp20.</p>
+        <ul>
+            <li value="1"><code>highp</code> and <code>mediump</code> precision variables are both interpreted by the compiler as 20-bit floating-point values (fp20)</li>
+            <li value="2"><code>lowp</code> precision variables are interpreted as fixed-point 10-bit values (fx10). As fx10 can only store values of range (-2, 2), it is typically used only for color computations and normalized values (e.g., perfect for blending). Floating point precision is usually required for storing coordinates (e.g., interpolated texture coordinates).</li>
+            <li value="3">Note that all operations are computed by the hardware at full, fp20, precision. The conversion to fx10 happens only when the result is stored to a register.</li>
+            <li value="4">A special case exception to the "always prefer <code>lowp</code>" rule is regarding texture mapping coordinates, which should always be <code>mediump</code>. The texture unit requires <code>mediump</code> texture coordinates, and additional ALU cycles may be required to convert <code>lowp</code> texture coordinates prior to sampling.</li>
+        </ul>
+        <p>Minimizing the number of actively-used hardware vector registers at any point in a shader is important on Tegra for maximum performance.  Registers are consumed by actively-used varying and temporary variables in the shader.  A register or sub-section of a register can be used by several variables if those variables have non-overlapping lifespans.  The shader compiler actively optimizes these.  Best performance will be found by limiting the number of actively-used variables (temporaries and uniforms) at any given time.  Note that a register can hold either one fp20 variable or two fx10 variables, so use of <code>lowp</code> will help maximize register usage.</p>
+        <h4>Pre-Shader Fragment Guidelines and Optimizations</h4>
+        <h5>Reduce Framebuffer Bandwidth By Using Optimal Render Target Formats</h5>
+        <p>One of the single heaviest consumers of memory bandwidth in any graphical Tegra application is the framebuffer. Typically millions of fragments are written, and re-written, and read (in the case of alpha-blended drawcalls) in every rendered frame.</p>
+        <p>Rendering to a 16-bit (RGB 565), rather than a full 32-bit (RGBA8888) frame buffer, saves 50% of this memory traffic in a single stroke. Often the reduction in visual quality is small; the 16-bit surface is dithered to reduce banding and other visual artifacts. If an application doesn’t require a destination alpha channel, using the 16-bit framebuffer format can be fantastic bang for the buck.</p>
+        <h6>EGL Configurations</h6>
+        <p>Note that owing to a quirk in the EGL specification, requesting a 16bpp RGB rendering buffer via <code>eglChooseConfig</code> will return 24- or 32bpp rendering configs (if available) before any 16bpp configs.  Thus, it is safest to have EGL enumerate a list of all available, matching configs and search them manually for the most suitable.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: top;">
+                        <p> <b>Note:</b> Selecting a 32bpp config with a 16bpp screen format (or vice-versa) can result in decreased <code>eglSwapBuffers</code> performance, due to the format conversion required.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Depth and Stencil Kill</h5>
+        <p>As mentioned previously, Tegra can reject fragments via depth and/or stencil testing at four times the peak fragment shading rate.  Thus, it is best to use depth or stencil rejection when possible, in order to increase practical fragment throughput.</p>
+        <h6>Depth-Kill</h6>
+        <p>Tegra can reject fragments via depth-testing at a very high rate.  As a result, applications that can render opaque parts of a scene, even roughly front-to-back with depth testing enabled, can see a performance improvement.  This is especially true if possibly-occluded objects with expensive fragment shaders can be drawn last.</p>
+        <p>If the application uses particularly complex fragment shaders with a large amount of overdraw, then even if front-to-back sorting is not feasible, the application can see higher performance using an initial depth-only rendering pass with the color buffer masking set to <code>GL_FALSE</code>.  It is important that for the depth-only pass all unnecessary load is removed from the vertex shader, otherwise the prepass is likely to be (unnecessarily) geometry limited.</p>
+        <h6>Stencil-Kill</h6>
+        <p>Stencil-killed fragments are generally the fastest rejection cases possible, as they are 8-bit, rather than 16-bit surfaces.  Stencil killing for depth complexity minimization can be more complex in terms of application setup code, and some data sets simply cannot sort geometry in this way.  However, if static geometry is available pre-sorted into depth-ordered layers, stencil-kill can provide maximum performance.  Applications that are fill-limited and have high per-pixel fragment depth should consider stencil-killed front-to-back rendering with depth-testing disabled.  In some cases, 2D UIs done in OpenGL ES are good examples of this.</p>
+        <h4>Fragment Shader Guidelines and Optimizations</h4>
+        <h5>Understanding Lower Bounds</h5>
+        <p>There are a number of ways to approximate a lower bound on the number of clocks required to render a fragment.  These can assist in optimizing shaders.  We will think of the fragment shader unit in terms of a set of pipelined "sub-units" that do different fragment-related functions.  The most important sub-units are the raster sub-unit, the texture sub-unit, and the ALU sub-unit.  The max number of cycles between these units is a (very) rough lower bound on execution time, although obviously dependencies between the units (ALU needing a texture lookup, texture coords needing ALU computations) complicate matters.</p>
+        <h6>Raster Sub-Unit</h6>
+        <p>The raster sub-unit can execute up to four interpolate instructions per cycle. Each of the four interpolations can generate either:</p>
+        <ul>
+            <li value="1">A single (whole register wide) fp20 value</li>
+            <li value="2">Two (half register wide) fx10 values</li>
+        </ul>
+        <h6>Texture Sub-Unit</h6>
+        <p>The texture sub-unit can retrieve any of the following:</p>
+        <ul>
+            <li value="1">Non-floating-point RGBA texture in one cycle</li>
+            <li value="2">Floating-point A or LA texture in one cycle</li>
+            <li value="3">Floating-point RGBA texture in two cycles</li>
+        </ul>
+        <h6>ALU Sub-Unit</h6>
+        <p><b>Add</b>
+        </p>
+        <p>The ALU sub-unit can execute up to four independent scalar MAD's (Multiply-Adds) per clock (actually, these are technically Multiply-Multiply-Adds with limitations).</p>
+        <p>General case:</p>
+        <blockquote><pre class="prettyprint">x = a * b + c</pre>
+        </blockquote>
+        <p>But with some limitations on d, it can do:</p>
+        <blockquote><pre class="prettyprint">x = a * b + c * d</pre>
+        </blockquote>
+        <p>where d is equal to b or c, module the free register modifiers listed in a later section (e.g. <code>(1-d)</code>).</p>
+        <p>Thus, there is no way to do more than 4 adds in one cycle, so the number of adds required to render a fragment divided by 4 is the lower bound on the cycle count.</p>
+        <p><b>Flexible Configuration</b>
+        </p>
+        <p>However, the ALU sub-units can be configured to perform operations other than four MADs per cycle, such as:</p>
+        <ul>
+            <li value="1">4-vector dot product</li>
+            <li value="2">3-vector dot product (plus scalar addition)</li>
+        </ul>
+        <p><b>Multiply</b>
+        </p>
+        <p>Generally, it is only possible to do 4 multiplications per cycle. With certain constraints it is possible to do limited cases involving 6 or 8 multiplications per clock, owing to the way that the 4 independent MADs work.  But in general, the number of multiplication results required to render a fragment divided by 4 is a lower bound on the cycle count.</p>
+        <p><b>Immediate Constants</b>
+        </p>
+        <p>Immediate values (numeric constants compiled into the shader) other than 0.0 and 1.0 may be embedded as constants in the instruction code. When this occurs, the fourth ALU unit is no longer available for operation (because the immediate value is embedded into its part of the instruction word). Obviously, this reduces the number of ALU operations available per cycle from four to three, which can have a dramatic impact on performance for ALU bound shaders.</p>
+        <h6>Multi-Function Unit Operations</h6>
+        <p>Scientific functions (e.g., <code>sin</code>, <code>sqrt</code>) and reciprocal may take more than one cycle, and more than one unit, and complicate lower bound computations.</p>
+        <h6>An Example</h6>
+        <p>As an example, consider the shader seen earlier:</p>
+        <blockquote><pre class="prettyprint">varying mediump vec2 uv; <br />varying mediump vec2 uv1;<br />varying lowp vec4 color;<br />uniform sampler2D tex0;<br />uniform sampler2D tex1;
+<br />void main()<br />{<br />&#160;&#160;&#160;&#160;&#160;gl_FragColor = texture2D(tex0, uv) * (color + texture2D(tex1, uv1));<br />}</pre>
+        </blockquote>
+        <p>Analyzing it, we see the following:</p>
+        <ul>
+            <li value="1">There are two texture loads, so the minimum cycle count for the texture sub-unit is two.</li>
+            <li value="2">There is a 4-vector color multiply, and a dependent 4-vector color add.  Thus, two ALU cycles are the minimum.</li>
+            <li value="3">Three varying vectors are used in the shader.<ul style="list-style-type: circle;"><li value="1">The <code>uv1</code> and <code>color</code> varyings are needed in one cycle (4 <code>lowp</code> values and 2 <code>mediump</code>), so one whole cycle of "Raster Sub Unit" work.</li><li value="2">The <code>uv2</code> varying only is needed in the other cycle; so another fraction of (and thus a whole) "Raster Sub Unit" cycle is needed.</li></ul></li>
+        </ul>
+        <p>This indicates that across the board, this shader could require two cycles.  Using a current shader compiler as of the writing of this document, the shader was compiling to two cycles.</p>
+        <h5>Fragment Shader Tips and Recommendations</h5>
+        <h6>Utilize Free Input Operand Modifiers</h6>
+        <p>Tegra can modify the values of fragment math operands "for free" in some key cases. The hardware provides the following (optional) modifiers for each operand, in the listed order:</p>
+        <ol>
+            <li value="1">Scale by 2x</li>
+            <li value="2">Subtract 1.0</li>
+            <li value="3">ABS</li>
+            <li value="4">Negate</li>
+        </ol>
+        <p>Thus, <code>(2x-1)</code> can be implemented entirely using free input modifier operations (if the compiler does not need the modifiers on the operand for another transformation).</p>
+        <p>The compiler will apply these modifiers automatically when it can, so simply be aware of their existence, and be careful not to hide the constants used for these operations in uniforms (which are opaque to the compiler).</p>
+        <p>For example, 4-component blending as follows:</p>
+        <blockquote><pre class="prettyprint">newDest.rgb = oldDest.rgb * src.a + src.rgb * (1 - src.a) <br />newDest.a   = oldDest.a   * src.a + src.a   * (1 - src.a)</pre>
+        </blockquote>
+        <p>This is possible in 1 cycle, as it can be written as:</p>
+        <blockquote><pre class="prettyprint">newDest.rgb = oldDest.rgb * src.a + src.rgb * (-(src.a - 1)) <br />newDest.a   = oldDest.a   * src.a + src.a   * (-(src.a - 1))</pre>
+        </blockquote>
+        <p>This is possible since the MAD instructions use <code>src.a</code> multiple times and the <code>(1 – src.a)</code> can be computed from <code>src.a</code> via input operand modifiers.</p>
+        <h6>Utilize Free Result Modifiers</h6>
+        <p>Tegra can modify the values of fragment math operation results "for free" in some key cases. The hardware provides the following (optional) modifiers, for each result, which are applied in the listed order:</p>
+        <ol>
+            <li value="1">Scale  (1/2x, 1x, 2x, 4x)</li>
+            <li value="2">clamp(0, 1)</li>
+        </ol>
+        <p>The compiler will apply these automatically as it can, so simply be aware of their existence, and be careful not to hide the constants used for these operations in uniforms (which are opaque to the compiler).</p>
+        <p>For example:</p>
+        <blockquote><pre class="prettyprint">y = clamp(x, 0.0, 1.0);</pre>
+        </blockquote>
+        <p>This is free if the compiler can schedule it as a modifier to the result of some other operation. So, for example, preferring:</p>
+        <blockquote><pre class="prettyprint">clamp(x, 0.0, 1.0)</pre>
+        </blockquote>
+        <p>to:</p>
+        <blockquote><pre class="prettyprint">min(x, 1.0)</pre>
+        </blockquote>
+        <p>and/or:</p>
+        <blockquote><pre class="prettyprint">max(x, 0.0)</pre>
+        </blockquote>
+        <p>can improve performance for many shaders (so long as the additional clamp doesn’t break the algorithm).</p>
+        <h6>Avoid Conditional Code</h6>
+        <p>Avoid conditional code in the fragment shader. Especially avoid using uniforms or other input variables to emulate discrete sets of modes. Any discrete set of modes can and should be split into a set of specialized shaders, one per each mode.</p>
+        <p>If you need to use conditionals, it is better (where possible) to express them as ternary operators and GLSL functions that produce binary vectors (e.g.,  <code>lessThan</code>).</p>
+        <h6>Avoid discard</h6>
+        <p>When a fragment shader includes <code>discard</code> the per-fragment depth (and/or stencil) values cannot be written efficiently in the higher-level depth-test unit (simply because a fragment may pass the depth-test, then later be discarded).</p>
+        <p><b>Additional Fragment Shader Load</b>
+        </p>
+        <p>Instead, extra instructions to store depth (and/or stencil) buffers is added to the fragment shader. For small shaders, the additional fragment shader cycles required to perform the update can cause a substantial reduction in fragment shader performance, for larger shaders the extra instructions may have little or no impact on the instruction schedule.</p>
+        <p><b>Reduced Memory Efficiency</b>
+        </p>
+        <p>In all cases, the additional memory bandwidth required, and the reduced memory efficiency due to per-fragment rather than batched-fragment surface update, will tend to impact performance somewhat.</p>
+        <p><b>Zero Contribution Fragments</b>
+        </p>
+        <p>Primitives rendered with a discarding fragment shader typically compare some per-fragment calculated (often texture sampled) value against a uniform or constant reference value. The result of that comparison is used to determine whether the fragment is discarded or not.</p>
+        <p>Most often this technique is used to "cookie-cut" a shape (driven by a texture) from a larger polygon. All fragments shaded cost the same. If the fragment shader is 10 clocks, the discarded pixels will also all be shaded at 10 clocks per fragment (even though they contribute nothing to the rendered image).</p>
+        <p>A number of strategies are available to mitigate the impact of these zero contribution, but fully shaded, fragments. Both techniques increase overall geometry load to reduce fully shaded fragment load:</p>
+        <ol>
+            <li value="1">Fit geometry (broadly) to the outline of the texture specified shape used to drive the discard. This could be implemented as an automated tool-chain process, or simply done by the patient hand of an artist.</li>
+            <li value="2">Split the drawing of discarding geometry into two phases:<ol style="list-style-type: lower-alpha;"><li value="1">Using the minimal fragment shader (typically 1-cycle) needed to sample the driving texture and write per-fragment depth, render the primitive to the depth buffer only. This efficiently lays down a depth mask for the later, more expensive, shade pass.</li><li value="2">Using the full fragment shader, but with the discard instruction removed, set the depth test function to <code>GL_EQUAL</code> and re-draw the primitive. This ensures that only the visible layer of fragments are shaded at full cost.</li></ol></li>
+        </ol>
+        <p>For non-trivial discarding fragment shaders with lots of interior overdraw (bushes, tree foliage) and fairly low vertex shader complexity, this second approach can have enormous performance benefit. If vertex shader complexity is high, the technique may cause more harm than good.</p>
+        <p><b>If You Must Discard, Do It Early</b>
+        </p>
+        <p>It is important to understand that discard is NOT to be used as an optimization strategy on Tegra; fragment shaders run to completion, regardless of whether a pixel was discarded or not. However, any texture sample instructions after the discard will not be issued if the pixel is discarded.</p>
+        <p>This does not mean that the shader doesn’t run to completion, only that the texture sample instructions effectively become noops. Placing the discard as early as possible in the fragment shader helps reduce load on the texture cache from killed pixels, and may save a little memory bandwidth.</p>
+        <h6>Avoid Use of Texture Lod-Bias</h6>
+        <p>Using negative-valued lod-bias on texture samplers tends to increase texture-fetch bandwidth; the samples fetched are from a finer (larger) mip-level than normal.  The increased texel-to-pixel ratio means texture memory accesses for adjacent pixels are further apart, and more (mainly unused) texture data is fetched through the cache.</p>
+        <p>A further wrinkle exists for lod-bias specified as a uniform (rather than constant immediate value).</p>
+        <p><b>Lod-Bias Specified via Uniform</b>
+        </p>
+        <p>The Tegra fragment shader compiler currently tends to generate very slow code for this use-case (for small shaders throughput can be reduced by three times). If you absolutely must use lod-bias, the most efficient way is to specify the bias as an immediate constant in the fragment program.</p>
+        <h6>Alpha Blending Performance</h6>
+        <p>Alpha blending places additional burden on the memory system, since all fragments must be read and modified before writing. The additional fragment shader cycles required to perform the blend is typically low (one cycle or so), although for small shaders the impact can be significant.</p>
+        <p>It is critically important, when rendering on Tegra based devices, to use alpha blending sparingly, only when necessary. Enabling alpha-blending for opaque geometry (driving the blend with uniform constant 1.0 or texture alpha channel 1.0) will severely degrade fragment shader performance.</p>
+        <p>It is not possible to mitigate the increased memory bandwidth from alpha blended drawcalls, but the impact of the additional fragment shader instructions required to calculate the blend can be minimized.</p>
+        <p><b>Compute Only Required Output Color Components</b>
+        </p>
+        <p>If rendering to a frame buffer with fewer than four color components (for example, single-channel luminance or three-channel RGB), or only a subset of the output channels are needed, compute and store only the required components. This tends to free partial fragment shader ALU cycles, which the compiler may be able to use to hide some of the cost of the blend.</p>
+        <p><b>Use Color Masking To Reduce Computed Color Components</b>
+        </p>
+        <p>If the shader used to calculate alpha blended fragments is also used to render opaque drawcalls, it might be difficult or awkward to modify the source  shader specifically for use with alpha-blended primitives. The same result can be achieved by using <code>glColorMask</code> to disable writing of unused components when blending. The compiler picks up the current color mask setting and will try to generate efficient shader code driven by the enabled component mask.</p>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 16pt;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 660px;" />
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <img src="images/notebox.png" />
+                    </td>
+                    <td style="background-color: #ffffe0;vertical-align: middle;">
+                        <p> <b>Note:</b> Avoid masking color components when alpha blending is disabled. If color components are masked when rendering opaque primitives the compiler may be forced to generate code to read, then modify, then write the frame buffer, in order to preserve the existing color channel value.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Fragment Shader Program Performance Issues</h4>
+        <h5>Fragment Shaders and "Injected State"</h5>
+        <p>Some OpenGL&#160;ES&#160;2.0 states cause the driver to inject code into the user-provided fragment shader, in order in implement an instance of the shader for that particular state configuration. In this case, the driver modifies the shader source according to the particular state configuration, and re-compiles the shader.</p>
+        <p>The set of all "injected state" that can cause the generation of a new shader instance is:</p>
+        <ul>
+            <li value="1">Color blending mode</li>
+            <li value="2">Write masking</li>
+            <li value="3">Texture image formats. Unsigned versus signed versus half-float, not component depths or count.</li>
+            <li value="4">Frame buffer format. Unsigned versus signed versus half-float, not component depths or count.</li>
+            <li value="5">Set of enabled frame buffer surfaces. In the case of discarding shaders only, where depth and stencil write are deferred to the fragment shader.</li>
+            <li value="6">Logic Operation. Although the operation is specified via <code>glLogicOp</code> the fragment shader implements the operation.</li>
+        </ul>
+        <p>Although compiling shaders is an expensive, CPU-side operation, the impact on performance is generally limited to a one-off cost the first time a shader is used. Resultant shader instances are then cached by the driver so they are available from cache subsequently.</p>
+        <p>Obviously, each shader instance occupies an entry in the shader-cache, and the number of such entries is finite.</p>
+        <p>Try to limit the number of unique injected shader variants used by your application to allow the shader-cache to work efficiently. Applications with thousands of injected shader instances will tend to suffer dire performance as they thrash the driver shader-cache, and thus will be exposed to per-drawcall shader re-compilation.</p>
+        <h6>Avoiding First Use Stutters By Warming The Shader-Cache</h6>
+        <p>It is important to understand that shader instances may not be generated until their first use. This can cause severe performance spikes during the early, or transition, stages of an application. The best way to combat this is to "warm the shader-cache."</p>
+        <p>This is most easily done by isolating the list of all shaders and state configurations used in the application, and submitting a drawcall to the driver for each useful combination. A single degenerate triangle rendered to an off-screen buffer is all that’s needed to force the driver to generate and cache the shader instance.</p>
+        <p>Note that you should not attempt to blindly populate the cache with all possible combinations of injected state for every shader, as this is also likely to cause spikiness (an initial round of cache-thrashing until the required set of shaders settle into cache).</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../resources/stylesheets/run_prettify.js?lang=vb" autoload="true">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons inline-buttons clearfix topicToolbarProxy topicToolbarProxystyle.css" style="mc-topic-toolbar-items: ;">
+            <div class="button-group-container-left">
+                <button class="button needs-pie previous-topic-button" type="button" title="Navigate previous">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="previous topic" />
+                </button>
+                <div class="button current-topic-index-button disabled"><span class="sequence-index"></span> of <span class="sequence-total"></span></div>
+                <button class="button needs-pie next-topic-button" type="button" title="Navigate next">
+                    <img src="../../../Skins/Default/Stylesheets/Images/transparent.gif" alt="next topic" />
+                </button>
+            </div>
+        </div>
+        <p> </p>
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA&#160;AndroidWorks Documentation Rev. 1.2.150805 ©2015. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>
