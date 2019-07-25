@@ -4,3 +4,5 @@ libopencv_gpu.a filter=lfs diff=lfs merge=lfs -text
 NVPACK/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/libs/tegra5-static-cuda/libopencv_gpu.a filter=lfs diff=lfs merge=lfs -text
 NVPACK/OpenCV-2.4.8.2-Tegra-sdk/sdk/native/libs/tegra3/libopencv_gpu.a filter=lfs diff=lfs merge=lfs -text
 */libcufft_static.a filter=lfs diff=lfs merge=lfs -text
+NVPACK/cuda-linux-8.0/sysroot/usr/local/cuda-8.0/targets/aarch64-linux/lib/libcufft_static.a filter=lfs diff=lfs merge=lfs -text
+NVPACK/cuda-linux-8.0/sysroot/usr/local/cuda-8.0/targets/aarch64-linux/lib/libnppi_static.a filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,58 @@
+.TH "Occupancy" 3 "20 Mar 2015" "Version 6.0" "Doxygen" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Occupancy \- 
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "__cudart_builtin__ \fBcudaError_t\fP \fBcudaOccupancyMaxActiveBlocksPerMultiprocessor\fP (int *numBlocks, const void *func, int blockSize, size_t dynamicSMemSize)"
+.br
+.RI "\fIReturns occupancy for a device function. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\\brief occupancy calculation functions of the CUDA runtime API (cuda_runtime_api.h)
+.PP
+This section describes the occupancy calculation functions of the CUDA runtime application programming interface.
+.PP
+Besides the occupancy calculator function (\fBcudaOccupancyMaxActiveBlocksPerMultiprocessor\fP), there are also C++ only occupancy-based launch configuration functions documented in \fBC++ API Routines\fP module.
+.PP
+See \fBcudaOccupancyMaxPotentialBlockSize (C++ API)\fP and \fBcudaOccupancyMaxPotentialBlockSizeVariableSMem (C++ API)\fP 
+.SH "Function Documentation"
+.PP 
+.SS "__cudart_builtin__ \fBcudaError_t\fP cudaOccupancyMaxActiveBlocksPerMultiprocessor (int * numBlocks, const void * func, int blockSize, size_t dynamicSMemSize)"
+.PP
+Returns in \fC*numBlocks\fP the maximum number of active blocks per streaming multiprocessor for the device function.
+.PP
+\fBParameters:\fP
+.RS 4
+\fInumBlocks\fP - Returned occupancy 
+.br
+\fIfunc\fP - Kernel function for which occupancy is calulated 
+.br
+\fIblockSize\fP - Block size the kernel is intended to be launched with 
+.br
+\fIdynamicSMemSize\fP - Per-block dynamic shared memory usage intended, in bytes
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBcudaSuccess\fP, \fBcudaErrorCudartUnloading\fP, \fBcudaErrorInitializationError\fP, \fBcudaErrorInvalidDevice\fP, \fBcudaErrorInvalidDeviceFunction\fP, \fBcudaErrorInvalidValue\fP, \fBcudaErrorUnknown\fP, 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Note that this function may also return error codes from previous, asynchronous launches.
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+cudaOccupancyMaxPotentialBlockSize, \fBcudaOccupancyMaxPotentialBlockSize (C++ API)\fP, \fBcudaOccupancyMaxPotentialBlockSizeVariableSMem (C++ API)\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen from the source code.
