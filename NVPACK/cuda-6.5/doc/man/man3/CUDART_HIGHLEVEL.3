@@ -1,0 +1,51 @@
+.TH "C++ API Routines" 3 "20 Mar 2015" "Version 6.0" "Doxygen" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+C++ API Routines \- C++-style interface built on top of CUDA runtime API.  
+
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<class T > \fBcudaChannelFormatDesc\fP \fBcudaCreateChannelDesc\fP (void)"
+.br
+.RI "\fI[C++ API] Returns a channel descriptor using the specified format \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\\brief C++ high level API functions of the CUDA runtime API (cuda_runtime_api.h)
+.PP
+This section describes the C++ high level API functions of the CUDA runtime application programming interface. To use these functions, your application needs to be compiled with the \fCnvcc\fP compiler. 
+.SH "Function Documentation"
+.PP 
+.SS "template<class T > \fBcudaChannelFormatDesc\fP cudaCreateChannelDesc (void)"
+.PP
+Returns a channel descriptor with format \fCf\fP and number of bits of each component \fCx\fP, \fCy\fP, \fCz\fP, and \fCw\fP. The \fBcudaChannelFormatDesc\fP is defined as: 
+.PP
+.nf
+  struct cudaChannelFormatDesc {
+    int x, y, z, w;
+    enum cudaChannelFormatKind f;
+  };
+
+.fi
+.PP
+.PP
+where \fBcudaChannelFormatKind\fP is one of \fBcudaChannelFormatKindSigned\fP, \fBcudaChannelFormatKindUnsigned\fP, or \fBcudaChannelFormatKindFloat\fP.
+.PP
+\fBReturns:\fP
+.RS 4
+Channel descriptor with format \fCf\fP 
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcudaCreateChannelDesc (Low level)\fP, \fBcudaGetChannelDesc\fP, \fBcudaGetTextureReference\fP, \fBcudaBindTexture (High level)\fP, \fBcudaBindTexture (High level, inherited channel descriptor)\fP, \fBcudaBindTexture2D (High level)\fP, \fBcudaBindTextureToArray (High level)\fP, \fBcudaBindTextureToArray (High level, inherited channel descriptor)\fP, \fBcudaUnbindTexture (High level)\fP, \fBcudaGetTextureAlignmentOffset (High level)\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen from the source code.
