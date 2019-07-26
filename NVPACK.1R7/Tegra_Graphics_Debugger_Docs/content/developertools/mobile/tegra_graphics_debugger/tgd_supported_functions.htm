@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Supported OpenGL Functions in Tegra Graphics Debugger" /><title>Supported OpenGL Functions</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_supported_functions.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Supported OpenGL Functions</span>
+        </h1><a name="kanchor21"></a>
+        <hr width="100%" size="0" align="center" />
+        <p><span class="MyVariablesTGD_Full">NVIDIA® Tegra Graphics Debugger</span> Frame Debugging supports the set of OpenGL operations, which are defined by the OpenGL 4.2 core profile, as well as OpenGL&#160;ES 2.0  applications.  </p>
+        <p>Note that it is not necessary to create a core profile context to make use of the <span class="MyVariablesTGD_FrameDebugger">Frame Debugger</span>.  An application that uses a compatibility profile context, but restricts itself to using the OpenGL 4.2 core subset, will also work.  A few OpenGL 4.2 compatibility profile features, such as support for alpha testing and a default vertex array object, are also supported.</p>
+        <p><span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> frame debugging supports three classes of OpenGL extensions, described below. </p>
+        <h5>1. OpenGL Core Context Support</h5>
+        <p> The OpenGL extensions listed below are supported in as much as the extension has been adopted by the OpenGL 4.2 core profile. For example, <code>EXT_subtexture</code> is included as part of OpenGL 1.1.  Calls to <code>glTexSubImage2DEXT</code> are supported and behave the same as calls to <code>glTexSubImage2D</code>.  On the other hand, while <code>EXT_vertex_array</code> is also included as part of OpenGL 1.1, <code>glColorPointerEXT</code> is not supported by <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> frame debugging.  The operation of <code>glColorPointerEXT</code> was modified when it was included as part of OpenGL 1.1.  Additionally, <code>glColorPointer</code> is part of the compatibility subset, but not the core subset.</p>
+        <blockquote><pre class="prettyprint"><b>// GL 1.1</b><br />EXT_vertex_array <br />EXT_polygon_offset<br />EXT_blend_logic_op<br />EXT_texture<br />EXT_copy_texture<br />EXT_subtexture<br />EXT_texture_object</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 1.2</b><br />EXT_texture3D<br />EXT_bgra<br />EXT_packed_pixels<br />EXT_rescale_normal<br />EXT_separate_specular_color<br />SGIS_texture_edge_clamp<br />SGIS_texture_lod<br />EXT_draw_range_elements<br />EXT_color_table<br />EXT_color_subtable<br />EXT_convolution<br />HP_convolution_border_modes<br />SGI_color_matrix<br />EXT_histogram<br />EXT_blend_color<br />EXT_blend_minmax<br />EXT_blend_subtract</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 1.2.1</b><br />EXT_SGIS_multitexture</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 1.3</b><br />ARB_texture_compression<br />ARB_texture_cube_map<br />ARB_multisample<br />ARB_multitexture<br />ARB_texture_env_add<br />ARB_texture_env_combine<br />ARB_texture_env_dot3<br />ARB_texture_border_clamp<br />ARB_transpose_matrix</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 1.4</b><br />SGIS_generate_mipmap<br />NV_blend_square<br />ARB_depth_texture<br />ARB_shadow<br />EXT_fog_coord<br />EXT_multi_draw_arrays<br />ARB_point_arameters<br />EXT_secondary_color<br />EXT_blend_func_separate<br />EXT_stencil_wrap<br />EXT_texture_env_crossbar<br />EXT_texture_lod_bias<br />ARB_texture_mirrored_repeat<br />ARB_window_pos</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 1.5</b><br />ARB_vertex_buffer_object<br />ARB_occlusion_query<br />EXT_shadow_funcs</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 2.0</b><br />ARB_shader_objects<br />ARB_vertex_shader<br />ARB_fragment_shader<br />ARB_draw_buffers<br />ARB_texture_non_power_of_two<br />ARB_point_sprite<br />EXT_blend_equation_separate<br />ATI_separate_stencil<br />EXT_stencil_two_side</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"> <b>// GL 2.1</b><br />ARB_pixel_buffer_object<br />EXT_direct_state_access<br />EXT_texture_sRGB</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 3.0</b><br />EXT_gpu_shader4<br />NV_conditional_render<br />APPLE_flush_buffer_range<br />ARB_color_buffer_float<br />NV_depth_buffer_float<br />ARB_texture_float<br />EXT_packed_float<br />EXT_texture_shared_exponent<br />EXT_framebuffer_object<br />NV_half_float<br />ARB_half_float_pixel<br />EXT_framebuffer_multisample<br />EXT_framebuffer_blit<br />EXT_texture_integer<br />EXT_texture_array<br />EXT_packed_depth_stencil<br />EXT_draw_buffers2<br />EXT_texture_compression_rgtc<br />EXT_transform_feedback<br />APPLE_vertex_array_object<br />EXT_framebuffer_sRGB</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 3.1</b><br />EXT_draw_instanced<br />ARB_draw_instanced<br />ARB_copy_buffer<br />NV_primitive_restart<br />ARB_texture_buffer_object<br />ARB_texture_rectangle<br />ARB_uniform_buffer_object</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 3.2</b><br />ARB_vertex_array_bgra<br />ARB_draw_elements_base_vertex<br />ARB_fragment_coord_conventions<br />ARB_provoking_vertex<br />ARB_seamless_cube_map<br />ARB_texture_multisample<br />ARB_depth_clamp<br />ARB_geometry_shader_4<br />ARB_sync</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 3.3</b><br />ARB_shader_bit_encoding<br />ARB_blend_func_extended<br />ARB_explicit_attrib_location<br />ARB_occlusion_query2<br />ARB_sampler_objects<br />ARB_texture_rgb10_a2ui<br />ARB_texture_swizzle<br />ARB_timer_query<br />ARB_instanced_arrays<br />ARB_vertex_type_2_10_10_10_rev</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 4.0</b><br />ARB_texture_query_lod<br />ARB_draw_buffers_blend<br />ARB_draw_indirect<br />ARB_gpu_shader5<br />ARB_gpu_shader_fp64<br />ARB_sample_shading<br />ARB_shader_subroutine<br />ARB_tessellation_shader<br />ARB_texture_buffer_object_rgb32<br />ARB_texture_cube_map_array<br />ARB_texture_gather<br />ARB_transform_feedback2<br />ARB_transform_feedback3</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 4.1</b><br />ARB_ES2_compatibility<br />ARB_get_program_binary<br />ARB_separate_shader_objects<br />ARB_shader_precision<br />ARB_vertex_attrib_64bit<br />ARB_viewport_array</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"> <b>// GL 4.2</b> <br />ARB_texture_compression_bptc<br />ARB_compressed_texture_pixel_storage<br />ARB_shader_atomic_counters<br />ARB_texture_storage<br />ARB_transform_feedback_instanced<br />ARB_base_instance<br />ARB_shader_image_load_store<br />ARB_conservative_depth<br />ARB_shading_language_420pack<br />ARB_internalformat_query<br />ARB_map_buffer_alignment</pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 4.3</b><br />ARB_multi_draw_indirect<br />ARB_program_interface_query<br />ARB_shader_storage_buffer_object<br />ARB_copy_image<br />ARB_vertex_attrib_binding<br />ARB_texture_view<br />ARB_invalidate_subdata<br />ARB_framebuffer_no_attachments<br />ARB_stencil_texturing<br />ARB_explicit_uniform_location<br />ARB_texture_storage_multisample
+ARB_program_interface_query 
+ARB_robust_buffer_access_behavior 
+ARB_ES3_compatibility
+ARB_clear_buffer_object
+ARB_internal_format_query2
+ARB_texture_buffer_range
+ARB_compute_shader
+ARB_debug_group
+ARB_debug_label 
+ARB_debug_output </pre>
+        </blockquote>
+        <blockquote><pre class="prettyprint"><b>// GL 4.4</b><br />ARB_query_buffer_object
+ARB_enhanced_layouts 
+ARB_multi_bind
+ARB_vertex_type_10f_11f_11f_rev
+ARB_texture_mirror_clamp_to_edge
+ARB_clear_texture
+ARB_buffer_storage </pre>
+        </blockquote>
+        <h5>2. Other Supported OpenGL Extensions </h5>
+        <p>The second class of OpenGL extensions is listed below.  These extensions are not part of OpenGL 4.2 core or compatibility, but are fully supported by the frame debugger target.  Context and object state, which is added by these extensions, may not be displayed by the host UI.</p>
+        <blockquote><pre class="prettyprint">
+ARB_framebuffer_object<br />EXT_texture_filter_anisotropic
+NV_buffer_store
+ARB_vertex_attrib_binding
+ARB_multi_draw_indirect  </pre>
+        </blockquote>
+        <h5>3. Partially Supported OpenGL Extensions </h5>
+        <p>The third class of OpenGL extensions are ones for which there is partial support.  These extensions are listed below.</p>
+        <blockquote><pre class="prettyprint">
+ARB_bindless_texture
+WGL_ARB_extensions_string <br />WGL_ARB_pixel_format<br />WGL_EXT_extensions_string<br />WGL_EXT_swap_control<br />WGL_EXT_swap_control_tear<br />WGL_ARB_create_context<br />NV_shader_buffer_load<br />NV_vertex_buffer_unified_memory</pre>
+        </blockquote>
+        <p>&#160;</p>
+        <p>&#160;</p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

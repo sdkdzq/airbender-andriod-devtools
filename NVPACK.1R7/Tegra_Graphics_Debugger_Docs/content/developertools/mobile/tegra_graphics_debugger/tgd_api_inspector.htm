@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging|OpenGL">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="API Inspector View in Tegra Graphics Debugger" /><title>API Inspector</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_api_inspector.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">API Inspector</span>
+        </h1><a name="kanchor22"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>When using the <span class="MyVariablesTGD_FrameDebugger">Frame Debugger</span> feature of <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>, you may wish to do a deep dive into a specific draw call, in order to analyze your application further. To do this, go to the <a href="tgd_frame_debugging.htm#View_Options">Frame Debugger menu</a> and select <b>API Inspector</b>. The API Inspector view will open. </p>
+        <p>There are three different categories of API Inspector navigation. </p>
+        <h3>1. The Pipeline Section </h3>
+        <p>The first category is laid out like a "virtual GPU pipeline." Note that the control is pinnable, if you wish to have it constantly open, or you can unpin it to conserve space. This pipeline section of the API Inspector consists of the following: </p>
+        <ul>
+            <li value="1"><b>Vtx Spec</b> (Vertex Specification) — State information associated with your vertex attributes, vertex array object state, element array buffer, and draw indirect buffer.<p><img src="images/tgd_api_inspector_vtx_spec.004_850x645.png" style="width: 850;height: 645;" /></p></li>
+            <li value="2"><b>Transform</b> (Transformation) — Transform state, including viewports, clip distances, etc. 
+			<p><img src="images/tgd_api_inspector_transform.003.png" /></p></li>
+            <li value="3"><b>Shaders (VS, TCS, TES, GS, FS, CS)</b> — The various shader pages display all of the constant buffers,  shader resource views, and input/output parameters, as well as links to the source code and other shader information. 
+			<p><img src="images/tgd_api_inspector_vs.003.png" /></p><table style="margin-left: 0;margin-right: auto;width: 100%;"><col style="width: 198px;" /><col /><tbody><tr><td>VS (Vertex Shader) </td><td>Vertex shader state, including attributes, samplers, uniforms, etc. </td></tr><tr><td>TCS (Tessellation Control Shader) </td><td>Tessellation control shader state, including attributes, samplers, uniforms, control state, etc. </td></tr><tr><td>TES (Tessellation Evaluation Shader) </td><td>Tessellation evaluation shader state, including attributes, samplers, uniforms, evaluation state, etc. </td></tr><tr><td>GS (Geometry Shader) </td><td>Geometry shader state, including attributes, samplers, uniforms, geometry state, etc. </td></tr><tr><td>FS (Fragment Shader) </td><td>Fragment shader state, including attributes, samplers, uniforms, etc. </td></tr><tr><td>CS (Compute Shader)  </td><td>All of the shader resource and unordered access views and constant buffers bound to the Compute Shader stage, as well as links to the source code and other shader information. </td></tr></tbody></table><p>On the shader pages, there is an icon under the Linked Shader State section:<br /><img src="images/tgd_api_inspector_vs_shader_usage.002.png" /> </p><p>Clicking this button will create a new row on the scrubber that highlights where in the scene that particular shader is used. </p><p><img src="images/tgd_scrubber_vertex_shader.003.png" /></p></li>
+            <li value="4"><b>XFB</b> (Transform Feedback) — Transform feedback state, including object state and bound buffers. 
+			<p><img src="images/tgd_api_inspector_xfb.003.png" /></p></li>
+            <li value="5"><b>Raster</b> (Rasterizer) — Rasterizer state, including point, line, and polygon state, culling state, multi-sampling state, etc.
+			<p><img src="images/tgd_api_inspector_raster.003.png" /></p></li>
+            <li value="6"><b>Pix Ops</b> (Pixel Operations) — State information for pixel operations, including blend settings, depth and stencil state, etc. 
+			<p><img src="images/tgd_api_inspector_pix_ops.003.png" /></p></li>
+            <li value="7"><b>FB</b> (Framebuffer) — State of the currently drawn frame buffer, including the default frame buffer, read buffer, draw buffer, etc. 
+			<p><img src="images/tgd_api_inspector_fb.003.png" /></p></li>
+        </ul>
+        <h3>2. Object and Pixel State Inspectors </h3>
+        <p>The object and pixel state inspectors section of the API Inspector consists of the following: </p>
+        <ul>
+            <li value="1"><b>Textures</b> — Details about all of the currently bound textures and samplers, including texture and sampler parameters. 
+			<p><img src="images/tgd_api_inspector_textures.003.png" /></p></li>
+            <li value="2"><b>Images</b> — Details about all of the  images currently bound to the image units. 
+			<p><img src="images/tgd_api_inspector_images.003.png" /></p></li>
+            <li value="3"><b>Buffers</b> — Details about all of the bound buffer objects, including size, usage, etc. 
+			<p><img src="images/tgd_api_inspector_buffers.003.png" /></p></li>
+            <li value="4"><b>Program</b> — Information about the currently bound program object and/or pipeline program pipeline object, including shaders, active uniforms, etc. 
+			<p><img src="images/tgd_api_inspector_program.003.png" /></p></li>
+        </ul>
+        <p>For information on how to dynamically edit a shader from the Program page, see <a href="tgd_dynamic_shader_editing.htm">Dynamic Shader Editing</a>.</p>
+        <ul>
+            <li value="1"><b>Pixels</b> — Current settings for pixel pack and unpack state. 
+			<p><img src="images/tgd_api_inspector_pixels.003.png" /></p></li>
+            <li value="2"><b>Queries</b> — The Queries view has two available options:&#160;<b>Active Queries</b>, which displays the queries that are active for the current events and their results; and <b>Conditional Render</b>, which shows the results for a conditional render. <p><img src="images/tgd_api_inspector_queries_active.001_850x709.png" style="width: 850;height: 709;" /></p></li>
+        </ul>
+        <h3 style="page-break-before: always;">3. Miscellaneous </h3>
+        <blockquote>
+            <p>The miscellaneous screen contains additional information such as shader limits, implementation dependent values, transform feedback limits, and various minimum/maximum values. </p>
+            <p>
+                <img src="images/tgd_api_inspector_misc.003.png" />
+            </p>
+        </blockquote>
+        <div id="pagefooter">
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging|OpenGL">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Range Profiler View in Tegra Graphics Debugger" /><title>Range Profiler</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_range_profiler.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Range Profiler</span>
+        </h1><a name="kanchor9"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>The <strong>Range Profiler</strong> is a powerful tool  that can help you determine how sections of your frame utilize the GPU, and give you direction to optimize the rendering of your application. Once you have captured a frame, the Range Profiler displays your frame broken down into a collection of ranges, or groups of contiguous actions. For each action, you can see the GPU execution times for each, as well as detailed GPU hardware statistics across all of the units in the GPU. </p>
+        <p>The Range Profiler also includes unmatched data mining capabilities that allow you to group calls in the frame into ranges based on various criteria that you choose.</p>
+        <p><strong>To profile a graphics frame:</strong>
+        </p>
+        <ol>
+            <li value="1">Start <a href="tgd_frame_debugging.htm">debugging your graphics  project</a>.   </li>
+            <li value="2">From the <strong>Frame Debugger</strong> menu, select <strong>Range Profiler</strong>.<p><a href="images/tgd_range_profiler.002.png"><img src="images/tgd_range_profiler.002_800x472.png" style="width: 800;height: 472;" /></a></p></li>
+        </ol>
+        <h2>Understanding the Range Profiler View</h2>
+        <p>The Range Profiler View has four main parts: the <b>Scrubber</b>, which shows the ranges of actions, and the <b>Range Info</b>, <b>Pipeline Overview</b>, and <b>Memory</b> sections, which show the performance information for the currently selected range in the Scrubber. </p>
+        <p>On the right side of the header for each section, there is a drop-down menu that allows you to select different views for that section. The <b>Summary</b> highlights important aspects of the selected range, <b>Range Details</b> shows deeper data for the range, and <b>Action Details</b> shows statistics for each action in the selected range. </p>
+        <h3>Scrubber </h3>
+        <p>The top of the Range Profiler View includes a <b>Scrubber</b>, which mirrors the <a href="tgd_frame_scrubber.htm">Scrubber View</a>. </p>
+        <blockquote>
+            <p><a href="images/tgd_range_profiler_scrubber.002.png"><img src="images/tgd_range_profiler_scrubber.002_800x196.png" style="width: 800;height: 196;" /></a>
+            </p>
+        </blockquote>
+        <p>The default view will show ranges based on the performance markers you have defined in your application.  Clicking the <b>Add...</b> button will open a dialog that allows you to select what type of range you want to add. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_add_dialog.002.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Program Ranges</b> — Actions that use the same shader program. </li>
+            <li value="2"><b>Viewport</b> — Actions that render to the same viewport rectangle. </li>
+            <li value="3"><b>Alpha Blending Enabled</b> — Actions that have alpha blending enabled. </li>
+            <li value="4"><b>Alpha Test Enabled</b> — Actions that have alpha test enabled. </li>
+            <li value="5"><b>Back Face Cull Enabled</b> — Actions that have back face cull enabled. </li>
+            <li value="6"><b>User</b> — A range defined by you on the fly. Use SHIFT + left-click and drag the Scrubber on the created "User" row to create a new range. </li>
+        </ul>
+        <p>When you click on a range on the <b>Scrubber</b> portion, the other sections of the Range Profiler View will automatically update with that selected range's information. </p>
+        <h3>Range Info </h3>
+        <p>The <b>Range Info</b> section shows the <b>Summary</b> view by default, which is a draw call summary on the left, and a summary of compute or dispatch calls on the right. </p>
+        <p>From the drop-down menu on the right, you can select either the <b>Action Details</b> or <b>Timeline</b> view. </p>
+        <h5>Action Details </h5>
+        <p>The Action Details display will show tables with all of the statistics in the Summary for all of the draw and dispatch calls in a table format.</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_range_info_action_details.001.png" />
+            </p>
+        </blockquote>
+        <h5>Timeline </h5>
+        <p>The Timeline shows a real-time display the actions in the range that was profiled. Hovering your cursor over an action will show its details. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_range_info_timeline.001.png" />
+            </p>
+        </blockquote>
+        <h3>Pipeline Overview </h3>
+        <p>When displaying the Summary, the <b>Pipeline Overview</b> section shows the top four "inefficiently" utilized units in the GPU pipeline. These show you, at a glance, where the most inefficient units are in the pipeline for the currently selected range. </p>
+        <p>The drop-down menu on the right shows three other views: Range Details, Range Table, and Action Details. </p>
+        <h4>Range Details</h4>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_pipeline_overview_range_details.001.png" />
+            </p>
+        </blockquote>
+        <p>The <b>Range Details</b> of the Pipeline Overview section displays an "inefficiency" percentage for each GPU unit for the currently selected range. The results are laid out in the same way that data flows through the GPU pipeline. It starts from the Input Assembler, where the vertex attributes are gathered, loops multiple times through the shader unit, samples from the texture units, reads from L2 and the impact those have on the memory subsystem, etc. Note that this graph may vary based on the hardware being used, as well as the way your application utilizes the graphics API and GPU.</p>
+        <h4>Range Table</h4>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_pipeline_overview_range_table.001.png" />
+            </p>
+        </blockquote>
+        <p>The <b>Range Table</b> of the Pipeline Overview takes all of the information that was in the Range Details graphic and puts it into a table format, allowing you to drill down and find where the performance of your app can be optimized. </p>
+        <h5>Action Details </h5>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_pipeline_overview_action_details.002.png" />
+            </p>
+        </blockquote>
+        <p>The <b>Action Details</b> display is essentially a raw output of the data you are profiling for each draw call/dispatch call in the currently selected range. The rows list the actions in the selected range, and the columns show the pipeline details for each event. Hovering your cursor over a given cell will show more detailed information for that action. </p>
+        <h3>Memory </h3>
+        <p>The <b>Memory</b> section shows a Summary display by default, with L2 utilization information on the left, and frame buffer information on the right. From the drop-down menu, you can select the <b>Range Details</b> or the <b>Range Table</b> display. </p>
+        <h5>Range Details</h5>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_memory_range_details.001.png" />
+            </p>
+        </blockquote>
+        <p>The <b>Range Details</b> display of the Memory section displays percentage utilization of the links between the various units that consume the memory subsystem resources. For example, the shader unit makes requests to the texture unit. These requests result in L2 cache queries, which may miss and have to load the data from the GPU memory. </p>
+        <h5>Range Table</h5>
+        <blockquote>
+            <p>
+                <img src="images/tgd_range_profiler_memory_range_table.001.png" />
+            </p>
+        </blockquote>
+        <p>The <b>Range Table</b> display of the Memory section takes all of the information that was in the Range Details graphic and puts it into a table format, allowing you to drill down and find where the performance of your app can be optimized. </p>
+        <p />
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

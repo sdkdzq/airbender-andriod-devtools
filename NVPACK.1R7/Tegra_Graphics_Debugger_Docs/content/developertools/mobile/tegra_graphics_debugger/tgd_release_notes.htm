@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Tegra Graphics Debugger Release Notes" /><title>Release Notes</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_release_notes.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Release Notes</span>
+        </h1><a name="kanchor15"></a>
+        <hr width="100%" size="0" align="center" />
+        <h3><span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> 2.6</h3>
+        <h4>What's New:</h4>
+        <ul>
+            <li value="1">Android O support </li>
+            <li value="2">Vulkan 1.0 support <p>Note the following limitations with Vulkan support: </p><ul style="list-style-type: circle;"><li value="1">Real Time GPU signals are not yet available.</li><li value="2">The Range Profiler is not supported. </li><li value="3">Dynamic shader editing is not yet available. </li></ul><p>These will be added in a future release.</p></li>
+            <li value="3">Added  OpenGL Pixel History </li>
+            <li value="4">Range Profiler improvements </li>
+            <li value="5">Various bug fixes and performance improvements</li>
+        </ul>
+        <h4>Known Issues:</h4>
+        <ul>
+            <li value="1">OpenGL Pixel History view might timeout for some applications with a large amount of draw calls. </li>
+            <li value="2">If the Range Profiler view is closed while a selected event is being profiled, the host may crash. As a workaround, wait for the selected event to be profiled before closing the Range Profiler view. <span style="color: #696969;">(58761)</span></li>
+            <li value="3">The spin control in the histogram can incorrectly allow the min/max values to go out of range.  This will be fixed in a future release. <span style="color: #696969;">(55746)</span></li>
+            <li value="4">The Shader Editor title bar may show the Fragment Shader or Vertex Shader rather than the Program name. <span style="color: #696969;">(58147)</span></li>
+            <li value="5">The timer function used for determining the CPU time for API calls is not accurate enough for shorter calls, resulting in '0' time values.  This will be addressed in a future release. <span style="color: #696969;">(58591)</span></li>
+            <li value="6">HWPM Context Switching is not currently supported; this will be added in a future release.</li>
+            <li value="7">If your application uses deprecated features/enums from OpenGL, and you try and generate C++ source code from a captured frame, you may encounter compiling issues.  This is due to <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> using updated include files from Khronos.  If you point the build to older versions containing the deprecated features, it should compile without any issues. <span style="color: #808080;">(40442) </span></li>
+            <li value="8">Applications that use <code>glDrawTransformFeedback</code> will not see correct profiling data for those calls.  Other draw calls in the frame should be correct. <span style="color: #808080;">(35563)</span> <![CDATA[ ]]></li>
+            <li value="9">If you encounter an issue where you are not able to capture, you should use the <code>adb logcat</code> command to see if there are any warning messages. The types of messages commonly seen are:&#160;<ol><li value="1">Unsupported functions (see <a href="tgd_supported_functions.htm">Supported OpenGL Functions</a> for a complete list) </li><li value="2">Use of OpenGL ES 1.0 (which is not supported)</li><li value="3">Out of memory issues <span style="color: #808080;">(31527)</span>&#160;</li></ol></li>
+        </ul>
+        <p style="font-weight: bold;">Android Users Only </p>
+        <ul>
+            <li value="1">Due to a security change, some profiler features (such as real-time signals and the Range Profiler) may not be functional by default. This will be fixed in a future release. As a workaround, use the following steps prior to launching your application:
+				<pre class="prettyprint">adb root<br />adb shell chmod a+rw /dev/nvhost-prof-gpu</pre></li>
+            <li value="2">If you are seeing periodic failures connecting to a launched application, it could be because of a conflicting version of adb running on your host system.  These can sometimes come from phone and tablet sync applets that run in the background, waking up periodically to check if a device is attached.  Since they have their own (potentially older) version of adb in the install package, it can conflict with a newer one running from the NDK, installed by CodeWorks for Android and <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>. Uninstalling the sync app should fix the conflict.</li>
+        </ul>
+        <p style="font-weight: bold;">Linux Users Only </p>
+        <ul>
+            <li value="1">When using a target running Linux that uses <code>ssh</code> instead of <code>adb</code>,  <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> is unable to connect to the target device as a "root" user. This is because <code>ssh config</code> has forbidden root password authentication. If you check the contents of the target root <code>fs /etc/ssh/sshd_config</code>, you will find the following line:&#160;
+		<pre class="prettyprint">PermitRootLogin without-password </pre><p>As a workaround, change the line to:</p><pre class="prettyprint">PermitRootLogin yes</pre><p>Alternatively, you can log in with a different user account, and should not encounter this same error. <span style="color: #808080;">(33646)</span></p></li>
+        </ul>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

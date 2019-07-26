@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging|Vulkan">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="API Inspector View in Tegra Graphics Debugger" /><title>API Inspector</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_api_inspector_vulkan.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">API Inspector</span>
+        </h1><a name="kanchor11"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>When using the <span class="MyVariablesTGD_FrameDebugger">Frame Debugger</span> feature of <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span>, you may wish to do a deep dive into a specific draw call, in order to analyze your application further. To do this, go to the <a href="tgd_frame_debugging.htm#View_Options">Frame Debugger menu</a> and select <b>API Inspector</b>. The API Inspector view will open. </p>
+        <p>The available pipeline stages for a Vulkan application are detailed below. </p>
+        <h4>Pipeline </h4>
+        <p>The <b>Pipeline</b> page shows information about the currently bound pipeline object including: create info, pipeline layout, and push constant ranges.</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_pipeline.001_700x427.png" style="width: 700;height: 427;" />
+            </p>
+        </blockquote>
+        <h4>Render Pass </h4>
+        <p>The <b>Render Pass</b> page shows information about the current render pass including: clear values, attachments operations, and sub-pass dependencies. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_renderpass.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <h4>Frame Buffer Object (FBO)&#160;</h4>
+        <p>The <b>Frame Buffer Object</b> page shows information about the current frame buffer object including: the creation flags, image view attachments, and the current state of the associated textures.</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_fbo.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <h4>Input Assembler (IA) </h4>
+        <p>The <b>Input Assembler</b> page shows the layout of your vertex buffers and index buffers, as well as the vertex bindings and attribute information.<br /></p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_ia.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <h4>Shaders (VS, TCS, TES, GS, FS, CS)</h4>
+        <p>The various shader pages display all of the shader modules, including: creation information, human readable SPIR-V source, current push constants, current bound descriptor sets, associated buffers, associated images and samples, and associated texel buffer views for this stage.</p>
+        <p>
+            <table style="border-collapse: collapse;border-left-style: none;border-left-width: 1px;border-left-color: #696969;border-right-style: none;border-right-width: 1px;border-right-color: #696969;border-top-style: none;border-top-width: 1px;border-top-color: #696969;border-bottom-style: none;border-bottom-width: 1px;border-bottom-color: #696969;margin-left: 0;margin-right: auto;width: 100%;">
+                <col style="width: 35px;" />
+                <col style="width: 1223px;" />
+                <tbody>
+                    <tr>
+                        <td style="background-color: #ffffe0;vertical-align: middle;text-align: center;padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;">
+                            <img src="../images/notebox.png" />
+                        </td>
+                        <td style="background-color: #ffffe0;"><b>NOTE:</b> A future release of <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> will add reflection information to these views, to correlate shader information with resources.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_fs.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <p>
+            <table style="margin-left: 0;margin-right: auto;width: 100%;">
+                <col style="width: 231px;" />
+                <col />
+                <tbody>
+                    <tr>
+                        <td>VS (Vertex Shader) </td>
+                        <td>Vertex shader state, including attributes, samplers, uniforms, etc. </td>
+                    </tr>
+                    <tr>
+                        <td>TCS (Tessellation Control Shader) </td>
+                        <td>Tessellation control shader state, including attributes, samplers, uniforms, control state, etc. </td>
+                    </tr>
+                    <tr>
+                        <td>TES (Tessellation Evaluation Shader) </td>
+                        <td>Tessellation evaluation shader state, including attributes, samplers, uniforms, evaluation state, etc. </td>
+                    </tr>
+                    <tr>
+                        <td>GS (Geometry Shader) </td>
+                        <td>Geometry shader state, including attributes, samplers, uniforms, geometry state, etc. </td>
+                    </tr>
+                    <tr>
+                        <td>FS (Fragment Shader) </td>
+                        <td>Fragment shader state, including attributes, samplers, uniforms, etc. </td>
+                    </tr>
+                    <tr>
+                        <td>CS (Compute Shader)  </td>
+                        <td>All of the shader resource and unordered access views and constant buffers bound to the Compute Shader stage, as well as links to the source code and other shader information. </td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+        <h4>Raster</h4>
+        <p>The <b>Raster</b> page shows all rasterization information associated with pipeline object include: polygons modes, cull modes, depth bias, and line widths.<br /></p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_raster.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <h4>Pixel Operations (Pix Ops) </h4>
+        <p>The <b>Pixel Operations</b> page displays information associated with the current pixel state including: depth/stencil state, multi-sample state, and blending state.</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_pixops.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <h4>Miscellaneous Information (Misc)</h4>
+        <p>The <b>Miscellaneous Information</b> page shows information related to the instance, physical device(s), logical device(s), and queue(s)</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_api_inspector_vulkan_misc.001_700x426.png" style="width: 700;height: 426;" />
+            </p>
+        </blockquote>
+        <p> </p>
+        <div id="pagefooter">
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Save a Capture with Source Code Generation in Tegra Graphics Debugger" /><title>Save a Capture with Source Code Generation</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_save_capture.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Save a Capture with Source Code Generation</span>
+        </h1><a name="kanchor13"></a>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <p>Sometimes starting up an application and getting to a specific spot can take a very long time. Instead, you can save the capture to disk, and reload it later for a much faster startup.  Using this method, the capture can also be shared among the development team, to point out any potential errors or performance issues.</p>
+        <h3>Saving the current captured frame for later debugging or profiling:</h3>
+        <ol>
+            <li value="1">Begin debugging your app and launch the Frame Debugger. </li>
+            <li value="2">Click the <b>Serialize Capture to C/C++</b> button on the HUD toolbar. 
+			<p><img src="images/tgd_serialize_capture.001.png" /></p></li>
+            <li value="3">Select the folder where you wish to save the capture. 
+			<p><img src="images/tgd_save_capture_path.001.png" /></p><p>Choose a directory that has no spaces as the NDK cannot compile from directories with spaces.</p></li>
+            <li value="4">The source code will be generated from the capture and when you see the message indicating completion, the captured frame will be saved on disk.
+			<p><img src="images/tgd_serialize_capture_progress.001.png" /></p></li>
+        </ol>
+        <table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 0;margin-right: auto;caption-side: top;">
+            <col />
+            <col style="width: 902px;" />
+            <tbody>
+                <tr>
+                    <td class="hs-box-icon" vAlign="top" style="margin-top: 6px;margin-bottom: 6px;background-color: #ffffe0;vertical-align: middle;text-align: center;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;">
+                        <img src="../images/notebox.png" />
+                    </td>
+                    <td class="hs-box-content" vAlign="top" style="margin-top: 6px;margin-bottom: 6px;background-color: #ffffe0;vertical-align: middle;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;">If your application uses binary programs, the resulting serialized capture is only compatible with the same target device and OS version.  The driver can embed information into the binary that locks it to the current system.  To work around this, delete any shader cache before running the tool if you want to serialize the capture. </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Using a saved capture <br /></h3>
+        <ol>
+            <li value="1">To use the saved capture, open the generated project from the directory you chose using Visual Studio. Saving a capture will generate the source code, as well as project and solution files for all supported Visual Studio versions. <p><table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 0;margin-right: auto;caption-side: top;"><col /><col style="width: 861px;" /><tbody><tr><td class="hs-box-icon" vAlign="top" style="margin-top: 6px;margin-bottom: 6px;background-color: #ffffe0;vertical-align: middle;text-align: center;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;"><img src="../images/notebox.png" /></td><td class="hs-box-content" vAlign="top" style="margin-top: 6px;margin-bottom: 6px;background-color: #ffffe0;vertical-align: middle;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;">Versioned Visual Studio projects may be opened with Visual Studio versions that do not match the project version, but note that you may be asked to upgrade your project when opening it for the first time.</td></tr></tbody></table></p></li>
+            <li value="2">&#160;Generated source files: <ol style="list-style-type: lower-alpha;"><li value="1"><code>.sln</code> and <code>.vcxproj</code> files — These are Microsoft Visual Studio solution and project files for building the resulting executable. </li><li value="2"><code>Main.cpp</code> — This is where all of the initialization code is called, resources are created, and each frame portion is called in a message loop.</li><li value="3"><code>Resources<i>NN</i>.cpp</code> and <code>Resources.h</code> — Depending on the number of resources to be created, there will be multiple <code>Resources<i>NN</i>.cpp</code> files, each with a <code>CreateResources<i>NN</i></code> call in them, that will construct all of the resources (contexts, textures, shaders, etc.) that are used in the scene.  These are called in <code>Main.cpp</code> before replaying the frame in the message loop.</li><li value="4"><code>FrameSetupMM.cpp</code> — These files contain all of the state setting calls to set the API state to the proper values for the beginning of the frame, including what buffers are bound, which shaders are enabled, etc.</li><li value="5"><code>FrameResetMM.cpp</code> or <code>ThreadNNFrameResetMM.cpp</code> — These files contain the code required to reset API state back to its capture begin values after the frame has been run. In multi-threaded serializations each thread receives its own file.</li><li value="6"><code>PerfMarkersSetup.cpp</code> and <code>PerfMarkersReset.cpp</code> — These files contain the code to setup perf markers active before the capture and terminate those still active at the end of the frame.</li><li value="7"><code>WinResourcesSetup.cpp</code> and <code>WinResourcesReset.cpp</code> — These files contain the code to setup and reset any resources used by the windowing system.</li><li value="8"><code>Frame<i>N</i>Part<i>MM</i>.cpp</code> — In  single-threaded OpenGL captures, these files contain the frame replay functions, each named <code>RunFrame<i>N</i>Part<i>MM</i>()</code>, to replay the frame.  It is split into multiple files so generated code is easier to work with.  These functions are called sequentially in the message loop in <code>Main.cpp</code>.<p><table style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;border-collapse: separate;margin-left: 0;margin-right: auto;caption-side: top;"><col /><col style="width: 824px;" /><tbody><tr><td class="hs-box-icon" vAlign="top" style="margin-top: 6px;margin-bottom: 6px;background-color: #ffffe0;vertical-align: middle;text-align: center;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;"><img src="../images/notebox.png" /></td><td class="hs-box-content" vAlign="top" style="margin-top: 6px;margin-bottom: 6px;background-color: #ffffe0;vertical-align: middle;padding-left: 3px;padding-right: 3px;padding-top: 3px;padding-bottom: 3px;border-left-style: solid;border-left-width: 1px;border-left-color: #696969;border-right-style: solid;border-right-width: 1px;border-right-color: #696969;border-top-style: solid;border-top-width: 1px;border-top-color: #696969;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #696969;">In this scenario, both <code>N</code> and <code>MM</code> are placeholders for numbers in the multiple files generated. <code>Frame<i>N</i></code> will typically be <code>Frame0</code> since only a single frame is captured, and <code>Part<i>MM</i></code> will typically be in the <code>00-05</code> range, depending on how many API calls are in the frame.</td></tr></tbody></table></p></li><li value="9"><code>Thread<i>LL</i>Frame<i>N</i>Part<i>MM</i>.cpp</code> — In multi-threaded OpenGL captures, these files contain the frame replay functions, each named <code>Thread<i>LL</i>RunFrame<i>N</i>Part<i>MM</i>()</code>, to replay the frame. The functions correspond to the work done by each thread during the frame. These functions are called by their respective threads and synchronized to replay the saved events in the same order as captured.</li><li value="10"><code>ReadOnlyDatabase.cpp</code> and <code>ReadOnlyDatabase.h</code> — This is a helper class to access resource data that is stored in the <code>data.bin</code> file.  It is accessed throughout the code via the <code>GetResource()</code> call.</li><li value="11"><code>Helpers.cpp</code> and <code>Helpers.h</code> — These functions are used throughout the replayer for various conversions and access to the <code>ReadOnlyDatabase</code>.</li><li value="12"><code>Threading.cpp</code> and <code>Threading.h</code> — These files contain helper functions and classes to manage threads used in the project. </li><li value="13"><code>ReplayProcedures.cpp</code> and <code>ReplayProcedures.h</code> — These files contain the implementations of the methods used by <code>Main.cpp</code> to create and setup resources and run the captured frame.</li></ol></li>
+            <li value="3">Build and run the project.</li>
+        </ol>
+        <h4>Changing a Resource </h4>
+        <p>If you want to change a resource (for example, to swap in a different texture), you can change the parameters for the construction by looking within the <code>Resources<i>NN</i>.cpp</code> files for the texture in question.  Textures can be matched by size and/or format.   Once you find the variable for the texture, look for that name in the <code>FrameSetup.cpp</code> file.  This will contain source lines to lock the texture, call <code>GetResource()</code> to retrieve the data from the <code>ReadOnlyDatabase</code>, and then call <code>memcpy(…)</code> to load the data into the texture.  You can substitute the call to the <code>ReadOnlyDatabase</code> with a call to read from a file of choice to load the alternate texture.</p>
+        <h4>Changing  a Draw Call </h4>
+        <p>If you want to change the state for a given draw call, you can locate the draw call by replaying the capture within <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> and scrubbing to find the call you want to examine.  Search in the <code>Frame<i>N</i>Part<i>MM</i>.cpp</code> files for <b>Draw <i>NN</i></b>, where <i>NN</i> is the 0-based draw call index that <span class="MyVariablesTGD_Short">Tegra Graphics Debugger</span> displayed on the scrubber.  Doing this will bring you to the source line for that draw call, and from here, you can add any state changes before that call.  Alternatively, you can also disable that specific call by commenting out the source call containing the draw call.</p>
+        <h4>Parameters </h4>
+        <ul>
+            <li value="1"><code>repeatCount </code>— Variable set at the top of <code>Main.cpp</code>, under the heading Replay Data.  The value of this variable indicates the number of times to repeat the entire capture; the default setting is -1, which keeps the capture running on an infinite loop.
+            </li>
+            <li value="2"><code>noReset </code>— Variable set at the top of <code>Main.cpp</code>, under the heading Replay Data. This setting controls whether context state and all resources are reset to their beginning of frame value. When this variable is set to true, all frame restoration operations will be skipped, avoiding the performance cost associated with them. Note that this may introduce rendering errors if the rendered frame has a data dependency on the results of a previous frame.
+            </li>
+        </ul>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

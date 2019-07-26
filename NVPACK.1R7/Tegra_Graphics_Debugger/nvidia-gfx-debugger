@@ -1,0 +1,10 @@
+#!/bin/bash
+MYPATH=`readlink -f $0`
+export NV_AGORA_PATH=`dirname "$MYPATH"`
+export LD_LIBRARY_PATH=$NV_AGORA_PATH:$LD_LIBRARY_PATH
+
+if [ ${NV_AGORA_FORCE_BREAKPAD:-0} -ge 0 ]; then
+    "$NV_AGORA_PATH/CrashReporter" "NVIDIA Graphics Debugger" "Battle" "1.0" "$NV_AGORA_PATH/nvidia-gfx-debugger.bin" $@
+else
+    "$NV_AGORA_PATH/nvidia-gfx-debugger.bin" $@
+fi

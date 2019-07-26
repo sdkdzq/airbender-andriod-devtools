@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging|OpenGL">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Using the Frame Scrubber with Tegra Graphics Debugger" /><title>Frame Scrubber</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_frame_scrubber.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Frame Scrubber</span>
+        </h1><a name="kanchor6"></a>
+        <hr width="100%" size="0" align="center" />
+        <h4><a name="Frame_Scrubber"></a>Understanding the Scrubber</h4>
+        <p>For the sake of discussion when it comes to graphics debugging, it helps to  note some common terminology.</p>
+        <ul>
+            <li value="1">An <strong>event</strong> is a single call to the API. It could be a  draw call, or clear, or a less obvious call, like  configuring API&#160;state.  </li>
+            <li value="2">An <strong>action</strong> is a subset of the event types. It can be a draw call, clear, blit, compute dispatch, or swap buffers. Actions are interesting  since they explicitly change buffers, which may result in visual changes. </li>
+        </ul>
+        <blockquote>
+            <p><a href="images/tgd_scrubber.005.png"><img src="images/tgd_scrubber.005_800x213.png" style="width: 800;height: 213;" /></a>
+            </p>
+        </blockquote>
+        <p>The default view will show the events in your application, in addition to any performance markers you have defined.  Clicking the <b>Add...</b> button will open a dialog that allows you to select what type of range you want to add.</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_scrubber_add_dialog.002.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Program Ranges</b> — Actions that use the same shader program. </li>
+            <li value="2"><b>Viewport</b> — Actions that render to the same viewport rectangle. </li>
+            <li value="3"><b>Alpha Blending Enabled</b> — Actions that have alpha blending enabled. </li>
+            <li value="4"><b>Alpha Test Enabled</b> — Actions that have alpha test enabled. </li>
+            <li value="5"><b>Back Face Cull Enabled</b> — Actions that have back face cull enabled. </li>
+            <li value="6"><b>User</b> — A range defined by you on the fly. Use SHIFT + left-click and drag the Scrubber on the created "User" row to create a new range. </li>
+        </ul>
+        <h2>Scrubbing on the Host</h2>
+        <h4>Zooming In and Out</h4>
+        <p>There are several ways to zoom in and out of the Scrubber in the <span class="MyVariablesTGD_FrameDebugger">Frame Debugger</span>.</p>
+        <ol>
+            <li value="1">Select an event range: hold down the SHIFT key and click-and-drag the mouse  along the event timeline.<br />The selected range appears as a dark gray area.  </li>
+            <li value="2">Click inside the range.<br />The event timeline zooms in, expanding the range  to the borders of the timeline. </li>
+        </ol>
+        <p>Alternatively, you can click-and-drag the either of the handles of the  horizontal scroll bar.</p>
+        <p>You can also zoom in and out by holding the CTRL key while moving the scroll wheel on the mouse.</p>
+        <h4>Scaling and Hierarchy </h4>
+        <p>There are several ways to sort the events on the Scrubber. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_scrubber_scaling.002.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Event ID — Unit Scale</b> is the default view, which simply shows the actions and events on the timeline. </li>
+            <li value="2"><b>Sequence ID</b>&#160;shows how the calls may have executed on the GPU in parallel. <br />Note that Sequence ID is only used in APIs that allow for simultaneous execution, so it will look the same as Event ID&#160;ordering for APIs like OpenGL and OpenGL&#160;ES. </li>
+            <li value="3"><b>Event ID — CPU Time Scale</b> displays the CPU activity and how much each event or action cost the CPU. </li>
+            <li value="4"><b>Event ID — GPU Time Scale</b> displays the GPU activity and how much each event or action cost the GPU. </li>
+            <li value="5"><b>Event ID — X by CPU, Y by GPU</b> displays the CPU time scale on a horizontal X-axis, and the GPU time scale on a vertical Y-axis. </li>
+        </ul>
+        <h4>View Hierarchy </h4>
+        <blockquote>
+            <p>
+                <img src="images/tgd_scrubber_hierarchy.002.png" />
+            </p>
+        </blockquote>
+        <p>From the Hierarchy drop-down, <b>Queue Centric</b> sorts the events by queue, while <b>Thread Centric</b> sorts the events by the thread.</p>
+        <h4>Using Hotkeys to Scrub Through a Frame</h4>
+        <p>When the Scrubber has focus, you can use the following hotkeys to move the Scrubber cursor from one event to another.</p>
+        <blockquote>
+            <table cols="2">
+                <col style="width: 413px;" />
+                <col style="width: 450px;" />
+                <tbody>
+                    <tr>
+                        <th>HOTKEY</th>
+                        <th>ACTION</th>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th style="text-align: left;" colspan="2"><b>Zooming and Panning </b>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+							CTRL&#160;+&#160;Scroll mouse wheel up, or<br />CTRL + NumPadPlus
+						</td>
+                        <td>Zoom in X-axis </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+							CTRL +&#160;Scroll mouse wheel down, or<br />CTRL + NumPadMinus
+						</td>
+                        <td>Zoom out X-axis</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL + 0</td>
+                        <td>Reset zoom to encompass the entire frame </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL + SHIFT + Scroll mouse wheel up </td>
+                        <td>Increase row height (all rows)</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL + SHIFT + Scroll mouse wheel down</td>
+                        <td>Decrease row height (all rows)</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL + Left mouse click and drag </td>
+                        <td>Pan</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: left;" colspan="2"><b>Cursor and Selection </b>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">Left mouse click on desired cursor location</td>
+                        <td>Set current event/action<br /></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+							Left mouse click on desired row
+						</td>
+                        <td>Select row<br />(The selected row is highlighted in orange.)&#160;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL + Right Arrow</td>
+                        <td>Move cursor to the next action</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL + Left Arrow</td>
+                        <td>Move cursor to the previous action</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">SHIFT + Left mouse click and drag</td>
+                        <td>Make range selection </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">Left mouse click on selection</td>
+                        <td>Zoom to range</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">
+						Left double-click on event action, or<br />Right-click menu, <b>Open API Inspector</b></td>
+                        <td>Open API Inspector</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">Right-click menu, <b>Profile Frame</b></td>
+                        <td>Run Range Profiler</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left;">CTRL&#160;+&#160;A&#160;</td>
+                        <td>Select all events </td>
+                    </tr>
+                </tbody>
+            </table>
+        </blockquote>
+        <p>When moving the Scrubber cursor, you will only stop on action events, as mentioned above. </p>
+        <p>For example, if you are looking for the next draw method that was called, you can press the CTRL&#160;+&#160;RIGHT ARROW on the keyboard to skip over events that are not typically of interest, and only stop on events that are considered action events.</p>
+        <h2>Scrubbing on the Target </h2>
+        <p>On a target, you can scrub through the events and actions, similar to the way you can on the host machine. There are 2 types of target scrubbing that are supported. </p>
+        <h4>Tablet </h4>
+        <p>Use one finger touch gestures to scrub through the scene. These include:&#160;</p>
+        <ul>
+            <li value="1">Tap your finger on the Scrubber overlay and remove to set the current action. </li>
+            <li value="2">Swipe with your finger over the Scrubber overlay to scrub through the scene, action by action.</li>
+            <li value="3">Tap your finger on the left side of the screen, above the Scrubber overlay, to go back 1 action, right side to go forward. </li>
+            <li value="4">Use 2 fingers on left side of the screen, above the Scrubber overlay, to go to first action, right to go to last action. </li>
+        </ul>
+        <h4>SHIELD Console </h4>
+        <p>Using the Blake controller with the SHIELD console, you can do the following:&#160;</p>
+        <ul>
+            <li value="1">DPad L to go back 1 action, DPad R to go forward. This includes key repeat. </li>
+            <li value="2">Use the joystick to scrub variable speed (depending on the deflection of the stick). </li>
+            <li value="3">X to go to first action.</li>
+            <li value="4">B to go to last action.</li>
+        </ul>
+        <div id="pagefooter">
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

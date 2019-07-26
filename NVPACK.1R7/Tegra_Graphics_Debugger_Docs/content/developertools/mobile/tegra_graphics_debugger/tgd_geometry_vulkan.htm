@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging|Vulkan">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Geometry View in Tegra Graphics Debugger" /><title>Geometry</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_geometry_vulkan.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Geometry</span>
+        </h1><a name="kanchor1"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>The <b>Geometry</b> view takes the state of the Vulkan machine and the parameters for the current draw call and shows the pre-transformed geometry. </p>
+        <h3>Graphical Tab </h3>
+        <blockquote>
+            <p>
+                <img src="images/tgd_geometry_vulkan.001_800x628.png" style="width: 800;height: 628;" />
+            </p>
+        </blockquote>
+        <h4>Attribute Options </h4>
+        <ul>
+            <li value="1"><b>Position</b> — Specifies the vertex attribute to use for positional geometry data.</li>
+            <li value="2"><b>Color</b>  — Specifies how to color the geometry. If <i>Diffuse Color</i> is selected, the selected diffuse color swatch will be used for coloring. If a vertex attribute is selected, the selected attribute will be used for per-vertex coloring. 
+			</li>
+            <li value="3"><b>Normal</b>  — Specifies the per-vertex normal. This selection applies when using a shade mode that specifies <i>Normal Attribute</i> or when rendering normal vectors.</li>
+        </ul>
+        <h4>Rendering Options </h4>
+        <p>Clicking <b>Configure</b> in the bottom right corner of the Geometry View will open up the rendering options menu. </p>
+        <blockquote>
+            <p><a href="images/tgd_geometry_vulkan_configure.001.png"><img src="images/tgd_geometry_vulkan_configure.001_800x628.png" style="width: 800;height: 628;" /></a>
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Render Mode</b>  — Determines how to render and raster geometry.</li>
+            <ul style="list-style-type: circle;">
+                <li value="1"><b>Solid</b>: renders filled geometry.</li>
+                <li value="2"><b>Points</b>: renders a vertex point cloud.
+			</li>
+                <li value="3"><b>Wireframe</b>: renders a wireframe of the geometry.</li>
+                <li value="4"><b>Wireframe + Solid</b>: renders filled geometry with a wireframe on top of it.</li>
+            </ul>
+            <li value="2"><b>Shade Mode</b>  — Specifies the lighting mode of the rendered image.<ul style="list-style-type: circle;"><li value="1"><b>Selected Color Attribute</b>: Shades with the specified color attribute</li><li value="2"><b>Flat Shading Using Generated Normals</b>: Renders the geometry using flat shading with calculated normals</li><li value="3"><b>Flat Shading Using Normal Attribute</b>: Renders the geometry using flat shading with the specified <i>Normal Attribute</i>. </li><li value="4"><b>Smooth Shading Using Normal Attribute</b>: Renders the geometry using smooth shading with the specified <i>Normal Attribute</i>.</li></ul></li>
+            <li value="3"><b>Render Normal Vectors</b>  — Renders the specified normal attribute as a vector pointing from each vertex. The vector may be colored by the <i>Normal Color</i> selection and may be scaled by the <i>Normal Scale</i> selection.</li>
+            <li value="4"><b>Reset Camera</b>  — Resets the camera to its default orientation. By default, the viewer bounds all geometry with a bounding sphere for optimal orientation.</li>
+        </ul>
+        <h3>Memory Tab </h3>
+        <p>The <b>Memory tab</b> of the Geometry View shows the contents of the vertex buffer, as interpreted by the current vertex or input attribute specification. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_geometry_vulkan_memory.001_800x628.png" style="width: 800;height: 628;" />
+            </p>
+        </blockquote>
+        <p>There are two modes: </p>
+        <ol>
+            <li value="1"><b>Index Buffer Order</b> shows the vertices as indexed by the current index buffer and current draw call. </li>
+            <li value="2"><b>Vertex Buffer Order</b> shows the vertices as linearly laid out from the start of the vertex buffer and draw call specification.</li>
+        </ol>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

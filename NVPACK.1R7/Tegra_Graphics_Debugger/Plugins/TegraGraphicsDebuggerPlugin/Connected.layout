@@ -1,0 +1,97 @@
+{
+    "floating": [
+    ],
+    "id": "NvidiaDockingLayout",
+    "root": {
+        "left": {
+            "left": {
+                "left": {
+                    "left": {
+                        "contents": {
+                            "docklocation": 2,
+                            "lastfloatingheight": 300,
+                            "lastfloatingwidth": 400,
+                            "persistable": true,
+                            "uuid": "{64307636-ca48-50d6-8510-0c8812a81b6c}",
+                            "windowtype": "BattlePlugin.SignalGraphWindow"
+                        },
+                        "type": "dock"
+                    },
+                    "orientation": "vertical",
+                    "right": {
+                        "contents": {
+                            "docklocation": 2,
+                            "lastfloatingheight": 300,
+                            "lastfloatingwidth": 400,
+                            "persistable": true,
+                            "uuid": "{52464f27-f0d8-5ef5-8452-2a9192ddd366}",
+                            "windowtype": "BattlePlugin.SignalGraphWindow"
+                        },
+                        "type": "dock"
+                    },
+                    "split_sizes": "269 308",
+                    "type": "split"
+                },
+                "orientation": "vertical",
+                "right": {
+                    "contents": {
+                        "docklocation": 5,
+                        "lastfloatingheight": 300,
+                        "lastfloatingwidth": 400,
+                        "persistable": true,
+                        "uuid": "{2b6f6504-15b9-5daf-80d3-aab4d821da27}",
+                        "windowtype": "BattlePlugin.SignalGraphWindow"
+                    },
+                    "type": "dock"
+                },
+                "split_sizes": "582 308",
+                "type": "split"
+            },
+            "orientation": "horizontal",
+            "right": {
+                "left": {
+                    "contents": {
+                        "docklocation": 5,
+                        "lastfloatingheight": -1,
+                        "lastfloatingwidth": -1,
+                        "persistable": true,
+                        "uuid": "{4a8e3fd9-6d0a-47f0-8254-d3fff5ba2fc1}",
+                        "windowtype": "BattlePlugin.DirectedTestWindow"
+                    },
+                    "type": "dock"
+                },
+                "orientation": "vertical",
+                "right": {
+                    "contents": {
+                        "docklocation": 3,
+                        "lastfloatingheight": 300,
+                        "lastfloatingwidth": 400,
+                        "persistable": true,
+                        "uuid": "{60252c73-0cc1-5a27-971c-2c4e0ebd248c}",
+                        "windowtype": "BattlePlugin.LinkedProgramsWindow"
+                    },
+                    "type": "dock"
+                },
+                "split_sizes": "582 308",
+                "type": "split"
+            },
+            "split_sizes": "1194 721",
+            "type": "split"
+        },
+        "orientation": "vertical",
+        "right": {
+            "contents": {
+                "docklocation": 3,
+                "lastfloatingheight": -1,
+                "lastfloatingwidth": -1,
+                "persistable": true,
+                "uuid": "{ddcc0a3f-2eff-4e87-b233-cf95fa42a159}",
+                "windowtype": "CorePlugin.LogWindow"
+            },
+            "type": "dock"
+        },
+        "split_sizes": "895 191",
+        "type": "split"
+    },
+    "version": 1
+}

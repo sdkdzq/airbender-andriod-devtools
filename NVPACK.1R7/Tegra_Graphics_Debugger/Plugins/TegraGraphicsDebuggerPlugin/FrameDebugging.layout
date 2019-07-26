@@ -1,0 +1,72 @@
+{
+    "floating": [
+    ],
+    "id": "NvidiaDockingLayout",
+    "root": {
+        "left": {
+            "left": {
+                "contents": {
+                    "docklocation": 2,
+                    "lastfloatingheight": -1,
+                    "lastfloatingwidth": -1,
+                    "persistable": true,
+                    "windowtype": "BattlePlugin.ScrubberWindow"
+                },
+                "type": "dock"
+            },
+            "orientation": "horizontal",
+            "right": {
+                "contents": {
+                    "docklocation": 4,
+                    "lastfloatingheight": 218,
+                    "lastfloatingwidth": 1595,
+                    "persistable": true,
+                    "windowtype": "BattlePlugin.CurrentTargetView"
+                },
+                "type": "dock"
+            },
+            "split_sizes": "1026 335",
+            "type": "split"
+        },
+        "orientation": "vertical",
+        "right": {
+            "left": {
+                "contents": [
+                    {
+                        "docklocation": 1,
+                        "lastfloatingheight": 218,
+                        "lastfloatingwidth": 795,
+                        "persistable": true,
+                        "windowtype": "BattlePlugin.EventListWindow"
+                    },
+                    {
+                        "docklocation": 1,
+                        "lastfloatingheight": 300,
+                        "lastfloatingwidth": 400,
+                        "persistable": true,
+                        "uuid": "{60252c73-0cc1-5a27-971c-2c4e0ebd248c}",
+                        "windowtype": "BattlePlugin.LinkedProgramsWindow"
+                    }
+                ],
+                "type": "tabs"
+            },
+            "orientation": "horizontal",
+            "right": {
+                "contents": {
+                    "docklocation": 3,
+                    "lastfloatingheight": -1,
+                    "lastfloatingwidth": -1,
+                    "persistable": true,
+                    "uuid": "{ff7668f0-faa3-5345-ac79-788dce77af3f}",
+                    "windowtype": "BattlePlugin.APIInspectorWindow"
+                },
+                "type": "dock"
+            },
+            "split_sizes": "937 424",
+            "type": "split"
+        },
+        "split_sizes": "180 583",
+        "type": "split"
+    },
+    "version": 1
+}

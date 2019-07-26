@@ -1,0 +1,13 @@
+var xmlHelpSystemData = "";
+xmlHelpSystemData += '<?xml version=\"1.0\" encoding=\"utf-8\"?>';
+xmlHelpSystemData += '<WebHelpSystem DefaultUrl=\"content/developertools/mobile/tegra_graphics_debugger/tegra_graphics_debugger_main.htm\" Toc=\"Data/Tocs/TegraGraphicsDebugger.js\" Index=\"Data/Index.js\" Concepts=\"Data/Concepts.js\" BrowseSequence=\"Data/BrowseSequences/Browse_Sequences__BrowseSequence.js\" Glossary=\"Data/Glossary.js\" SearchDatabase=\"Data/Search.js\" Alias=\"Data/Alias.xml\" Synonyms=\"Data/Synonyms.xml\" SearchFilterSet=\"Data/Filters.js\" PathToScriptsFolder=\"Resources/Scripts/\" SkinName=\"Generic_NV_docs\" SkinID=\"Generic_NV_docs\" Multilingual=\"false\" Skins=\"Generic_NV_docs\" BuildTime=\"2/7/2018 12:38:22 PM\" BuildVersion=\"13.3.6547.24746\" TargetType=\"WebHelp2\" SkinTemplateFolder=\"Skin/\" InPreviewMode=\"false\" TopNavTocPath=\"true\" MoveOutputContentToRoot=\"false\" ReplaceReservedCharacters=\"true\" MakeFileLowerCase=\"true\" UseCustomTopicFileExtension=\"false\" PreventExternalUrls=\"false\" EnableResponsiveOutput=\"false\" IncludeGlossarySearchResults=\"true\" ResultsPerPage=\"20\" xml:lang=\"en-us\" LanguageName=\"English\" SearchEngine=\"MadCapSearch\">';
+xmlHelpSystemData += '    <!-- saved from url=(0016)http://localhost -->';
+xmlHelpSystemData += '    <CatapultSkin Version=\"2\" SkinType=\"WebHelp2\" Comment=\"HTML5 skin\" Anchors=\"Width,Height\" Width=\"800\" Height=\"600\" Top=\"0\" Left=\"0\" Bottom=\"0\" Right=\"0\" Tabs=\"TOC,Index\" DefaultTab=\"TOC\" UseBrowserDefaultSize=\"True\" UseDefaultBrowserSetup=\"false\" Title=\"NVIDIA Documentation \" AutoSyncTOC=\"true\" NavigationLinkTop=\"true\" BrowserSetup=\"Toolbar,Menu\" CommentsInTopic=\"false\" DisplayCommunitySearchResults=\"false\" DisplayNotificationOptions=\"false\" Name=\"Generic_NV_docs\" SkinID=\"Generic_NV_docs\" SkinClass=\"_Skins_Generic_NV_docs\" HideNavOnStartup=\"False\" LogoUrl=\"\">';
+xmlHelpSystemData += '        <Toolbar EnableCustomLayout=\"true\" Buttons=\"PreviousTopic|CurrentTopicIndex|NextTopic\">';
+xmlHelpSystemData += '            <Script>$(document).ready(function(){';
+xmlHelpSystemData += '   $(\"div#header&gt;a\").attr(\"href\", \"http://docs.nvidia.com/\");';
+xmlHelpSystemData += '});</Script>';
+xmlHelpSystemData += '        </Toolbar>';
+xmlHelpSystemData += '    </CatapultSkin>';
+xmlHelpSystemData += '</WebHelpSystem>';
+MadCap.Utilities.Xhr._FilePathToXmlStringMap.Add('HelpSystem', xmlHelpSystemData);

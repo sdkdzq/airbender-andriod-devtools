@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Frame Debugging with Tegra Graphics Debugger" /><title>Frame Debugging</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_frame_debugging.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Frame Debugging</span>
+        </h1><a name="kanchor14"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>The <span style="font-weight: bold;" class="MyVariablesTGD_FrameDebugger">Frame Debugger</span> allows you  to inspect render targets and textures, navigate through draw events, inspect pipeline  states, and perform in-depth profiling of the scene, to determine where bottlenecks are.</p>
+        <h3>Launching the Frame Debugger </h3>
+        <p>In order to start the <strong><span class="MyVariablesTGD_FrameDebugger">Frame Debugger</span></strong>, you need to capture the frame of interest by pressing <b>Capture Frame</b> on the toolbar. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_capture_frame.002.png" />
+            </p>
+        </blockquote>
+        <p>Once captured, the <strong><span style="font-weight: normal;" class="MyVariablesTGD_FrameDebugger">Frame Debugger</span></strong> allows you to scrub through the frame, draw call by draw call, to get a sense of how the scene is constructed. </p>
+        <p><a href="images/tgd_frame_debugger.005.png"><img src="images/tgd_frame_debugger.005_800x624.png" style="width: 800;height: 624;" /></a>
+        </p>
+        <h3><a name="View_Options"></a>View Options </h3>
+        <p>The Frame Debugger has multiple dock-able and re-sizable windows to view the frame details and any profiling results that you want to see. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_frame_debugger_menu.001.png" />
+            </p>
+        </blockquote>
+        <p>These views will be discussed more in the following section. </p>
+        <h3>Common Frame Debugging Features </h3>
+        <p><a name="clone_lock"></a>There are two buttons that are common across several frame debugger views.</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_clone_lock.001.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1">The <b>clone</b> button makes a copy of the current view, so that you can compare different parts of the API Inspector (or other cloned views) for the current action.</li>
+            <li value="2">The <b>lock</b> button freezes the current view so that changing the current event does not update this view. This is helpful when trying to compare the same state on two different actions.</li>
+        </ul>
+        <h2>Supported APIs</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <table style="border-left-style: none;border-left-width: 0px;border-right-style: none;border-right-width: 1px;border-top-style: none;border-top-width: 1px;border-bottom-style: none;border-bottom-width: 1px;margin-left: 0;margin-right: auto;">
+                        <col style="width: 340px;" />
+                        <col style="width: 340px;" />
+                        <tbody>
+                            <tr>
+                                <td style="text-align: left;vertical-align: top;padding-left: 8px;padding-right: 8px;padding-top: 8px;padding-bottom: 8px;border-left-style: none;border-left-width: 1px;border-left-color: #696969;border-right-style: none;border-right-width: 1px;border-right-color: #696969;border-top-style: none;border-top-width: 1px;border-top-color: #696969;border-bottom-style: none;border-bottom-width: 1px;border-bottom-color: #696969;">
+                                    <div>
+                                        <p><a class="btn btn-success btn-sm" href="tgd_opengl.htm">OpenGL Frame Debugging<i>&gt;</i></a>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;vertical-align: top;padding-left: 8px;padding-right: 8px;padding-top: 2px;padding-bottom: 2px;border-left-style: none;border-left-width: 1px;border-left-color: #696969;border-right-style: none;border-right-width: 1px;border-right-color: #696969;border-top-style: none;border-top-width: 1px;border-top-color: #696969;border-bottom-style: none;border-bottom-width: 1px;border-bottom-color: #696969;">
+                                    <p><a class="btn btn-success btn-sm" href="tgd_vulkan.htm">Vulkan Frame Debugging <i>&gt;</i></a>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr />
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <h2>Additional Resources</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <table style="border-left-style: none;border-left-width: 0px;border-right-style: none;border-right-width: 1px;border-top-style: none;border-top-width: 1px;border-bottom-style: none;border-bottom-width: 1px;margin-left: 0;margin-right: auto;">
+                        <col style="width: 340px;" />
+                        <tbody>
+                            <tr>
+                                <td style="text-align: left;vertical-align: top;padding-left: 8px;padding-right: 8px;padding-top: 8px;padding-bottom: 8px;border-left-style: none;border-left-width: 1px;border-left-color: #696969;border-right-style: none;border-right-width: 1px;border-right-color: #696969;border-top-style: none;border-top-width: 1px;border-top-color: #696969;border-bottom-style: none;border-bottom-width: 1px;border-bottom-color: #696969;">
+                                    <div>
+                                        <p><a class="btn btn-success btn-sm" href="tgd_save_capture.htm">Save a Capture with Source Code Generation<i>&gt;</i></a>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="pagefooter">
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

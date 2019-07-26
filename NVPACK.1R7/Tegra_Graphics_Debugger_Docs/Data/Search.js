@@ -1,0 +1,1 @@
+define({r:0.5,st:'Stem',n:1,t:[0],u:['../content/developertools/mobile/tegra_graphics_debugger/tegra_graphics_debugger_main.htm'],s:['$','ext_draw_buffers2','placehold'],p:[['$',3],['array',10],['controlled',29],['ext_color_table',26],['in',29],['menu',14],['performance',28],['shift',18],['the',23],['waiver',29]]});

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="Frame Debugging|OpenGL">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <meta name="googlebot" content="" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Learn more about the Resources view for OpenGL applications in Tegra Graphics Debugger." /><title>Resources View</title>
+        <link href="../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../index.html#developertools/mobile/tegra_graphics_debugger/tgd_resources_view.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1><span class="SystemTitle">Resources View</span>
+        </h1><a name="kanchor7"></a>
+        <hr width="100%" size="0" align="center" />
+        <p>The <b>Resources</b> view allows you to dynamically cast your buffer and visualize it in 3space. There are tabs pages available here:&#160;graphical and memory. </p>
+        <p>At the top of the Resources view, you'll find a toolbar:  </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_resources_toolbar.002.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1"><b>Clone</b> — makes a copy of the current view, so that you can open another instance.</li>
+            <li value="2"><b>Lock</b> — freezes the current view so that changing the current event does not update this view. This is helpful when trying to compare the state or a resource at two different actions. </li>
+            <li value="3"><b>Save</b> — saves the captured resources to disk. </li>
+            <li value="4"><b>Red</b>, <b>Green</b>, and <b>Blue</b> — toggles on and off specific colors. </li>
+            <li value="5"><b>Alpha</b> — enables alpha visualization. In the neighboring drop-down, you can select one of the following two options: 
+				<ul style="list-style-type: circle;"><li value="1"><b>Blend</b> — blends the alpha with a checkboard background. </li><li value="2"><b>Grayscale</b> —  alpha values are displayed as grayscale. </li></ul></li>
+            <li value="6"><b>Flip Image</b> — inverts the image of the resource displayed. </li>
+        </ul>
+        <p>Below the toolbar is a set of buttons, described below, for high-level filtering of the resources based on type.  Next to that, there is a drop-down menu that allows you to select how you wish to view the resources:&#160;thumbnails, small thumbnails, tiles, or details. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_resources_graphical_view_dropdown.001.png" />
+            </p>
+        </blockquote>
+        <p>If you select the <b>Details</b> view, you can sort the resources by the available column headings (type, name, size, etc.). </p>
+        <h4>Filtering Resources </h4>
+        <p>There are three ways to filter the available resources. </p>
+        <ol>
+            <li value="1">For high-level filtering, there are color coded buttons to filter based on resource type. All resource types are visible by default, and you can filter the resource list by de-selecting the button for the type you don't want to see. For example, if you'd like to see only textures, you can click the other buttons to de-select them and remove them from the list of resources. 
+				<p><img src="images/tgd_resources_filter_buttons.002.png" /></p></li>
+            <li value="2">You can manually type in a search string to filter the list of resources. 
+				</li>
+            <li value="3">You can choose from the drop-down of predefined filters to view only large resources, depth resources, unused resources, or resources that change in the frame. Selecting one of these will fill in the JavaScript string necessary for the requested filter, which is also useful as a basis to construct custom filters.
+				<p><img src="images/tgd_resources_graphical_predefined_filter.002.png" /></p></li>
+        </ol>
+        <h3>Graphical </h3>
+        <p>The <b>Graphical</b> tab allows you to inspect the resource, pan using the left mouse button to click and drag, zoom using the mouse wheel, and inspect pixel values.  Also, this is where you can  save the resource to disk. </p>
+        <blockquote>
+            <p><a href="images/tgd_resources_graphical.003.png"><img src="images/tgd_resources_graphical.003_800x498.png" style="width: 800;height: 498;" /></a>
+            </p>
+        </blockquote>
+        <p>When you have selected a buffer from the left pane, the <b>Show Histogram</b> button will be available on the right side of the Graphical tab, which allows for remapping the color channels for the resource being viewed. </p>
+        <blockquote>
+            <p><a href="images/tgd_resources_histogram.002.png"><img src="images/tgd_resources_histogram.002_800x497.png" style="width: 800;height: 497;" /></a>
+            </p>
+        </blockquote>
+        <p>To modify the histogram view, the following options are available:</p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_resources_histogram_toolbar.001.png" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1">You can set the minimum and maximum cutoff values via the sliders under the histograms, or by typing in values in the <b>Minimum</b> and <b>Maximum</b> boxes. </li>
+            <li value="2">You can change the scale by using the <b>Log</b> button. </li>
+            <li value="3">The <b>Luminance</b> button allows you to visualize luminance instead of color values. </li>
+            <li value="4">The <b>Normalize</b> button can preset the minimum and maximum values to the extents of the data in the resource. </li>
+        </ul>
+        <h3>Memory </h3>
+        <p>The <b>Memory</b> tab shows a binary dump of the resource data. You can use the controls at the top to cast the values to different data types and decide how many columns to display. </p>
+        <blockquote>
+            <p><a href="images/tgd_resources_memory.003.png"><img src="images/tgd_resources_memory.003_800x498.png" style="width: 800;height: 498;" /></a>
+            </p>
+        </blockquote>
+        <p>On the Memory tab, you will find two drop-down menus for setting how you want to view the memory data. </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_resources_memory_int.001_700x186.png" style="width: 700;height: 186;" />
+            </p>
+        </blockquote>
+        <p>The first drop-down specifies the size and type to use when displaying the data (either integer or floating point data). </p>
+        <blockquote>
+            <p>
+                <img src="images/tgd_resources_memory_hex.001_700x152.png" style="width: 700;height: 152;" />
+            </p>
+        </blockquote>
+        <p>The second drop-down is a further modifier for the integer formats — you can choose hexadecimal, signed, or unsigned formats. Note that if you select to display floating point data, this drop-down menu will be disabled. </p>
+        <div id="pagefooter">
+            <br />
+        </div>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® Tegra Graphics Debugger Documentation Rev. 2.6.180206 ©2014-<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>
