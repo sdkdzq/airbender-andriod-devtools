@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entry SYSTEM "SamplesInfo.dtd">
+<entry>
+    <name>FP16 Scalar Product</name>
+    <description><![CDATA[Calculates scalar product of two vectors of FP16 numbers.]]></description>
+    <whitepaper></whitepaper>
+    <supported_sm_architectures>
+        <from>5.3</from>
+        <to>5.3</to>
+    </supported_sm_architectures>
+    <keywords>FP16,Floating Point 16</keywords>
+    <scope>1:CUDA Basic Topics</scope>
+    <files>
+    </files>
+    <cudaapi>cudaMalloc</cudaapi>
+    <cudaapi>cudaMallocHost</cudaapi>
+    <cudaapi>cudaMemcpy</cudaapi>
+    <cudaapi>cudaFree</cudaapi>
+    <cudaapi>cudaFreeHost</cudaapi>
+    <keyconcepts level="basic">CUDA Runtime API</keyconcepts>
+    <include-path>./</include-path>
+    <include-path>../</include-path>
+    <include-path>../../common/inc</include-path>
+    <devicecompilation>whole</devicecompilation>
+    <sm-arch>sm53</sm-arch>
+    <type>exe</type>
+    <primary-file>fp16ScalarProduct.cu</primary-file>
+    <required_dependencies>
+        <dependency>FP16</dependency>
+    </required_dependencies>
+    <supported-env>:arm</supported-env>
+</entry>

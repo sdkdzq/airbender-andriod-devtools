@@ -1,0 +1,258 @@
+.TH "Unified Addressing" 3 "18 Jul 2015" "Version 6.0" "Doxygen" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Unified Addressing \- 
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBCUresult\fP \fBcuPointerGetAttribute\fP (void *data, \fBCUpointer_attribute\fP attribute, \fBCUdeviceptr\fP ptr)"
+.br
+.RI "\fIReturns information about a pointer. \fP"
+.ti -1c
+.RI "\fBCUresult\fP \fBcuPointerGetAttributes\fP (unsigned int numAttributes, \fBCUpointer_attribute\fP *attributes, void **data, \fBCUdeviceptr\fP ptr)"
+.br
+.RI "\fIReturns information about a pointer. \fP"
+.ti -1c
+.RI "\fBCUresult\fP \fBcuPointerSetAttribute\fP (const void *value, \fBCUpointer_attribute\fP attribute, \fBCUdeviceptr\fP ptr)"
+.br
+.RI "\fISet attributes on a previously allocated memory region. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+\\brief unified addressing functions of the low-level CUDA driver API (\fBcuda.h\fP)
+.PP
+This section describes the unified addressing functions of the low-level CUDA driver application programming interface.
+.SH "Overview"
+.PP
+CUDA devices can share a unified address space with the host. For these devices there is no distinction between a device pointer and a host pointer -- the same pointer value may be used to access memory from the host program and from a kernel running on the device (with exceptions enumerated below).
+.SH "Supported Platforms"
+.PP
+Whether or not a device supports unified addressing may be queried by calling \fBcuDeviceGetAttribute()\fP with the device attribute \fBCU_DEVICE_ATTRIBUTE_UNIFIED_ADDRESSING\fP.
+.PP
+Unified addressing is automatically enabled in 64-bit processes on devices with compute capability greater than or equal to 2.0.
+.SH "Looking Up Information from Pointer Values"
+.PP
+It is possible to look up information about the memory which backs a pointer value. For instance, one may want to know if a pointer points to host or device memory. As another example, in the case of device memory, one may want to know on which CUDA device the memory resides. These properties may be queried using the function \fBcuPointerGetAttribute()\fP
+.PP
+Since pointers are unique, it is not necessary to specify information about the pointers specified to the various copy functions in the CUDA API. The function \fBcuMemcpy()\fP may be used to perform a copy between two pointers, ignoring whether they point to host or device memory (making \fBcuMemcpyHtoD()\fP, \fBcuMemcpyDtoD()\fP, and \fBcuMemcpyDtoH()\fP unnecessary for devices supporting unified addressing). For multidimensional copies, the memory type \fBCU_MEMORYTYPE_UNIFIED\fP may be used to specify that the CUDA driver should infer the location of the pointer from its value.
+.SH "Automatic Mapping of Host Allocated Host Memory"
+.PP
+All host memory allocated in all contexts using \fBcuMemAllocHost()\fP and \fBcuMemHostAlloc()\fP is always directly accessible from all contexts on all devices that support unified addressing. This is the case regardless of whether or not the flags \fBCU_MEMHOSTALLOC_PORTABLE\fP and \fBCU_MEMHOSTALLOC_DEVICEMAP\fP are specified.
+.PP
+The pointer value through which allocated host memory may be accessed in kernels on all devices that support unified addressing is the same as the pointer value through which that memory is accessed on the host, so it is not necessary to call \fBcuMemHostGetDevicePointer()\fP to get the device pointer for these allocations.
+.PP
+Note that this is not the case for memory allocated using the flag \fBCU_MEMHOSTALLOC_WRITECOMBINED\fP, as discussed below.
+.SH "Automatic Registration of Peer Memory"
+.PP
+Upon enabling direct access from a context that supports unified addressing to another peer context that supports unified addressing using \fBcuCtxEnablePeerAccess()\fP all memory allocated in the peer context using \fBcuMemAlloc()\fP and \fBcuMemAllocPitch()\fP will immediately be accessible by the current context. The device pointer value through which any peer memory may be accessed in the current context is the same pointer value through which that memory may be accessed in the peer context.
+.SH "Exceptions, Disjoint Addressing"
+.PP
+Not all memory may be accessed on devices through the same pointer value through which they are accessed on the host. These exceptions are host memory registered using \fBcuMemHostRegister()\fP and host memory allocated using the flag \fBCU_MEMHOSTALLOC_WRITECOMBINED\fP. For these exceptions, there exists a distinct host and device address for the memory. The device address is guaranteed to not overlap any valid host pointer range and is guaranteed to have the same value across all contexts that support unified addressing.
+.PP
+This device address may be queried using \fBcuMemHostGetDevicePointer()\fP when a context using unified addressing is current. Either the host or the unified device pointer value may be used to refer to this memory through \fBcuMemcpy()\fP and similar functions using the \fBCU_MEMORYTYPE_UNIFIED\fP memory type. 
+.SH "Function Documentation"
+.PP 
+.SS "\fBCUresult\fP cuPointerGetAttribute (void * data, \fBCUpointer_attribute\fP attribute, \fBCUdeviceptr\fP ptr)"
+.PP
+The supported attributes are:
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_CONTEXT\fP:
+.PP
+.PP
+Returns in \fC*data\fP the \fBCUcontext\fP in which \fCptr\fP was allocated or registered. The type of \fCdata\fP must be \fBCUcontext\fP *.
+.PP
+If \fCptr\fP was not allocated by, mapped by, or registered with a \fBCUcontext\fP which uses unified virtual addressing then \fBCUDA_ERROR_INVALID_VALUE\fP is returned.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_MEMORY_TYPE\fP:
+.PP
+.PP
+Returns in \fC*data\fP the physical memory type of the memory that \fCptr\fP addresses as a \fBCUmemorytype\fP enumerated value. The type of \fCdata\fP must be unsigned int.
+.PP
+If \fCptr\fP addresses device memory then \fC*data\fP is set to \fBCU_MEMORYTYPE_DEVICE\fP. The particular \fBCUdevice\fP on which the memory resides is the \fBCUdevice\fP of the \fBCUcontext\fP returned by the \fBCU_POINTER_ATTRIBUTE_CONTEXT\fP attribute of \fCptr\fP.
+.PP
+If \fCptr\fP addresses host memory then \fC*data\fP is set to \fBCU_MEMORYTYPE_HOST\fP.
+.PP
+If \fCptr\fP was not allocated by, mapped by, or registered with a \fBCUcontext\fP which uses unified virtual addressing then \fBCUDA_ERROR_INVALID_VALUE\fP is returned.
+.PP
+If the current \fBCUcontext\fP does not support unified virtual addressing then \fBCUDA_ERROR_INVALID_CONTEXT\fP is returned.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_DEVICE_POINTER\fP:
+.PP
+.PP
+Returns in \fC*data\fP the device pointer value through which \fCptr\fP may be accessed by kernels running in the current \fBCUcontext\fP. The type of \fCdata\fP must be CUdeviceptr *.
+.PP
+If there exists no device pointer value through which kernels running in the current \fBCUcontext\fP may access \fCptr\fP then \fBCUDA_ERROR_INVALID_VALUE\fP is returned.
+.PP
+If there is no current \fBCUcontext\fP then \fBCUDA_ERROR_INVALID_CONTEXT\fP is returned.
+.PP
+Except in the exceptional disjoint addressing cases discussed below, the value returned in \fC*data\fP will equal the input value \fCptr\fP.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_HOST_POINTER\fP:
+.PP
+.PP
+Returns in \fC*data\fP the host pointer value through which \fCptr\fP may be accessed by by the host program. The type of \fCdata\fP must be void **. If there exists no host pointer value through which the host program may directly access \fCptr\fP then \fBCUDA_ERROR_INVALID_VALUE\fP is returned.
+.PP
+Except in the exceptional disjoint addressing cases discussed below, the value returned in \fC*data\fP will equal the input value \fCptr\fP.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_P2P_TOKENS\fP:
+.PP
+.PP
+Returns in \fC*data\fP two tokens for use with the nv-p2p.h Linux kernel interface. \fCdata\fP must be a struct of type \fBCUDA_POINTER_ATTRIBUTE_P2P_TOKENS\fP.
+.PP
+\fCptr\fP must be a pointer to memory obtained from :\fBcuMemAlloc()\fP. Note that p2pToken and vaSpaceToken are only valid for the lifetime of the source allocation. A subsequent allocation at the same address may return completely different tokens. Querying this attribute has a side effect of setting the attribute \fBCU_POINTER_ATTRIBUTE_SYNC_MEMOPS\fP for the region of memory that \fCptr\fP points to.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_SYNC_MEMOPS\fP:
+.PP
+.PP
+A boolean attribute which when set, ensures that synchronous memory operations initiated on the region of memory that \fCptr\fP points to will always synchronize. See further documentation in the section titled 'API synchronization behavior' to learn more about cases when synchronous memory operations can exhibit asynchronous behavior.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_BUFFER_ID\fP:
+.PP
+.PP
+Returns in \fC*data\fP a buffer ID which is guaranteed to be unique within the process. \fCdata\fP must point to an unsigned long long.
+.PP
+\fCptr\fP must be a pointer to memory obtained from a CUDA memory allocation API. Every memory allocation from any of the CUDA memory allocation APIs will have a unique ID over a process lifetime. Subsequent allocations do not reuse IDs from previous freed allocations. IDs are only unique within a single process.
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_IS_MANAGED\fP:
+.PP
+.PP
+Returns in \fC*data\fP a boolean that indicates whether the pointer points to managed memory or not.
+.PP
+\fB\fP.RS 4
+.RE
+.PP
+Note that for most allocations in the unified virtual address space the host and device pointer for accessing the allocation will be the same. The exceptions to this are
+.IP "\(bu" 2
+user memory registered using \fBcuMemHostRegister\fP
+.IP "\(bu" 2
+host memory allocated using \fBcuMemHostAlloc\fP with the \fBCU_MEMHOSTALLOC_WRITECOMBINED\fP flag For these types of allocation there will exist separate, disjoint host and device addresses for accessing the allocation. In particular
+.IP "\(bu" 2
+The host address will correspond to an invalid unmapped device address (which will result in an exception if accessed from the device)
+.IP "\(bu" 2
+The device address will correspond to an invalid unmapped host address (which will result in an exception if accessed from the host). For these types of allocations, querying \fBCU_POINTER_ATTRIBUTE_HOST_POINTER\fP and \fBCU_POINTER_ATTRIBUTE_DEVICE_POINTER\fP may be used to retrieve the host and device addresses from either address.
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdata\fP - Returned pointer attribute value 
+.br
+\fIattribute\fP - Pointer attribute to query 
+.br
+\fIptr\fP - Pointer
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBCUDA_SUCCESS\fP, \fBCUDA_ERROR_DEINITIALIZED\fP, \fBCUDA_ERROR_NOT_INITIALIZED\fP, \fBCUDA_ERROR_INVALID_CONTEXT\fP, \fBCUDA_ERROR_INVALID_VALUE\fP, \fBCUDA_ERROR_INVALID_DEVICE\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Note that this function may also return error codes from previous, asynchronous launches.
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcuPointerSetAttribute\fP, \fBcuMemAlloc\fP, \fBcuMemFree\fP, \fBcuMemAllocHost\fP, \fBcuMemFreeHost\fP, \fBcuMemHostAlloc\fP, \fBcuMemHostRegister\fP, \fBcuMemHostUnregister\fP 
+.RE
+.PP
+
+.SS "\fBCUresult\fP cuPointerGetAttributes (unsigned int numAttributes, \fBCUpointer_attribute\fP * attributes, void ** data, \fBCUdeviceptr\fP ptr)"
+.PP
+The supported attributes are (refer to \fBcuPointerGetAttribute\fP for attribute descriptions and restrictions):
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_CONTEXT\fP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_MEMORY_TYPE\fP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_DEVICE_POINTER\fP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_HOST_POINTER\fP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_SYNC_MEMOPS\fP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_BUFFER_ID\fP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_IS_MANAGED\fP
+.PP
+.PP
+\fBParameters:\fP
+.RS 4
+\fInumAttributes\fP - Number of attributes to query 
+.br
+\fIattributes\fP - An array of attributes to query (numAttributes and the number of attributes in this array should match) 
+.br
+\fIdata\fP - A two-dimensional array containing pointers to memory locations where the result of each attribute query will be written to. 
+.br
+\fIptr\fP - Pointer to query
+.RE
+.PP
+Unlike \fBcuPointerGetAttribute\fP, this function will not return an error when the \fCptr\fP encountered is not a valid CUDA pointer. Instead, the attributes are assigned default NULL values and CUDA_SUCCESS is returned.
+.PP
+If \fCptr\fP was not allocated by, mapped by, or registered with a \fBCUcontext\fP which uses UVA (Unified Virtual Addressing), \fBCUDA_ERROR_INVALID_CONTEXT\fP is returned.
+.PP
+\fBReturns:\fP
+.RS 4
+\fBCUDA_SUCCESS\fP, \fBCUDA_ERROR_DEINITIALIZED\fP, \fBCUDA_ERROR_INVALID_CONTEXT\fP, \fBCUDA_ERROR_INVALID_VALUE\fP, \fBCUDA_ERROR_INVALID_DEVICE\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Note that this function may also return error codes from previous, asynchronous launches.
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcuPointerGetAttribute\fP, \fBcuPointerSetAttribute\fP 
+.RE
+.PP
+
+.SS "\fBCUresult\fP cuPointerSetAttribute (const void * value, \fBCUpointer_attribute\fP attribute, \fBCUdeviceptr\fP ptr)"
+.PP
+The supported attributes are:
+.PP
+.IP "\(bu" 2
+\fBCU_POINTER_ATTRIBUTE_SYNC_MEMOPS\fP:
+.PP
+.PP
+A boolean attribute that can either be set (1) or unset (0). When set, the region of memory that \fCptr\fP points to is guaranteed to always synchronize memory operations that are synchronous. If there are some previously initiated synchronous memory operations that are pending when this attribute is set, the function does not return until those memory operations are complete. See further documentation in the section titled 'API synchronization behavior' to learn more about cases when synchronous memory operations can exhibit asynchronous behavior. \fCvalue\fP will be considered as a pointer to an unsigned integer to which this attribute is to be set.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvalue\fP - Pointer to memory containing the value to be set 
+.br
+\fIattribute\fP - Pointer attribute to set 
+.br
+\fIptr\fP - Pointer to a memory region allocated using CUDA memory allocation APIs
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+\fBCUDA_SUCCESS\fP, \fBCUDA_ERROR_DEINITIALIZED\fP, \fBCUDA_ERROR_NOT_INITIALIZED\fP, \fBCUDA_ERROR_INVALID_CONTEXT\fP, \fBCUDA_ERROR_INVALID_VALUE\fP, \fBCUDA_ERROR_INVALID_DEVICE\fP 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+Note that this function may also return error codes from previous, asynchronous launches.
+.RE
+.PP
+\fBSee also:\fP
+.RS 4
+\fBcuPointerGetAttribute\fP, \fBcuPointerGetAttributes\fP, \fBcuMemAlloc\fP, \fBcuMemFree\fP, \fBcuMemAllocHost\fP, \fBcuMemFreeHost\fP, \fBcuMemHostAlloc\fP, \fBcuMemHostRegister\fP, \fBcuMemHostUnregister\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen from the source code.
