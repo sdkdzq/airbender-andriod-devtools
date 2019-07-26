@@ -1,0 +1,109 @@
+================================================================================
+NVIDIA PERFKIT FOR Android
+================================================================================
+
+Version 4.5.1 of NVIDIA PerfKit for Android Tegra device.
+
+================================================================================
+Driver Instrumentation
+================================================================================
+
+NVIDIA PerfKit SDK provides low level access to GPU hardware performance
+counters and OpenGL device driver counters. In order to access this data
+the OpenGL driver instrumentation must be enabled by the user.
+
+On Android platforms this is performed by executing NvAndroidPerfKitControl.sh
+to enable or disable driver instrumentation.
+
+Enabling driver instrumentation adds a minimal CPU overhead to the
+OpenGL driver. It is recommended to enable instrumentation at a process
+level rather that a system level.
+
+================================================================================
+GPU Clock Setting
+================================================================================
+
+NvAndroidPerfKitControl.sh supports setting the GPU clock to the system
+maximum frequency, power profile maximum frequency, or restore the GPU clock to
+the profile default frequency. Setting the clock to a fixed frequency
+improves the consistency of the profiling results.
+
+setting         meaning
+-----------------------------------------------
+promax          Profile Max GPU clock frequency
+sysmax          System Max GPU clock frequency
+restore         Default GPU clock frequency
+
+================================================================================
+Running an Instrumented Application
+================================================================================
+
+The standard method to run an application on Linux libNvPmApi.Core.so is listed
+below. If the host is Windows then follow the directions but call
+NvAndroidPerfKitControl.bat instead of NvAndroidPerfKitControl.sh.
+
+NOTE: adb must be in the shell path for the shell scripts to execute.
+
+#
+# SETUP One time setup for PerfKit.
+#
+
+# On rooted devices push libNvPmApi.Core.so into /vendor/lib fold
+# On non-rooted devices libNvPmApi.Core.so should be included in the APK.
+adb push libNvPmApi.Core.so /vendor/lib/
+
+# Install NvPerfKitControlApk.apk
+./NvAndroidPerfKitControl.sh install
+
+# Enable NVIDIA GL driver instrumentation. This value is persisted across
+# device reboots.
+./NvAndroidPerfKitControl.sh inst=enable
+
+# On a rooted device to run a native application
+adb push NvPmApiQuery /data
+
+
+# On non-rooted device
+adb install NvPmApiQueryApk.apk
+# start NvPmApiQuery.apk from the graphical shell
+
+
+#
+# Per execution of an application.
+#
+
+# Optionally, set the GPU clocks to a fixed rate
+./NvAdndroidPerfKitControl.sh gpuclk=sysmax
+
+# Launch the application.
+# On rooted devices
+adb shell "/data/NvPmApiQuery"
+# On non-rooted devices
+adb shell am start com.nvidia.perfkit/.NvPmApiQuery
+
+
+
+# After the application completes disable driver instrumentation and 
+# restore the GPU clocks.
+./NvAndroidPerfKitControl.sh inst=disable
+./NvAdndroidPerfKitControl.sh gpuclk=restore
+
+================================================================================
+How to include libNvPmApi.Core.so into APK
+================================================================================
+Configure Android.mk:
+    include $(CLEAR_VARS)
+    LOCAL_MODULE := NvPmApi
+    LOCAL_SRC_FILES += (path/to/libNvPmApi.Core.so)
+    include $(PREBUILT_SHARED_LIBRARY)
+    LOCAL_SHARED_LIBRARIES += NvPmApi
+
+================================================================================
+Support
+================================================================================
+
+Additional information and downloads can be found at
+
+http://developer.nvidia.com/nvidia-perfkit
+
+Support issues can be mailed to PerfKit@nvidia.com.

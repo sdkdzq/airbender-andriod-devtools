@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>OpenGL Trace</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/07-opengl-trace.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-cbd81-0"><span class="SystemTitle">OpenGL Trace</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>OpenGL and OpenGL ES APIs can be traced to assist in the analysis of CPU and GPU
+interactions.</p>
+        <p>A few usage examples are:</p>
+        <ol>
+            <li value="1">
+                <p>Visualize how long <code>eglSwapBuffers</code> (or similar) is taking.</p>
+            </li>
+            <li value="2">
+                <p>API trace can easily show correlations between thread state and graphics
+drivers behavior, uncovering where the CPU may be waiting on the GPU.</p>
+            </li>
+            <li value="3">
+                <p>Spot bubbles of opportunity on the GPU, where more GPU workload could be
+created.</p>
+            </li>
+            <li value="4">
+                <p>Use <code>KHR_debug</code> extension to trace GL events on both the CPU and GPU.</p>
+            </li>
+        </ol>
+        <p>OpenGL trace feature in <span class="MyVariablesQuadD">NVIDIA System Profiler</span> consists of two different
+activities:</p>
+        <ul>
+            <li value="1">
+                <p><strong>CPU trace</strong>: interception of API calls that an application does to APIs
+(such as OpenGL, OpenGL ES, EGL, GLX, etc.).</p>
+            </li>
+            <li value="2">
+                <p><strong>GPU trace</strong> (or <strong>workload trace</strong>): trace of GPU workload (activity)
+triggered by use of OpenGL or OpenGL ES.</p>
+            </li>
+        </ul>
+        <p>To collect GPU trace, the <code>glQueryCounter()</code> function is used to measure how much
+time batches of GPU workload take to complete.</p>
+        <blockquote>
+            <p>
+                <img alt="Configure OpenGL trace" src="../3.9-jetpack/img/configure-opengl-trace.png" title="" />
+            </p>
+        </blockquote>
+        <blockquote>
+            <p>
+                <img alt="Configure OpenGL functions" src="../3.9-jetpack/img/configure-opengl-functions.png" title="" />
+            </p>
+        </blockquote>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>NVTX Trace</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/05-nvtx-trace.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-2126a-0"><span class="SystemTitle">NVTX Trace</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <madcap:keyword term="NVTX Trace" xmlns:madcap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+        <p>The NVIDIA Tools Extension Library (NVTX) is a powerful mechanism that allows
+users to manually instrument their application. <span class="MyVariablesQuadD">NVIDIA System Profiler</span> can then
+collect the information and present it on the timeline.</p>
+        <p><span class="MyVariablesQuadD">NVIDIA System Profiler</span> supports version 2.0 of the NVTX specification.</p>
+        <p>The following features are supported:</p>
+        <ul>
+            <li value="1">Push-pop ranges (nested ranges that start and end in the same thread)<pre class="prettyprint">nvtxRangePush(), nvtxRangePushEx()<br />nvtxRangePop()</pre></li>
+            <li value="2">Start-end ranges (ranges that are global to the process and are not restricted to a single thread)<pre class="prettyprint">nvtxRangeStart(), nvtxRangeStartEx()<br />nvtxRangeEnd()</pre></li>
+            <li value="3">Marks<pre class="prettyprint">nvtxMark(), nvtxMarkEx()</pre></li>
+            <li value="4">Thread names<pre class="prettyprint">nvtxNameOsThread()</pre></li>
+            <li value="5">Categories<pre class="prettyprint">nvtxNameCategory()</pre></li>
+            <li value="6">Domains<pre class="prettyprint">nvtxDomainCreate(), nvtxDomainDestroy()<br />nvtxDomainRangePushEx(), nvtxDomainRangePop()<br />nvtxDomainRangeStartEx(), nvtxDomainRangeEnd()<br />nvtxDomainMarkEx()<br />nvtxDomainNameCategory()<br />nvtxDomainRegisterString()</pre></li>
+        </ul>
+        <p>To learn more about specific features of NVTX, please refer to the NVTX header
+file: <code>nvToolsExt.h</code>.</p>
+        <p>To use NVTX in your application, follow these steps:</p>
+        <ol>
+            <li value="1">
+                <p>Add <code>#include "nvToolsExt.h"</code> in your source code. This header file is
+located in the <code>Target-arm/nvtx/include</code> directory on the host.</p>
+            </li>
+            <li value="2">
+                <p>Link with <code>libnvToolsExt.a</code> static library (<code>-lnvToolsExt</code> compiler flag).</p>
+                <ul>
+                    <li value="1">
+                        <p>For Android, the library is located in <code>Target-arm/armv7</code> and
+<code>Target-arm/armv8</code> directories on the host.</p>
+                    </li>
+                    <li value="2">
+                        <p>For Linux, the library is located in <code>Target-arm-linux/armv7</code> and
+<code>Target-arm-linux/armv8</code> directories on the host.</p>
+                    </li>
+                </ul>
+            </li>
+            <li value="3">
+                <p>Add the following compiler flags as well: <code>-pthread -ldl -lrt</code>.</p>
+            </li>
+            <li value="4">
+                <p>Add calls to the NVTX API functions. For example, try adding
+<code>nvtxRangePushA("main")</code> in the beginning of the <code>main()</code> function, and
+<code>nvtxRangePop()</code> just before the return statement in the end.</p>
+                <ul>
+                    <li value="1">For convenience in C++ code, consider adding wrapper that implements RAII
+(resource acquisition is initialization) pattern, which would guarantee
+that every range gets closed.</li>
+                </ul>
+            </li>
+            <li value="5">
+                <p>In the project settings, select the <strong>Collect NVTX trace</strong> checkbox.</p>
+            </li>
+            <li value="6">
+                <p>On Linux, if the application is launched by <span class="MyVariablesQuadD">NVIDIA System Profiler</span>, all
+required environment variables will be set up automatically.</p>
+            </li>
+            <li value="7">
+                <p>On Linux, if launching the application manually, the following environment
+variables should be specified:</p>
+                <ul>
+                    <li value="1">
+                        <p>For ARMv7 processes:</p>
+                        <blockquote><pre class="prettyprint">NVTX_INJECTION32_PATH=/opt/nvidia/tegra_system_profiler/libToolsInjection32.so
+</pre>
+                        </blockquote>
+                    </li>
+                    <li value="2">
+                        <p>For ARMv8 processes:</p>
+                        <blockquote><pre class="prettyprint">NVTX_INJECTION64_PATH=/opt/nvidia/tegra_system_profiler/libToolsInjection64.so
+</pre>
+                        </blockquote>
+                    </li>
+                </ul>
+            </li>
+        </ol>
+        <p>Typically calls to NVTX functions can be left in the source code even if the
+application is not being built for profiling purposes, since the overhead is
+very low when the profiler is not attached.</p>
+        <p>NVTX is not intended to annotate very small pieces of code that are being called
+very frequently.  A good rule of thumb to use: if code being annotated usually
+takes less than 1 microsecond to execute, adding an NVTX range around this code
+should be done carefully.</p>
+        <p><strong>Note</strong>: Range annotations should be matched carefully.  If many ranges are
+open but not closed, System Profiler has no meaningful way to
+visualize it.  A rule of thumb is to not have more than a couple dozen ranges
+open at any point of time.  <span class="MyVariablesQuadD">NVIDIA System Profiler</span> does not support reports with
+many unclosed ranges.</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>Profiling Applications on Linux Devices</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/04-profiling.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-9cef6-0"><span class="SystemTitle">Profiling Applications on Linux Devices</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <madcap:keyword term="Profiling on Linux Devices" xmlns:madcap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+        <h2 id="h-9cef6-1">Connecting to the Target Device</h2>
+        <p><span class="MyVariablesQuadD">NVIDIA System Profiler</span> provides a simple interface to manage multiple connections
+to Linux-based devices via SSH. The network connections manager can be launched
+through the device selection dropdown:</p>
+        <blockquote>
+            <p>
+                <img alt="Empty device list" src="../3.9-jetpack/img/device-list-empty.png" title="" />
+            </p>
+        </blockquote>
+        <p>The dialog has simple controls that allow adding, removing, and modifying
+connections:</p>
+        <blockquote>
+            <p>
+                <img alt="Network connection" src="../3.9-jetpack/img/network-connection.png" title="" />
+            </p>
+        </blockquote>
+        <p><strong>Security notice</strong>: SSH is only used to establish the initial connection to the
+target device, perform checks, and upload necessary files.  The actual profiling
+commands and data is being transfered through a raw, unencrypted socket.
+<span class="MyVariablesQuadD">NVIDIA System Profiler</span> should not be used in a network setup where MITM
+(man-in-the-middle) attack is possible, or where untrusted parties may have
+network access to the target device.</p>
+        <p>While connecting to the target device, you will be prompted to input the user's
+password. Please note that if you choose to remember the password, it will be
+stored in plain text in the configuration file on the host.  Stored
+passwords are bound to the public key fingerprint of the remote device.</p>
+        <p>The <strong>No authentication</strong> option is useful for devices configured for passwordless
+login using <code>root</code> username.  To enable such a configuration, edit the file
+<code>/etc/ssh/sshd_config</code> on the target and specify the following option:</p>
+        <blockquote><pre class="prettyprint">PermitRootLogin yes
+</pre>
+        </blockquote>
+        <p>Then set empty password using <code>passwd</code> and  restart the SSH service with
+<code>service ssh restart</code>.</p>
+        <h2 id="h-9cef6-2">System Profiling Options</h2>
+        <blockquote>
+            <p>
+                <img alt="System profiling options" src="../3.9-jetpack/img/system-profiling-options.png" title="" />
+            </p>
+        </blockquote>
+        <p><strong>Trace all processes</strong> — on compatible devices (with kernel module support
+version 1.107 or higher), enables trace of all processes and threads in the 
+system.  Scheduler events from all tasks will be recorded.</p>
+        <p><strong>Collect PMU counters</strong> allows to choose which ARM PMU (Performance
+Monitoring Unit) counters <span class="MyVariablesQuadD">NVIDIA System Profiler</span> will sample.  Enable specific
+counters when interested in correlating cache misses to functions in your
+application.</p>
+        <h2 id="h-9cef6-3">Target Sampling Options</h2>
+        <blockquote>
+            <p>
+                <img alt="Target sampling options" src="../3.9-jetpack/img/target-sampling-options.png" title="" />
+            </p>
+        </blockquote>
+        <p>Currently <span class="MyVariablesQuadD">NVIDIA System Profiler</span> can only sample one process.  Sampling here means
+that the profilee will be stopped periodically, and backtraces of active threads
+will be recorded.</p>
+        <p><strong>Sampling rate</strong> defines how often the profilee will be interrupted in order to
+collect backtraces.  This option has to be used carefully: perfect value depends
+on many factors.</p>
+        <p>Low sampling rate requires longer profiling session to produce statistically
+significant information.  This is especially important when additional
+time-based filtering is then applied in the report view to analyze smaller
+periods of time.</p>
+        <p>High sampling rate, on the other hand, produces higher overhead.  For some
+applications, it might hide performance issues related to waiting other work to
+complete, such as waiting to acquire mutex locks, waiting for GPU
+synchronization or waiting for network or disk-based IO to complete.</p>
+        <p>In some cases, forcing to use frame pointers as unwind algorithm is a viable
+option to reduce performance overhead.  Unwind (backtracing) algorithms can be
+configured using the <strong>Choose modes...</strong> button.</p>
+        <p>Most applications use stripped libraries.  In this case, many symbols may stay
+unresolved.  If unstripped libraries exist, paths to them can be specified using
+the <strong>Symbol locations...</strong> button.  Symbol resolution happens on host, and
+therefore does not affect performance of profiling on the target.</p>
+        <p>Additionally, debug versions of ELF files may be picked up from the target 
+system.  Refer to the corresponding section of the documentation.</p>
+        <h2 id="h-9cef6-4">Launching and Attaching to Processes</h2>
+        <p><span class="MyVariablesQuadD">NVIDIA System Profiler</span> can work with Linux-based devices in three modes:</p>
+        <ol>
+            <li value="1">Attaching to a process by name</li>
+            <li value="2">Attaching to a process by name, or launching a new process</li>
+            <li value="3">Attaching to a process by its PID</li>
+        </ol>
+        <p>The purpose of the configuration here is to define which process the profiler
+will attach to for sampling and tracing.  Additionally, the profiler can launch
+a process prior to attaching to it, ensuring that all environment variables are
+set correctly to successfully collect trace information.</p>
+        <p>In <strong>Attach only</strong> mode, the process is selected by its name and command line
+arguments, as visible using the <code>ps</code> tool.</p>
+        <blockquote>
+            <p>
+                <img alt="Process: Attach only" src="../3.9-jetpack/img/process-attach-only.png" title="" />
+            </p>
+        </blockquote>
+        <p>In <strong>Attach or launch</strong> mode, the process is to first search as if in the Attach
+only mode, but if it is not found, the process is launched using the same path
+and command line arguments. If NVTX, CUDA, or other trace settings are selected,
+the process will be automatically launched with appropriate environment
+variables.</p>
+        <p>Note that in some cases, the capabilities of <span class="MyVariablesQuadD">NVIDIA System Profiler</span> are
+not sufficient to correctly launch the application; for example, if certain
+environment variables have to be corrected. In this case, the application has
+to be started manually and <span class="MyVariablesQuadD">NVIDIA System Profiler</span> should be used in Attach only
+mode.</p>
+        <p>The <strong>Edit arguments...</strong> link will open an editor window, where every command
+line argument is edited on a separate line. This is convenient when arguments
+contain spaces or quotes.</p>
+        <p>To properly populate the <strong>Search criteria</strong> field based on a currently running
+process on the target system, use the <strong>Select a process</strong> button on the right,
+which has ellipsis as the caption.  The list of processes is automatically
+refreshed upon opening.</p>
+        <blockquote>
+            <p>
+                <img alt="Process: Attach or launch" src="../3.9-jetpack/img/process-attach-or-launch.png" title="" />
+            </p>
+        </blockquote>
+        <p><strong>Attach by PID</strong> mode should be used to connect to a specific process.</p>
+        <p>To choose one of the currently running processes on the target system, use the
+<strong>Select a process</strong> button on the right.</p>
+        <p><strong>Collect CUDA trace</strong>.  See <a href="../3.9-jetpack/06-cuda-trace.htm">CUDA Trace</a> for
+more information.</p>
+        <p><strong>Collect NVTX trace</strong>.  See <a href="../3.9-jetpack/05-nvtx-trace.htm">NVTX Trace</a> for
+more information.</p>
+        <p><strong>Collect OpenGL trace</strong>.  See <a href="../3.9-jetpack/07-opengl-trace.htm">OpenGL
+Trace</a> for more information.</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>Debug Versions of ELF Files</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/08-elf-debug.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-f232d-0"><span class="SystemTitle">Debug Versions of ELF Files</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <p>Often, after a binary is built, especially if it is built with debug information
+(<code>-g</code> compiler flag), it gets stripped before deploying or installing.  In this
+case, ELF sections that contain useful information, such as non-export function
+names or unwind information, can get stripped as well.</p>
+        <p>One solution is to deploy or install the original unstripped library instead of
+the stripped one, but in many cases this would be inconvenient.
+<span class="MyVariablesQuadD">NVIDIA System Profiler</span> can use missing information from alternative locations.</p>
+        <p>For target devices with Ubuntu, see <a href="https://wiki.ubuntu.com/Debug_Symbol_Packages" target="_blank">Debug Symbol Packages</a>. These packages
+typically install debug ELF files with <code>/usr/lib/debug</code> prefix.
+<span class="MyVariablesQuadD">NVIDIA System Profiler</span> can find debug libraries there, and if it matches the
+original library (e.g., the built-in <code>BuildID</code> is the same), it will be picked
+up and used to provide symbol names and unwind information.</p>
+        <p>Many packages have debug companions in the same repository and can be directly
+installed with APT (<code>apt-get</code>).  Look for packages with the <code>-dbg</code> suffix. For
+other packages, refer to the <a href="https://wiki.ubuntu.com/Debug_Symbol_Packages" target="_blank">Debug Symbol Packages</a> wiki page on how to add the
+ddebs package repository. After setting up the repository and running apt-get
+update, look for packages with <code>-dbgsym</code> suffix.</p>
+        <p>To verify that a debug version of a library has been picked up and downloaded
+from the target device, look in the <em>Module Summary</em> section of <em>Analysis
+Summary</em>:</p>
+        <blockquote>
+            <p>
+                <img alt="Debug library has been used" src="../3.9-jetpack/img/debug-library-used.png" title="" />
+            </p>
+        </blockquote>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

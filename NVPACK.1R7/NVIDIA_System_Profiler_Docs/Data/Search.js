@@ -1,0 +1,1 @@
+define({r:0.5,st:'Stem',n:1,t:[0],u:['../content/developertools/mobile/system_profiler/3.9-automotive/05-nvtx-trace.htm'],s:['$','ssh'],p:[['$',10],['devices',3],['maximum',12],['settings',3],['will',17]]});

@@ -1,0 +1,1 @@
+define({numchunks:1,prefix:'Index_Chunk',terms:[{t:'CodeWorks for Android 1R7',c:0,$:1},{t:'CodeWorks for Android Release Notes',c:0,$:1},{t:'Download CodeWorks for Android',c:0,$:1},{t:'Install CodeWorks for Android',c:0,$:1}]});

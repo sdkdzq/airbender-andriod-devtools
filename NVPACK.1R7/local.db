@@ -1,0 +1,228 @@
+{
+    "package": {
+        "version": "3.0",
+        "category": [
+            {
+                "name": "Android Toolchain",
+                "alias": "android_toolchain"
+            },
+            {
+                "name": "Developer Tools",
+                "alias": "devtools"
+            },
+            {
+                "name": "Android 4.4.2 (API 19)",
+                "category": "sdk",
+                "alias": "gapi19"
+            },
+            {
+                "name": "Android 4.4W.2 (API 20)",
+                "category": "sdk",
+                "alias": "gapi20"
+            },
+            {
+                "name": "Android 5.0.1 (API 21)",
+                "category": "sdk",
+                "alias": "gapi21"
+            },
+            {
+                "name": "Android 5.1.1 (API 22)",
+                "category": "sdk",
+                "alias": "gapi22"
+            },
+            {
+                "name": "Android 6.0 (API 23)",
+                "category": "sdk",
+                "alias": "gapi23"
+            },
+            {
+                "name": "Android 7.0 (API 24)",
+                "category": "sdk",
+                "alias": "gapi24"
+            },
+            {
+                "name": "Android 7.1.1 (API 25)",
+                "category": "sdk",
+                "alias": "gapi25"
+            },
+            {
+                "name": "Android 8.0.0 (API 26)",
+                "category": "sdk",
+                "alias": "gapi26"
+            },
+            {
+                "name": "Android SDK",
+                "alias": "sdk"
+            }
+        ],
+        "component": [
+            {
+                "name": "Android NDK",
+                "version": "15c",
+                "alias": "com.google.ndk",
+                "category": "android_toolchain",
+                "description": "Android Native Development Kit (NDK) for Linux x64",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/android.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/android-ndk-r15c",
+                "space": [
+                    {
+                        "size": "3669684224"
+                    }
+                ]
+            },
+            {
+                "name": "Documentation",
+                "version": "1R7",
+                "alias": "com.nvidia.docs.codeworks",
+                "description": "CodeWorks for Android documentation including user guides, best practices, and manuals for various tools and middleware.",
+                "autoDetect": "0",
+                "location": "docs",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/docs",
+                "space": [
+                    {
+                        "size": "0"
+                    }
+                ]
+            },
+            {
+                "name": "Devtools Documentation",
+                "version": "1R7",
+                "alias": "com.nvidia.docs.devtools",
+                "category": "devtools",
+                "description": "Documentation for Tegra Graphics Debugger and NVIDIA System Profiler",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "1",
+                "space": [
+                    {
+                        "size": "0"
+                    }
+                ]
+            },
+            {
+                "name": "Tegra Graphics Debugger",
+                "version": "2.6",
+                "alias": "com.nvidia.nvtools.battle",
+                "category": "devtools",
+                "description": "Tegra Graphics Debugger is a graphics debugging and profiling tool that provides in-depth analysis and experimentation for OpenGL applications.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/tegra-graphics-debugger.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/Tegra_Graphics_Debugger",
+                "space": [
+                    {
+                        "size": "558149632"
+                    }
+                ]
+            },
+            {
+                "name": "PerfKit",
+                "version": "4.5.1",
+                "alias": "com.nvidia.nvtools.perfkit",
+                "category": "devtools",
+                "description": "NVIDIA PerfKit SDK provides graphics developers with access to low-level GPU performance and driver counters via the NvPmApi library and tools.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/PerfKit",
+                "space": [
+                    {
+                        "size": "6254592"
+                    }
+                ]
+            },
+            {
+                "name": "NVIDIA System Profiler",
+                "version": "3.9",
+                "alias": "com.nvidia.nvtools.quadd",
+                "category": "devtools",
+                "description": "NVIDIA System Profiler is a multi-core CPU sampling profiler that provides an interactive view of captured profiling data, helping improve overall application performance.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/tegra-profiler.png",
+                "extraInfo": "1",
+                "installDir": "Tegra_System_Proflier",
+                "space": [
+                    {
+                        "size": "0"
+                    }
+                ]
+            },
+            {
+                "name": "NVTX",
+                "version": "1.0",
+                "alias": "com.nvidia.nvtx",
+                "category": "devtools",
+                "description": "The NVIDIA Tools Extension SDK (NVTX) is an Application Programming Interface (API) for annotating events, code ranges, and resources. Can we used in conjunction with Tegra Graphics Debugger and Tegra System Profiler to analyze performance.",
+                "autoDetect": "0",
+                "location": "nvtx_1.0",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "1",
+                "installDir": "nvtx_1.0",
+                "space": [
+                    {
+                        "size": "319488"
+                    }
+                ]
+            },
+            {
+                "name": "GameWorks OpenGL Samples",
+                "version": "20180130-2",
+                "alias": "com.nvidia.samples.gameworks",
+                "description": "GameWorks Samples provide example code for OpenGL programming.",
+                "autoDetect": "0",
+                "location": "Samples/GameWorks_Samples",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/nvidia.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/Samples/GameWorks_Samples",
+                "space": [
+                    {
+                        "size": "1213526630"
+                    }
+                ]
+            },
+            {
+                "name": "Apache Ant",
+                "version": "1.8.2",
+                "alias": "org.apache.ant",
+                "category": "android_toolchain",
+                "description": "Apache Ant is a Java build tool required to build Android applications.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/apache_ant.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/apache-ant-1.8.2",
+                "space": [
+                    {
+                        "size": "44929024"
+                    }
+                ]
+            },
+            {
+                "name": "Gradle",
+                "version": "4.1",
+                "alias": "org.apache.gradle",
+                "category": "android_toolchain",
+                "description": "Gradle is a Java project automation build tool used to build Android applications.",
+                "autoDetect": "0",
+                "location": "",
+                "icon": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/icons/gradle.png",
+                "extraInfo": "0",
+                "installDir": "/home/ais01/codes/kezhao.zhao/NVPACK/gradle-4.1",
+                "space": [
+                    {
+                        "size": "47251456"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>Profiling Applications on Android Devices</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/04-profiling-android.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-eb762-0"><span class="SystemTitle">Profiling Applications on Android Devices</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <madcap:keyword term="Profiling on Android Devices" xmlns:madcap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+        <p>To work with <span class="MyVariablesQuadD">NVIDIA System Profiler</span>, the target Android device should be
+configured for <strong>USB debugging</strong> in the <strong>Developer options</strong> settings menu.  Please
+refer to Android development documentation to learn how to configure the device
+for USB debugging.</p>
+        <p>On the Windows host, a compatible USB driver should be installed.
+Please refer to device manufacturer's documentation to learn how to obtain and
+install the driver.</p>
+        <p>Connect your target device via a USB cable and power it on (or wake it up).  Make
+sure that you have the <code>adb</code> command available (it is part of Android SDK Platform
+Tools package).  <span class="MyVariablesQuadD">NVIDIA System Profiler</span> can only connect to devices that are
+marked as <code>device</code> in the output of the <code>adb devices</code> command.  Make sure you can
+enter the ADB shell of the target device by running <code>adb shell</code> on the host.</p>
+        <p>Launch the <span class="MyVariablesQuadD">NVIDIA System Profiler</span> application.  On the first launch, a new project
+called <code>Project 1</code> is created automatically.</p>
+        <blockquote>
+            <p>
+                <img alt="Project settings" src="../3.9-automotive/img/profiling-android.png" title="" />
+            </p>
+        </blockquote>
+        <p>When connecting to the target device, <span class="MyVariablesQuadD">NVIDIA System Profiler</span> will validate it and
+install its daemon into the following location on the device:</p>
+        <blockquote><pre class="prettyprint">/data/local/tmp/com.nvidia.tegraprofiler.tools/
+</pre>
+        </blockquote>
+        <p>Once the daemon and all required files are installed correctly, a green check
+mark will appear and <code>Device is ready</code> text will be displayed:</p>
+        <blockquote>
+            <p>
+                <img alt="Device is ready" src="../3.9-automotive/img/device-is-ready.png" title="" />
+            </p>
+        </blockquote>
+        <h2 id="h-eb762-1">System Profiling Options</h2>
+        <blockquote>
+            <p>
+                <img alt="System profiling options" src="../3.9-automotive/img/system-profiling-options.png" title="" />
+            </p>
+        </blockquote>
+        <p><strong>Trace all processes</strong> — on compatible devices (with kernel module support
+version 1.107 or higher), enables trace of all processes and threads in the 
+system.  Scheduler events from all tasks will be recorded.</p>
+        <p><strong>Collect PMU counters</strong> allows to choose which ARM PMU (Performance
+Monitoring Unit) counters <span class="MyVariablesQuadD">NVIDIA System Profiler</span> will sample.  Enable specific
+counters when interested in correlating cache misses to functions in your
+application.</p>
+        <h2 id="h-eb762-2">Target Sampling Options</h2>
+        <blockquote>
+            <p>
+                <img alt="Target sampling options" src="../3.9-automotive/img/target-sampling-options.png" title="" />
+            </p>
+        </blockquote>
+        <p>Currently <span class="MyVariablesQuadD">NVIDIA System Profiler</span> can only sample one process.  Sampling here means
+that the profilee will be stopped periodically, and backtraces of active threads
+will be recorded.</p>
+        <p><strong>Sampling rate</strong> defines how often the profilee will be interrupted in order to
+collect backtraces.  This option has to be used carefully: perfect value depends
+on many factors.</p>
+        <p>Low sampling rate requires longer profiling session to produce statistically
+significant information.  This is especially important when additional
+time-based filtering is then applied in the report view to analyze smaller
+periods of time.</p>
+        <p>High sampling rate, on the other hand, produces higher overhead.  For some
+applications, it might hide performance issues related to waiting other work to
+complete, such as waiting to acquire mutex locks, waiting for GPU
+synchronization or waiting for network or disk-based IO to complete.</p>
+        <p>In some cases, forcing to use frame pointers as unwind algorithm is a viable
+option to reduce performance overhead.  Unwind (backtracing) algorithms can be
+configured using the <strong>Choose modes...</strong> button.</p>
+        <p>Most applications use stripped libraries.  In this case, many symbols may stay
+unresolved.  If unstripped libraries exist, paths to them can be specified using
+the <strong>Symbol locations...</strong> button.  Symbol resolution happens on host, and
+therefore does not affect performance of profiling on the target.</p>
+        <p>Additionally, debug versions of ELF files may be picked up from the target 
+system.  Refer to the corresponding section of the documentation.</p>
+        <p>This sections allows you to choose which application to profile.  All information
+will be collected about the main process of the selected application, except
+when the <strong>Trace all processes</strong> checkbox is enabled.</p>
+        <p>For non-rooted Android devices, the list of applications only shows information
+about debuggable applications.  By default, applications that are being
+developed using the Android SDK already contain the debuggable option in their
+manifests.</p>
+        <p>On rooted Android devices, profiling of all applications is allowed.</p>
+        <p>For convenience, the application list also shows the process identifiers (PID)
+of processes correlated to the listed packages.  To refresh this information,
+use the button in the upper right corner of the list.</p>
+        <p>The two checkboxes below the application list are important to ensure that the 
+correct launch or attach behavior is configured.</p>
+        <p><strong>Allow sending intent to launch the default activity</strong>, when unselected, forces
+the profiler to attach to a running process.  If no processes are found to
+correlate to the specified application name, the profiling session fails to start
+with an error message.  When selected, <span class="MyVariablesQuadD">NVIDIA System Profiler</span> may launch the
+default intent of the selected application to make sure it is running and
+appears on top of the screen on the target device.</p>
+        <p>In some applications, especially in early stages of development, common bugs
+related to handling the lifecycle of activities can be found.  In such cases,
+sending the default intent may lead to undesired behavior or even crashes of the
+profilee.  Leaving the checkbox unselected ensures that the profiler does not
+affect the application.</p>
+        <p><strong>Restart application if running</strong> is a convenient option in two cases:</p>
+        <ol>
+            <li value="1">
+                <p>When profiling from the very beginning of the application is desired.</p>
+            </li>
+            <li value="2">
+                <p>When using some of the trace features described below.  They require that a
+special library is injected into the application in runtime, which happens
+when the application is paused by the Android runtime's virtual machine just
+after starting.  In this case, enabling this option helps ensure that the
+application is always restarted and the injection always happens, as opposed
+to potentially attaching to the application's process without injection.</p>
+            </li>
+        </ol>
+        <p><strong>Collect NVTX trace</strong>.  See <a href="../3.9-automotive/05-nvtx-trace.htm">NVTX Trace</a> for more
+information.</p>
+        <p><strong>Collect OpenGL trace</strong>.  See <a href="../3.9-automotive/07-opengl-trace.htm">OpenGL Trace</a>
+for more information.</p>
+        <p>&#160;</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

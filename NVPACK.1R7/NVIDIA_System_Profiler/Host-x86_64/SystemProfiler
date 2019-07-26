@@ -1,0 +1,12 @@
+#!/bin/bash
+MYPATH=`readlink -f $0`
+export NV_AGORA_PATH=`dirname "$MYPATH"`
+export TSP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$NV_AGORA_PATH:$LD_LIBRARY_PATH
+export NV_QUADD_PATH=$NV_AGORA_PATH/SystemProfiler.bin
+
+if [ ${NV_AGORA_FORCE_BREAKPAD:-0} -ge 0 ]; then
+    "$NV_AGORA_PATH/CrashReporter" "NVIDIA System Profiler" "QuadD" "2.0" "$NV_QUADD_PATH" "$@"
+else
+    "$NV_QUADD_PATH" "$@"
+fi

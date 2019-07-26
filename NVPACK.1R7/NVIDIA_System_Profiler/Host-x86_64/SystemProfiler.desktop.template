@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=NVIDIA System Profiler
+GenericName=NVIDIA System Profiler
+Icon=/home/ais01/codes/kezhao.zhao/NVPACK/NVIDIA_System_Profiler/Host-x86_64/SystemProfiler.png
+Exec=/home/ais01/codes/kezhao.zhao/NVPACK/NVIDIA_System_Profiler/Host-x86_64/SystemProfiler
+Keywords=nvidia;system;profiler;
+X-AppInstall-Keywords=nvidia;system;profiler;
+X-GNOME-Keywords=nvidia;system;profiler;
+Terminal=No
+Categories=Application;Development;

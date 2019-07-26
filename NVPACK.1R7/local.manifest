@@ -1,0 +1,55 @@
+{
+    "manifest": {
+        "name": "AndroidWorks", 
+        "portfolio": [
+            {
+                "name": "CodeWorks for Android", 
+                "version": "1R7", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/1R7/ugg126/CodeWorks_1R7_linux_b104/codeworks.json", 
+                "installerMin": "1R7"
+            }, 
+            {
+                "name": "AndroidWorks", 
+                "version": "1R1", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/002/json/naw-linux-x64-devzone.json", 
+                "installerMin": "1R1"
+            }, 
+            {
+                "name": "AndroidWorks", 
+                "version": "1R2", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/003/json/naw-linux-x64-devzone.json", 
+                "installerMin": "1R2"
+            }, 
+            {
+                "name": "CodeWorks for Android", 
+                "version": "1R3", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/004/json/naw-linux-x64-devzone.json", 
+                "installerMin": "1R3"
+            }, 
+            {
+                "name": "CodeWorks for Android", 
+                "version": "1R4", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/005/json/naw-linux-x64-devzone.json", 
+                "installerMin": "1R4"
+            }, 
+            {
+                "name": "CodeWorks for Android", 
+                "version": "1R4u1", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/006/json/naw-linux-x64-devzone.json", 
+                "installerMin": "1R4"
+            }, 
+            {
+                "name": "CodeWorks for Android", 
+                "version": "1R5", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/009/json/naw-linux-x64-devzone-u1.json", 
+                "installerMin": "1R5"
+            }, 
+            {
+                "name": "CodeWorks for Android", 
+                "version": "1R6", 
+                "url": "http://developer.download.nvidia.com/devzone/devcenter/mobile/naw100/010/json/naw-linux-x64-devzone.json", 
+                "installerMin": "1R6"
+            }
+        ]
+    }
+}

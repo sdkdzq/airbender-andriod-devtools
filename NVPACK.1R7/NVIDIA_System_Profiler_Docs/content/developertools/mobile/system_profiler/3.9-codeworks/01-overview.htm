@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>NVIDIA System Profiler User Guide</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/01-overview.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-5e624-0"><span class="SystemTitle">NVIDIA System Profiler User Guide</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <madcap:keyword term="Overview; Terminology" xmlns:madcap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+        <h2 id="h-5e624-1">Overview</h2>
+        <p><strong><span class="MyVariablesQuadD">NVIDIA System Profiler</span></strong> is a statistical sampling profiler with tracing
+features.  It is designed to work with devices and devkits based on NVIDIA Tegra
+SoC (system-on-chip).</p>
+        <p>Throughout this document we will refer to the Tegra-based device on which
+profiling happens as <em>target</em>, and the computer on which the user works and
+controls the profiling session as <em>host</em>.</p>
+        <p>Furthermore, three different activities are distinguished as follows:</p>
+        <ul>
+            <li value="1">
+                <p><strong>Profiling</strong> — The process of collecting any performance data.  A profiling session
+in SP typically includes sampling and tracing.</p>
+            </li>
+            <li value="2">
+                <p><strong>Sampling</strong> — The process of periodically stopping the <em>profilee</em> (the application
+under investigation during the profiling session), typically involves
+collecting backtraces (call stacks of active threads), which allows you to
+understand statistically how much time is spent in each function.
+Additionally, hardware counters can also be sampled.  This process is
+inherently imprecise when a low number of samples have been collected.</p>
+            </li>
+            <li value="3">
+                <p><strong>Tracing</strong> — The process of collecting precise information about various activities
+happening in the profilee or in the system.  For example, a call of the
+profilee to a certain library function may be traced, in this case exact
+duration and timestamps will be recorded.</p>
+            </li>
+        </ul>
+        <p>Since <span class="MyVariablesQuadD">NVIDIA System Profiler</span> supports multiple generations of Tegra, as well as
+various target operating systems, this documentation only describes the
+features available in the build of <span class="MyVariablesQuadD">NVIDIA System Profiler</span> it ships with.</p>
+        <p>Common features that are supported by <span class="MyVariablesQuadD">NVIDIA System Profiler</span> on most platforms
+include the following:</p>
+        <ul>
+            <li value="1">
+                <p>Sampling of the profilee, getting backtraces using multiple 
+algorithms (such as frame pointers or DWARF data).  Building top-down,
+bottom-up, and flat views.  This information helps identify performance
+bottlenecks in CPU-intensive code.</p>
+            </li>
+            <li value="2">
+                <p>Support for ARMv7 and ARMv8 processes.</p>
+            </li>
+            <li value="3">
+                <p>Sampling or tracing power information, such as CPU frequency.</p>
+            </li>
+            <li value="4">
+                <p>Sampling counters from ARM PMU (Performance Monitoring Unit).  Information
+such as cache misses gets statistically correlated with function execution.</p>
+            </li>
+            <li value="5">
+                <p>Support for multiple windows.  Users with multiple monitors can see multiple
+reports simultaneously, or have multiple views into the same report file.</p>
+            </li>
+        </ul>
+        <p>With <span class="MyVariablesQuadD">NVIDIA System Profiler</span>, a user could:</p>
+        <ul>
+            <li value="1">
+                <p>Identify call paths that monopolize the CPU.</p>
+            </li>
+            <li value="2">
+                <p>Identify individual functions that monopolize the CPU (across different call
+paths).</p>
+            </li>
+            <li value="3">
+                <p>Identify functions that have poor cache utilization.</p>
+            </li>
+            <li value="4">
+                <p>See visual representation of CUDA Runtime and Driver API calls, as well as
+CUDA GPU workload.</p>
+            </li>
+            <li value="5">
+                <p>See visual representation of NVTX annotations: ranges, markers, and thread
+names.</p>
+            </li>
+        </ul>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>ImportNvtxt</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/12-import-nvtxt.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-92300-0"><span class="SystemTitle">ImportNvtxt</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <madcap:keyword term="ImportNvtxt" xmlns:madcap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+        <p><strong>ImportNvtxt</strong> is an utility which allows to convert <a href="../3.9-jetpack/">NVTXT</a> file to SP report
+file (*.qdrep) or to merge it with existing report file.</p>
+        <p><strong>Note</strong>: NvtxtImport supports custom <strong>TimeBase</strong> values. Only these values
+are supported:</p>
+        <ul>
+            <li value="1"><strong>Manual</strong> — timestamps are set using absolute values.</li>
+            <li value="2"><strong>Relative</strong> — timestamps are set using relative values with regards to
+report file which is being merged with nvtxt file.</li>
+            <li value="3"><strong>ClockMonotonicRaw</strong> — timestamps values in nvtxt file are considered to
+be gathered on the same target as the report file which is to be merged with
+nvtxt using <code>clock_gettime(CLOCK_MONOTONIC_RAW, ...)</code> call.</li>
+            <li value="4"><strong>CNTVCT</strong> — timestamps values in nvtxt file are considered to be gathered
+on the same target as the report file which is to be merged with nvtxt using
+CNTVCT values.</li>
+        </ul>
+        <p>You can get usage info via help message:</p>
+        <blockquote><pre class="prettyprint">Print help message:
+  -h [ --help ]
+
+Show information about report file:
+  --cmd info -i [--input] arg
+
+Create report file from existing nvtxt file:
+  --cmd create -n [--nvtxt] arg -o [--output] arg [-m [--mode] mode_name mode_args] [--target &lt;Hw:Vm&gt;] [--update_report_time]
+
+Merge nvtxt file to existing report file:
+  --cmd merge -i [--input] arg -n [--nvtxt] arg -o [--output] arg [-m [--mode] mode_name mode_args] [--target &lt;Hw:Vm&gt;] [--update_report_time]
+
+Modes description:
+  lerp - Insert with linear interpolation
+    --mode lerp --ns_a arg --ns_b arg [--nvtxt_a arg --nvtxt_b arg]
+  lin - insert with linear equation
+    --mode lin  --ns_a arg --freq arg [--nvtxt_a arg]
+
+Modes' parameters:
+  ns_a    - a nanoseconds value
+  ns_b    - a nanoseconds value (greater than ns_a)
+  nvtxt_a - an nvtxt file's time unit value corresponding to ns_a nanoseconds
+  nvtxt_b - an nvtxt file's time unit value corresponding to ns_b nanoseconds
+  freq    - the nvtxt file's timer frequency
+
+--target &lt;Hw:Vm&gt; - specify target id, e.g. --target 0:1
+
+--update_report_time - prolong report's profiling session time while
+    merging if needed. Without this option all events outside the
+    profiling session time window will be skipped during merging.
+</pre>
+        </blockquote>
+        <h2 id="h-92300-1">Info</h2>
+        <p>To find out report's start and end time use <strong>info</strong> command.</p>
+        <p>Usage:</p>
+        <blockquote><pre class="prettyprint">ImportNvtxt --cmd info -i [--input] arg
+</pre>
+        </blockquote>
+        <p>Example:</p>
+        <blockquote><pre class="prettyprint">ImportNvtxt info Report.qdrep
+Analysis start (ns) 83501026500000
+Analysis end (ns)   83506375000000
+</pre>
+        </blockquote>
+        <h2 id="h-92300-2">Create</h2>
+        <p>You can create a report file using existing NVTXT with <strong>create</strong> command.
+Usage:</p>
+        <blockquote><pre class="prettyprint">ImportNvtxt --cmd create -n [--nvtxt] arg -o [--output] arg [-m [--mode] mode_name mode_args]
+</pre>
+        </blockquote>
+        <p>Available modes are:</p>
+        <ul>
+            <li value="1"><strong>lerp</strong> — insert with linear interpolation.</li>
+            <li value="2"><strong>lin</strong> — insert with linear equation.</li>
+        </ul>
+        <p>Usage for <strong>lerp</strong> mode is:</p>
+        <blockquote><pre class="prettyprint">--mode lerp --ns_a arg --ns_b arg [--nvtxt_a arg --nvtxt_b arg]
+</pre>
+        </blockquote>
+        <p>with:</p>
+        <ul>
+            <li value="1"><code>ns_a</code> — a nanoseconds value.</li>
+            <li value="2"><code>ns_b</code> — a nanoseconds value (greater than <code>ns_a</code>).</li>
+            <li value="3"><code>nvtxt_a</code> — an nvtxt file's time unit value corresponding to <code>ns_a</code>
+nanoseconds.</li>
+            <li value="4"><code>nvtxt_b</code> — an nvtxt file's time unit value corresponding to <code>ns_b</code>
+nanoseconds.</li>
+        </ul>
+        <p>If <code>nvtxt_a</code> and <code>nvtxt_b</code> are not specified, they are repectively
+set to nvtxt file's minimum and maximum time value.</p>
+        <p>Usage for <strong>lin</strong> mode is:</p>
+        <blockquote><pre class="prettyprint">--mode lin --ns_a arg --freq arg [--nvtxt_a arg]
+</pre>
+        </blockquote>
+        <p>with:</p>
+        <ul>
+            <li value="1"><code>ns_a</code> — a nanoseconds value.</li>
+            <li value="2"><code>freq</code> — the nvtxt file's timer frequency.</li>
+            <li value="3"><code>nvtxt_a</code> — an nvtxt file's time unit value corresponding to <code>ns_a</code>
+nanoseconds.</li>
+        </ul>
+        <p>If <code>nvtxt_a</code> is not specified, it is set to nvtxt file's minimum time value.</p>
+        <p>Examples:</p>
+        <blockquote><pre class="prettyprint">ImportNvtxt --cmd create -n Sample.nvtxt -o Report.qdrep
+</pre>
+        </blockquote>
+        <p>The output will be a new generated report file which can be opened and viewed
+by the SP.</p>
+        <p>Available modes:</p>
+        <h2 id="h-92300-3">Merge</h2>
+        <p>To merge NVTXT file with an existing report file use <strong>merge</strong> command.</p>
+        <p>Usage:</p>
+        <blockquote><pre class="prettyprint">ImportNvtxt --cmd merge -i [--input] arg -n [--nvtxt] arg -o [--output] arg [-m [--mode] mode_name mode_args]
+</pre>
+        </blockquote>
+        <p>Available modes are:</p>
+        <ul>
+            <li value="1"><strong>lerp</strong> — insert with linear interpolation.</li>
+            <li value="2"><strong>lin</strong> — insert with linear equation.</li>
+        </ul>
+        <p>Usage for <strong>lerp</strong> mode is:</p>
+        <blockquote><pre class="prettyprint">--mode lerp --ns_a arg --ns_b arg [--nvtxt_a arg --nvtxt_b arg]
+</pre>
+        </blockquote>
+        <p>with:</p>
+        <ul>
+            <li value="1"><code>ns_a</code> — a nanoseconds value.</li>
+            <li value="2"><code>ns_b</code> — a nanoseconds value (greater than <code>ns_a</code>).</li>
+            <li value="3"><code>nvtxt_a</code> — an nvtxt file's time unit value corresponding to <code>ns_a</code>
+nanoseconds.</li>
+            <li value="4"><code>nvtxt_b</code> — an nvtxt file's time unit value corresponding to <code>ns_b</code>
+nanoseconds.</li>
+        </ul>
+        <p>If <code>nvtxt_a</code> and <code>nvtxt_b</code> are not specified, they are repectively
+set to nvtxt file's minimum and maximum time value.</p>
+        <p>Usage for <strong>lin</strong> mode is:</p>
+        <blockquote><pre class="prettyprint">--mode lin  --ns_a arg --freq arg [--nvtxt_a arg]
+</pre>
+        </blockquote>
+        <p>with:</p>
+        <ul>
+            <li value="1"><code>ns_a</code> — a nanoseconds value.</li>
+            <li value="2"><code>freq</code> — the nvtxt file's timer frequency.</li>
+            <li value="3"><code>nvtxt_a</code> — an nvtxt file's time unit value corresponding to <code>ns_a</code>
+nanoseconds.</li>
+        </ul>
+        <p>If <code>nvtxt_a</code> is not specified, it is set to nvtxt file's minimum time value.</p>
+        <p>Time values in <code>&lt;filename.nvtxt&gt;</code> are assumed to be nanoseconds if no mode
+specified.</p>
+        <p>Example:</p>
+        <blockquote><pre class="prettyprint">ImportNvtxt --cmd merge -i Report.qdrep -n Sample.nvtxt -o NewReport.qdrep
+</pre>
+        </blockquote>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" lang="en-us" xml:lang="en-us" data-mc-search-type="Stem" data-mc-help-system-file-name="index.xml" data-mc-path-to-help-system="../../../../../" data-mc-target-type="WebHelp2" data-mc-runtime-file-type="Topic" data-mc-preload-images="false" data-mc-in-preview-mode="false" data-mc-toc-path="">
+    <!-- saved from url=(0016)http://localhost -->
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" /><title>Report</title>
+        <link href="../../../../../Skins/Default/Stylesheets/Slideshow.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/TextEffects.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Topic.css" rel="stylesheet" />
+        <link href="../../../../../Skins/Default/Stylesheets/Components/Styles.css" rel="stylesheet" />
+        <style>/*&lt;meta /&gt;*/
+
+.needs-pie
+{
+	behavior: url('../../../../../Resources/Scripts/PIE.htc');
+}
+
+</style>
+        <link href="../../../../resources/stylesheets/style.css" rel="stylesheet" />
+        <script src="../../../../../Resources/Scripts/custom.modernizr.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/jquery.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/require.config.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/foundation.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/plugins.min.js">
+        </script>
+        <script src="../../../../../Resources/Scripts/MadCapAll.js">
+        </script>
+        <script src="../../../../../Skins/Default/Scripts/GW_TopicToolbar.js">
+        </script>
+    </head>
+    <body>
+        <p class="MCWebHelpFramesetLink MCWebHelpFramesetLinkTop"><a href="../../../../../index.html#developertools/mobile/system_profiler/3.9-codeworks/09-report.htm">Open topic with navigation</a>
+        </p>
+        <div class="nocontent">
+            <div class="MCBreadcrumbsBox_style.css_0 breadcrumbs" data-mc-breadcrumbs-divider=" &gt; " data-mc-breadcrumbs-count="3" data-mc-toc="True"><span class="MCBreadcrumbsPrefix">You are here: </span>
+            </div>
+        </div>
+        <h1 id="h-86b16-0"><span class="SystemTitle">Report</span>
+        </h1>
+        <hr width="100%" size="0" align="center" />
+        <madcap:keyword term="Report; .qdproj Files; Timeline; Symbols Table; Filtering" xmlns:madcap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+        <h2 id="h-86b16-1">Generating a New Report</h2>
+        <p>Users can generate a new report by stopping a profiling session.  If a profiling
+session has been canceled, a report will not be generated, and all collected
+data will be discarded.</p>
+        <p>A new <code>.qdrep</code> file will be created and put into the same directory as the
+project file (<code>.qdproj</code>).</p>
+        <h2 id="h-86b16-2">Opening an Existing Report</h2>
+        <p>An existing <code>.qdrep</code> file can be opened using <strong>File</strong> &gt; <strong>Open...</strong>.</p>
+        <h2 id="h-86b16-3">Sharing a Report File</h2>
+        <p>Report files (<code>.qdrep</code>) are self-contained and can be shared with other users of
+<span class="MyVariablesQuadD">NVIDIA System Profiler</span>.  The only requirement is that the same or newer version of
+SP is always used to open report files.</p>
+        <p>Project files (<code>.qdproj</code>) are currently not shareable, since they contain full
+paths to the report files.</p>
+        <p>To quickly navigate to the directory containing the report file, right click on
+it in the Project Explorer, and choose <strong>Show in folder...</strong> in the context menu.</p>
+        <h2 id="h-86b16-4">Report Tab</h2>
+        <p>While generating a new report or loading an existing one, a new tab will be
+created.  The most important parts of the report tab are:</p>
+        <ul>
+            <li value="1">
+                <p><strong>View selector</strong> —   Allows switching between <em>Analysis Summary</em>, <em>Timeline
+View</em>, <em>Diagnostics Summary</em>, and <em>Symbol Resolution Logs</em> views.</p>
+                <p>
+                    <img alt="Page selector" src="../3.9-jetpack/img/report-view-selector.png" title="" />
+                </p>
+            </li>
+            <li value="2">
+                <p><strong>Timeline</strong> —   This is where all charts are displayed.</p>
+            </li>
+            <li value="3">
+                <p><strong>Function table</strong> —   Located below the timeline, it displays statistical
+information about functions in the target application in multiple ways.</p>
+            </li>
+        </ul>
+        <p>Additionally, the following controls are available:</p>
+        <ul>
+            <li value="1"><strong>Zoom slider</strong> —   Allows you to vertically zoom the charts on the timeline.</li>
+        </ul>
+        <h2 id="h-86b16-5">Analysis Summary View</h2>
+        <p>This view shows a summary of the profiling session.  In particular, it is
+useful to review the project configuration used to generate this report.
+Information from this view can be selected and copied using the mouse cursor.</p>
+        <h2 id="h-86b16-6">Timeline View</h2>
+        <p>The timeline view consists of two main controls: the timeline at the top, and
+the function table at the bottom.  In some cases, when sampling of a process has
+not been enabled, the function table might be empty and hidden.</p>
+        <h3 id="h-86b16-7">Timeline</h3>
+        <p>Timeline is a versatile control that contains a tree-like <em>hierarchy</em> on the
+left, and corresponding <em>charts</em> on the right.</p>
+        <p>Contents of the hierarchy depend on the project settings used to collect the
+report.  For example, if a certain feature has not been enabled, corresponding
+rows will not be show on the timeline.</p>
+        <h3 id="h-86b16-8">Function Table Modes</h3>
+        <blockquote>
+            <p>
+                <img alt="Function table modes" src="../3.9-jetpack/img/function-table-modes.png" title="" />
+            </p>
+        </blockquote>
+        <p>The function table can work in three modes:</p>
+        <ul>
+            <li value="1">
+                <p><strong>Top-Down View</strong> —   In this mode, expanding top-level functions provides
+information about the <em>callee</em> functions.  One of the top-level functions is
+typically the main function of your application, or another entry point
+defined by the runtime libraries.</p>
+            </li>
+            <li value="2">
+                <p><strong>Bottom-Up View</strong> —   This is a reverse of the Top-Down view.  On the top
+level, there are functions directly hit by the sampling profiler.  To explore
+all possible call chains leading to these functions, you need to expand the
+subtrees of the top-level functions.</p>
+            </li>
+            <li value="3">
+                <p><strong>Flat View</strong> —   This view enumerates all functions ever observed by the
+profiler, even if they have never been directly hit, but just appeared
+somewhere on the call stack.  This view typically provides an high-level
+overview of which parts of the code are CPU-intensive.</p>
+            </li>
+        </ul>
+        <p>Each of the views helps understand particular performance issues of the
+application being profiled.  For example:</p>
+        <ul>
+            <li value="1">
+                <p>When trying to find specific bottleneck functions that can be optimized, the
+Bottom-Up view should be used.  Typically, the top few functions should be
+examined.  Expand them to understand in which contexts they are being used.</p>
+            </li>
+            <li value="2">
+                <p>To navigate the call tree of the application and while generally searching for
+algorithms and parts of the code that consume unexpectedly large amount of CPU
+time, the Top-Down view should be used.</p>
+            </li>
+            <li value="3">
+                <p>To quickly assess which parts of the application, or high level parts of an
+algorithm, consume significant amount of CPU time, use the Flat view.</p>
+            </li>
+        </ul>
+        <p>The Top-Down and Bottom-Up views have <em>Self</em> and <em>Total</em> columns, while the Flat
+view has a <em>Flat</em> column.  It is important to understand the meaning of each of
+the columns:</p>
+        <ul>
+            <li value="1">
+                <p>Top-Down view</p>
+                <ul>
+                    <li value="1">
+                        <p><strong>Self</strong> column denotes the relative amount of time spent executing
+instructions of this particular function.</p>
+                    </li>
+                    <li value="2">
+                        <p><strong>Total</strong> column shows how much time has been spent executing this function,
+including all other functions called from this one.  Total values of sibling
+rows sum up to the Total value of the parent row, or 100% for the top-level
+rows.</p>
+                    </li>
+                </ul>
+            </li>
+            <li value="2">
+                <p>Bottom-Up view</p>
+                <ul>
+                    <li value="1">
+                        <p><strong>Self</strong> column for <em>top-level rows</em>, as in the Top-Down view, shows how
+much time has been spent directly in this function.  Self times of all
+top-level rows add up to 100%.</p>
+                    </li>
+                    <li value="2">
+                        <p><strong>Self</strong> column for <em>children rows</em> breaks down the value of the parent row
+based on the various call chains leading to that function.  Self times of
+sibling rows add up to the value of the parent row.</p>
+                    </li>
+                </ul>
+            </li>
+            <li value="3">
+                <p>Flat view</p>
+                <ul>
+                    <li value="1"><strong>Flat</strong> column shows how much time this function has been anywhere on the
+call stack.  Values in this column do not add up or have other significant
+relationships.</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Note that if low-impact functions have been filtered out, values may not add up
+correctly to 100%, or to the value of the parent row.  This filtering can be
+disabled.</p>
+        <p>Contents of the symbols table is tightly related to the timeline.  Users can
+apply and modify filters on the timeline, and they will affect which information
+is displayed in the symbols table:</p>
+        <ul>
+            <li value="1">
+                <p><strong>Per-thread filtering</strong> —   Each thread that has sampling information
+associated with it has a checkbox next to it on the timeline.  Only threads
+with selected checkboxes are represented in the symbols table.</p>
+            </li>
+            <li value="2">
+                <p><strong>Time filtering</strong> —   A time filter can be setup on the timeline by pressing
+the left mouse button, dragging over a region of interest on the timeline, and
+then choosing <em>Filter by selection</em> in the dropdown menu.  In this case, only
+sampling information collected during the selected time range will be used to
+build the symbols table.</p>
+            </li>
+        </ul>
+        <p>Note that if too little sampling data is being used to build the symbols table
+(for example, when the sampling rate is configured to be low, and a short period
+of time is used for time-based filtering), the numbers in the symbols table
+might not be representative or accurate in some cases.</p>
+        <h3 id="h-86b16-9">Filter Dialog</h3>
+        <blockquote>
+            <p>
+                <img alt="Filter dialog" src="../3.9-jetpack/img/report-filter-dialog.png" title="" />
+            </p>
+        </blockquote>
+        <ul>
+            <li value="1">
+                <p><strong>Collapse unresolved lines</strong> is useful if some of the binary code does not
+have symbols.  In this case, subtrees that consist of only unresolved symbols
+get collapsed in the Top-Down view, since they provide very little useful
+information.</p>
+            </li>
+            <li value="2">
+                <p><strong>Hide functions with CPU usage below X%</strong> is useful for large applications,
+where the sampling profiler hits lots of function just a few times.  To filter
+out the "long tail," which is typically not important for CPU performance
+bottleneck analysis, this checkbox should be selected.</p>
+            </li>
+        </ul>
+        <h2 id="h-86b16-10">Diagnostics Summary View</h2>
+        <p>This view shows important messages.  Some of them were generated during the
+profiling session, while some were added while processing and analyzing data in
+the report.  Messages can be one of the following types:</p>
+        <ul>
+            <li value="1">Informational messages</li>
+            <li value="2">Warnings</li>
+            <li value="3">Errors</li>
+        </ul>
+        <p>To draw attention to important diagnostics messages, a summary line is displayed
+on the timeline view in the top right corner:</p>
+        <blockquote>
+            <p>
+                <img alt="Diagnostics messages" src="../3.9-jetpack/img/report-diagnostics-link.png" title="" />
+            </p>
+        </blockquote>
+        <p>Information from this view can be selected and copied using the mouse cursor.</p>
+        <h2 id="h-86b16-11">Symbol Resolution Logs View</h2>
+        <p>This view shows all messages related to the process of resolving symbols.  It
+might be useful to debug issues when some of the symbol names in the symbols
+table of the timeline view are unresolved.</p>
+        <h2 id="h-86b16-12">OpenGL Trace</h2>
+        <p><span class="MyVariablesQuadD">NVIDIA System Profiler</span> has equal support for OpenGL and OpenGL ES.  For brevity,
+in this section <em>OpenGL</em> will be used instead of <em>OpenGL and OpenGL ES</em>.</p>
+        <p>On the Analysis Summary page, there is a list of all OpenGL functions requested
+to be traced.</p>
+        <p>On the timeline, new rows will appear within each CPU thread that uses OpenGL:</p>
+        <ul>
+            <li value="1">
+                <p><strong>OpenGL API</strong> row —  shows trace ranges of OpenGL API function that the user
+requested to trace.</p>
+            </li>
+            <li value="2">
+                <p><strong>OpenGL GPU workload</strong> row —  shows when batches of OpenGL draw calls are
+being executed on the GPU.  Since draw calls are executed back-to-back, the
+GPU workload trace ranges include many OpenGL draw calls and operations in
+order to optimize performance overhead, rather than tracing each individual
+operation.</p>
+            </li>
+        </ul>
+        <p>Ranges defined by the <code>KHR_debug</code> calls are represented similarly to OpenGL API
+and OpenGL GPU workload trace.  GPU ranges in this case represent <em>incremental
+draw cost</em>.  They cannot fully account for GPUs that can execute multiple draw
+calls in parallel.  In this case, <span class="MyVariablesQuadD">NVIDIA System Profiler</span> will not show overlapping
+GPU ranges.</p>
+        <hr style="height: 1px;" width="100%" size="0" align="center" />
+        <script type="text/javascript" src="../../../../resources/prettify/run_prettify.js">
+        </script>
+        <p>&#160;</p>
+        <div class="buttons popup-container clearfix topicToolbarProxy topicToolbarProxystyle.css _Skins_GW_TopicToolbar mc-component nocontent" style="mc-topic-toolbar-items: ;">
+        </div>
+        <p> <![CDATA[ ]]></p>
+        <img src="../../../../resources/prettify/onload.png" onload="prettyprint()" />
+        <p><span style="color: #696969; font-size: 8pt;">NVIDIA® System Profiler Documentation Rev. 3.9.180207 ©<span class="MyVariablesCopyrightCurrentYear">2018</span>. NVIDIA Corporation. All Rights Reserved.</span>
+        </p>
+    </body>
+</html>

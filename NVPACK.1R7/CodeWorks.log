@@ -1,0 +1,16 @@
+09-11 13:20:38.1 E: fopen failed with file local.db, errno = 2
+09-11 13:41:03.4 N: Install com.nvidia.nvtools.perfkit 4.5.1; Install com.nvidia.nvtools.battle 2.6; Install com.nvidia.nvtools.quadd 3.9; Install com.nvidia.nvtx 1.0; Install com.nvidia.docs.devtools 1R7; Install com.nvidia.samples.gameworks 20180130-2; Install com.nvidia.docs.codeworks 1R7; Install com.google.ndk 15c; Install org.apache.ant 1.8.2; Install org.apache.gradle 4.1; Install com.google.sdkbase 25.2.5; Install com.google.platformtools 26.0.1; Install com.google.buildtools 26.0.1; Install com.google.api26 8.0.0; Install com.google.api25 7.1.1; Install com.google.api24 7.0; Install com.google.api23 6.0; Install com.google.api22 5.1.1; Install com.google.api21 5.0.1; Install com.google.api20 4.4W; Install com.google.api19 4.4.2; Install com.google.supportlib 23.2.1; Install com.google.supportlibrep 47; 
+09-11 14:10:22.2 N: Install com.nvidia.nvtools.perfkit 4.5.1; Install com.nvidia.nvtools.battle 2.6; Install com.nvidia.nvtools.quadd 3.9; Install com.nvidia.nvtx 1.0; Install com.nvidia.docs.devtools 1R7; Install com.nvidia.samples.gameworks 20180130-2; Install com.nvidia.docs.codeworks 1R7; Install com.google.ndk 15c; Install org.apache.ant 1.8.2; Install org.apache.gradle 4.1; 
+09-11 14:16:19.3 E: fopen failed with file local.db, errno = 2
+09-11 14:16:35.5 N: Install com.nvidia.nvtools.perfkit 4.5.1; Install com.nvidia.nvtools.battle 2.6; Install com.nvidia.nvtools.quadd 3.9; Install com.nvidia.nvtx 1.0; Install com.nvidia.docs.devtools 1R7; Install com.nvidia.samples.gameworks 20180130-2; Install com.nvidia.docs.codeworks 1R7; Install com.google.ndk 15c; Install org.apache.ant 1.8.2; Install org.apache.gradle 4.1; 
+09-11 14:22:34.2 E: Transferred a partial file
+09-11 14:25:53.8 N: Installing PerfKit 4.5.1 succeeded.
+09-11 14:26:05.9 N: Installing Tegra Graphics Debugger 2.6 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/Tegra_Graphics_Debugger)
+09-11 14:26:08.2 N: Installing NVIDIA System Profiler 3.9 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/NVIDIA_System_Profiler)
+09-11 14:26:08.2 N: Installing NVTX 1.0 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/nvtx_1.0)
+09-11 14:26:08.6 N: Installing Devtools Documentation 1R7 succeeded.
+09-11 14:26:13.0 N: Installing GameWorks OpenGL Samples 20180130-2 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/Samples/GameWorks_Samples)
+09-11 14:26:13.1 N: Installing Documentation 1R7 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/docs)
+09-11 14:26:45.7 N: Installing Android NDK 15c succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/android-ndk-r15c)
+09-11 14:26:48.5 N: Installing Apache Ant 1.8.2 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/apache-ant-1.8.2)
+09-11 14:26:49.8 N: Installing Gradle 4.1 succeeded. (/home/ais01/codes/kezhao.zhao/NVPACK/gradle-4.1)
